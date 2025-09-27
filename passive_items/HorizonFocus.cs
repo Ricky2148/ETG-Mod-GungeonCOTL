@@ -16,6 +16,8 @@ namespace LOLItems
         private static float HyperShotMinDistance = 3f;
         private static float HyperShotMaxDamageInc = 0.25f;
 
+        public static int ID;
+
         public static void Init()
         {
             string itemName = "Horizon Focus";
@@ -35,6 +37,7 @@ namespace LOLItems
             ItemBuilder.AddPassiveStatModifier(item, PlayerStats.StatType.Damage, DamageStat, StatModifier.ModifyMethod.MULTIPLICATIVE);
 
             item.quality = PickupObject.ItemQuality.A;
+            ID = item.PickupObjectId;
         }
 
         public override void Pickup(PlayerController player)

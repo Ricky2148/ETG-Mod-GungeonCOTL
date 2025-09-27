@@ -1,0 +1,105 @@
+﻿using Alexandria;
+using Alexandria.ItemAPI;
+using Dungeonator;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using UnityEngine;
+using static tk2dSpriteCollectionDefinition;
+
+// add vfx and sfx when proc occurs
+
+namespace LOLItems.passive_items
+{
+    internal class CloakOfStarryNight : OnPreDamagedPassiveItem
+    {
+        private static float HealthStat = 1f;
+        private static int ArmorStat = 1;
+
+        private static float preDamageProcChance = 0.1f;
+        private static float synergyProcChance = 0.3f;
+
+        public static int ID;
+
+        public static void Init()
+        {
+            string itemName = "Cloak of Starry Night";
+            string resourceName = "LOLItems/Resources/passive_item_sprites/cloak_of_starry_night_item_sprite";
+
+            GameObject obj = new GameObject(itemName);
+
+            var item = obj.AddComponent<CloakOfStarryNight>();
+
+            ItemBuilder.AddSpriteToObject(itemName, resourceName, obj);
+
+            string shortDesc = "cloak";
+            string longDesc = "idk";
+
+            ItemBuilder.SetupItem(item, shortDesc, longDesc, "LOLItems");
+
+            ItemBuilder.AddPassiveStatModifier(item, PlayerStats.StatType.Health, HealthStat, StatModifier.ModifyMethod.ADDITIVE);
+            item.ArmorToGainOnInitialPickup = ArmorStat;
+
+            item.quality = PickupObject.ItemQuality.B;
+
+            item.procChance = preDamageProcChance;
+            item.triggersInvulnerability = true;
+            item.invulnerabilityDuration = 1f;
+            item.playsSFX = true;
+            string[] sfxList = { "stridebreaker_active_SFX" };
+            item.updateSFXList(sfxList);
+
+            ID = item.PickupObjectId;
+
+            // synergy with Shield of Molten Stone
+            List<string> mandatoryConsoleIDs = new List<string>
+            {
+                "LOLItems:shield_of_molten_stone",
+                "LOLItems:cloak_of_starry_night"
+            };
+            List<string> optionalConsoleIDs = new List<string>
+            {
+                ""
+            };
+            CustomSynergies.Add("Shield and Cloak Synergy", mandatoryConsoleIDs, null, true);
+        }
+
+        public override void Pickup(PlayerController player)
+        {
+            base.Pickup(player);
+            Plugin.Log($"Player picked up {this.EncounterNameOrDisplayName}");
+
+            // updates stats for both items if synergy is active on pickup
+            if (player.PlayerHasActiveSynergy("Shield and Cloak Synergy"))
+            {
+                this.procChance = synergyProcChance;
+                Plugin.Log("Cloak of Starry Night's Synergy activated");
+
+                foreach (PassiveItem item in player.passiveItems)
+                {
+                    if (item.PickupObjectId == ShieldOfMoltenStone.ID && item != null)
+                    {
+                        item.GetComponent<ShieldOfMoltenStone>().setProcChance(synergyProcChance);
+                    }
+                }
+            }
+        }
+
+        // updates stats for both items if synergy is active on drop or destroy
+        public override void DisableEffect(PlayerController player)
+        {
+            base.DisableEffect(player);
+            Plugin.Log($"Player dropped or got rid of {this.EncounterNameOrDisplayName}");
+
+            this.procChance = preDamageProcChance;
+            foreach (PassiveItem item in player.passiveItems)
+            {
+                if (item.PickupObjectId == ShieldOfMoltenStone.ID && item != null)
+                {
+                    item.GetComponent<ShieldOfMoltenStone>().setProcChance(preDamageProcChance);
+                }
+            }
+        }
+    }
+}

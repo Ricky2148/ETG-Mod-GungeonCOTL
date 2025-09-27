@@ -58,12 +58,28 @@ namespace LOLItems
             AkSoundEngine.PostEvent(sfxName, enemy.gameObject);
         }
 
+        public static void PlayRandomSFX(PlayerController player, List<string> sfxList)
+        {
+            var rand = new System.Random();
+            int sfxIndex = rand.Next(sfxList.Count);
+            string sfxName = sfxList[sfxIndex];
+            AkSoundEngine.PostEvent(sfxName, player.gameObject);
+        }
+
         public static void PlayRandomSFX(Projectile proj, string[] sfxList)
         {
             var rand = new System.Random();
             int sfxIndex = rand.Next(sfxList.Length);
             string sfxName = sfxList[sfxIndex];
             AkSoundEngine.PostEvent(sfxName, proj.gameObject);
+        }
+
+        public static void PlayRandomSFX(BeamController beam, string[] sfxList)
+        {
+            var rand = new System.Random();
+            int sfxIndex = rand.Next(sfxList.Length);
+            string sfxName = sfxList[sfxIndex];
+            AkSoundEngine.PostEvent(sfxName, beam.gameObject);
         }
 
         public static float GetFloorValue()
@@ -94,6 +110,47 @@ namespace LOLItems
                 }
             }
             return 0f;
+        }
+
+        public static void AddItemToSynergy(this PickupObject obj, CustomSynergyType type)
+        {
+            AddItemToSynergy(type, obj.PickupObjectId);
+        }
+
+        public static void AddItemToSynergy(CustomSynergyType type, int id)
+        {
+            foreach (AdvancedSynergyEntry entry in GameManager.Instance.SynergyManager.synergies)
+            {
+                if (entry.bonusSynergies.Contains(type))
+                {
+                    if (PickupObjectDatabase.GetById(id) != null)
+                    {
+                        PickupObject obj = PickupObjectDatabase.GetById(id);
+                        if (obj is Gun)
+                        {
+                            if (entry.OptionalGunIDs != null)
+                            {
+                                entry.OptionalGunIDs.Add(id);
+                            }
+                            else
+                            {
+                                entry.OptionalGunIDs = new List<int> { id };
+                            }
+                        }
+                        else
+                        {
+                            if (entry.OptionalItemIDs != null)
+                            {
+                                entry.OptionalItemIDs.Add(id);
+                            }
+                            else
+                            {
+                                entry.OptionalItemIDs = new List<int> { id };
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 }

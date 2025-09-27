@@ -21,6 +21,8 @@ namespace LOLItems
         private static float WintersCaressCrippleRatio = 0.8f;
         private static float WintersCaressRange = 8f;
 
+        public static int ID;
+
         private static GameActorCrippleEffect WintersCaressCrippleEffect = new GameActorCrippleEffect
         {
             duration = 1f,
@@ -54,6 +56,7 @@ namespace LOLItems
             item.quality = PickupObject.ItemQuality.B;
 
             item.SetName("Frozen Heart");
+            ID = item.PickupObjectId;
         }
 
         public override void Pickup(PlayerController player)

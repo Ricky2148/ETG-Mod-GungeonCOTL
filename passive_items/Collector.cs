@@ -16,6 +16,8 @@ namespace LOLItems
 
         private static float ExecuteThreshold = 0.05f;
 
+        public static int ID;
+
         public static void Init()
         {
             string itemName = "The Collector";
@@ -36,6 +38,7 @@ namespace LOLItems
             ItemBuilder.AddPassiveStatModifier(item, PlayerStats.StatType.Damage, DamageStat, StatModifier.ModifyMethod.MULTIPLICATIVE);
 
             item.quality = PickupObject.ItemQuality.A;
+            ID = item.PickupObjectId;
         }
 
         public override void Pickup(PlayerController player)

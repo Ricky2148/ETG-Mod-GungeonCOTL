@@ -13,6 +13,8 @@ namespace LOLItems.passive_items
         private static float RateOfFireStat = 1.2f;
         private static float TranscendenceCooldownReductionRatio = 0.02f;
 
+        public static int ID;
+
         public static void Init()
         {
             string itemName = "Navori Quickblades";
@@ -35,6 +37,7 @@ namespace LOLItems.passive_items
             ItemBuilder.AddPassiveStatModifier(item, PlayerStats.StatType.RateOfFire, RateOfFireStat, StatModifier.ModifyMethod.MULTIPLICATIVE);
 
             item.quality = PickupObject.ItemQuality.B;
+            ID = item.PickupObjectId;
         }
 
         public override void Pickup(PlayerController player)
@@ -83,29 +86,32 @@ namespace LOLItems.passive_items
 
         private void OnPostProcessProjectile(Projectile proj, float f)
         {
-            proj.OnHitEnemy += (projHit, enemy, fatal) =>
+            if (proj.Shooter == proj.Owner.specRigidbody)
             {
-                if (enemy != null || enemy.aiActor != null)
+                proj.OnHitEnemy += (projHit, enemy, fatal) =>
                 {
-                    PlayerController player = this.Owner;
-                    if (!player.CurrentItem.IsCurrentlyActive)
+                    if (enemy != null || enemy.aiActor != null)
                     {
-                        // reduces cooldown based on damage cooldown values
-                        if (player.CurrentItem.CurrentDamageCooldown > 0)
+                        PlayerController player = this.Owner;
+                        if (!player.CurrentItem.IsCurrentlyActive)
                         {
-                            float currentCooldownValue = player.CurrentItem.CurrentDamageCooldown;
-                            float reducedCooldownValue = currentCooldownValue * (1f - TranscendenceCooldownReductionRatio);
-                            player.CurrentItem.CurrentDamageCooldown = reducedCooldownValue;
-                        }
-                        else if (player.CurrentItem.CurrentTimeCooldown > 0)
-                        {
-                            float currentCooldownValue = player.CurrentItem.CurrentTimeCooldown;
-                            float reducedCooldownValue = currentCooldownValue * (1f - TranscendenceCooldownReductionRatio);
-                            player.CurrentItem.CurrentTimeCooldown = reducedCooldownValue;
+                            // reduces cooldown based on damage cooldown values
+                            if (player.CurrentItem.CurrentDamageCooldown > 0)
+                            {
+                                float currentCooldownValue = player.CurrentItem.CurrentDamageCooldown;
+                                float reducedCooldownValue = currentCooldownValue * (1f - TranscendenceCooldownReductionRatio);
+                                player.CurrentItem.CurrentDamageCooldown = reducedCooldownValue;
+                            }
+                            else if (player.CurrentItem.CurrentTimeCooldown > 0)
+                            {
+                                float currentCooldownValue = player.CurrentItem.CurrentTimeCooldown;
+                                float reducedCooldownValue = currentCooldownValue * (1f - TranscendenceCooldownReductionRatio);
+                                player.CurrentItem.CurrentTimeCooldown = reducedCooldownValue;
+                            }
                         }
                     }
-                }
-            };
+                };
+            }
         }
     }
 }

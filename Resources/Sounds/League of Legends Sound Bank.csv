@@ -16,3 +16,4 @@ statikk_shiv_lighning_SFX_4, -4, 1, sound, 0
 statikk_shiv_lighning_SFX_5, -4, 1, sound, 0
 galeforce_active_SFX, 0, 1, sound, 0
 galeforce_active_missile_hit_SFX, -3, 1, sound, 0
+carefree_melody_SFX, 5, 1, sound, 0

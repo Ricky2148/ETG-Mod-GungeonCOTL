@@ -22,6 +22,8 @@ namespace LOLItems
         private static float InterventionEffectRadius = 5f;
         private static float InterventionCooldown = 90f;
 
+        public static int ID;
+
         public static void Init()
         {
             string itemName = "Redemption";
@@ -47,6 +49,7 @@ namespace LOLItems
             ItemBuilder.AddPassiveStatModifier(item, PlayerStats.StatType.Health, HealthStat, StatModifier.ModifyMethod.ADDITIVE);
 
             item.quality = PickupObject.ItemQuality.A;
+            ID = item.PickupObjectId;
         }
 
         public override void Pickup(PlayerController player)

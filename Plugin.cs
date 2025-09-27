@@ -1,14 +1,17 @@
-﻿using BepInEx;
-using Alexandria;
+﻿using Alexandria;
 using Alexandria.ItemAPI;
+using Alexandria.SoundAPI;
+using BepInEx;
+using LOLItems.active_items;
+using LOLItems.guon_stones;
+using LOLItems.passive_items;
+using LOLItems.weapons;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using UnityEngine;
-using Alexandria.SoundAPI;
-using LOLItems.passive_items;
-using LOLItems.active_items;
 
 //bother balancing these items later
 
@@ -21,7 +24,7 @@ namespace LOLItems
     {
         public const string GUID = "Ricky2148.etg.LOLItems";
         public const string NAME = "League of legends Items";
-        public const string VERSION = "1.1.0";
+        public const string VERSION = "1.1.100";
         public const string TEXT_COLOR = "#FF007F";
 
         public void Start()
@@ -31,14 +34,17 @@ namespace LOLItems
 
         public void GMStart(GameManager g)
         {
+            ETGMod.Assets.SetupSpritesFromAssembly(Assembly.GetExecutingAssembly(), "LOLItems/Resources/weapon_sprites");
+            SoundManager.LoadSoundbanksFromAssembly();
             BladeOfTheRuinedKing.Init();
-            ExamplePassive.Register();
+            //ExamplePassive.Register();
             ExperimentalHexplate.Init();
             GuardianAngel.Init();
             GuinsoosRageblade.Init();
             Hubris.Init();
             KrakenSlayer.Init();
             LiandrysTorment.Init();
+            MuramanaSynergyActivation.Init();
             Manamune.Init();
             Muramana.Init();
             StatikkShiv.Init();
@@ -48,7 +54,7 @@ namespace LOLItems
             ZhonyasHourglass.Init();
             //Redemption.Init();
 
-            // new update?
+            //new update?
             Collector.Init();
             FrozenHeart.Init();
             RodOfAges.Init();
@@ -58,7 +64,27 @@ namespace LOLItems
             RylaisCrystalScepter.Init();
             Shadowflame.Init();
             NavoriQuickblades.Init();
-            SoundManager.LoadSoundbanksFromAssembly();
+
+            //testing
+            //CarefreeMelody.Init();
+            debugItem.Init();
+
+            //guon stones
+            BraumsShield.Init();
+
+            //weapons
+            //BasicGun.Add();
+            //TemplateGun.Add();
+            PowPow.Add();
+            PowPowAltForm.Add();
+
+            //new items
+            ShieldOfMoltenStone.Init();
+            CloakOfStarryNight.Init();
+            ZekesConvergence.Init();
+
+            //npcs?
+            Bubbs.Init();
             Log($"{NAME} v{VERSION} started successfully.", TEXT_COLOR);
         }
 

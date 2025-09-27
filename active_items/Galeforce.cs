@@ -24,6 +24,8 @@ namespace LOLItems.active_items
             .DefaultModule.projectiles[0].InstantiateAndFakeprefab();
         public int NumToSpawn = 3;
 
+        public static int ID;
+
         public static void Init()
         {
             string itemName = "Galeforce";
@@ -51,6 +53,7 @@ namespace LOLItems.active_items
             item.usableDuringDodgeRoll = true;
             
             item.quality = PickupObject.ItemQuality.S;
+            ID = item.PickupObjectId;
         }
 
         public override void Pickup(PlayerController player)
@@ -145,7 +148,7 @@ namespace LOLItems.active_items
             // set up explosion data
             ExplosionData explosion = CloudburstProjectile.GetComponent<ExplosiveModifier>().explosionData = new ExplosionData();
             explosion.doDamage = true;
-            explosion.damage = 5f;
+            explosion.damage = 0.1f;
             explosion.doForce = false;
 
             // dash in last input player direction

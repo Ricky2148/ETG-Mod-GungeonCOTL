@@ -14,6 +14,8 @@ namespace LOLItems
         private static float CinderbloomThreshold = 0.4f;
         private static float CinderbloomDamageAmp = 0.2f;
 
+        public static int ID;
+
         public static void Init()
         {
             string itemName = "Shadowflame";
@@ -35,6 +37,7 @@ namespace LOLItems
             ItemBuilder.AddPassiveStatModifier(item, PlayerStats.StatType.Damage, DamageStat, StatModifier.ModifyMethod.MULTIPLICATIVE);
             
             item.quality = PickupObject.ItemQuality.A;
+            ID = item.PickupObjectId;
         }
 
         public override void Pickup(PlayerController player)

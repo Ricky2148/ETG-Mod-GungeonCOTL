@@ -14,7 +14,9 @@ namespace LOLItems
     {
         // stats pool for item
         private int eminenceCount = 0;
-        private float eminenceDamageIncrease = 0.002f;
+        private float eminenceDamageIncrease = 0.005f;
+
+        public static int ID;
 
         public static void Init()
         {
@@ -34,6 +36,7 @@ namespace LOLItems
             ItemBuilder.SetupItem(item, shortDesc, longDesc, "LOLItems");
 
             item.quality = PickupObject.ItemQuality.A;
+            ID = item.PickupObjectId;
         }
 
         public override void Pickup(PlayerController player)

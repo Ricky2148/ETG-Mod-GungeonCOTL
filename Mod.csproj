@@ -54,9 +54,19 @@
     <ErrorReport>prompt</ErrorReport>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="active_items\debugItem.cs" />
     <Compile Include="active_items\Galeforce.cs" />
+    <Compile Include="custom_class_data\AdvancedPlayerOrbitalItem.cs" />
+    <Compile Include="custom_class_data\CustomHealthHaver.cs" />
     <Compile Include="custom_class_data\Databases.cs" />
     <Compile Include="custom_class_data\GameActorCrippleEffect.cs" />
+    <Compile Include="custom_class_data\LootTableTools.cs" />
+    <Compile Include="custom_class_data\OnPreDamagedPassiveItem.cs" />
+    <Compile Include="guon_stones\BraumsShield.cs" />
+    <Compile Include="npcs\Bubbs.cs" />
+    <Compile Include="passive_items\CarefreeMelody.cs" />
+    <Compile Include="passive_items\CloakOfStarryNight.cs" />
+    <Compile Include="passive_items\ShieldOfMoltenStone.cs" />
     <Compile Include="passive_items\Collector.cs" />
     <Compile Include="custom_class_data\CustomAuraItem.cs" />
     <Compile Include="custom_class_data\CustomLightningChainEnemiesModifier.cs" />
@@ -64,6 +74,7 @@
     <Compile Include="custom_class_data\HelpfulMethods.cs" />
     <Compile Include="passive_items\HorizonFocus.cs" />
     <Compile Include="passive_items\Muramana.cs" />
+    <Compile Include="passive_items\MuramanaSynergyActivation.cs" />
     <Compile Include="passive_items\NavoriQuickblades.cs" />
     <Compile Include="passive_items\Puppeteer.cs" />
     <Compile Include="passive_items\RodOfAges.cs" />
@@ -78,6 +89,7 @@
     <Compile Include="passive_items\KrakenSlayer.cs" />
     <Compile Include="passive_items\LiandrysTorment.cs" />
     <Compile Include="passive_items\Manamune.cs" />
+    <Compile Include="passive_items\ZekesConvergence.cs" />
     <Compile Include="Plugin.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="passive_items\GuinsoosRageblade.cs" />
@@ -86,13 +98,18 @@
     <Compile Include="active_items\Stridebreaker.cs" />
     <Compile Include="passive_items\Thornmail.cs" />
     <Compile Include="active_items\ZhonyasHourglass.cs" />
+    <Compile Include="Synergies.cs" />
+    <Compile Include="weapons\BasicGun.cs" />
+    <Compile Include="weapons\PowPow.cs" />
+    <Compile Include="weapons\PowPowAltForm.cs" />
+    <Compile Include="weapons\TemplateGun.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="0Harmony, Version=2.7.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>packages\HarmonyX.2.7.0\lib\net35\0Harmony.dll</HintPath>
     </Reference>
     <Reference Include="Alexandria, Version=0.1.2.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>packages\EtG.Alexandria.0.4.9\lib\net35\Alexandria.dll</HintPath>
+      <HintPath>packages\EtG.Alexandria.0.4.25\lib\net35\Alexandria.dll</HintPath>
     </Reference>
     <Reference Include="Assembly-CSharp, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>packages\EtG.GameLibs.2.1.9.1\lib\net35\Assembly-CSharp.dll</HintPath>
@@ -104,7 +121,7 @@
       <HintPath>packages\BepInEx.BaseLib.5.4.21\lib\net35\BepInEx.dll</HintPath>
     </Reference>
     <Reference Include="ModTheGungeonAPI, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>packages\EtG.ModTheGungeonAPI.1.8.7\lib\net35\ModTheGungeonAPI.dll</HintPath>
+      <HintPath>packages\EtG.ModTheGungeonAPI.1.9.2\lib\net35\ModTheGungeonAPI.dll</HintPath>
     </Reference>
     <Reference Include="Mono.Cecil, Version=0.10.4.0, Culture=neutral, PublicKeyToken=50cebf1cceb9d05e, processorArchitecture=MSIL">
       <HintPath>packages\Mono.Cecil.0.10.4\lib\net35\Mono.Cecil.dll</HintPath>
@@ -293,11 +310,138 @@
     <None Include="manifest.json" />
     <None Include="packages.config" />
     <EmbeddedResource Include="Resources\Sounds\League of Legends Sound Bank.bnk" />
+    <EmbeddedResource Include="Resources\npc_sprites\shopkeeper\bubbs_sprites\bubbs_roomdata.newroom" />
+    <EmbeddedResource Include="Resources\npc_sprites\shopkeeper\bubbs_sprites\test.newroom" />
     <None Include="Resources\Sounds\League of Legends Sound Bank.csv" />
+    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\tempgun_fire_001.jtk2d" />
+    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\tempgun_fire_002.jtk2d" />
+    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\tempgun_fire_003.jtk2d" />
+    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\tempgun_idle_001.jtk2d" />
+    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\tempgun_idle_002.jtk2d" />
+    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\tempgun_idle_003.jtk2d" />
+    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\tempgun_idle_004.jtk2d" />
+    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\tempgun_idle_005.jtk2d" />
+    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\tempgun_reload_001.jtk2d" />
+    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\tempgun_reload_002.jtk2d" />
+    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\tempgun_reload_003.jtk2d" />
+    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\tempgun_reload_004.jtk2d" />
+    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\tempgun_reload_005.jtk2d" />
+    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\tempgun_reload_006.jtk2d" />
+    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\powpow_fire_001.jtk2d" />
+    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\powpow_fire_002.jtk2d" />
+    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\powpow_fire_003.jtk2d" />
+    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\powpow_fire_004.jtk2d" />
+    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\powpow_fire_005.jtk2d" />
+    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\powpow_fire_006.jtk2d" />
+    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\powpow_fire_007.jtk2d" />
+    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\powpow_idle_001.jtk2d" />
+    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\powpow_reload_001.jtk2d" />
+    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\powpow_reload_002.jtk2d" />
+    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\powpow_reload_003.jtk2d" />
+    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\powpow_reload_004.jtk2d" />
+    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\powpow_reload_005.jtk2d" />
+    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\powpow_reload_006.jtk2d" />
+    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\powpow_reload_007.jtk2d" />
+    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\powpow_reload_008.jtk2d" />
+    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\powpow_reload_009.jtk2d" />
+    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\powpow_reload_010.jtk2d" />
+    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\powpow_reload_011.jtk2d" />
+    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\powpow_reload_012.jtk2d" />
+    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\powpow_reload_013.jtk2d" />
+    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\powpow_reload_014.jtk2d" />
+    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\powpow_reload_015.jtk2d" />
+    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\powpow_reload_016.jtk2d" />
+    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\powpow_reload_017.jtk2d" />
+    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\powpow_reload_018.jtk2d" />
+    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\powpow_reload_019.jtk2d" />
+    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\powpow_reload_020.jtk2d" />
+    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\powpow_reload_021.jtk2d" />
+    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\powpow_reload_022.jtk2d" />
+    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\powpow_reload_023.jtk2d" />
+    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\powpow_reload_024.jtk2d" />
+    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\powpow_reload_025.jtk2d" />
+    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\powpow_reload_026.jtk2d" />
+    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\powpow_reload_027.jtk2d" />
+    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\powpow_reload_028.jtk2d" />
+    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\powpow_reload_029.jtk2d" />
+    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\powpow_reload_030.jtk2d" />
+    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\powpow_reload_031.jtk2d" />
+    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\powpow_reload_032.jtk2d" />
+    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\powpow_fire_008.jtk2d" />
+    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\powpow_fire_009.jtk2d" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\powpow_fire_001.png" />
+    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\powpow_fire_002.png" />
+    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\powpow_fire_003.png" />
+    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\powpow_fire_004.png" />
+    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\powpow_fire_005.png" />
+    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\powpow_fire_006.png" />
+    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\powpow_fire_007.png" />
+    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\powpow_fire_008.png" />
+    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\powpow_fire_009.png" />
+    <EmbeddedResource Include="Resources\weapon_sprites\Ammonomicon Encounter Icon Collection\powpow_idle_001.png" />
+    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\powpow_idle_001.png" />
+    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\powpow_reload_001.png" />
+    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\powpow_reload_002.png" />
+    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\powpow_reload_003.png" />
+    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\powpow_reload_004.png" />
+    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\powpow_reload_005.png" />
+    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\powpow_reload_006.png" />
+    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\powpow_reload_007.png" />
+    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\powpow_reload_008.png" />
+    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\powpow_reload_009.png" />
+    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\powpow_reload_010.png" />
+    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\powpow_reload_011.png" />
+    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\powpow_reload_012.png" />
+    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\powpow_reload_013.png" />
+    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\powpow_reload_014.png" />
+    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\powpow_reload_015.png" />
+    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\powpow_reload_016.png" />
+    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\powpow_reload_017.png" />
+    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\powpow_reload_018.png" />
+    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\powpow_reload_019.png" />
+    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\powpow_reload_020.png" />
+    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\powpow_reload_021.png" />
+    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\powpow_reload_022.png" />
+    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\powpow_reload_023.png" />
+    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\powpow_reload_024.png" />
+    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\powpow_reload_025.png" />
+    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\powpow_reload_026.png" />
+    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\powpow_reload_027.png" />
+    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\powpow_reload_028.png" />
+    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\powpow_reload_029.png" />
+    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\powpow_reload_030.png" />
+    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\powpow_reload_031.png" />
+    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\powpow_reload_032.png" />
+    <EmbeddedResource Include="Resources\weapon_sprites\Ammonomicon Encounter Icon Collection\basicchargegun_idle_001.png" />
+    <EmbeddedResource Include="Resources\weapon_sprites\Ammonomicon Encounter Icon Collection\basicgun_idle_001.png" />
+    <EmbeddedResource Include="Resources\weapon_sprites\Ammonomicon Encounter Icon Collection\tempgun_idle_001.png" />
+    <EmbeddedResource Include="Resources\weapon_sprites\CustomGunAmmoTypes\tempgun_clipempty.png" />
+    <EmbeddedResource Include="Resources\weapon_sprites\CustomGunAmmoTypes\tempgun_clipfull.png" />
+    <EmbeddedResource Include="Resources\weapon_sprites\ProjectileCollection\basicchargegun_charged_projectile_001.png" />
+    <EmbeddedResource Include="Resources\weapon_sprites\ProjectileCollection\basicchargegun_charged_projectile_002.png" />
+    <EmbeddedResource Include="Resources\weapon_sprites\ProjectileCollection\basicgun_projectile_001.png" />
+    <EmbeddedResource Include="Resources\weapon_sprites\ProjectileCollection\basicgun_projectile_002.png" />
+    <EmbeddedResource Include="Resources\weapon_sprites\ProjectileCollection\basicgun_projectile_003.png" />
+    <EmbeddedResource Include="Resources\weapon_sprites\ProjectileCollection\basicgun_projectile_004.png" />
+    <EmbeddedResource Include="Resources\weapon_sprites\ProjectileCollection\basicgun_projectile_005.png" />
+    <EmbeddedResource Include="Resources\weapon_sprites\ProjectileCollection\tempgun_projectile_001.png" />
+    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\tempgun_fire_001.png" />
+    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\tempgun_fire_002.png" />
+    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\tempgun_fire_003.png" />
+    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\tempgun_idle_001.png" />
+    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\tempgun_idle_002.png" />
+    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\tempgun_idle_003.png" />
+    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\tempgun_idle_004.png" />
+    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\tempgun_idle_005.png" />
+    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\tempgun_reload_001.png" />
+    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\tempgun_reload_002.png" />
+    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\tempgun_reload_003.png" />
+    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\tempgun_reload_004.png" />
+    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\tempgun_reload_005.png" />
+    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\tempgun_reload_006.png" />
     <EmbeddedResource Include="Resources\active_item_sprites\galeforce_pixelart_sprite_small.png" />
-    <Content Include="icon.ico" />
     <EmbeddedResource Include="Resources\example_item_sprite.png" />
     <EmbeddedResource Include="Resources\passive_item_sprites\zekes_convergence_item_sprite.png" />
     <EmbeddedResource Include="Resources\passive_item_sprites\the_collector_item_sprite.png" />
@@ -370,6 +514,58 @@
     <EmbeddedResource Include="Resources\passive_item_sprites\frozen_heart_pixelart_sprite.png" />
     <EmbeddedResource Include="Resources\passive_item_sprites\the_collector_pixelart_sprite.png" />
     <EmbeddedResource Include="Resources\active_item_sprites\galeforce_pixelart_sprite.png" />
+    <EmbeddedResource Include="Resources\npc_sprites\shopkeeper\carpet.png" />
+    <EmbeddedResource Include="Resources\npc_sprites\shopkeeper\Handy_Icon.png" />
+    <EmbeddedResource Include="Resources\npc_sprites\shopkeeper\idle.png" />
+    <EmbeddedResource Include="Resources\npc_sprites\shopkeeper\talk.png" />
+    <EmbeddedResource Include="Resources\npc_sprites\shopkeeper\purchase.png" />
+    <EmbeddedResource Include="Resources\npc_sprites\shopkeeper\attack.png" />
+    <EmbeddedResource Include="Resources\npc_sprites\shopkeeper\bubbs_sprites\bubbs_buy_01.png" />
+    <EmbeddedResource Include="Resources\npc_sprites\shopkeeper\bubbs_sprites\bubbs_buy_02.png" />
+    <EmbeddedResource Include="Resources\npc_sprites\shopkeeper\bubbs_sprites\bubbs_buy_03.png" />
+    <EmbeddedResource Include="Resources\npc_sprites\shopkeeper\bubbs_sprites\bubbs_buy_04.png" />
+    <EmbeddedResource Include="Resources\npc_sprites\shopkeeper\bubbs_sprites\bubbs_buy_05.png" />
+    <EmbeddedResource Include="Resources\npc_sprites\shopkeeper\bubbs_sprites\bubbs_buy_06.png" />
+    <EmbeddedResource Include="Resources\npc_sprites\shopkeeper\bubbs_sprites\bubbs_buy_07.png" />
+    <EmbeddedResource Include="Resources\npc_sprites\shopkeeper\bubbs_sprites\bubbs_buy_08.png" />
+    <EmbeddedResource Include="Resources\npc_sprites\shopkeeper\bubbs_sprites\bubbs_buy_09.png" />
+    <EmbeddedResource Include="Resources\npc_sprites\shopkeeper\bubbs_sprites\bubbs_buy_10.png" />
+    <EmbeddedResource Include="Resources\npc_sprites\shopkeeper\bubbs_sprites\bubbs_buy_11.png" />
+    <EmbeddedResource Include="Resources\npc_sprites\shopkeeper\bubbs_sprites\bubbs_buy_12.png" />
+    <EmbeddedResource Include="Resources\npc_sprites\shopkeeper\bubbs_sprites\bubbs_buy_13.png" />
+    <EmbeddedResource Include="Resources\npc_sprites\shopkeeper\bubbs_sprites\bubbs_buy_14.png" />
+    <EmbeddedResource Include="Resources\npc_sprites\shopkeeper\bubbs_sprites\bubbs_buy_15.png" />
+    <EmbeddedResource Include="Resources\npc_sprites\shopkeeper\bubbs_sprites\bubbs_buy_16.png" />
+    <EmbeddedResource Include="Resources\npc_sprites\shopkeeper\bubbs_sprites\bubbs_buy_17.png" />
+    <EmbeddedResource Include="Resources\npc_sprites\shopkeeper\bubbs_sprites\bubbs_buy_18.png" />
+    <EmbeddedResource Include="Resources\npc_sprites\shopkeeper\bubbs_sprites\bubbs_idle_01.png" />
+    <EmbeddedResource Include="Resources\npc_sprites\shopkeeper\bubbs_sprites\bubbs_idle_02.png" />
+    <EmbeddedResource Include="Resources\npc_sprites\shopkeeper\bubbs_sprites\bubbs_idle_03.png" />
+    <EmbeddedResource Include="Resources\npc_sprites\shopkeeper\bubbs_sprites\bubbs_idle_04.png" />
+    <EmbeddedResource Include="Resources\npc_sprites\shopkeeper\bubbs_sprites\bubbs_talk_01.png" />
+    <EmbeddedResource Include="Resources\npc_sprites\shopkeeper\bubbs_sprites\bubbs_talk_02.png" />
+    <EmbeddedResource Include="Resources\npc_sprites\shopkeeper\bubbs_sprites\bubbs_talk_03.png" />
+    <EmbeddedResource Include="Resources\npc_sprites\shopkeeper\bubbs_sprites\bubbs_talk_04.png" />
+    <EmbeddedResource Include="Resources\black_dot.png" />
+    <EmbeddedResource Include="Resources\itemdisplayscreenshot.png" />
+    <EmbeddedResource Include="Resources\npc_sprites\shopkeeper\bubbs_sprites\bubbs_carpet.png" />
+    <EmbeddedResource Include="Resources\npc_sprites\shopkeeper\bubbs_sprites\bubbs_minimap.png" />
+    <EmbeddedResource Include="Resources\guon_sprites\braum_shield_sprites\braum_shield_shit_image.png" />
+    <EmbeddedResource Include="Resources\carefree_melody_sprite.png" />
+    <EmbeddedResource Include="Resources\passive_item_sprites\cloak_of_starry_night_item_sprite.png" />
+    <EmbeddedResource Include="Resources\passive_item_sprites\shield_of_molten_stone_item_sprite.png" />
+    <EmbeddedResource Include="Resources\guon_sprites\braum_shield_sprites\braumshield_001.png" />
+    <EmbeddedResource Include="Resources\guon_sprites\braum_shield_sprites\braumshield_002.png" />
+    <EmbeddedResource Include="Resources\guon_sprites\braum_shield_sprites\braumshield_003.png" />
+    <EmbeddedResource Include="Resources\guon_sprites\braum_shield_sprites\braumshield_004.png" />
+    <EmbeddedResource Include="Resources\guon_sprites\braum_shield_sprites\braumshield_005.png" />
+    <EmbeddedResource Include="Resources\guon_sprites\braum_shield_sprites\braumshield_006.png" />
+    <EmbeddedResource Include="Resources\guon_sprites\braum_shield_sprites\braumshield_007.png" />
+    <EmbeddedResource Include="Resources\guon_sprites\braum_shield_sprites\braumshield_008.png" />
+    <EmbeddedResource Include="Resources\guon_sprites\braum_shield_sprites\braumshield_icon_001.png" />
+    <EmbeddedResource Include="Resources\guon_sprites\braum_shield_sprites\braumshield_nofire_001.png" />
+    <Content Include="icon.ico" />
+    <Content Include="Resources\Sounds\carefree_melody_SFX.wav" />
     <Content Include="Resources\Sounds\gen-gungeon-audio-bank.py" />
     <EmbeddedResource Include="Resources\passive_item_sprites\blade_of_the_ruined_king_item_sprite.png" />
     <EmbeddedResource Include="Resources\passive_item_sprites\experimental_hexplate_item_sprite.png" />

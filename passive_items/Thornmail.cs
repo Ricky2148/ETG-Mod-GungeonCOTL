@@ -19,6 +19,9 @@ namespace LOLItems
 
         private static float ThornsDamage = 30f;
         private static float ThornsRadius = 10f;
+
+        public static int ID;
+
         public static void Init()
         {
             string itemName = "Thornmail";
@@ -41,6 +44,7 @@ namespace LOLItems
             item.ArmorToGainOnInitialPickup = ArmorStat;
 
             item.quality = PickupObject.ItemQuality.B;
+            ID = item.PickupObjectId;
         }
 
         public override void Pickup(PlayerController player)

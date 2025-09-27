@@ -27,6 +27,13 @@ namespace LOLItems
         private static float ShockwaveRadius = 6f;
         private static float ShockwaveCooldown = 15f;
 
+        private static GameObject slashVFX = ((Gun)PickupObjectDatabase.GetById(417))
+                .DefaultModule.projectiles[0]
+                .hitEffects.tileMapHorizontal.effects[0]
+                .effects[0].effect;
+
+        public static int ID;
+
         public static void Init()
         {
             string itemName = "Stridebreaker";
@@ -53,6 +60,7 @@ namespace LOLItems
 
             item.usableDuringDodgeRoll = true;
             item.quality = PickupObject.ItemQuality.A;
+            ID = item.PickupObjectId;
         }
 
         // subscribe to the player events
@@ -109,12 +117,6 @@ namespace LOLItems
         public override void DoEffect(PlayerController player)
         {
             AkSoundEngine.PostEvent("stridebreaker_active_SFX", player.gameObject);
-
-            // sets vfx to slash effect of blasphemy (bullet character weapon)
-            GameObject slashVFX = ((Gun)PickupObjectDatabase.GetById(417))
-                .DefaultModule.projectiles[0]
-                .hitEffects.tileMapHorizontal.effects[0]
-                .effects[0].effect;
 
             if (slashVFX != null)
             {

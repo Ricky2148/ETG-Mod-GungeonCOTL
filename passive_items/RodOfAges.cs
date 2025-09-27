@@ -15,11 +15,13 @@ namespace LOLItems
         private static float TimelessDamageIncrementValue = 0.02f;
         private static float TimelessIncreaseMax = 0.75f;
         private static float TimelessIncrementValue = 0.05f;
-        private static float TimelessIncrementTimeInterval = 90f; // seconds
+        private static float TimelessIncrementTimeInterval = 60f; // seconds
         private int TimelessStackCount = 0;
         private static float TimelessMaxStackHealthIncrease = 1f;
 
         private static float EternityAmmoRestorePercent = 0.25f;
+
+        public static int ID;
 
         public static void Init()
         {
@@ -40,6 +42,7 @@ namespace LOLItems
             ItemBuilder.SetupItem(item, shortDesc, longDesc, "LOLItems");
 
             item.quality = PickupObject.ItemQuality.B;
+            ID = item.PickupObjectId;
         }
 
         public override void Pickup(PlayerController player)

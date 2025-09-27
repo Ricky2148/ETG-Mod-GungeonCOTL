@@ -1,15 +1,17 @@
-﻿using System;
+﻿using Alexandria.ItemAPI;
+using JetBrains.Annotations;
+using LOLItems.custom_class_data;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using UnityEngine;
-using Alexandria.ItemAPI;
-using JetBrains.Annotations;
-using LOLItems.custom_class_data;
 
 // add a way for phantomhit extra projectiles to be modified by other items like scatter shot or helix bullets
 // i don't think the % offset for the delay is accounting for additional
 // rate of fire increases from other items
+// copy projectile before delay and send it out after to prevent error
 
 namespace LOLItems
 {
@@ -20,6 +22,12 @@ namespace LOLItems
 
         private static float DamageStat = 1.25f;
         private static float RateOfFireStat = 1.2f;
+
+        const int AK47_ID = 15;
+        GameObject ak47ProjPrefab = (PickupObjectDatabase.GetById(AK47_ID) as Gun).DefaultModule.projectiles[0].gameObject;
+
+        public static int ID;
+
         public static void Init()
         {
             string itemName = "Guinsoo's Rageblade";
@@ -46,6 +54,7 @@ namespace LOLItems
             */
 
             item.quality = PickupObject.ItemQuality.S;
+            ID = item.PickupObjectId;
         }
 
         // subscribe to the player events
@@ -55,7 +64,7 @@ namespace LOLItems
             Plugin.Log($"Player picked up {this.EncounterNameOrDisplayName}");
 
             player.PostProcessProjectile += OnPostProcessProjectile;
-            player.OnReloadedGun += OnGunReloaded;
+            //player.OnReloadedGun += OnGunReloaded;
         }
 
         public override void DisableEffect(PlayerController player)
@@ -64,24 +73,30 @@ namespace LOLItems
 
             player.PostProcessProjectile -= OnPostProcessProjectile;
             phantomHitCount = 0; // Reset the count when the item is dropped
-            player.OnReloadedGun -= OnGunReloaded;
+            //player.OnReloadedGun -= OnGunReloaded;
         }
 
         private void OnPostProcessProjectile(Projectile proj, float f)
         {
-            phantomHitCount++;
-            if (phantomHitCount >= 3)
+            //ensures only the player's own projectiles are counted
+            if (proj.Shooter == proj.Owner.specRigidbody)
             {
-                PlayerController player = proj.Owner as PlayerController;
-                phantomHitCount = 0;
-                player.StartCoroutine(FirePhantomProjectileDelayed(proj));
+                phantomHitCount++;
+                if (phantomHitCount >= 3)
+                {
+                    PlayerController player = proj.Owner as PlayerController;
+                    phantomHitCount = 0;
+                    player.StartCoroutine(FirePhantomProjectileDelayed(proj));
+                }
             }
         }
 
+        /*
         private void OnGunReloaded(PlayerController player, Gun gun)
         {
             phantomHitCount = 0; // Reset the count when the gun is reloaded
         }
+        */
 
         private System.Collections.IEnumerator FirePhantomProjectileDelayed(Projectile proj)
         {
@@ -98,35 +113,100 @@ namespace LOLItems
             }
             PlayerController player = proj.Owner as PlayerController;
 
+            GameActor ogOwner = proj.Owner;
+            SpeculativeRigidbody ogShooter = proj.Shooter;
+            Color ogSpriteColor = ExtendedColours.brown;
+            if (proj.sprite != null)
+            {
+                ogSpriteColor = proj.sprite.color;
+            }
+            else
+            {
+                //Plugin.Log("proj.sprite = null at ogSpriteColor");
+            }
+            //Vector3 ogPosition = player.CurrentGun.barrelOffset.position;
+
+            // wait 1ms for projectiles to have their data be properly updated to be properly copied from
+            yield return new WaitForSeconds(0.001f);
+
+            Vector2 ogDirection = proj.LastVelocity.normalized;
+
+            ProjectileData newData = new ProjectileData();
+            newData.damage = proj.baseData.damage;
+            newData.force = proj.baseData.force;
+            newData.speed = proj.baseData.speed;
+            newData.range = proj.baseData.range;
+
             // Calculate the delay based on the gun's rate of fire
             float baseDelayRatio = 0.3f;
             float gunRateOfFire = player.CurrentGun.DefaultModule.cooldownTime;
-            float delay = Mathf.Max(gunRateOfFire * baseDelayRatio, 0.01f);
+            float delay = Mathf.Max(gunRateOfFire * baseDelayRatio / player.stats.GetStatValue(PlayerStats.StatType.RateOfFire), 0.01f);
             delay = Mathf.Ceil(delay * 100f) / 100f;
-            
-            yield return new WaitForSeconds(delay);
 
+            yield return new WaitForSeconds(delay - 0.001f);
+
+            if (proj == null)
+            {
+                //Plugin.Log("proj == null");
+                yield break;
+            }
             // create a phantom projectile based on the exact stats of the original projectile
             Projectile phantomHit = UnityEngine.Object.Instantiate(proj.gameObject).GetComponent<Projectile>();
+
+            phantomHit.baseData = newData;
+            phantomHit.Owner = ogOwner;
+            phantomHit.Shooter = ogShooter;
+            if (proj.sprite != null)
+            { 
+                phantomHit.sprite.color = Color.Lerp(ogSpriteColor, ExtendedColours.carrionRed, 0.7f);
+            }
+            else
+            {
+                //Plugin.Log("proj.sprite = null at Color.Lerp");
+            }
+            
+            // Set the position and rotation of the phantom projectile
+            phantomHit.transform.position = player.CurrentGun.barrelOffset.position;
+            //Vector2 direction = proj.LastVelocity.normalized;
+            float angle = Mathf.Atan2(ogDirection.y, ogDirection.x) * Mathf.Rad2Deg;
+
+            // Set the projectile's rotation to match the direction
+            phantomHit.transform.rotation = Quaternion.Euler(0, 0, angle);
+
+            phantomHit.SendInDirection(ogDirection, true, true);
+            
+
+            // experimental new code to setup basic proj that looks like original proj
+            /*Vector2 direction = proj.LastVelocity.normalized;
+            float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+
+            Projectile newProj = SpawnManager.SpawnProjectile(
+                prefab: ak47ProjPrefab,
+                position: player.CurrentGun.barrelOffset.position,
+                rotation: Quaternion.Euler(0f, 0f, angle)
+            ).GetComponent<Projectile>();
+            
+            if ((bool)newProj.sprite && (bool)proj.sprite)
+            {
+                newProj.shouldRotate = proj.shouldRotate;
+                newProj.shouldFlipHorizontally = proj.shouldFlipHorizontally;
+                newProj.shouldFlipVertically = proj.shouldFlipVertically;
+                newProj.sprite.SetSprite(proj.sprite.collection, proj.sprite.spriteId);
+                Vector2 vector = newProj.transform.position.XY() - newProj.sprite.WorldCenter;
+                newProj.transform.position += vector.ToVector3ZUp();
+                newProj.specRigidbody.Reinitialize();
+            }
+
             ProjectileData newData = new ProjectileData();
             newData.damage = proj.baseData.damage;
             newData.speed = proj.baseData.speed;
             newData.range = proj.baseData.range;
             newData.force = proj.baseData.force;
-            phantomHit.baseData = newData;
-            phantomHit.Owner = proj.Owner;
-            phantomHit.Shooter = proj.Shooter;
-            phantomHit.sprite.color = Color.Lerp(proj.sprite.color, ExtendedColours.carrionRed, 0.7f);
-
-            // Set the position and rotation of the phantom projectile
-            phantomHit.transform.position = player.CurrentGun.barrelOffset.position;
-            Vector2 direction = proj.LastVelocity.normalized;
-            float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-
-            // Set the projectile's rotation to match the direction
-            phantomHit.transform.rotation = Quaternion.Euler(0, 0, angle);
-
-            phantomHit.SendInDirection(direction, true, true);
+            newProj.baseData = newData;
+            newProj.Shooter = proj.Shooter;
+            newProj.Owner = proj.Owner;
+            newProj.sprite.color = Color.Lerp(proj.sprite.color, ExtendedColours.carrionRed, 0.7f);
+            */
         }
     }
 }

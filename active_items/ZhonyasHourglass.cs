@@ -6,6 +6,7 @@ using Alexandria.ItemAPI;
 using UnityEngine;
 using Alexandria;
 using LOLItems.custom_class_data;
+using Alexandria.Misc;
 
 //add vfx and sfx during revive duration
 
@@ -18,6 +19,8 @@ namespace LOLItems
         private bool hasGainedArmor = false;
         private static float StasisDuration = 2.5f;
         private static float StasisCooldown = 120f;
+
+        public static int ID;
 
         public static void Init()
         {
@@ -40,6 +43,7 @@ namespace LOLItems
 
             item.usableDuringDodgeRoll = true;
             item.quality = PickupObject.ItemQuality.A;
+            ID = item.PickupObjectId;
         }
 
         // subscribe to the player events
@@ -67,16 +71,22 @@ namespace LOLItems
         // upon activation, player enters invul then forces blank effect after invul
         private System.Collections.IEnumerator StasisCoroutine(PlayerController player)
         {
-            player.healthHaver.TriggerInvulnerabilityPeriod(StasisDuration);
+            player.healthHaver.TriggerInvulnerabilityPeriod(StasisDuration + 0.1f);
             player.CurrentInputState = PlayerInputState.NoInput;
             player.healthHaver.PreventAllDamage = true;
 
             Color originalPlayerColor = player.sprite.color;
             Color originalGunColor = player.CurrentGun.sprite.color;
+            //float ogFpsScale = player.aiAnimator.FpsScale;
 
             // find a better color later
             player.sprite.color = ExtendedColours.honeyYellow;
             player.CurrentGun.sprite.color = ExtendedColours.honeyYellow;
+            //player.aiAnimator.FpsScale = 0f;
+            //player.spriteAnimator.OverrideTimeScale = 0f;
+
+            //player.TriggerInvulnerableFrames(StasisDuration + 0.1f);
+            //player.CurrentInputState = PlayerInputState.NoInput;
 
             AkSoundEngine.PostEvent("zhonyas_hourglass_activation_SFX", GameManager.Instance.gameObject);
 
@@ -84,6 +94,8 @@ namespace LOLItems
 
             player.sprite.color = originalPlayerColor;
             player.CurrentGun.sprite.color = originalGunColor;
+            //player.aiAnimator.FpsScale = ogFpsScale;
+            //player.spriteAnimator.OverrideTimeScale = 1f;
 
             player.ForceBlank();
             player.CurrentInputState = PlayerInputState.AllInput;

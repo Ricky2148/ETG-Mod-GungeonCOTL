@@ -21,6 +21,8 @@ namespace LOLItems
         private static float OverdriveRateOfFireStat = 1.5f;
         private static float overdriveMovementSpeedStat = 1.25f;
         private bool isOverdriveActive = false;
+
+        public static int ID;
         public static void Init()
         {
             string itemName = "Experimental Hexplate";
@@ -46,6 +48,7 @@ namespace LOLItems
             ItemBuilder.AddPassiveStatModifier(item, PlayerStats.StatType.Health, HealthStat, StatModifier.ModifyMethod.ADDITIVE);
 
             item.quality = PickupObject.ItemQuality.A;
+            ID = item.PickupObjectId;
         }
 
         // subscribe to the player events

@@ -1,5 +1,6 @@
 ﻿using Alexandria;
 using Alexandria.ItemAPI;
+using LOLItems.passive_items;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,6 +16,8 @@ namespace LOLItems
         private static float DamageStat = 1.2f;
         private static float ClipAndAmmoIncrease = 1.5f;
         private static float MuramanaShockBaseDamage = 5f;
+
+        public static int ID;
 
         public static void Init()
         {
@@ -39,6 +42,19 @@ namespace LOLItems
 
             item.quality = PickupObject.ItemQuality.EXCLUDED;
             item.ShouldBeExcludedFromShops = true;
+
+            ID = item.PickupObjectId;
+
+            List<string> mandatoryConsoleIDs = new List<string>
+            {
+                "LOLItems:muramana",
+                "LOLItems:manaflow_fully_stacked"
+            };
+            List<string> optionalConsoleIDs = new List<string>
+            {
+                ""
+            };
+            CustomSynergies.Add("Manamune Upgraded To Muramana", mandatoryConsoleIDs, null, true);
         }
 
         // subscribe to the player events
@@ -86,28 +102,31 @@ namespace LOLItems
 
         private void MuramanaShock(Projectile proj, float f)
         {
-            if (proj.Owner is not PlayerController player) return;
-            if (player.CurrentGun is not Gun gun) return;
-            proj.OnHitEnemy += (projHit, enemy, fatal) =>
+            if (proj.Shooter == proj.Owner.specRigidbody)
             {
-                if (enemy != null && enemy.healthHaver != null)
+                if (proj.Owner is not PlayerController player) return;
+                if (player.CurrentGun is not Gun gun) return;
+                proj.OnHitEnemy += (projHit, enemy, fatal) =>
                 {
-                    //scales the damage based on player's clip size and ammo size stats
-                    float clipSizeStat = Mathf.Max(0f ,(player.stats.GetStatValue(PlayerStats.StatType.AdditionalClipCapacityMultiplier) - 1f) / 5);
-                    float ammoSizeStat = Mathf.Max(0f ,(player.stats.GetStatValue(PlayerStats.StatType.AmmoCapacityMultiplier) - 1f) / 5);
-                    float MuramanaShockDamageMultiplier = Mathf.Max(1f, 1f + clipSizeStat + ammoSizeStat);
-                    float damageToDeal = Mathf.Max(1f, MuramanaShockBaseDamage * MuramanaShockDamageMultiplier);
-                    // calculates additional extra damage to apply to enemy
-                    enemy.healthHaver.ApplyDamage(
-                        damageToDeal,
-                        Vector2.zero,
-                        "muramana_shock_damage",
-                        CoreDamageTypes.None,
-                        DamageCategory.Normal,
-                        false
-                    );
-                }
-            };
+                    if (enemy != null && enemy.healthHaver != null)
+                    {
+                        //scales the damage based on player's clip size and ammo size stats
+                        float clipSizeStat = Mathf.Max(0f, (player.stats.GetStatValue(PlayerStats.StatType.AdditionalClipCapacityMultiplier) - 1f) / 5);
+                        float ammoSizeStat = Mathf.Max(0f, (player.stats.GetStatValue(PlayerStats.StatType.AmmoCapacityMultiplier) - 1f) / 5);
+                        float MuramanaShockDamageMultiplier = Mathf.Max(1f, 1f + clipSizeStat + ammoSizeStat);
+                        float damageToDeal = Mathf.Max(1f, MuramanaShockBaseDamage * MuramanaShockDamageMultiplier);
+                        // calculates additional extra damage to apply to enemy
+                        enemy.healthHaver.ApplyDamage(
+                            damageToDeal,
+                            Vector2.zero,
+                            "muramana_shock_damage",
+                            CoreDamageTypes.None,
+                            DamageCategory.Normal,
+                            false
+                        );
+                    }
+                };
+            }
         }
     }
 }

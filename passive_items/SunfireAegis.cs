@@ -24,6 +24,8 @@ namespace LOLItems
         private static float ImmolateBaseRadius = 2f;
         private static float ImmolateRadiusPerHeart = 1f;
 
+        public static int ID;
+
         public static void Init()
         {
             string itemName = "Sunfire Aegis";
@@ -46,7 +48,9 @@ namespace LOLItems
             // sets damage aura stats
             item.AuraRadius = ImmolateBaseRadius;
             item.DamagePerSecond = ImmolateBaseDamage;
+
             item.quality = PickupObject.ItemQuality.B;
+            ID = item.PickupObjectId;
         }
 
         // subscribe to the player events

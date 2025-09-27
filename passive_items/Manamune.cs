@@ -1,5 +1,6 @@
 ﻿using Alexandria;
 using Alexandria.ItemAPI;
+using LOLItems.passive_items;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,10 +19,12 @@ namespace LOLItems
         private static float DamageStat = 1.05f;
         private static float ManaflowIncreaseMax = 0.5f;
         private static float ManaflowIncrementValue = 0.05f;
-        private static float ManaflowIncrementKillReq = 25f;
+        private static float ManaflowIncrementKillReq = 15f;
         private static float MuramanaShockBaseDamage = 5f;
         private float CurrentManaflowKillCount = 0f;
         private int ManaflowStackCount = 0;
+
+        public static int ID;
 
         public static void Init()
         {
@@ -50,6 +53,7 @@ namespace LOLItems
             ItemBuilder.AddPassiveStatModifier(item, PlayerStats.StatType.Damage, DamageStat, StatModifier.ModifyMethod.MULTIPLICATIVE);
 
             item.quality = PickupObject.ItemQuality.B;
+            ID = item.PickupObjectId;
         }
 
         // subscribe to the player events
@@ -108,12 +112,18 @@ namespace LOLItems
 
             // tries to remove manamune from player and give muramana
             player.OnKilledEnemy -= ManaflowStack;
-            player.RemovePassiveItem(this.PickupObjectId);
+            //player.RemovePassiveItem(this.PickupObjectId);
 
             PassiveItem muramana = PickupObjectDatabase.GetByName("Muramana") as PassiveItem;
+            //PassiveItem muramanasynergy = PickupObjectDatabase.GetByName("MuramanaSynergyActivation") as PassiveItem;
             if (muramana != null)
             {
+                //player.AcquirePassiveItem(muramanasynergy);
+                //player.AcquirePassiveItem(muramana);
+                player.RemovePassiveItem(this.PickupObjectId);
                 player.AcquirePassiveItem(muramana);
+                player.GiveItem("LOLItems:manaflow_fully_stacked");
+                player.RemovePassiveItem(MuramanaSynergyActivation.ID);
                 //player.PostProcessProjectile += MuramanaShock;
                 Plugin.Log("Manamune has been upgraded to Muramana");
             }
