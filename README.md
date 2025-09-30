@@ -34,7 +34,7 @@ Horizon Focus (A):
 - Effect: Increases each bullet's damage by up to 25% based on how far the hit target is.
 
 Hubris (A):
-- Effect: Each kill increases your damage by 0.2%. Stacking infinitely
+- Effect: Each kill increases your damage by 0.5%. Stacking infinitely
 
 Kraken Slayer (S):
 - Stats: 1.25x DMG, 1.25x ROF
@@ -42,7 +42,7 @@ Kraken Slayer (S):
 
 Liandry's Torment (B):
 - Stats: 1.15x DMG, 1 Heart
-- Effect: All bullets apply a burn to enemies that deal 3% max health damage per second for 3 seconds.
+- Effect: All bullets apply a burn to enemies that deal 10% max health damage per second for 3 seconds. (25% effective against bosses)
 
 ![']("Resources/itemdisplayscreenshot.png")
 
