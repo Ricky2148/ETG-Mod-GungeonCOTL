@@ -40,6 +40,10 @@ Kraken Slayer (S):
 - Stats: 1.25x DMG, 1.25x ROF
 - Effect: Every 3rd bullet will deal additional 20 damage on hit. This extra damage increases based on the floor up to 40 damage. This extra damage will also scale with missing health up to 1.75x damage.
 
+Liandry's Torment (B):
+- Stats: 1.15x DMG, 1 Heart
+- Effect: All bullets apply a burn to enemies that deal 3% max health damage per second for 3 seconds.
+
 ![']("Resources/itemdisplayscreenshot.png")
 
 ## Contributors:
