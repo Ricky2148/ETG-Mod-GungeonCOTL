@@ -25,6 +25,21 @@ Guardian Angel (S):
 - Stats: 1.25x DMG, 2 Armor
 - Effect: Triggers Rebirth on death. Rebirth: become invulnerable for 4 seconds, sets health to 50% of your max hearts, then triggers a blank at the end of the invulnerability. Rebirth cannot trigger again.
 
+Guinsoo's Rageblade (S):
+- Stats: 1.25x DMG, 1.2x ROF
+- Effect: Every 3rd bullet fired, an extra projectile copied from that 3rd projectile will fire after a slight delay. This bullet is tinted red and does not decrease any ammo.
+
+Horizon Focus (A):
+- Stats: 1.1x DMG
+- Effect: Increases each bullet's damage by up to 25% based on how far the hit target is.
+
+Hubris (A):
+- Effect: Each kill increases your damage by 0.2%. Stacking infinitely
+
+Kraken Slayer (S):
+- Stats: 1.25x DMG, 1.25x ROF
+- Effect: Every 3rd bullet will deal additional 20 damage on hit. This extra damage increases based on the floor up to 40 damage. This extra damage will also scale with missing health up to 1.75x damage.
+
 ![']("Resources/itemdisplayscreenshot.png")
 
 ## Contributors:
