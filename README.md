@@ -5,7 +5,7 @@ Adds various different items from ***League of Legends*** into Enter the Gungeon
 ## Content:
 - **23 new items**, each one designed to feel like the original
 
--Blade of the Ruined King:
+- Blade of the Ruined King:
 Stats: 1.25x DMG, 1.2x ROF
 Effect: First bullet of clip slows targets hit by 50% for 3s. All player bullets deal 12% current health damage on hit. (25% effective against bosses)
 
