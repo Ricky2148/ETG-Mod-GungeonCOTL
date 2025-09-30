@@ -117,7 +117,7 @@ namespace LOLItems
                     // damage is 1/4 against bosses and sub-bosses
                     if (hitRigidbody.aiActor.healthHaver.IsBoss || hitRigidbody.aiActor.healthHaver.IsSubboss)
                     {
-                        damageToDeal *= 0.25f;
+                        //damageToDeal *= 0.25f;
                     }
                     // calculates additional extra damage to apply to enemy
                     hitRigidbody.aiActor.healthHaver.ApplyDamage(
@@ -156,7 +156,7 @@ namespace LOLItems
                             // damage is 1/4 against bosses and sub-bosses
                             if (enemy.healthHaver.IsBoss || enemy.healthHaver.IsSubboss)
                             {
-                                damageToDeal *= 0.25f;
+                                //damageToDeal *= 0.25f;
                             }
 
                             // calculates additional extra damage to apply to enemy
