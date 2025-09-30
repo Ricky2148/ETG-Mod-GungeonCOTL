@@ -44,6 +44,14 @@ Liandry's Torment (B):
 - Stats: 1.15x DMG, 1 Heart
 - Effect: All bullets apply a burn to enemies that deal 10% max health damage per second for 3 seconds. (25% effective against bosses)
 
+Manamune (B):
+- Stats: 1.05x DMG
+- Effect: Every 15 kills, provides 1 Manaflow stack. Each manaflow stack increases max ammo capacity and max clip size by 5% (Max: 10 stacks). Upon reaching max stacks, upgrades to Muramana.
+
+Muramana:
+- Stats: 1.2x DMG, 1.5x MaxAmmoSize, 1.5x MaxClipSize
+- Effect: Every bullet deals an additional 5 damage on hit. This damage scales with player's MaxAmmoSize and MaxClipSize multipliers. (With just Muramana's ammo and clipsize buffs, the additional damage is multiplied by 1.2x)
+
 ![']("Resources/itemdisplayscreenshot.png")
 
 ## Contributors:
