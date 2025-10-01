@@ -19,6 +19,7 @@ namespace LOLItems.weapons
     {
         public static string internalName; //Internal name of the gun as used by console commands
         public static int ID; //The Gun ID stored by the game.  Can be used by other functions to call your custom gun.
+        public static string realName = "Pow-Pow"; //The actual name of the gun
 
         private static float rampUpIncCap = 5f;
         private static float rampUpIncPerSecond = 0.5f;
@@ -32,10 +33,24 @@ namespace LOLItems.weapons
         private int rampUpStackCap = 20; // max fire rate is fireRateStat - (rampUpStackCap * rampUpIncPerStack)
         private Coroutine rampDownCoroutine;
 
-        private static float projectileDamageStat = 7f;
+        private static float projectileDamageStat = 6f;
         private static float projectileSpeedStat = 50f;
         private static float projectileRangeStat = 100f;
-        private static float projectileForceStat = 10f;
+        private static float projectileForceStat = 8f;
+
+        private static List<string> FishbonesFiringSFXList = new List<string>
+        {
+            "FishbonesFireSFX1",
+            "FishbonesFireSFX2",
+            "FishbonesFireSFX3"
+        };
+
+        private static List<string> FishbonesExplosionSFXList = new List<string>
+        {
+            "FishbonesExplosionSFX1",
+            "FishbonesExplosionSFX2",
+            "FishbonesExplosionSFX3"
+        };
 
         private static int firingAnimationFPS = 10;
 
@@ -53,7 +68,7 @@ namespace LOLItems.weapons
              * Rename(a,b) works where "a" is what the game names your gun internally which uses lower case and underscores.  Here it would be "outdated_gun_mods:template_gun".
              * "b" is how you're renaming the gun to show up in the mod console.
              * The default here is to use your mod's prefix then shortname so in this example it would come out as "twp:template_gun". */
-            string FULLNAME = "Pow-Pow"; //Full name of your gun 
+            string FULLNAME = realName; //Full name of your gun 
             string SPRITENAME = "powpow"; //The name that prefixes your sprite files
             internalName = $"LOLItems:powpow";
             Gun gun = ETGMod.Databases.Items.NewGun(FULLNAME, SPRITENAME);
@@ -64,7 +79,7 @@ namespace LOLItems.weapons
             /* SetupSprite sets up the default gun sprite for the ammonomicon and the "gun get" popup.  Your "..._idle_001" is often a good example.  
              * A copy of the sprite used must be in your "sprites/Ammonomicon Encounter Icon Collection/" folder.
              * The variable at the end assigns a default FPS to all other animations. */
-            gun.SetupSprite(null, $"{SPRITENAME}_idle_001", 8);
+            gun.SetupSprite(null, $"{SPRITENAME}_idle_001", 1);
             /* You can also manually assign the FPS of indivisual animations, below are some examples.
              * Note that if your animation takes too long it might not get to finish, like if your reload animation takes longer than the act of reloading. */
             gun.SetAnimationFPS(gun.shootAnimation, firingAnimationFPS);
@@ -104,9 +119,11 @@ namespace LOLItems.weapons
             //gun.gunSwitchGroup = (PickupObjectDatabase.GetById(56) as Gun).gunSwitchGroup; //Example using a vanilla gun's ID.
             /* OR */
             gun.gunSwitchGroup = $"LOLItems_{FULLNAME.ToID()}"; //Unique name for your gun's sound group. In this example it uses your console name but with an underscore.
-            SoundManager.AddCustomSwitchData("WPN_Guns", gun.gunSwitchGroup, "Play_WPN_Gun_Shot_01", "Play_WPN_m1rifle_shot_01"); //Play_WPN_Gun_Shot_01 is your weapon's base shot sound.
-            SoundManager.AddCustomSwitchData("WPN_Guns", gun.gunSwitchGroup, "Play_WPN_Gun_Reload_01", "Play_WPN_crossbow_reload_01"); //Play_WPN_Gun_Reload_01 is your weapon's base reload sound.
+            // ak47, machine pistol, polaris, combined rifle, vulcan cannon
+            SoundManager.AddCustomSwitchData("WPN_Guns", gun.gunSwitchGroup, "Play_WPN_Gun_Shot_01", "Play_WPN_minigun_shot_01"); //Play_WPN_Gun_Shot_01 is your weapon's base shot sound.
             
+            SoundManager.AddCustomSwitchData("WPN_Guns", gun.gunSwitchGroup, "Play_WPN_Gun_Reload_01", null); //Play_WPN_Gun_Reload_01 is your weapon's base reload sound.
+
             gun.DefaultModule.angleVariance = 5; //How far from where you're aiming that bullets can deviate. 0 equals perfect accuracy.
             gun.DefaultModule.shootStyle = ProjectileModule.ShootStyle.Automatic; //Sets the firing style of the gun.
             /* Optional settings for Burst style guns. */
@@ -115,7 +132,7 @@ namespace LOLItems.weapons
             gun.gunClass = GunClass.FULLAUTO; // Sets the gun's class which is used by category based effects.
             gun.DefaultModule.sequenceStyle = ProjectileModule.ProjectileSequenceStyle.Random; //Sets how the gun handles multiple different projectiles
             gun.DefaultModule.ammoCost = 1;
-            gun.reloadTime = reloadDuration;
+            gun.reloadTime = 0f;
             gun.DefaultModule.cooldownTime = fireRateStat; //Time between shots fired.  For Burst guns it's the time between each burst.
             gun.DefaultModule.numberOfShotsInClip = ammoStat;
             gun.SetBaseMaxAmmo(ammoStat);
@@ -185,7 +202,7 @@ namespace LOLItems.weapons
              * The first value is the sprite name in sprites\ProjectileCollection without the extension.
              * tk2dBaseSprite.Anchor.MiddleCenter controls where the sprite is anchored. MiddleCenter will work in most cases.
              * The first set of numbers is visual dimensions of the sprite while the last set of numbers is the hitbox.  Generally the hitbox should be a little smaller than the visuals. */
-            //projectile.SetProjectileSpriteRight($"{SPRITENAME}_projectile_001", 20, 8, true, tk2dBaseSprite.Anchor.MiddleCenter, 18, 6); //Note that your sprite will stretch to match the visual dimensions
+            //projectile.SetProjectileSpriteRight($"{SPRITEPATH}_projectile_001", 20, 8, true, tk2dBaseSprite.Anchor.MiddleCenter, 18, 6); //Note that your sprite will stretch to match the visual dimensions
 
             //OPTIONAL ADDITIONAL PROPERTIES
             /* Properties default to whatever you copied your base gun from, but you an adjust them manually as needed. */
@@ -398,16 +415,18 @@ namespace LOLItems.weapons
             gun.DefaultModule.chargeProjectiles = new List<ProjectileModule.ChargeProjectile> {chargeProj1, chargeProj2, chargeProj3}; //Assigns charged projectiles to the gun.
             */
 
-            gun.quality = PickupObject.ItemQuality.S; //Sets the gun's quality rank. Use "EXCLUDED" if the gun should not appear in chests.
+            gun.quality = PickupObject.ItemQuality.B; //Sets the gun's quality rank. Use "EXCLUDED" if the gun should not appear in chests.
             ETGMod.Databases.Items.Add(gun, false, "ANY");  //Adds your gun to the databse.
             ID = gun.PickupObjectId; //Sets the Gun ID. 
             ItemBuilder.AddCurrentGunStatModifier(gun, PlayerStats.StatType.RateOfFire, 1.0f, StatModifier.ModifyMethod.MULTIPLICATIVE);
         }
+        /*
         public override void OnInitializedWithOwner(GameActor actor)
         {
             base.OnInitializedWithOwner(actor);
             //maybe add a sound effect here?
         }
+        */
 
         // increases fire rate each time a shot is fired, up to a cap
         public override void OnPostFired(PlayerController player, Gun gun)
@@ -436,6 +455,7 @@ namespace LOLItems.weapons
                     Plugin.Log($"isFishbones: {isFishbones}, starting cooldown rampdown");
                     rampDownCoroutine = StartCoroutine(RampUpCooldown(player, gun));
                 }*/
+                HelpfulMethods.PlayRandomSFX(player, FishbonesFiringSFXList);
                 return;
             }
             if (rampDownCoroutine != null) StopCoroutine(rampDownCoroutine);
@@ -591,7 +611,8 @@ namespace LOLItems.weapons
 
         public override void OnReloadPressedSafe(PlayerController player, Gun gun, bool manualReload)
         {
-            base.OnReloadPressedSafe(player, gun, manualReload);
+            //base.OnReloadPressedSafe(player, gun, manualReload);
+
             if (gun == null && player == null)
             {
                 Plugin.Log($"gun: {gun}, player: {player}, manuelReload: {manualReload}");
@@ -603,7 +624,13 @@ namespace LOLItems.weapons
 
                 Plugin.Log($"Gun is currently Pow Pow | isFishbones: {isFishbones} | Switch Target: {targetGun}, Switch ID: {PowPowAltForm.ID}");
 
+                AkSoundEngine.PostEvent("SwitchToFishbones", player.gameObject);
+
                 gun.TransformToTargetGun(targetGun);
+                gun.gunHandedness = targetGun.gunHandedness;
+                //gun.SetName(PowPowAltForm.realName);
+
+                //gun.DefaultModule.numberOfShotsInClip = gun.AdjustedMaxAmmo;
 
                 gun.DefaultModule.cooldownTime = targetGun.DefaultModule.cooldownTime;
                 ItemBuilder.RemoveCurrentGunStatModifier(gun, PlayerStats.StatType.RateOfFire);
@@ -624,8 +651,14 @@ namespace LOLItems.weapons
 
                 Plugin.Log($"Gun is currently Pow Pow Alt Form | isFishbones: {isFishbones} | Switch Target: {targetGun}, Switch ID: {PowPow.ID}");
 
+                AkSoundEngine.PostEvent("SwitchToPowPow", player.gameObject);
+
                 gun.TransformToTargetGun(targetGun);
-                
+                gun.gunHandedness = targetGun.gunHandedness;
+                //gun.SetName(PowPow.realName);
+
+                //gun.DefaultModule.numberOfShotsInClip = gun.AdjustedMaxAmmo;
+
                 //gun.DefaultModule.cooldownTime = targetGun.DefaultModule.cooldownTime;
                 //gun.spriteAnimator.OverrideTimeScale = 1f;
                 //gun.DefaultModule.cooldownTime = fireRateStat - rampUpStacks * rampUpIncPerStack;

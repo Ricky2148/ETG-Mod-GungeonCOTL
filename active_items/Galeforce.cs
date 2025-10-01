@@ -41,6 +41,7 @@ namespace LOLItems.active_items
             string longDesc = "A strangely crafted bow that seems to make the feet below you lighter. " +
                 "You can't help but feel that there's something hidden with this bow. Maybe there's something " +
                 "hidden in the bow?\n";
+
             ItemBuilder.SetupItem(item, shortDesc, longDesc, "LOLItems");
             
             ItemBuilder.AddPassiveStatModifier(item, PlayerStats.StatType.Damage, DamageStat, StatModifier.ModifyMethod.MULTIPLICATIVE);

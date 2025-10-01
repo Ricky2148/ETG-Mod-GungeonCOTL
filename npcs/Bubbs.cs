@@ -179,7 +179,7 @@ namespace LOLItems
                     
                 //talk stuff
                 new Vector3(44/16f, 46/16f, 0), //talk point
-                new Vector3(13/16f, 48/16f, 0), //NPC position
+                new Vector3(3/16f, 48/16f, 0), //NPC position
                 Alexandria.NPCAPI.ShopAPI.VoiceBoxes.DOUG,
                 Alexandria.NPCAPI.ShopAPI.defaultItemPositions,
 
@@ -200,10 +200,9 @@ namespace LOLItems
                 true, // minimap icon?
                 "LOLItems/Resources/npc_sprites/shopkeeper/bubbs_sprites/bubbs_minimap", // minimap icon sprite
                 true, // in main shop pool?
-                1f // chance for main pool
+                1f // weight for main pool (default 1f)
             );
-
-            /*
+            
             List<string> purchaseAnimationSpritePathList = new List<string>
             {
                 "LOLItems/Resources/npc_sprites/shopkeeper/bubbs_sprites/bubbs_buy_01",
@@ -226,8 +225,8 @@ namespace LOLItems
                 "LOLItems/Resources/npc_sprites/shopkeeper/bubbs_sprites/bubbs_buy_18"
             };
 
-            ShopAPI.AddUnparentedAnimationToShop(BubbsObj, purchaseAnimationSpritePathList, 6, "purchase");
-            */
+            //ShopAPI.AddUnparentedAnimationToShop(BubbsObj, purchaseAnimationSpritePathList, 6, "purchase");
+            ShopAPI.AddAdditionalAnimationsToShop(BubbsObj, purchaseAnimationSpritePathList, 6);
 
             PrototypeDungeonRoom Mod_Shop_Room = RoomFactory.BuildNewRoomFromResource("LOLItems/Resources/npc_sprites/shopkeeper/bubbs_sprites/test.newroom").room;
             RegisterShopRoom(BubbsObj, Mod_Shop_Room, new UnityEngine.Vector2(7.5f, 5f),1.2f); // 1.2

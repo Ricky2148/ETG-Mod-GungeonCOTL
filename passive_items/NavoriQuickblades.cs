@@ -10,8 +10,8 @@ namespace LOLItems.passive_items
 {
     internal class NavoriQuickblades : PassiveItem
     {
-        private static float RateOfFireStat = 1.2f;
-        private static float TranscendenceCooldownReductionRatio = 0.02f;
+        private static float RateOfFireStat = 1.1f;
+        private static float TranscendenceCooldownReductionRatio = 0.03f;
 
         public static int ID;
 

@@ -149,6 +149,8 @@ namespace LOLItems
                 SpeedMultiplier = slowPercent,
             };
 
+            float ShockwaveDamage = ShockwaveBaseDamage * player.stats.GetStatValue(PlayerStats.StatType.Damage);
+            
             // checks for all enemies in the room that are in range, applies damage, slow effect, and plays sound
             foreach (AIActor enemy in player.CurrentRoom.GetActiveEnemies(RoomHandler.ActiveEnemyType.All))
             {
@@ -156,7 +158,7 @@ namespace LOLItems
                 {
                     float distance = Vector2.Distance(player.CenterPosition, enemy.CenterPosition);
                     // scale damage with player damage modifiers
-                    float ShockwaveDamage = ShockwaveBaseDamage * player.stats.GetStatValue(PlayerStats.StatType.Damage);
+                    //float ShockwaveDamage = ShockwaveBaseDamage * player.stats.GetStatValue(PlayerStats.StatType.Damage);
                     if (distance <= ShockwaveRadius)
                     {
                         enemy.healthHaver.ApplyDamage(

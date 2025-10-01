@@ -77,6 +77,7 @@ namespace LOLItems
             //TemplateGun.Add();
             PowPow.Add();
             PowPowAltForm.Add();
+            HextechRifle.Add();
 
             //new items
             ShieldOfMoltenStone.Init();

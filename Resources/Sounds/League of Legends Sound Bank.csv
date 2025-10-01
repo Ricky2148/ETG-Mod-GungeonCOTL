@@ -17,3 +17,11 @@ statikk_shiv_lighning_SFX_5, -4, 1, sound, 0
 galeforce_active_SFX, 0, 1, sound, 0
 galeforce_active_missile_hit_SFX, -3, 1, sound, 0
 carefree_melody_SFX, 5, 1, sound, 0
+FishbonesFireSFX1, 2, 1, sound, 0
+FishbonesFireSFX2, 2, 1, sound, 0
+FishbonesFireSFX3, 2, 1, sound, 0
+FishbonesExplosionSFX1, 0, 1, sound, 0
+FishbonesExplosionSFX2, 0, 1, sound, 0
+FishbonesExplosionSFX3, 0, 1, sound, 0
+SwitchToFishbones, 10, 1, sound, 0
+SwitchToPowPow, 10, 1, sound, 0

@@ -12,7 +12,7 @@ namespace LOLItems
     {
         private static float DamageStat = 1.15f;
         private static float CinderbloomThreshold = 0.4f;
-        private static float CinderbloomDamageAmp = 0.2f;
+        private static float CinderbloomDamageAmp = 0.4f;
 
         public static int ID;
 

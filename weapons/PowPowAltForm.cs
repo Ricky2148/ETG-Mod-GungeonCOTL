@@ -8,6 +8,7 @@ using Alexandria.SoundAPI;
 using Alexandria.BreakableAPI;
 using BepInEx;
 using System.Collections.Generic;
+using HutongGames.PlayMaker.Actions;
 
 // gotta figure out how to make the sprites .json files without taking 15 centuries
 
@@ -17,6 +18,7 @@ namespace LOLItems.weapons
     {
         public static string internalName; //Internal name of the gun as used by console commands
         public static int ID; //The Gun ID stored by the game.  Can be used by other functions to call your custom gun.
+        public static string realName = "Fishbones"; //The actual name of the gun that shows up ingame.
 
         private static float rampUpIncCap = 5f;
         private static float rampUpIncPerSecond = 0.5f;
@@ -30,10 +32,10 @@ namespace LOLItems.weapons
         private int rampUpStackCap = 20; // max fire rate is fireRateStat - (rampUpStackCap * rampUpIncPerStack)
         private Coroutine rampDownCoroutine;
 
-        private static float projectileDamageStat = 7f;
+        private static float projectileDamageStat = 6f;
         private static float projectileSpeedStat = 50f;
         private static float projectileRangeStat = 100f;
-        private static float projectileForceStat = 10f;
+        private static float projectileForceStat = 20f;
 
         public static void Add()
         {
@@ -47,8 +49,8 @@ namespace LOLItems.weapons
              * Rename(a,b) works where "a" is what the game names your gun internally which uses lower case and underscores.  Here it would be "outdated_gun_mods:template_gun".
              * "b" is how you're renaming the gun to show up in the mod console.
              * The default here is to use your mod's prefix then shortname so in this example it would come out as "twp:template_gun". */
-            string FULLNAME = "Fishbones"; //Full name of your gun 
-            string SPRITENAME = "tempgun"; //The name that prefixes your sprite files
+            string FULLNAME = realName; //Full name of your gun 
+            string SPRITENAME = "fishbones"; //The name that prefixes your sprite files
             internalName = $"LOLItems:powpow_altform";
             Gun gun = ETGMod.Databases.Items.NewGun(FULLNAME, SPRITENAME);
             Game.Items.Rename($"outdated_gun_mods:{FULLNAME.ToID()}", internalName); //Renames the default internal name to your custom internal name
@@ -58,10 +60,10 @@ namespace LOLItems.weapons
             /* SetupSprite sets up the default gun sprite for the ammonomicon and the "gun get" popup.  Your "..._idle_001" is often a good example.  
              * A copy of the sprite used must be in your "sprites/Ammonomicon Encounter Icon Collection/" folder.
              * The variable at the end assigns a default FPS to all other animations. */
-            gun.SetupSprite(null, $"{SPRITENAME}_idle_001", 8);
+            gun.SetupSprite(null, $"{SPRITENAME}_idle_001", 1);
             /* You can also manually assign the FPS of indivisual animations, below are some examples.
              * Note that if your animation takes too long it might not get to finish, like if your reload animation takes longer than the act of reloading. */
-            gun.SetAnimationFPS(gun.shootAnimation, 2);
+            gun.SetAnimationFPS(gun.shootAnimation, 27);
             gun.SetAnimationFPS(gun.reloadAnimation, 20);
 
             /* You can also optionally add an intro animation that plays when picking up the gun by using the below line and also set the FPS the same as above. */
@@ -98,8 +100,8 @@ namespace LOLItems.weapons
             //gun.gunSwitchGroup = (PickupObjectDatabase.GetById(56) as Gun).gunSwitchGroup; //Example using a vanilla gun's ID.
             /* OR */
             gun.gunSwitchGroup = $"LOLItems_{FULLNAME.ToID()}"; //Unique name for your gun's sound group. In this example it uses your console name but with an underscore.
-            SoundManager.AddCustomSwitchData("WPN_Guns", gun.gunSwitchGroup, "Play_WPN_Gun_Shot_01", "Play_WPN_m1rifle_shot_01"); //Play_WPN_Gun_Shot_01 is your weapon's base shot sound.
-            SoundManager.AddCustomSwitchData("WPN_Guns", gun.gunSwitchGroup, "Play_WPN_Gun_Reload_01", "Play_WPN_crossbow_reload_01"); //Play_WPN_Gun_Reload_01 is your weapon's base reload sound.
+            SoundManager.AddCustomSwitchData("WPN_Guns", gun.gunSwitchGroup, "Play_WPN_Gun_Shot_01", "FishbonesFireSFX1", "FishbonesFireSFX2", "FishbonesFireSFX3"); //Play_WPN_Gun_Shot_01 is your weapon's base shot sound.
+            SoundManager.AddCustomSwitchData("WPN_Guns", gun.gunSwitchGroup, "Play_WPN_Gun_Reload_01", null); //Play_WPN_Gun_Reload_01 is your weapon's base reload sound.
 
             gun.DefaultModule.angleVariance = 5; //How far from where you're aiming that bullets can deviate. 0 equals perfect accuracy.
             gun.DefaultModule.shootStyle = ProjectileModule.ShootStyle.Automatic; //Sets the firing style of the gun.
@@ -109,7 +111,7 @@ namespace LOLItems.weapons
             gun.gunClass = GunClass.FULLAUTO; // Sets the gun's class which is used by category based effects.
             gun.DefaultModule.sequenceStyle = ProjectileModule.ProjectileSequenceStyle.Random; //Sets how the gun handles multiple different projectiles
             gun.DefaultModule.ammoCost = 3;
-            gun.reloadTime = reloadDuration;
+            gun.reloadTime = 0f;
             gun.DefaultModule.cooldownTime = fireRateStat; //Time between shots fired.  For Burst guns it's the time between each burst.
             gun.DefaultModule.numberOfShotsInClip = ammoStat;
             gun.SetBaseMaxAmmo(ammoStat);
@@ -121,16 +123,16 @@ namespace LOLItems.weapons
              * AutoDetect will select between one and two handed based on the json/jtk2d.
              * HiddenOneHanded holds the gun with an invisible hand (think armcanons like the Megahand (Megabuster)).
              * NoHanded means the gun should not swing or aim at all, like the Crown of Guns which sits on the player's head. */
-            gun.gunHandedness = GunHandedness.TwoHanded;
+            gun.gunHandedness = GunHandedness.OneHanded;
 
             /* carryPixelOffset sets the length and width away your character holds the gun. Values are subtle so use higher amounts like 10. */
-            gun.carryPixelOffset += new IntVector2(13, 1); //offset when holding gun vertically
-            gun.carryPixelDownOffset += new IntVector2(-15, -14); //offset when aiming down
-            gun.carryPixelUpOffset += new IntVector2(-8, 8); // offset when aiming up
+            gun.carryPixelOffset += new IntVector2(0, 0); //offset when holding gun vertically
+            gun.carryPixelDownOffset += new IntVector2(0, 0); //offset when aiming down
+            gun.carryPixelUpOffset += new IntVector2(0, 0); // offset when aiming up
 
             /* BarrelOffset sets the length and width away on the sprite where the barrel should end.
              * This is where the muzzle flash and projectile will appear. */
-            gun.barrelOffset.transform.localPosition += new Vector3(17 / 16f, 2 / 16f);
+            gun.barrelOffset.transform.localPosition += new Vector3(17 / 16f, -2 / 16f);
 
             gun.gunScreenShake.magnitude = 0f; //How much the gun shakes the screen when fired.
 
@@ -148,13 +150,15 @@ namespace LOLItems.weapons
             /* First line instantiates the projectile and uses an existing projectile to set default visuals and properties based on gun ID.
              * Full list of IDs and names can be found here https://raw.githubusercontent.com/ModTheGungeon/ETGMod/master/Assembly-CSharp.Base.mm/Content/gungeon_id_map/items.txt
              * List of visual effects https://enterthegungeon.wiki.gg/wiki/Weapon_Visual_Effects */
-            Projectile projectile = UnityEngine.Object.Instantiate<Projectile>((PickupObjectDatabase.GetById(16) as Gun).DefaultModule.projectiles[0]);
+            Projectile projectile = UnityEngine.Object.Instantiate<Projectile>(gun.DefaultModule.projectiles[0]);
+
             /* If you want to use a charged projectile from a gun with multiple stages of shots, use a format like the below */
             //Projectile projectile = UnityEngine.Object.Instantiate<Projectile>((PickupObjectDatabase.GetById(613) as Gun).singleModule.chargeProjectiles[1].Projectile);
             /* The following line can be used to output the full details of the properties of a given gun or projectile for if you'd like to replicated certain aspects.
              * This example takes the projectile we just set up then outputs the details to your game folder under Enter the Gungeon\Resources\defaultLog.txt */
             //Alexandria.Misc.DebugUtility.LogPropertiesAndFields<Projectile>(projectile, $"Projectile Properties and Fields: ");
             gun.DefaultModule.projectiles[0] = projectile; //Assigns the projectile to the gun.
+
             /* Adjust Impact Visuals */
             //projectile.hitEffects.alwaysUseMidair = true;  //Use end of range visual if it hits something
             //projectile.hitEffects.midairInheritsFlip = true; //Should impact be directional facing?
@@ -170,13 +174,13 @@ namespace LOLItems.weapons
 
             /* Adjusting base properties */
             projectile.baseData.damage = 0;
-            projectile.baseData.speed = projectileSpeedStat;
+            projectile.baseData.speed = projectileSpeedStat * 0.75f;
             projectile.baseData.range = projectileRangeStat;
             projectile.baseData.force = projectileForceStat; //Knockback strength
 
             projectile.transform.parent = gun.barrelOffset;
 
-            projectile.AdditionalScaleMultiplier = 5f;
+            projectile.AdditionalScaleMultiplier = 1f;
 
             // additional projectile properties
             projectile.GetComponent<RobotechProjectile>().searchRadius = 0f;
@@ -187,12 +191,27 @@ namespace LOLItems.weapons
             explosion.doDamage = true;
             explosion.doForce = false;
             explosion.damage = projectileDamageStat * 2;
-            explosion.damageRadius = 5f;
+            //explosion.damageRadius = 5f;
+            explosion.damageRadius = 1f;
+            explosion.pushRadius = 1f;
             explosion.forceUseThisRadius = false;
             explosion.breakSecretWalls = false;
             explosion.forcePreventSecretWallDamage = false;
-            explosion.doDestroyProjectiles = true;
+            explosion.doDestroyProjectiles = false;
             explosion.doScreenShake = true;
+            
+            /*
+            var sprite = explosion.effect.GetComponent<tk2dSprite>();
+            if (sprite != null)
+            {
+                sprite.scale = new Vector3(3f, 3f, 1f);
+                sprite.UpdateZDepth();
+            }
+            */
+
+
+            // this changes the entire gun to be the ghost lamp??????????
+            //projectile.GetComponent<Explosion>().radius = 5f;
 
             //projectile.shouldRotate = true; //If the projectile should rotate to match the direction it was shot and you don't want your default projectile's setting
             //projectile.AdditionalScaleMultiplier = 1f; //Further modify the projectile's size
@@ -201,7 +220,7 @@ namespace LOLItems.weapons
              * The first value is the sprite name in sprites\ProjectileCollection without the extension.
              * tk2dBaseSprite.Anchor.MiddleCenter controls where the sprite is anchored. MiddleCenter will work in most cases.
              * The first set of numbers is visual dimensions of the sprite while the last set of numbers is the hitbox.  Generally the hitbox should be a little smaller than the visuals. */
-            //projectile.SetProjectileSpriteRight($"{SPRITENAME}_projectile_001", 20, 8, true, tk2dBaseSprite.Anchor.MiddleCenter, 18, 6); //Note that your sprite will stretch to match the visual dimensions
+            //projectile.SetProjectileSpriteRight($"{SPRITEPATH}_projectile_001", 20, 8, true, tk2dBaseSprite.Anchor.MiddleCenter, 18, 6); //Note that your sprite will stretch to match the visual dimensions
 
             //OPTIONAL ADDITIONAL PROPERTIES
             /* Properties default to whatever you copied your base gun from, but you an adjust them manually as needed. */
@@ -212,8 +231,8 @@ namespace LOLItems.weapons
              * The first entry takes one of the thirteen basic ammo types: 
              * SMALL_BULLET, MEDIUM_BULLET, BEAM, GRENADE, SHOTGUN, SMALL_BLASTER, MEDIUM_BLASTER, NAIL, MUSKETBALL, ARROW, MAGIC, BLUE_SHOTGUN, SKULL, FISH.*/
 
-            gun.DefaultModule.ammoType = GameUIAmmoType.AmmoType.CUSTOM;
-            gun.DefaultModule.customAmmoType = "rocket";
+            //gun.DefaultModule.ammoType = GameUIAmmoType.AmmoType.CUSTOM;
+            //gun.DefaultModule.customAmmoType = "rocket";
             /* If the ammo type you want isn't one of those thirteen, then instead use CUSTOM followed by the customAmmoType you want.
              * If you want to make your own customAmmoType then instead use use CUSTOM and then the AddCustomAmmoType.
              * AddCustomAmmoType takes a name for the ammo, then paths to the EMBEDDED filled and emptied ammo sprites.
@@ -222,9 +241,8 @@ namespace LOLItems.weapons
             //gun.DefaultModule.customAmmoType = "samus";
             /* OR */
 
-            /*gun.DefaultModule.customAmmoType = CustomClipAmmoTypeToolbox.AddCustomAmmoType("Template Gun Orbs",
-                "LOLItems/Resources/weapon_sprites/CustomGunAmmoTypes/tempgun_clipfull", "LOLItems/Resources/weapon_sprites/CustomGunAmmoTypes/tempgun_clipempty");
-            */
+            gun.DefaultModule.customAmmoType = CustomClipAmmoTypeToolbox.AddCustomAmmoType("Template Gun Orbs",
+                "LOLItems/Resources/weapon_sprites/CustomGunAmmoTypes/fishbones_clipfull", "LOLItems/Resources/weapon_sprites/CustomGunAmmoTypes/fishbones_clipempty");
             /* If your gun uses special ammo for its final shot, use the below settings similar to the above */
             //gun.DefaultModule.finalAmmoType = GameUIAmmoType.AmmoType.FISH;
             //gun.DefaultModule.finalCustomAmmoType = "burning hand";
@@ -237,7 +255,7 @@ namespace LOLItems.weapons
             gun.shellCasing = (PickupObjectDatabase.GetById(15) as Gun).shellCasing; //Example using AK-47 casings.
             //gun.shellCasing = BreakableAPIToolbox.GenerateDebrisObject("LOLItems/Resources/weapon_sprites/CustomGunAmmoTypes/tempgun_clipempty").gameObject; //Example using a custom sprite as a casing.
             gun.clipObject = (PickupObjectDatabase.GetById(15) as Gun).clipObject; //Example using AK-47 clips.
-            gun.shellsToLaunchOnFire = 1; //Number of shells to eject when shooting.
+            gun.shellsToLaunchOnFire = 0; //Number of shells to eject when shooting.
             gun.shellsToLaunchOnReload = 0; //Number of shells to eject when reloading (revolvers for example).
             gun.clipsToLaunchOnReload = 0; //Number of clips to eject when reloading.
 
@@ -421,17 +439,6 @@ namespace LOLItems.weapons
             //gun.AddToSubShop(ItemBuilder.ShopType.Trorc); //Select which sub shops during a run can carry the gun
             //gun.AddToSubShop(ItemBuilder.ShopType.Flynt);
             ID = gun.PickupObjectId; //Sets the Gun ID. 
-        }
-
-        public override void OnReloadPressedSafe(PlayerController player, Gun gun, bool manualReload)
-        {
-            base.OnReloadPressedSafe(player, gun, manualReload);
-
-            Gun transformTargetGun = PickupObjectDatabase.GetById(PowPow.ID) as Gun;
-
-            Plugin.Log($"Pow Pow Alt Form's Event: Pow Pow: {transformTargetGun}, Pow Pow's ID: {PowPow.ID}");
-
-            //gun.TransformToTargetGun(transformTargetGun);
         }
     }
 }

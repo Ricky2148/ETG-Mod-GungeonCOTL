@@ -40,6 +40,7 @@ namespace LOLItems
             string shortDesc = "Radiates Heat";
             string longDesc = "The golden armor glows with a warmth not unlike the sun. Appears to have been blessed " +
                 "by the gods to burn the wicked around it.\n";
+
             ItemBuilder.SetupItem(item, shortDesc, longDesc, "LOLItems");
 
             ItemBuilder.AddPassiveStatModifier(item, PlayerStats.StatType.Health, HealthStat, StatModifier.ModifyMethod.ADDITIVE);
@@ -59,7 +60,16 @@ namespace LOLItems
             base.Pickup(player);
             Plugin.Log($"Player picked up {this.EncounterNameOrDisplayName}");
 
-            player.healthHaver.OnHealthChanged += UpdateImmolateStats;
+            if (player.healthHaver.GetMaxHealth() == 0)
+            {
+                //Plugin.Log($"health: {player.healthHaver.GetMaxHealth()}");
+                base.AuraRadius = ImmolateBaseRadius + 3 * ImmolateRadiusPerHeart;
+                base.DamagePerSecond = ImmolateBaseDamage + 3 * ImmolateDamagePerHeart;
+            }
+            else
+            {
+                player.healthHaver.OnHealthChanged += UpdateImmolateStats;
+            }
         }
 
         public override void DisableEffect(PlayerController player)
@@ -73,6 +83,7 @@ namespace LOLItems
         // updates the immolate stats based on the player's current health
         private void UpdateImmolateStats(float oldHealth, float newHealth)
         {
+            //Plugin.Log("updated immolate stats");
             this.DamagePerSecond = (newHealth) * ImmolateDamagePerHeart;
             this.AuraRadius = ImmolateBaseRadius + (newHealth) * ImmolateRadiusPerHeart;
             this.Update();

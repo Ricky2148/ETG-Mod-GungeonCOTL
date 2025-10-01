@@ -37,6 +37,7 @@ namespace LOLItems.guon_stones
             item.HasAdvancedUpgradeSynergy = true; //Set this to true if you want a synergy that changes the appearance of the Guon Stone. All base game guons have a [colour]-er Guon Stone synergy that makes them bigger and brighter.
             item.AdvancedUpgradeSynergy = "Test Guon Stone Synergy"; //This is the name of the synergy that changes the appearance, if you have one.
             item.AdvancedUpgradeOrbitalPrefab = BraumsShield.upgradeOrbitalPrefab.gameObject;
+            item.quality = ItemQuality.C;
 
             ID = item.PickupObjectId;
         }

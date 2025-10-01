@@ -45,7 +45,7 @@ namespace LOLItems.passive_items
 
             ItemBuilder.AddPassiveStatModifier(item, PlayerStats.StatType.Health, HealthStat, StatModifier.ModifyMethod.ADDITIVE);
 
-            item.quality = ItemQuality.B;
+            item.quality = ItemQuality.C;
             ID = item.PickupObjectId;
         }
 
