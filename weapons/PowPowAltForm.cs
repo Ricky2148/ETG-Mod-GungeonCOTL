@@ -25,6 +25,7 @@ namespace LOLItems.weapons
         private static int ammoStat = 750;
         private static float reloadDuration = 1.6f;
         private static float fireRateStat = 0.3f * 1.25f;
+        private static int spreadAngle = 5;
 
         private float currentRampUpIncAmount = 0f;
         private int rampUpStacks = 0;
@@ -35,7 +36,7 @@ namespace LOLItems.weapons
         private static float projectileDamageStat = 6f;
         private static float projectileSpeedStat = 50f;
         private static float projectileRangeStat = 100f;
-        private static float projectileForceStat = 20f;
+        private static float projectileForceStat = 15f;
 
         public static void Add()
         {
@@ -100,10 +101,10 @@ namespace LOLItems.weapons
             //gun.gunSwitchGroup = (PickupObjectDatabase.GetById(56) as Gun).gunSwitchGroup; //Example using a vanilla gun's ID.
             /* OR */
             gun.gunSwitchGroup = $"LOLItems_{FULLNAME.ToID()}"; //Unique name for your gun's sound group. In this example it uses your console name but with an underscore.
-            SoundManager.AddCustomSwitchData("WPN_Guns", gun.gunSwitchGroup, "Play_WPN_Gun_Shot_01", "FishbonesFireSFX1", "FishbonesFireSFX2", "FishbonesFireSFX3"); //Play_WPN_Gun_Shot_01 is your weapon's base shot sound.
+            SoundManager.AddCustomSwitchData("WPN_Guns", gun.gunSwitchGroup, "Play_WPN_Gun_Shot_01", null); //Play_WPN_Gun_Shot_01 is your weapon's base shot sound.
             SoundManager.AddCustomSwitchData("WPN_Guns", gun.gunSwitchGroup, "Play_WPN_Gun_Reload_01", null); //Play_WPN_Gun_Reload_01 is your weapon's base reload sound.
 
-            gun.DefaultModule.angleVariance = 5; //How far from where you're aiming that bullets can deviate. 0 equals perfect accuracy.
+            gun.DefaultModule.angleVariance = spreadAngle; //How far from where you're aiming that bullets can deviate. 0 equals perfect accuracy.
             gun.DefaultModule.shootStyle = ProjectileModule.ShootStyle.Automatic; //Sets the firing style of the gun.
             /* Optional settings for Burst style guns. */
             //gun.DefaultModule.burstShotCount = 3; //Number of shots per burst.
@@ -126,7 +127,7 @@ namespace LOLItems.weapons
             gun.gunHandedness = GunHandedness.OneHanded;
 
             /* carryPixelOffset sets the length and width away your character holds the gun. Values are subtle so use higher amounts like 10. */
-            gun.carryPixelOffset += new IntVector2(0, 0); //offset when holding gun vertically
+            gun.carryPixelOffset += new IntVector2(2, 2); //offset when holding gun vertically
             gun.carryPixelDownOffset += new IntVector2(0, 0); //offset when aiming down
             gun.carryPixelUpOffset += new IntVector2(0, 0); // offset when aiming up
 

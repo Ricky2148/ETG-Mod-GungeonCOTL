@@ -10,6 +10,8 @@ using BepInEx;
 using System.Collections.Generic;
 using LOLItems.custom_class_data;
 
+// might want to change the headshot mechanic to be stacking on hit instead of being a final projectile. any clip size modifiers make it not 5 shots then 1 headshot
+// balance this: what rarity dps etc.
 
 namespace LOLItems.weapons
 {
@@ -22,15 +24,29 @@ namespace LOLItems.weapons
         private static int ammoStat = 200;
         private static float reloadDuration = 1.6f;
         private static float fireRateStat = 0.8f;
+        private static int spreadAngle = 0;
 
         private static float projectileDamageStat = 20f;
         private static float projectileSpeedStat = 100f;
         private static float projectileRangeStat = 200f;
-        private static float projectileForceStat = 5f;
+        private static float projectileForceStat = 25f;
         private static int projectilePierceStat = 3;
 
         private static float headshotDamageScale = 2.5f;
 
+        private static List<string> normalFiringSFXList = new List<string>
+        {
+            "hextech_rifle_atk_sfx_001",
+            "hextech_rifle_atk_sfx_002",
+            "hextech_rifle_atk_sfx_003",
+            "hextech_rifle_atk_sfx_004"
+        };
+
+        private static List<string> headshotSFXList = new List<string>
+        {
+            "hextech_rifle_headshot_sfx_001",
+            "hextech_rifle_headshot_sfx_002"
+        };
 
         public static void Add()
         {
@@ -60,7 +76,7 @@ namespace LOLItems.weapons
              * Note that if your animation takes too long it might not get to finish, like if your reload animation takes longer than the act of reloading. */
             gun.SetAnimationFPS(gun.shootAnimation, 5);
             //gun.SetAnimationFPS(gun.criticalFireAnimation, 5);
-            gun.SetAnimationFPS(gun.reloadAnimation, 10);
+            gun.SetAnimationFPS(gun.reloadAnimation, 13);
             /* You can also optionally add an intro animation that plays when picking up the gun by using the below line and also set the FPS the same as above. */
             //tk2dSpriteAnimationClip clip = gun.spriteAnimator.GetClipByName($"{SPRITENAME}_intro"); //by default uses sprites with the "_intro" suffix
             //gun.SetAnimationFPS(gun.introAnimation, 15);
@@ -82,7 +98,7 @@ namespace LOLItems.weapons
              * Full list of IDs and names can be found here https://raw.githubusercontent.com/ModTheGungeon/ETGMod/master/Assembly-CSharp.Base.mm/Content/gungeon_id_map/items.txt
              * List of visual effects https://enterthegungeon.wiki.gg/wiki/Weapon_Visual_Effects */
             gun.AddProjectileModuleFrom(PickupObjectDatabase.GetById((int)Items.M1) as Gun, true, false);
-            gun.muzzleFlashEffects = (PickupObjectDatabase.GetById((int)Items.M1) as Gun).muzzleFlashEffects; //Loads a muzzle flash based on gun ID names.
+            gun.muzzleFlashEffects = (PickupObjectDatabase.GetById((int)Items.Awp) as Gun).muzzleFlashEffects; //Loads a muzzle flash based on gun ID names.
             /* gunSwitchGroup loads in the firing and reloading sound effects.
              * Use an existing ID if you want to copy another gun's firing and reloading sounds, otherwise use a custom gunSwitchGroup name then assign your sound effects manually.
              * List of default sound files https://mtgmodders.gitbook.io/etg-modding-guide/various-lists-of-ids-sounds-etc./sound-list
@@ -90,9 +106,10 @@ namespace LOLItems.weapons
             //gun.gunSwitchGroup = (PickupObjectDatabase.GetById(56) as Gun).gunSwitchGroup; //Example using a vanilla gun's ID.
             /* OR */
             gun.gunSwitchGroup = $"LOLItems_{FULLNAME.ToID()}"; //Unique name for your gun's sound group. In this example it uses your console name but with an underscore.
-            SoundManager.AddCustomSwitchData("WPN_Guns", gun.gunSwitchGroup, "Play_WPN_Gun_Shot_01", "Play_WPN_m1rifle_shot_01"); //Play_WPN_Gun_Shot_01 is your weapon's base shot sound.
-            SoundManager.AddCustomSwitchData("WPN_Guns", gun.gunSwitchGroup, "Play_WPN_Gun_Reload_01", "Play_WPN_crossbow_reload_01"); //Play_WPN_Gun_Reload_01 is your weapon's base reload sound.
-            gun.DefaultModule.angleVariance = 0; //How far from where you're aiming that bullets can deviate. 0 equals perfect accuracy.
+            SoundManager.AddCustomSwitchData("WPN_Guns", gun.gunSwitchGroup, "Play_WPN_Gun_Shot_01", null); //Play_WPN_Gun_Shot_01 is your weapon's base shot sound.
+            SoundManager.AddCustomSwitchData("WPN_Guns", gun.gunSwitchGroup, "Play_WPN_Gun_Reload_01", "Play_WPN_m1911_reload_01"); //Play_WPN_Gun_Reload_01 is your weapon's base reload sound.
+            SoundManager.AddCustomSwitchData("WPN_Guns", gun.gunSwitchGroup, "Play_WPN_gun_finale_01", null);
+            gun.DefaultModule.angleVariance = spreadAngle; //How far from where you're aiming that bullets can deviate. 0 equals perfect accuracy.
             gun.DefaultModule.shootStyle = ProjectileModule.ShootStyle.SemiAutomatic; //Sets the firing style of the gun.
             /* Optional settings for Burst style guns. */
             //gun.DefaultModule.burstShotCount = 3; //Number of shots per burst.
@@ -145,8 +162,14 @@ namespace LOLItems.weapons
             //projectile.hitEffects.midairInheritsFlip = true; //Should impact be directional facing?
             //projectile.hitEffects.midairInheritsRotation = true; //Should the visual rotate with the gun's orientation?
             /* You can also copy individual properties using a format like this: */
-            //projectile.hitEffects.tileMapHorizontal = (PickupObjectDatabase.GetById(41) as Gun).DefaultModule.projectiles[0].hitEffects.tileMapHorizontal;
-            //projectile.hitEffects.tileMapVertical = (PickupObjectDatabase.GetById(41) as Gun).DefaultModule.projectiles[0].hitEffects.tileMapVertical;
+            projectile.hitEffects.deathAny = null;
+            projectile.hitEffects.deathEnemy = null;
+            projectile.hitEffects.enemy = null;
+            projectile.hitEffects.tileMapHorizontal = (PickupObjectDatabase.GetById((int)Items.MarineSidearm) as Gun).DefaultModule.projectiles[0].hitEffects.tileMapHorizontal;
+            projectile.hitEffects.tileMapVertical = (PickupObjectDatabase.GetById((int)Items.MarineSidearm) as Gun).DefaultModule.projectiles[0].hitEffects.tileMapVertical;
+
+            //projectile.objectImpactEventName = "plasmarifle"; //starlet, zapper, plasmarifle, energy
+            //projectile.enemyImpactEventName = "plasmarifle";
 
             /* The following block is needed so that cloned copies of your projectile have the same properties. */
             projectile.gameObject.SetActive(false);
@@ -174,7 +197,7 @@ namespace LOLItems.weapons
             UnityEngine.Object.DontDestroyOnLoad(headshot);
 
             headshot.baseData.damage = projectileDamageStat * headshotDamageScale;
-            headshot.baseData.speed = projectileSpeedStat * headshotDamageScale * 0.6f;
+            headshot.baseData.speed = projectileSpeedStat * headshotDamageScale * 1.0f;
             headshot.baseData.range = projectileRangeStat * headshotDamageScale;
             headshot.baseData.force = projectileForceStat * headshotDamageScale; //Knockback strength
             headshot.transform.parent = gun.barrelOffset;
@@ -222,12 +245,15 @@ namespace LOLItems.weapons
              * Casings can be ejected on firing and reloading while clips can only be ejected on reload.
              * You can either use existing casings/clips from vanilla guns or add custom ones using a similar sprite import process as above with ammo.
              * Custom casings can also have their properties edited by adding more parameters to GenerateDebrisObject.*/
-            gun.shellCasing = (PickupObjectDatabase.GetById((int)Items.M1)as Gun).shellCasing; //Example using AK-47 casings.
-            //gun.shellCasing = BreakableAPIToolbox.GenerateDebrisObject("LOLItems/Resources/weapon_sprites/CustomGunAmmoTypes/tempgun_clipempty").gameObject; //Example using a custom sprite as a casing.
-            gun.clipObject = (PickupObjectDatabase.GetById((int)Items.M1) as Gun).clipObject; //Example using AK-47 clips.
+            //gun.shellCasing = (PickupObjectDatabase.GetById((int)Items.M1)as Gun).shellCasing; //Example using AK-47 casings.
+            gun.shellCasing = BreakableAPIToolbox.GenerateDebrisObject("LOLItems/Resources/weapon_sprites/CustomGunAmmoTypes/hextech_casing").gameObject; //Example using a custom sprite as a casing.
+            //gun.clipObject = (PickupObjectDatabase.GetById((int)Items.M1) as Gun).clipObject; //Example using AK-47 clips.
+            gun.clipObject = BreakableAPIToolbox.GenerateDebrisObject("LOLItems/Resources/weapon_sprites/CustomGunAmmoTypes/hextech_clip").gameObject;
+
             gun.shellsToLaunchOnFire = 1; //Number of shells to eject when shooting.
             gun.shellsToLaunchOnReload = 0; //Number of shells to eject when reloading (revolvers for example).
             gun.clipsToLaunchOnReload = 1; //Number of clips to eject when reloading.
+            gun.reloadClipLaunchFrame = 6;
 
             // Bullet Trail
             /*
@@ -402,11 +428,38 @@ namespace LOLItems.weapons
             gun.DefaultModule.chargeProjectiles = new List<ProjectileModule.ChargeProjectile> {chargeProj1, chargeProj2, chargeProj3}; //Assigns charged projectiles to the gun.
             */
 
-            gun.quality = PickupObject.ItemQuality.B; //Sets the gun's quality rank. Use "EXCLUDED" if the gun should not appear in chests.
+            //SoundManager.AddCustomSwitchData("WPN_Guns", gun.gunSwitchGroup, "Play_WPN_Gun_Shot_02", null);
+
+            gun.quality = PickupObject.ItemQuality.C; //Sets the gun's quality rank. Use "EXCLUDED" if the gun should not appear in chests.
             ETGMod.Databases.Items.Add(gun, false, "ANY");  //Adds your gun to the databse.
             //gun.AddToSubShop(ItemBuilder.ShopType.Trorc); //Select which sub shops during a run can carry the gun
             //gun.AddToSubShop(ItemBuilder.ShopType.Flynt);
             ID = gun.PickupObjectId; //Sets the Gun ID. 
+        }
+
+        public override void PostProcessProjectile(Projectile projectile)
+        {
+            PlayerController player = projectile.Owner as PlayerController;
+            if (projectile.GetCachedBaseDamage == projectileDamageStat)
+            {
+                //Plugin.Log("regular sound");
+                HelpfulMethods.PlayRandomSFX(player.gameObject , normalFiringSFXList);
+            }
+            else if (projectile.GetCachedBaseDamage == projectileDamageStat * headshotDamageScale)
+            {
+                //Plugin.Log("headshot sound");
+                HelpfulMethods.PlayRandomSFX(player.gameObject, headshotSFXList);
+            }
+            else
+            {
+                Plugin.Log("fuck");
+            }
+            base.PostProcessProjectile(projectile);
+        }
+
+        public override void OnReloadSafe(PlayerController player, Gun gun)
+        {
+            base.OnReloadSafe(player, gun);
         }
     }
 }

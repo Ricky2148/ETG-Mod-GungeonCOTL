@@ -11,7 +11,7 @@ using System.Collections.Generic;
 using LOLItems.passive_items;
 using System.Runtime.CompilerServices;
 
-// gotta figure out how to make the sprites .json files without taking 15 centuries
+// balance this: figure out what rarity it should be
 
 namespace LOLItems.weapons
 {
@@ -26,6 +26,7 @@ namespace LOLItems.weapons
         private static int ammoStat = 750;
         private static float reloadDuration = 1.6f;
         private static float fireRateStat = 0.3f;
+        private static int spreadAngle = 8;
 
         private float currentRampUpIncAmount = 0f;
         private int rampUpStacks = 0;
@@ -124,7 +125,7 @@ namespace LOLItems.weapons
             
             SoundManager.AddCustomSwitchData("WPN_Guns", gun.gunSwitchGroup, "Play_WPN_Gun_Reload_01", null); //Play_WPN_Gun_Reload_01 is your weapon's base reload sound.
 
-            gun.DefaultModule.angleVariance = 5; //How far from where you're aiming that bullets can deviate. 0 equals perfect accuracy.
+            gun.DefaultModule.angleVariance = spreadAngle; //How far from where you're aiming that bullets can deviate. 0 equals perfect accuracy.
             gun.DefaultModule.shootStyle = ProjectileModule.ShootStyle.Automatic; //Sets the firing style of the gun.
             /* Optional settings for Burst style guns. */
             //gun.DefaultModule.burstShotCount = 3; //Number of shots per burst.
@@ -455,7 +456,7 @@ namespace LOLItems.weapons
                     Plugin.Log($"isFishbones: {isFishbones}, starting cooldown rampdown");
                     rampDownCoroutine = StartCoroutine(RampUpCooldown(player, gun));
                 }*/
-                HelpfulMethods.PlayRandomSFX(player, FishbonesFiringSFXList);
+                HelpfulMethods.PlayRandomSFX(player.gameObject, FishbonesFiringSFXList);
                 return;
             }
             if (rampDownCoroutine != null) StopCoroutine(rampDownCoroutine);

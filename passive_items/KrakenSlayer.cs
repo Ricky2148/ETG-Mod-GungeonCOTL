@@ -107,7 +107,7 @@ namespace LOLItems
                 {
                     beam.sprite.color = Color.Lerp(beam.sprite.color, Color.cyan, 0.7f);
                 }
-                HelpfulMethods.PlayRandomSFX(beam, sfxList);
+                HelpfulMethods.PlayRandomSFX(beam.gameObject, sfxList);
                 if (hitRigidbody != null && hitRigidbody.aiActor != null && hitRigidbody.aiActor.healthHaver != null && hitRigidbody.healthHaver != null)
                 {
                     // scales damage based on enemy's missing health percentage
@@ -144,7 +144,7 @@ namespace LOLItems
                     {
                         proj.sprite.color = Color.Lerp(proj.sprite.color, Color.cyan, 0.7f);
                     }
-                    HelpfulMethods.PlayRandomSFX(proj, sfxList);
+                    HelpfulMethods.PlayRandomSFX(proj.gameObject, sfxList);
                     proj.OnHitEnemy += (projHit, enemy, fatal) =>
                     {
                         if (enemy != null && enemy.aiActor != null && enemy.aiActor.healthHaver != null && enemy.healthHaver != null)

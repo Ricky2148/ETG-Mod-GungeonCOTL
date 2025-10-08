@@ -77,7 +77,7 @@ public class OnPreDamagedPassiveItem : PassiveItem
             //Plugin.Log($"predamage event triggered for {base.EncounterNameOrDisplayName}");
             if (playsSFX && sfxPath.Count > 0)
             {
-                HelpfulMethods.PlayRandomSFX(this.Owner, sfxPath);
+                HelpfulMethods.PlayRandomSFX(this.Owner.gameObject, sfxPath);
             }
             if (triggersInvulnerability)
             {

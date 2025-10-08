@@ -25,7 +25,7 @@ namespace LOLItems
         public const string GUID = "Ricky2148.etg.LOLItems";
         public const string NAME = "League of legends Items";
         public const string VERSION = "1.1.100";
-        public const string TEXT_COLOR = "#FF007F";
+        public const string TEXT_COLOR = "#F1C232";
 
         public void Start()
         {
@@ -78,6 +78,7 @@ namespace LOLItems
             PowPow.Add();
             PowPowAltForm.Add();
             HextechRifle.Add();
+            ElectricRifle.Add();
 
             //new items
             ShieldOfMoltenStone.Init();

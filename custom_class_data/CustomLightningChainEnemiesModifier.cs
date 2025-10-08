@@ -90,7 +90,7 @@ public class CustomLightningChainEnemiesModifier : BraveBehaviour
         List<AIActor> chain = ChainEnemies(firstEnemy.CenterPosition);
 
         //if (PlaysSFX) PlayLightningSFX(firstEnemy);
-        if (PlaysSFX) HelpfulMethods.PlayRandomSFX(firstEnemy, sfxPath);
+        if (PlaysSFX) HelpfulMethods.PlayRandomSFX(firstEnemy.gameObject, sfxPath);
 
         if (chain.Count > 0)
         {

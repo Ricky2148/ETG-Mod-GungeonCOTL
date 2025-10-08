@@ -9,7 +9,7 @@
     {
       ".": "arraytype",
       "name": "array",
-      "size": 2
+      "size": 3
     },
     {
       "name": "PrimaryHand",
@@ -23,8 +23,17 @@
     {
       "name": "SecondaryHand",
       "position": {
-        "x": 1.1875,
-        "y": 1.0625,
+        "x": 1.3125,
+        "y": 1.1875,
+        "z": 0.0
+      },
+      "angle": 0.0
+    },
+    {
+      "name": "Clip",
+      "position": {
+        "x": 1.125,
+        "y": 0.9375,
         "z": 0.0
       },
       "angle": 0.0

@@ -56,24 +56,32 @@ namespace LOLItems
 
         public override void DoEffect(PlayerController player)
         {
-            Plugin.Log($"Manamune is {Manamune.ID}");
-            Plugin.Log($"Muramana is {Muramana.ID}");
-            Plugin.Log($"MuramanaSynergyActivation is {MuramanaSynergyActivation.ID}");
-            Plugin.Log($"PowPow is {PowPow.ID}");
-            Plugin.Log($"PowPowAltForm is {PowPowAltForm.ID}");
-            Plugin.Log($"BladeOfTheRuinedKing is {BladeOfTheRuinedKing.ID}");
-            Plugin.Log($"CloakOfStarryNight is {CloakOfStarryNight.ID}");
-            Plugin.Log($"ShieldOfMoltenStone is {ShieldOfMoltenStone.ID}");
-            Plugin.Log($"BraumsShield is {BraumsShield.ID}");
-            //StartCoroutine(EffectCoroutine(player));
+            //Plugin.Log($"Manamune is {Manamune.ID}");
+            //Plugin.Log($"Muramana is {Muramana.ID}");
+            //Plugin.Log($"MuramanaSynergyActivation is {MuramanaSynergyActivation.ID}");
+            //Plugin.Log($"PowPow is {PowPow.ID}");
+            //Plugin.Log($"PowPowAltForm is {PowPowAltForm.ID}");
+            //Plugin.Log($"BladeOfTheRuinedKing is {BladeOfTheRuinedKing.ID}");
+            //Plugin.Log($"CloakOfStarryNight is {CloakOfStarryNight.ID}");
+            //Plugin.Log($"ShieldOfMoltenStone is {ShieldOfMoltenStone.ID}");
+            //Plugin.Log($"BraumsShield is {BraumsShield.ID}");
+            StartCoroutine(EffectCoroutine(player));
+            //string enemyEventName = player.CurrentGun.projectile.enemyImpactEventName;
+            //string objectEventName = player.CurrentGun.projectile.objectImpactEventName;
+            //Plugin.Log($"enemyEventName: {enemyEventName}, objectEventName: {objectEventName}");
+            
         }
 
         private System.Collections.IEnumerator EffectCoroutine(PlayerController player)
         {
-            player.aiAnimator.FpsScale = 0f;
-            yield return new WaitForSeconds(2f);
-            player.aiAnimator.FpsScale = 1f;
-            yield return new WaitForSeconds(0.5f);
+            AkSoundEngine.PostEvent("Play_WPN_shockSMG1_impact_01", player.gameObject);
+            yield return new WaitForSeconds(1);
+            AkSoundEngine.PostEvent("Play_WPN_shockSMG2_impact_01", player.gameObject);
+            yield return new WaitForSeconds(1);
+            AkSoundEngine.PostEvent("Play_WPN_shockSMG3_impact_01", player.gameObject);
+            yield return new WaitForSeconds(1);
+            AkSoundEngine.PostEvent("Play_WPN_shockSMG4_impact_01", player.gameObject);
+            yield return new WaitForSeconds(1);
         }
 
         /*private System.Collections.IEnumerator StasisCoroutine(PlayerController player)

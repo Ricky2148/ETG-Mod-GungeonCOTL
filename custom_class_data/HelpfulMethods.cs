@@ -50,6 +50,7 @@ namespace LOLItems
             {"tt_bullethell", "Bullet Hell / Floor 6"}
         };
 
+        /*
         public static void PlayRandomSFX(AIActor enemy, List<string> sfxList)
         {
             var rand = new System.Random();
@@ -80,6 +81,33 @@ namespace LOLItems
             int sfxIndex = rand.Next(sfxList.Length);
             string sfxName = sfxList[sfxIndex];
             AkSoundEngine.PostEvent(sfxName, beam.gameObject);
+        }
+
+        public static void PlayRandomSFX(Gun gun, string[] sfxList)
+        {
+            var rand = new System.Random();
+            int sfxIndex = rand.Next(sfxList.Length);
+            string sfxName = sfxList[sfxIndex];
+            AkSoundEngine.PostEvent(sfxName, gun.gameObject);
+        }
+        */
+
+        public static void PlayRandomSFX(GameObject gameObject, string[] sfxList)
+        {
+            var rand = new System.Random();
+            int sfxIndex = rand.Next(sfxList.Length);
+            string sfxName = sfxList[sfxIndex];
+            //Plugin.Log($"Played {sfxName}");
+            AkSoundEngine.PostEvent(sfxName, gameObject);
+        }
+
+        public static void PlayRandomSFX(GameObject gameObject, List<string> sfxList)
+        {
+            var rand = new System.Random();
+            int sfxIndex = rand.Next(sfxList.Count);
+            string sfxName = sfxList[sfxIndex];
+            //Plugin.Log($"Played {sfxName}");
+            AkSoundEngine.PostEvent(sfxName, gameObject);
         }
 
         public static float GetFloorValue()
