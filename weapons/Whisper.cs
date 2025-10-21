@@ -27,7 +27,7 @@ namespace LOLItems.weapons
 
         private static int ammoStat = 88;
         private static float reloadDuration = 2.5f;
-        private static float fireRateStat = 0.75f;
+        private static float fireRateStat = 0.70f;
         private static int spreadAngle = 0;
 
         private static float projectileDamageStat = 25f;

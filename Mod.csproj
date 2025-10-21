@@ -488,14 +488,6 @@
     <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\shockSMG_reload_008.jtk2d" />
     <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\shockSMG_reload_009.jtk2d" />
     <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\shockSMG_reload_010.jtk2d" />
-    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\prayerbeads_idle_001.jtk2d" />
-    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\prayerbeads_idle_002.jtk2d" />
-    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\prayerbeads_idle_003.jtk2d" />
-    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\prayerbeads_idle_004.jtk2d" />
-    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\prayerbeads_idle_005.jtk2d" />
-    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\prayerbeads_idle_006.jtk2d" />
-    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\prayerbeads_idle_007.jtk2d" />
-    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\prayerbeads_idle_008.jtk2d" />
     <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\prayerbeads_fire_001.jtk2d" />
     <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\prayerbeads_fire_002.jtk2d" />
     <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\prayerbeads_fire_003.jtk2d" />
@@ -513,8 +505,23 @@
     <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\prayerbeads_fire_015.jtk2d" />
     <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\prayerbeads_fire_016.jtk2d" />
     <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\prayerbeads_fire_017.jtk2d" />
+    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\prayerbeads_idle_001.jtk2d" />
+    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\prayerbeads_idle_002.jtk2d" />
+    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\prayerbeads_idle_003.jtk2d" />
+    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\prayerbeads_idle_004.jtk2d" />
+    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\prayerbeads_idle_005.jtk2d" />
+    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\prayerbeads_idle_006.jtk2d" />
+    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\prayerbeads_idle_007.jtk2d" />
+    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\prayerbeads_idle_008.jtk2d" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\prayerbeads_idle_002.png" />
+    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\prayerbeads_idle_003.png" />
+    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\prayerbeads_idle_004.png" />
+    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\prayerbeads_idle_005.png" />
+    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\prayerbeads_idle_006.png" />
+    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\prayerbeads_idle_007.png" />
+    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\prayerbeads_idle_008.png" />
     <EmbeddedResource Include="Resources\weapon_sprites\Ammonomicon Encounter Icon Collection\prayerbeads_idle_001.png" />
     <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\prayerbeads_icon_001.png" />
     <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\prayerbeads_reload_001.png" />
@@ -537,13 +544,6 @@
     <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\prayerbeads_fire_016.png" />
     <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\prayerbeads_fire_017.png" />
     <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\prayerbeads_idle_001.png" />
-    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\prayerbeads_idle_002.png" />
-    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\prayerbeads_idle_003.png" />
-    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\prayerbeads_idle_004.png" />
-    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\prayerbeads_idle_005.png" />
-    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\prayerbeads_idle_006.png" />
-    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\prayerbeads_idle_007.png" />
-    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\prayerbeads_idle_008.png" />
     <EmbeddedResource Include="Resources\weapon_sprites\ProjectileCollection\prayerbeads_projectile_001.png" />
     <EmbeddedResource Include="Resources\vfxs\convergence\convergenceaura_005.png" />
     <EmbeddedResource Include="Resources\vfxs\convergence\convergenceaura_006.png" />

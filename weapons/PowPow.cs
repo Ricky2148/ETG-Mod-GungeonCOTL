@@ -75,7 +75,7 @@ namespace LOLItems.weapons
             Gun gun = ETGMod.Databases.Items.NewGun(FULLNAME, SPRITENAME);
             Game.Items.Rename($"outdated_gun_mods:{FULLNAME.ToID()}", internalName); //Renames the default internal name to your custom internal name
             gun.gameObject.AddComponent<PowPow>(); //AddComponent<[ClassName]>
-            gun.SetShortDescription("Paint the Town Blue!");  //The description that pops up when you pick up the gun.
+            gun.SetShortDescription("Get Jinxed!");  //The description that pops up when you pick up the gun.
             gun.SetLongDescription("Unique weapons of an infamous terrorist known as \"Jinx\". Despite its shoddy appearance, the genius engineering of these weapons is undeniable.\n\n" +
                 "Pow-Pow: a fast-firing minigun that shreds enemies like cake. \"Why does it have animal ears tho?\"\n\n" +
                 "Fishbones: a powerful rocket launcher that blows enemies to pieces. \"Why does it look like a shark?\"\n"); //The full description in the Ammonomicon.

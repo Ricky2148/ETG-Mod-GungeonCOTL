@@ -31,7 +31,7 @@ namespace LOLItems.weapons
         private static float projectileRangeStat = 200f;
         private static float projectileForceStat = 10f;
 
-        private static float projSpreadRange = 3f;
+        private static float projSpreadRange = 5f;
 
         private static List<string> normalFiringSFXList = new List<string>
         {
@@ -65,7 +65,22 @@ namespace LOLItems.weapons
             /* SetupSprite sets up the default gun sprite for the ammonomicon and the "gun get" popup.  Your "..._idle_001" is often a good example.  
              * A copy of the sprite used must be in your "sprites/Ammonomicon Encounter Icon Collection/" folder.
              * The variable at the end assigns a default FPS to all other animations. */
+
+            //gun.SetupSprite(null, "prayerbeads_icon_001", 1);
             gun.SetupSprite(null, $"prayerbeads_idle_001", 10);
+
+            /*
+            gun.alternateIdleAnimation = gun.UpdateAnimation("alternate_idle", null, true);
+
+            if (gun.alternateIdleAnimation != null)
+            {
+                BraveUtility.Swap(ref gun.idleAnimation, ref gun.alternateIdleAnimation);
+            }
+            else
+            {
+                Plugin.Log("alt idle is null");
+            }
+            */
 
             //gun.UpdateAnimation("idle", null, true);
 
@@ -117,7 +132,7 @@ namespace LOLItems.weapons
             gun.DefaultModule.ammoCost = 1;
             gun.reloadTime = 0f; //reloadDuration;
             gun.DefaultModule.cooldownTime = fireRateStat; //Time between shots fired.  For Burst guns it's the time between each burst.
-            gun.DefaultModule.numberOfShotsInClip = ammoStat;
+            gun.DefaultModule.numberOfShotsInClip = ammoStat; //ammoStat;
             gun.SetBaseMaxAmmo(ammoStat);
             /* GunHandedness sets how the gun is held.
              * OneHanded and TwoHanded control how hands hold the gun.
@@ -460,6 +475,16 @@ namespace LOLItems.weapons
                 false
             );
 
+            /*
+            GameObject yourObject = ...;
+            tk2dSprite oldSprite = yourObject.GetComponent<tk2dSprite>();
+            int oldSpriteId = oldSprite.spriteId;
+            var oldSpriteCollection = oldSprite.spriteqCollection;
+            UnityEngine.Object.Destroy(oldSprite);
+            tk2dTiledSprite newSprite -yourObject.AddComponent<tk2dTiledSprite>();
+            newSprite.SetSprite(oldSpriteCollection, oldSpriteId);
+            */
+
             // add spread module
             ComplexProjectileModifier shockRounds = PickupObjectDatabase.GetById((int)Items.ShockRounds) as ComplexProjectileModifier;
             CustomLightningChainEnemiesModifierAOE chain = projectile.gameObject.GetOrAddComponent<CustomLightningChainEnemiesModifierAOE>();
@@ -485,9 +510,23 @@ namespace LOLItems.weapons
             ID = gun.PickupObjectId; //Sets the Gun ID. 
         }
 
+        public override void OnDropped()
+        {
+            //base.gun.SetupSprite(null, $"prayerbeads_icon_001", 1);
+
+            //BraveUtility.Swap(ref this.gun.idleAnimation, ref this.gun.alternateIdleAnimation);
+
+            base.OnDropped();
+        }
+
         public override void OnInitializedWithOwner(GameActor actor)
         {
-            PlayerController player = this.Owner as PlayerController;
+            //PlayerController player = this.Owner as PlayerController;
+
+            //base.gun.SetupSprite(null, $"prayerbeads_idle_001", 10);
+
+            //BraveUtility.Swap(ref this.gun.idleAnimation, ref this.gun.alternateIdleAnimation);
+
             base.OnInitializedWithOwner(actor);
         }
 
@@ -683,6 +722,9 @@ namespace LOLItems.weapons
             Plugin.Log($"projectileDamageStat: {projectileDamageStat}, player's damage stat: {player.stats.GetStatValue(PlayerStats.StatType.Damage)}, " +
                 $"updated spread damage stat: {this.projectile.gameObject.GetComponent<CustomLightningChainEnemiesModifierAOE>().damagePerHit}, {updatedSpreadDamageStat}");
             */
+
+            BraveUtility.Swap(ref this.gun.idleAnimation, ref this.gun.alternateIdleAnimation);
+
             base.OnReload(player, gun);
         }
     }
