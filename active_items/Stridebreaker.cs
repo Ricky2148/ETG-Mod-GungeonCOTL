@@ -1,11 +1,12 @@
-﻿using System;
+﻿using Alexandria;
+using Alexandria.ItemAPI;
+using Alexandria.VisualAPI;
+using Dungeonator;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Alexandria.ItemAPI;
-using Alexandria;
 using UnityEngine;
-using Dungeonator;
 
 //health, dmg, and fire rate, active attacks in a circle around player, slows enemies hit and deals set dmg
 
@@ -25,12 +26,44 @@ namespace LOLItems
         private static float slowDuration = 3f;
         private static float ShockwaveBaseDamage = 10f;
         private static float ShockwaveRadius = 6f;
-        private static float ShockwaveCooldown = 15f;
+        private static float ShockwaveCooldown = 15f; //15f
 
         private static GameObject slashVFX = ((Gun)PickupObjectDatabase.GetById(417))
                 .DefaultModule.projectiles[0]
                 .hitEffects.tileMapHorizontal.effects[0]
                 .effects[0].effect;
+
+        private static List<string> VFXSpritePath = new List<string>
+            {
+                "LOLItems/Resources/vfxs/breakingshockwave/breakingshockwave_001",
+                "LOLItems/Resources/vfxs/breakingshockwave/breakingshockwave_002",
+                "LOLItems/Resources/vfxs/breakingshockwave/breakingshockwave_003",
+                "LOLItems/Resources/vfxs/breakingshockwave/breakingshockwave_004",
+                "LOLItems/Resources/vfxs/breakingshockwave/breakingshockwave_005",
+                "LOLItems/Resources/vfxs/breakingshockwave/breakingshockwave_006",
+                "LOLItems/Resources/vfxs/breakingshockwave/breakingshockwave_007",
+                "LOLItems/Resources/vfxs/breakingshockwave/breakingshockwave_008",
+                "LOLItems/Resources/vfxs/breakingshockwave/breakingshockwave_009",
+                "LOLItems/Resources/vfxs/breakingshockwave/breakingshockwave_010",
+                "LOLItems/Resources/vfxs/breakingshockwave/breakingshockwave_011"
+            };
+
+        private static GameObject EffectVFX = VFXBuilder.CreateVFX
+        (
+            "breakingshockwave",
+            VFXSpritePath,
+            30,
+            new IntVector2(0, 0),
+            tk2dBaseSprite.Anchor.MiddleCenter,
+            false,
+            0,
+            -1,
+            Color.cyan,
+            tk2dSpriteAnimationClip.WrapMode.Once,
+            true
+        );
+
+        private GameObject activeVFXObject;
 
         public static int ID;
 
@@ -118,7 +151,7 @@ namespace LOLItems
         {
             AkSoundEngine.PostEvent("stridebreaker_active_SFX", player.gameObject);
 
-            if (slashVFX != null)
+            /*if (slashVFX != null)
             {
                 GameObject vfxInstance = UnityEngine.Object.Instantiate(slashVFX, player.CenterPosition, Quaternion.identity);
                 vfxInstance.SetActive(true);
@@ -137,6 +170,32 @@ namespace LOLItems
 
                 var anim = vfxInstance.GetComponent<tk2dSpriteAnimator>();
                 if (anim != null) anim.Play();
+            }*/
+
+            // seperation line LMAO
+
+            if (activeVFXObject != null)
+            {
+                Destroy(activeVFXObject);
+            }
+
+            //activeVFXObject = player.PlayEffectOnActor(EffectVFX, new Vector3(32 / 16f, 21 / 16f, -2f), true, false, false);
+            activeVFXObject = UnityEngine.Object.Instantiate(EffectVFX, player.CenterPosition, Quaternion.identity);
+
+            var sprite = activeVFXObject.GetComponent<tk2dSprite>();
+
+            if (sprite != null)
+            {
+                sprite.HeightOffGround = 0f; //-50f
+
+                sprite.scale = new Vector3(3.1f, 3.1f, 1f);
+                
+                sprite.UpdateZDepth();
+
+                //sprite.usesOverrideMaterial = true;
+
+                //sprite.renderer.material.shader = ShaderCache.Acquire("Brave/Internal/SimpleAlphaFadeUnlit");
+                //sprite.renderer.material.SetFloat("_Fade", 0.8f);
             }
 
             GameActorSpeedEffect slowEffect = new GameActorSpeedEffect

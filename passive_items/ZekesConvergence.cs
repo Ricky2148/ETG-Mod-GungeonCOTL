@@ -1,13 +1,14 @@
 ﻿using Alexandria;
 using Alexandria.ItemAPI;
 using Alexandria.Misc;
+using Alexandria.VisualAPI;
+using LOLItems.custom_class_data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using UnityEngine;
-using LOLItems.custom_class_data;
 
 // look into making the aura tint not apply to corpse
 
@@ -24,13 +25,53 @@ namespace LOLItems.passive_items
         private bool isFrostFireTempestActive = false;
 
         private static float FrostFireTempestDuration = 10f;
-        private static float FrostFireTempestCooldown = 45f;
+        private static float FrostFireTempestCooldown = 45f; //45f
         private static float FrostFireTempestSlowPercent = 0.5f;
 
+        /*
         private static GameObject EffectVFX = ((Gun)PickupObjectDatabase.GetById(596))
             .DefaultModule.projectiles[0]
             .hitEffects.tileMapHorizontal.effects[0]
             .effects[0].effect;
+        */
+
+        private static List<string> VFXSpritePath = new List<string>
+            {
+                "LOLItems/Resources/vfxs/convergence/convergenceaura_001",
+                "LOLItems/Resources/vfxs/convergence/convergenceaura_002",
+                "LOLItems/Resources/vfxs/convergence/convergenceaura_003",
+                "LOLItems/Resources/vfxs/convergence/convergenceaura_004",
+                "LOLItems/Resources/vfxs/convergence/convergenceaura_005",
+                "LOLItems/Resources/vfxs/convergence/convergenceaura_006",
+                "LOLItems/Resources/vfxs/convergence/convergenceaura_007",
+                "LOLItems/Resources/vfxs/convergence/convergenceaura_008"
+            };
+
+        private static GameObject EffectVFX = VFXBuilder.CreateVFX
+        (
+            "convergenceaura",
+            VFXSpritePath,
+            8,
+            new IntVector2(0, 0),
+            tk2dBaseSprite.Anchor.MiddleCenter,
+            false,
+            0,
+            -1,
+            Color.cyan,
+            tk2dSpriteAnimationClip.WrapMode.Loop,
+            true
+        );
+
+        private GameObject activeVFXObject;
+
+        /*
+        private static Color SlowEffectColor = new Color
+        (
+            Mathf.Lerp(0f, ExtendedColours.skyblue.r, 0.1f),
+            Mathf.Lerp(0f, ExtendedColours.skyblue.g, 0.1f),
+            Mathf.Lerp(0f, ExtendedColours.skyblue.b, 0.1f)
+        );
+        */
 
         private static GameActorSpeedEffect FrostFireTempestSlowEffect = new GameActorSpeedEffect
         {
@@ -39,7 +80,9 @@ namespace LOLItems.passive_items
             effectIdentifier = "frostfire_tempest_slow_effect",
             resistanceType = EffectResistanceType.Freeze,
             AppliesTint = true,
-            TintColor = ExtendedColours.skyblue
+            TintColor = ExtendedColours.skyblue,
+            //AppliesDeathTint = true,
+            //DeathTintColor = new Color(0, 0, 0)
         };
 
         public static int ID;
@@ -65,6 +108,7 @@ namespace LOLItems.passive_items
             // sets damage aura stats
             item.AuraRadius = 0f;
             item.DamagePerSecond = 0f;
+            //item.AuraVFX = EffectVFX;
 
             item.quality = PickupObject.ItemQuality.B;
             ID = item.PickupObjectId;
@@ -84,6 +128,11 @@ namespace LOLItems.passive_items
             base.DisableEffect(player);
             Plugin.Log($"Player dropped or got rid of {this.EncounterNameOrDisplayName}");
 
+            if (activeVFXObject != null )
+            {
+                Destroy(activeVFXObject);
+            }
+
             player.OnUsedPlayerItem -= ActivateFrostFireTempest;
         }
 
@@ -100,6 +149,31 @@ namespace LOLItems.passive_items
             this.AuraRadius = FrostFireTempestRadius;
             this.DamagePerSecond = FrostFireTempestDamage;
 
+            if (activeVFXObject != null)
+            {
+                Destroy(activeVFXObject);
+            }
+
+            //vector3(width/2 + 1, length/2 - 10, ????) 
+            activeVFXObject = player.PlayEffectOnActor(EffectVFX, new Vector3(51 / 16f, 40 / 16f, -2f), true, false, false);
+            var sprite = activeVFXObject.GetComponent<tk2dSprite>();
+
+            if (sprite != null)
+            {
+                sprite.HeightOffGround = -50f;
+
+                sprite.scale = new Vector3(2.5f, 2.5f, 0f);
+
+                sprite.UpdateZDepth();
+
+                sprite.usesOverrideMaterial = true;
+
+                sprite.renderer.material.shader = ShaderCache.Acquire("Brave/Internal/SimpleAlphaFadeUnlit");
+                sprite.renderer.material.SetFloat("_Fade", 0.5f);
+
+                AkSoundEngine.PostEvent("zekes_convergence_sfx_01", player.gameObject);
+            }
+
             /*if (EffectVFX != null && player != null)
             {
                 this.AuraVFX = EffectVFX;
@@ -109,6 +183,13 @@ namespace LOLItems.passive_items
 
             this.AuraRadius = 0f;
             this.DamagePerSecond = 0f;
+
+            if (activeVFXObject != null)
+            {
+                Destroy(activeVFXObject);
+            }
+
+            // something here to disable the vfx
 
             yield return new WaitForSeconds(FrostFireTempestCooldown - FrostFireTempestDuration);
 

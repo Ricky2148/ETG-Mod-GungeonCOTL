@@ -32,8 +32,8 @@ namespace LOLItems.passive_items
 
             ItemBuilder.AddSpriteToObject(itemName, resourceName, obj);
 
-            string shortDesc = "shield";
-            string longDesc = "idk";
+            string shortDesc = "Immovable as the Earth";
+            string longDesc = "This magical shield imbues your body with heavy defense and resilience like that of the earth. Sometimes prevents the player from taking damage.\n";
 
             ItemBuilder.SetupItem(item, shortDesc, longDesc, "LOLItems");
 
@@ -57,7 +57,7 @@ namespace LOLItems.passive_items
             base.Pickup(player);
             Plugin.Log($"Player picked up {this.EncounterNameOrDisplayName}");
 
-            if (player.PlayerHasActiveSynergy("Shield and Cloak Synergy"))
+            if (player.PlayerHasActiveSynergy("Heaven and Earth Combined"))
             {
                 this.procChance = synergyProcChance;
                 Plugin.Log("Shield of Molten Stone's Synergy activated");

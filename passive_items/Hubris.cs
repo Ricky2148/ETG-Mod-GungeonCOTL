@@ -44,7 +44,8 @@ namespace LOLItems
             base.Pickup(player);
             Plugin.Log($"Player picked up {this.EncounterNameOrDisplayName}");
 
-            player.OnKilledEnemy += KillEnemyCount;
+            //player.OnKilledEnemy += KillEnemyCount;
+            player.OnAnyEnemyReceivedDamage += KillEnemyCount;
         }
 
         public override void DisableEffect(PlayerController player)
@@ -52,17 +53,43 @@ namespace LOLItems
             base.DisableEffect(player);
             Plugin.Log($"Player dropped or got rid of {this.EncounterNameOrDisplayName}");
 
-            player.OnKilledEnemy -= KillEnemyCount;
+            //player.OnKilledEnemy -= KillEnemyCount;
+            player.OnAnyEnemyReceivedDamage -= KillEnemyCount;
         }
 
         // removes current damage modifier, increments damage increase count, and adds new damage modifier
-        private void KillEnemyCount(PlayerController player)
+        private void KillEnemyCount(float damage, bool fatal, HealthHaver enemyHealth)
         {
+            /*
             ItemBuilder.RemovePassiveStatModifier(this, PlayerStats.StatType.Damage);
             eminenceCount++;
             float damageIncrease = eminenceCount * eminenceDamageIncrease;
             ItemBuilder.AddPassiveStatModifier(this, PlayerStats.StatType.Damage, 1.0f + damageIncrease, StatModifier.ModifyMethod.MULTIPLICATIVE);
             player.stats.RecalculateStats(player, false, false);
+            */
+
+            float damageIncrease;
+
+            if (enemyHealth.aiActor && enemyHealth && fatal)
+            {
+                if (enemyHealth.aiActor.IsNormalEnemy && (enemyHealth.IsBoss || enemyHealth.IsSubboss))
+                {
+                    eminenceCount += 5;
+                    //Plugin.Log($"is boss: {enemyHealth.IsBoss}, is sub boss: {enemyHealth.IsSubboss}");
+                }
+                else
+                {
+                    eminenceCount++;
+                    //Plugin.Log($"is normal enemy");
+                }
+
+                //Plugin.Log($"is normal enemy: {enemyHealth.aiActor.IsNormalEnemy}");
+
+                ItemBuilder.RemovePassiveStatModifier(this, PlayerStats.StatType.Damage);
+                damageIncrease = eminenceCount * eminenceDamageIncrease;
+                ItemBuilder.AddPassiveStatModifier(this, PlayerStats.StatType.Damage, 1.0f + damageIncrease, StatModifier.ModifyMethod.MULTIPLICATIVE);
+                Owner.stats.RecalculateStats(Owner, false, false);
+            }
         }
     }
 }

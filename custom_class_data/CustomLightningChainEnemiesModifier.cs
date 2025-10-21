@@ -19,7 +19,7 @@ public class CustomLightningChainEnemiesModifier : BraveBehaviour
 
     public float damagePerHit;
 
-    public float damageCooldown = 1f;
+    public float damageCooldown = 0.1f;
 
     public float maxLinkCount;
 
@@ -170,7 +170,7 @@ public class CustomLightningChainEnemiesModifier : BraveBehaviour
                 {
                     DoDispersalParticles(prevPos, endPos);
                 }
-                GameManager.Instance.StartCoroutine(HandleDamageCooldown(enemy));
+                //GameManager.Instance.StartCoroutine(HandleDamageCooldown(enemy));
             }
 
             // Move chain forward

@@ -1,21 +1,52 @@
-﻿using System;
+﻿using Alexandria;
+using Alexandria.ItemAPI;
+using Alexandria.Misc;
+using Alexandria.VisualAPI;
+using LOLItems.custom_class_data;
+using LOLItems.guon_stones;
+using LOLItems.passive_items;
+using LOLItems.weapons;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Alexandria.ItemAPI;
 using UnityEngine;
-using Alexandria;
-using LOLItems.custom_class_data;
-using Alexandria.Misc;
-using LOLItems.passive_items;
-using LOLItems.weapons;
-using LOLItems.guon_stones;
 
 namespace LOLItems
 {
     internal class debugItem : PlayerItem
     {
         public static int ID;
+
+        private static List<string> VFXSpritePath = new List<string>
+            {
+                "LOLItems/Resources/vfxs/test_vfx/image (1)",
+                "LOLItems/Resources/vfxs/test_vfx/image (2)",
+                "LOLItems/Resources/vfxs/test_vfx/image (3)",
+                "LOLItems/Resources/vfxs/test_vfx/image (4)",
+                "LOLItems/Resources/vfxs/test_vfx/image (5)",
+                "LOLItems/Resources/vfxs/test_vfx/image (6)",
+                "LOLItems/Resources/vfxs/test_vfx/image (7)",
+                "LOLItems/Resources/vfxs/test_vfx/image (8)",
+                "LOLItems/Resources/vfxs/test_vfx/image (9)"
+            };
+
+        private static GameObject EffectVFX = VFXBuilder.CreateVFX
+        (
+            "test_vfx",
+            VFXSpritePath,
+            10,
+            new IntVector2(0, 0),
+            tk2dBaseSprite.Anchor.MiddleCenter,
+            false,
+            0,
+            -1,
+            Color.cyan,
+            tk2dSpriteAnimationClip.WrapMode.Loop,
+            true
+        );
+
+        private GameObject activeVFXObject;
 
         public static void Init()
         {
@@ -65,23 +96,94 @@ namespace LOLItems
             //Plugin.Log($"CloakOfStarryNight is {CloakOfStarryNight.ID}");
             //Plugin.Log($"ShieldOfMoltenStone is {ShieldOfMoltenStone.ID}");
             //Plugin.Log($"BraumsShield is {BraumsShield.ID}");
-            StartCoroutine(EffectCoroutine(player));
+            //StartCoroutine(EffectCoroutine(player));
             //string enemyEventName = player.CurrentGun.projectile.enemyImpactEventName;
             //string objectEventName = player.CurrentGun.projectile.objectImpactEventName;
             //Plugin.Log($"enemyEventName: {enemyEventName}, objectEventName: {objectEventName}");
-            
+            /*
+            List<string> spreadVFXSpritePath = new List<string>
+            {
+                "LOLItems/Resources/vfxs/test_vfx/test_vfx_01",
+                "LOLItems/Resources/vfxs/test_vfx/test_vfx_02",
+                "LOLItems/Resources/vfxs/test_vfx/test_vfx_03",
+                "LOLItems/Resources/vfxs/test_vfx/test_vfx_04",
+                "LOLItems/Resources/vfxs/test_vfx/test_vfx_05",
+                "LOLItems/Resources/vfxs/test_vfx/test_vfx_06",
+                "LOLItems/Resources/vfxs/test_vfx/test_vfx_07",
+                "LOLItems/Resources/vfxs/test_vfx/test_vfx_08",
+                "LOLItems/Resources/vfxs/test_vfx/test_vfx_09"
+            };
+
+            GameObject customVFXPrefab = VFXBuilder.CreateVFX
+            (
+                "test_vfx",
+                spreadVFXSpritePath,
+                10,
+                new IntVector2(9, 9),
+                tk2dBaseSprite.Anchor.MiddleCenter,
+                false,
+                0,
+                -1,
+                Color.cyan,
+                tk2dSpriteAnimationClip.WrapMode.Loop,
+                true
+            );
+
+            GameObject customVFX = SpawnManager.SpawnVFX(customVFXPrefab, true);
+            customVFX.transform.position = player.CenterPosition;
+
+            GameObject customVFX2 = Instantiate(customVFXPrefab, player.CenterPosition, Quaternion.identity);
+            customVFX2.SetActive(true);
+            */
+
+            player.carriedConsumables.Currency += 10;
+
+            Plugin.Log("debug item finished");
         }
 
         private System.Collections.IEnumerator EffectCoroutine(PlayerController player)
         {
-            AkSoundEngine.PostEvent("Play_WPN_shockSMG1_impact_01", player.gameObject);
-            yield return new WaitForSeconds(1);
-            AkSoundEngine.PostEvent("Play_WPN_shockSMG2_impact_01", player.gameObject);
-            yield return new WaitForSeconds(1);
-            AkSoundEngine.PostEvent("Play_WPN_shockSMG3_impact_01", player.gameObject);
-            yield return new WaitForSeconds(1);
-            AkSoundEngine.PostEvent("Play_WPN_shockSMG4_impact_01", player.gameObject);
-            yield return new WaitForSeconds(1);
+            foreach (string name in ShaderBase.Shaders)
+            {
+                if (name != null)
+                {
+                    activeVFXObject = player.PlayEffectOnActor(EffectVFX, new Vector3(0, 0, 0), true, false, false);
+                    var sprite = activeVFXObject.GetComponent<tk2dSprite>();
+
+                    if (sprite != null)
+                    {
+                        sprite.HeightOffGround = -1f;
+                        sprite.UpdateZDepth();
+
+                        sprite.usesOverrideMaterial = true;
+
+                        Material mat = sprite.renderer.material;
+
+                        mat.shader = ShaderCache.Acquire(name);
+
+                        mat.SetFloat("_EmissivePower", 10f);
+
+                        sprite.UpdateMaterial();
+                        sprite.UpdateColors();
+                        //sprite.ForceUpdateMaterial();
+                        //sprite.UpdateColorsImpl();
+
+                        Plugin.Log($"shader name: {name}");
+
+                        yield return new WaitForSeconds(1f);
+                    }
+                }
+                else
+                {
+                    Plugin.Log($"failed shader name: {name}");
+
+                    yield return new WaitForSeconds(0.2f);
+                }
+
+                Destroy(activeVFXObject);
+
+                yield return new WaitForSeconds(0.2f);
+            }
         }
 
         /*private System.Collections.IEnumerator StasisCoroutine(PlayerController player)

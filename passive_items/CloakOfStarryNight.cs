@@ -33,8 +33,8 @@ namespace LOLItems.passive_items
 
             ItemBuilder.AddSpriteToObject(itemName, resourceName, obj);
 
-            string shortDesc = "cloak";
-            string longDesc = "idk";
+            string shortDesc = "Limitless as the Stars";
+            string longDesc = "This magical cloak imbues your body with great toughness and durability like that of a star. Sometimes prevents the player from taking damage.\n";
 
             ItemBuilder.SetupItem(item, shortDesc, longDesc, "LOLItems");
 
@@ -62,7 +62,7 @@ namespace LOLItems.passive_items
             {
                 ""
             };
-            CustomSynergies.Add("Shield and Cloak Synergy", mandatoryConsoleIDs, null, true);
+            CustomSynergies.Add("Heaven and Earth Combined", mandatoryConsoleIDs, null, true);
         }
 
         public override void Pickup(PlayerController player)
@@ -71,7 +71,7 @@ namespace LOLItems.passive_items
             Plugin.Log($"Player picked up {this.EncounterNameOrDisplayName}");
 
             // updates stats for both items if synergy is active on pickup
-            if (player.PlayerHasActiveSynergy("Shield and Cloak Synergy"))
+            if (player.PlayerHasActiveSynergy("Heaven and Earth Combined"))
             {
                 this.procChance = synergyProcChance;
                 Plugin.Log("Cloak of Starry Night's Synergy activated");

@@ -66,8 +66,9 @@ namespace LOLItems.weapons
             Gun gun = ETGMod.Databases.Items.NewGun(FULLNAME, SPRITENAME);
             Game.Items.Rename($"outdated_gun_mods:{FULLNAME.ToID()}", internalName); //Renames the default internal name to your custom internal name
             gun.gameObject.AddComponent<HextechRifle>(); //AddComponent<[ClassName]>
-            gun.SetShortDescription("Hextech rifle");  //The description that pops up when you pick up the gun.
-            gun.SetLongDescription("This gun has the potential to become any other gun!  Way better than that other Unfinished Gun."); //The full description in the Ammonomicon.
+            gun.SetShortDescription("\"Boom! Headshot.\"");  //The description that pops up when you pick up the gun.
+            gun.SetLongDescription("A long range sniper rifle that was modified with some strange tech. Its shots are fast and pierce through enemies easily. " +
+                "For some reason, you always shoot better on your last bullet.\n"); //The full description in the Ammonomicon.
             /* SetupSprite sets up the default gun sprite for the ammonomicon and the "gun get" popup.  Your "..._idle_001" is often a good example.  
              * A copy of the sprite used must be in your "sprites/Ammonomicon Encounter Icon Collection/" folder.
              * The variable at the end assigns a default FPS to all other animations. */
