@@ -515,6 +515,8 @@
     <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\prayerbeads_idle_008.jtk2d" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Resources\weapon_sprites\ProjectileCollection\prayerbeads_projectile_003.png" />
+    <EmbeddedResource Include="Resources\weapon_sprites\ProjectileCollection\prayerbeads_projectile_002.png" />
     <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\prayerbeads_idle_002.png" />
     <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\prayerbeads_idle_003.png" />
     <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\prayerbeads_idle_004.png" />

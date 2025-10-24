@@ -42,3 +42,8 @@ Play_WPN_shockSMG2_impact_01, 0, 1, sound, 0
 Play_WPN_shockSMG3_impact_01, 0, 1, sound, 0
 Play_WPN_shockSMG4_impact_01, 0, 1, sound, 0
 zekes_convergence_sfx_01, 0, 1, sound, 0
+prayerbeads_fire_sfx1, 7, 1, sound, 0
+prayerbeads_fire_sfx2, 7, 1, sound, 0
+prayerbeads_fire_sfx3, 7, 1, sound, 0
+prayerbeads_fire_sfx4, 7, 1, sound, 0
+prayerbeads_fire_sfx5, 7, 1, sound, 0

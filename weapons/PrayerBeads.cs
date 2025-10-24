@@ -27,7 +27,7 @@ namespace LOLItems.weapons
         private static int spreadAngle = 5;
 
         private static float projectileDamageStat = 10f;
-        private static float projectileSpeedStat = 40f;
+        private static float projectileSpeedStat = 70f;
         private static float projectileRangeStat = 200f;
         private static float projectileForceStat = 10f;
 
@@ -35,10 +35,11 @@ namespace LOLItems.weapons
 
         private static List<string> normalFiringSFXList = new List<string>
         {
-            "hextech_rifle_atk_sfx_001",
-            "hextech_rifle_atk_sfx_002",
-            "hextech_rifle_atk_sfx_003",
-            "hextech_rifle_atk_sfx_004"
+            "prayerbeads_fire_sfx1",
+            "prayerbeads_fire_sfx2",
+            "prayerbeads_fire_sfx3",
+            "prayerbeads_fire_sfx4",
+            "prayerbeads_fire_sfx5"
         };
 
 
@@ -119,7 +120,7 @@ namespace LOLItems.weapons
             //gun.gunSwitchGroup = (PickupObjectDatabase.GetById(56) as Gun).gunSwitchGroup; //Example using a vanilla gun's ID.
             /* OR */
             gun.gunSwitchGroup = $"LOLItems_{FULLNAME.ToID()}"; //Unique name for your gun's sound group. In this example it uses your console name but with an underscore.
-            SoundManager.AddCustomSwitchData("WPN_Guns", gun.gunSwitchGroup, "Play_WPN_Gun_Shot_01", "Play_WPN_m1rifle_shot_01"); //Play_WPN_Gun_Shot_01 is your weapon's base shot sound.
+            SoundManager.AddCustomSwitchData("WPN_Guns", gun.gunSwitchGroup, "Play_WPN_Gun_Shot_01", null); //Play_WPN_Gun_Shot_01 is your weapon's base shot sound.
             SoundManager.AddCustomSwitchData("WPN_Guns", gun.gunSwitchGroup, "Play_WPN_Gun_Reload_01", null); //Play_WPN_Gun_Reload_01 is your weapon's base reload sound.
             //SoundManager.AddCustomSwitchData("WPN_Guns", gun.gunSwitchGroup, "Play_WPN_gun_finale_01", null);
             gun.DefaultModule.angleVariance = spreadAngle; //How far from where you're aiming that bullets can deviate. 0 equals perfect accuracy.
@@ -146,7 +147,7 @@ namespace LOLItems.weapons
             gun.carryPixelUpOffset += new IntVector2(-4, 10); //offset when aiming up
             /* BarrelOffset sets the length and width away on the sprite where the barrel should end.
              * This is where the muzzle flash and projectile will appear. */
-            gun.barrelOffset.transform.localPosition += new Vector3(0 / 16f, 0 / 16f);
+            gun.barrelOffset.transform.localPosition += new Vector3(8 / 16f, 0 / 16f);
             gun.gunScreenShake.magnitude = 0f; //How much the gun shakes the screen when fired.
 
             //gun.preventRotation = true; //Prevents the gun from rotating with aim direction -> will always face directly right or left.
@@ -205,7 +206,7 @@ namespace LOLItems.weapons
              * The first value is the sprite name in sprites\ProjectileCollection without the extension.
              * tk2dBaseSprite.Anchor.MiddleCenter controls where the sprite is anchored. MiddleCenter will work in most cases.
              * The first set of numbers is visual dimensions of the sprite while the last set of numbers is the hitbox.  Generally the hitbox should be a little smaller than the visuals. */
-            projectile.SetProjectileSpriteRight("prayerbeads_projectile_001", 13, 9, true, tk2dBaseSprite.Anchor.MiddleCenter, 11, 7); //Note that your sprite will stretch to match the visual dimensions
+            projectile.SetProjectileSpriteRight("prayerbeads_projectile_003", 13, 9, true, tk2dBaseSprite.Anchor.MiddleCenter, 11, 7); //Note that your sprite will stretch to match the visual dimensions
 
             /*
             Projectile headshot = UnityEngine.Object.Instantiate<Projectile>(gun.DefaultModule.projectiles[0]);
@@ -274,17 +275,15 @@ namespace LOLItems.weapons
             gun.reloadClipLaunchFrame = 0;
 
             // Bullet Trail
-            /*
-            Tools.EasyTrailBullet trail = projectile.gameObject.AddComponent<Tools.EasyTrailBullet>();
+            EasyTrailBullet trail = projectile.gameObject.AddComponent<EasyTrailBullet>();
             trail.TrailPos = projectile.transform.position;
-            trail.StartWidth = 0.2f;
+            trail.StartWidth = 0.3f;
             trail.EndWidth = 0f;
-            trail.LifeTime = 0.2f; //How long the trail lingers
+            trail.LifeTime = 0.1f; //How long the trail lingers
             // BaseColor sets an overall color for the trail. Start and End Colors are subtractive to it. 
-            trail.BaseColor = Color.white; //Set to white if you don't want to interfere with Start/End Colors.
-            trail.StartColor = Color.red;
-            trail.EndColor = new Color(1f, 0.6f, 0.2f); //Custom Orange example using r/g/b values.
-            */
+            trail.BaseColor = new Color(173 / 255f, 180 / 255f, 255 / 255f); //Set to white if you don't want to interfere with Start/End Colors.
+            trail.StartColor = ExtendedColours.pastelPurple;
+            trail.EndColor = Color.white; //Custom Orange example using r/g/b values.
 
             // Homing
             //HomingModifier homing = projectile.gameObject.AddComponent<HomingModifier>();
@@ -549,7 +548,7 @@ namespace LOLItems.weapons
                 Plugin.Log("fuck");
             }
             */
-            //HelpfulMethods.PlayRandomSFX(player.gameObject, normalFiringSFXList);
+            HelpfulMethods.PlayRandomSFX(projectile.Owner.gameObject, normalFiringSFXList);
             //projectile.OnHitEnemy += HandleHitEnemy;
             base.PostProcessProjectile(projectile);
         }

@@ -247,7 +247,6 @@ namespace LOLItems.weapons
             trail.BaseColor = ExtendedColours.lime; //Set to white if you don't want to interfere with Start/End Colors.
             trail.StartColor = Color.white;
             trail.EndColor = Color.green; //Custom Orange example using r/g/b values.
-            
 
             // Homing
             //HomingModifier homing = projectile.gameObject.AddComponent<HomingModifier>();
@@ -318,7 +317,7 @@ namespace LOLItems.weapons
             //projectile.AppliedStunDuration = 2f;
 
             //Animate Projectile
-            
+
             // Animating your projectile is similar to setting up the custom sprite except each parameter is set as a group.
             // Each of the parameter lists should have the same number of entries as frames you're using.
 
