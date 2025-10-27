@@ -27,7 +27,7 @@ namespace LOLItems.weapons
 
         private static int ammoStat = 88;
         private static float reloadDuration = 2.5f;
-        private static float fireRateStat = 0.70f;
+        private static float fireRateStat = 0.85f;
         private static int spreadAngle = 0;
 
         private static float projectileDamageStat = 25f;
@@ -48,6 +48,8 @@ namespace LOLItems.weapons
             "hextech_rifle_atk_sfx_004"
         };
 
+        private int shotCounter;
+
 
         public static void Add()
         {
@@ -62,7 +64,7 @@ namespace LOLItems.weapons
              * "b" is how you're renaming the gun to show up in the mod console.
              * The default here is to use your mod's prefix then shortname so in this example it would come out as "twp:template_gun". */
             string FULLNAME = "Whisper"; //Full name of your gun 
-            string SPRITENAME = "tempgun"; //The name that prefixes your sprite files
+            string SPRITENAME = "whisper"; //The name that prefixes your sprite files
             internalName = $"LOLItems:{FULLNAME.ToID()}";
             Gun gun = ETGMod.Databases.Items.NewGun(FULLNAME, SPRITENAME);
             Game.Items.Rename($"outdated_gun_mods:{FULLNAME.ToID()}", internalName); //Renames the default internal name to your custom internal name
@@ -73,11 +75,16 @@ namespace LOLItems.weapons
              * A copy of the sprite used must be in your "sprites/Ammonomicon Encounter Icon Collection/" folder.
              * The variable at the end assigns a default FPS to all other animations. */
             gun.SetupSprite(null, $"{SPRITENAME}_idle_001", 8);
+            //gun.alternateIdleAnimation = gun.UpdateAnimation("", null, true);
             /* You can also manually assign the FPS of indivisual animations, below are some examples.
              * Note that if your animation takes too long it might not get to finish, like if your reload animation takes longer than the act of reloading. */
-            gun.SetAnimationFPS(gun.shootAnimation, 5);
+            gun.SetAnimationFPS(gun.alternateIdleAnimation, 40);
+            gun.SetAnimationFPS(gun.shootAnimation, 15);
+            gun.SetAnimationFPS(gun.alternateShootAnimation, 18);
+            gun.SetAnimationFPS(gun.criticalFireAnimation, 15);
+            gun.SetAnimationFPS(gun.finalShootAnimation, 18);
             //gun.SetAnimationFPS(gun.criticalFireAnimation, 5);
-            gun.SetAnimationFPS(gun.reloadAnimation, 13);
+            gun.SetAnimationFPS(gun.reloadAnimation, 7);
             /* You can also optionally add an intro animation that plays when picking up the gun by using the below line and also set the FPS the same as above. */
             //tk2dSpriteAnimationClip clip = gun.spriteAnimator.GetClipByName($"{SPRITENAME}_intro"); //by default uses sprites with the "_intro" suffix
             //gun.SetAnimationFPS(gun.introAnimation, 15);
@@ -100,7 +107,8 @@ namespace LOLItems.weapons
              * List of visual effects https://enterthegungeon.wiki.gg/wiki/Weapon_Visual_Effects */
             gun.AddProjectileModuleFrom(PickupObjectDatabase.GetById((int)Items.MarineSidearm) as Gun, true, false);
             //gun.muzzleFlashEffects = (PickupObjectDatabase.GetById((int)Items.Awp) as Gun).muzzleFlashEffects; //Loads a muzzle flash based on gun ID names.
-            gun.muzzleFlashEffects = null;
+            gun.muzzleFlashEffects = (PickupObjectDatabase.GetById((int)Items.Magnum) as Gun).muzzleFlashEffects; //marine sidearm, colt1851, 38 special, machine pistol, winchester, tangler, 
+            gun.finalMuzzleFlashEffects = (PickupObjectDatabase.GetById((int)Items.PrototypeRailgun) as Gun).muzzleFlashEffects; //pheonix, prototype railgun, unfinished gun
             /* gunSwitchGroup loads in the firing and reloading sound effects.
              * Use an existing ID if you want to copy another gun's firing and reloading sounds, otherwise use a custom gunSwitchGroup name then assign your sound effects manually.
              * List of default sound files https://mtgmodders.gitbook.io/etg-modding-guide/various-lists-of-ids-sounds-etc./sound-list
@@ -116,7 +124,7 @@ namespace LOLItems.weapons
             /* Optional settings for Burst style guns. */
             //gun.DefaultModule.burstShotCount = 3; //Number of shots per burst.
             //gun.DefaultModule.burstCooldownTime = 0.1f; //Time in between shots during a burst.
-            gun.gunClass = GunClass.FULLAUTO; // Sets the gun's class which is used by category based effects.
+            gun.gunClass = GunClass.PISTOL; // Sets the gun's class which is used by category based effects.
             gun.DefaultModule.sequenceStyle = ProjectileModule.ProjectileSequenceStyle.Random; //Sets how the gun handles multiple different projectiles
             gun.DefaultModule.ammoCost = 1;
             gun.reloadTime = reloadDuration;
@@ -130,13 +138,18 @@ namespace LOLItems.weapons
              * NoHanded means the gun should not swing or aim at all, like the Crown of Guns which sits on the player's head. */
             gun.gunHandedness = GunHandedness.OneHanded;
             /* carryPixelOffset sets the length and width away your character holds the gun. Values are subtle so use higher amounts like 10. */
-            gun.carryPixelOffset += new IntVector2(0, 0); //offset when holding gun vertically
+            gun.carryPixelOffset += new IntVector2(2, 2); //offset when holding gun vertically
             gun.carryPixelDownOffset += new IntVector2(0, 0); //offset when aiming down
             gun.carryPixelUpOffset += new IntVector2(0, 0); //offset when aiming up
             /* BarrelOffset sets the length and width away on the sprite where the barrel should end.
              * This is where the muzzle flash and projectile will appear. */
-            gun.barrelOffset.transform.localPosition += new Vector3(0 / 16f, 0 / 16f);
+            gun.barrelOffset.transform.localPosition += new Vector3(28 / 16f, 15 / 16f);
+            
             gun.gunScreenShake.magnitude = 0f; //How much the gun shakes the screen when fired.
+            
+            gun.CriticalDamageMultiplier = 1f;
+            gun.CanCriticalFire = false;
+            gun.CriticalChance = 0f;
 
             //gun.preventRotation = true; //Prevents the gun from rotating with aim direction -> will always face directly right or left.
             //gun.InfiniteAmmo = true; //Gives a gun infinite ammo. By default infinite ammo guns can't crack walls leading to secret rooms.
@@ -191,7 +204,7 @@ namespace LOLItems.weapons
              * The first value is the sprite name in sprites\ProjectileCollection without the extension.
              * tk2dBaseSprite.Anchor.MiddleCenter controls where the sprite is anchored. MiddleCenter will work in most cases.
              * The first set of numbers is visual dimensions of the sprite while the last set of numbers is the hitbox.  Generally the hitbox should be a little smaller than the visuals. */
-            //projectile.SetProjectileSpriteRight("hextech_projectile_glow", 11, 5, true, tk2dBaseSprite.Anchor.MiddleCenter, 9, 3); //Note that your sprite will stretch to match the visual dimensions
+            projectile.SetProjectileSpriteRight("whisper_projectile_blue_001", 9, 5, true, tk2dBaseSprite.Anchor.MiddleCenter, 7, 3); //Note that your sprite will stretch to match the visual dimensions
 
             Projectile fourthShot = UnityEngine.Object.Instantiate<Projectile>(gun.DefaultModule.projectiles[0]);
             fourthShot.gameObject.SetActive(false);
@@ -210,7 +223,7 @@ namespace LOLItems.weapons
             fourthShotPierce.penetratesBreakables = true;
             fourthShotPierce.preventPenetrationOfActors = true;
 
-            fourthShot.SetProjectileSpriteRight("hextech_peacemaker_projectile_glow", 11, 7, true, tk2dBaseSprite.Anchor.MiddleCenter, 9, 5);
+            fourthShot.SetProjectileSpriteRight("whisper_projectile_pink_001", 9, 5, true, tk2dBaseSprite.Anchor.MiddleCenter, 7, 3);
             fourthShot.AdditionalScaleMultiplier = 2f;
 
             gun.DefaultModule.finalProjectile = fourthShot;
@@ -236,12 +249,12 @@ namespace LOLItems.weapons
 
             /* OR */
             gun.DefaultModule.ammoType = GameUIAmmoType.AmmoType.CUSTOM;
-            gun.DefaultModule.customAmmoType = CustomClipAmmoTypeToolbox.AddCustomAmmoType("hextech_rifle_ammo",
-                "LOLItems/Resources/weapon_sprites/CustomGunAmmoTypes/hextech_rifle_ammo_full", "LOLItems/Resources/weapon_sprites/CustomGunAmmoTypes/hextech_rifle_ammo_empty");
+            gun.DefaultModule.customAmmoType = CustomClipAmmoTypeToolbox.AddCustomAmmoType("whisper_ammo",
+                "LOLItems/Resources/weapon_sprites/CustomGunAmmoTypes/whisper_ammo_blue_001", "LOLItems/Resources/weapon_sprites/CustomGunAmmoTypes/whisper_ammo_empty");
             /* If your gun uses special ammo for its final shot, use the below settings similar to the above */
             gun.DefaultModule.finalAmmoType = GameUIAmmoType.AmmoType.CUSTOM;
-            gun.DefaultModule.finalCustomAmmoType = CustomClipAmmoTypeToolbox.AddCustomAmmoType("hextech_peacemaker_ammo",
-                "LOLItems/Resources/weapon_sprites/CustomGunAmmoTypes/hextech_peacemaker_ammo_full", "LOLItems/Resources/weapon_sprites/CustomGunAmmoTypes/hextech_peacemaker_ammo_empty");
+            gun.DefaultModule.finalCustomAmmoType = CustomClipAmmoTypeToolbox.AddCustomAmmoType("whisper_fourth_ammo",
+                "LOLItems/Resources/weapon_sprites/CustomGunAmmoTypes/whisper_ammo_pink_001", "LOLItems/Resources/weapon_sprites/CustomGunAmmoTypes/whisper_ammo_empty");
 
             // Casings and Clips
             /* Casings are the individual bullet shells and clips are the holders that are ejected from the gun.
@@ -258,18 +271,25 @@ namespace LOLItems.weapons
             gun.clipsToLaunchOnReload = 0; //Number of clips to eject when reloading.
             gun.reloadClipLaunchFrame = 0;
 
-            // Bullet Trail
-            /*
-            Tools.EasyTrailBullet trail = projectile.gameObject.AddComponent<Tools.EasyTrailBullet>();
+            EasyTrailBullet trail = projectile.gameObject.AddComponent<EasyTrailBullet>();
             trail.TrailPos = projectile.transform.position;
             trail.StartWidth = 0.2f;
             trail.EndWidth = 0f;
-            trail.LifeTime = 0.2f; //How long the trail lingers
+            trail.LifeTime = 0.1f; //How long the trail lingers
             // BaseColor sets an overall color for the trail. Start and End Colors are subtractive to it. 
-            trail.BaseColor = Color.white; //Set to white if you don't want to interfere with Start/End Colors.
-            trail.StartColor = Color.red;
-            trail.EndColor = new Color(1f, 0.6f, 0.2f); //Custom Orange example using r/g/b values.
-            */
+            trail.BaseColor = ExtendedColours.skyblue; //Set to white if you don't want to interfere with Start/End Colors.
+            trail.StartColor = Color.blue;
+            trail.EndColor = Color.white; //Custom Orange example using r/g/b values.
+
+            EasyTrailBullet fourthShotTrail = fourthShot.gameObject.AddComponent<EasyTrailBullet>();
+            fourthShotTrail.TrailPos = projectile.transform.position;
+            fourthShotTrail.StartWidth = 0.3f;
+            fourthShotTrail.EndWidth = 0f;
+            fourthShotTrail.LifeTime = 0.1f; //How long the trail lingers
+            // BaseColor sets an overall color for the trail. Start and End Colors are subtractive to it. 
+            fourthShotTrail.BaseColor = ExtendedColours.pink; //Set to white if you don't want to interfere with Start/End Colors.
+            fourthShotTrail.StartColor = Color.red;
+            fourthShotTrail.EndColor = Color.white; //Custom Orange example using r/g/b values.
 
             // Homing
             //HomingModifier homing = projectile.gameObject.AddComponent<HomingModifier>();
@@ -446,20 +466,10 @@ namespace LOLItems.weapons
         {
             PlayerController player = this.Owner as PlayerController;
 
-            float fireRateMod = player.stats.GetStatValue(PlayerStats.StatType.RateOfFire);
+            fireRateToDamage(this.gun, player);
 
-            Plugin.Log($"fireRateMod: {fireRateMod}");
-            if (fireRateMod > 1f)
-            {
-                ItemBuilder.RemoveCurrentGunStatModifier(this.gun, PlayerStats.StatType.RateOfFire);
-                ItemBuilder.AddCurrentGunStatModifier(this.gun, PlayerStats.StatType.RateOfFire, 1f / fireRateMod, StatModifier.ModifyMethod.MULTIPLICATIVE);
-                
-                ItemBuilder.RemoveCurrentGunStatModifier(this.gun, PlayerStats.StatType.Damage);
-                ItemBuilder.AddCurrentGunStatModifier(this.gun, PlayerStats.StatType.Damage, fireRateMod, StatModifier.ModifyMethod.MULTIPLICATIVE);
-
-                Plugin.Log($"applied rate of fire mod: {1f / fireRateMod}");
-                player.stats.RecalculateStats(player, true, false);
-            }
+            shotCounter = 1;
+            Plugin.Log($"initialized with owner, shotCounter: {shotCounter}");
 
             base.OnInitializedWithOwner(actor);
         }
@@ -468,20 +478,10 @@ namespace LOLItems.weapons
         {
             PlayerController player = this.Owner as PlayerController;
 
-            float fireRateMod = player.stats.GetStatValue(PlayerStats.StatType.RateOfFire);
+            fireRateToDamage(this.gun, player);
 
-            Plugin.Log($"fireRateMod: {fireRateMod}");
-            if (fireRateMod > 1f)
-            {
-                ItemBuilder.RemoveCurrentGunStatModifier(this.gun, PlayerStats.StatType.RateOfFire);
-                ItemBuilder.AddCurrentGunStatModifier(this.gun, PlayerStats.StatType.RateOfFire, 1f / fireRateMod, StatModifier.ModifyMethod.MULTIPLICATIVE);
-
-                ItemBuilder.RemoveCurrentGunStatModifier(this.gun, PlayerStats.StatType.Damage);
-                ItemBuilder.AddCurrentGunStatModifier(this.gun, PlayerStats.StatType.Damage, fireRateMod, StatModifier.ModifyMethod.MULTIPLICATIVE);
-
-                Plugin.Log($"applied rate of fire mod: {1f / fireRateMod}");
-                player.stats.RecalculateStats(player, true, false);
-            }
+            shotCounter = 5 - this.gun.ClipShotsRemaining;
+            Plugin.Log($"switched to gun, shotCounter: {shotCounter}");
 
             base.OnSwitchedToThisGun();
         }
@@ -529,6 +529,39 @@ namespace LOLItems.weapons
 
             PlayerController player = Owner as PlayerController;
 
+            switch (shotCounter)
+            {
+                case 1:
+                    AkSoundEngine.PostEvent("carefree_melody_SFX", player.gameObject);
+
+                    BraveUtility.Swap(ref this.gun.shootAnimation, ref this.gun.alternateShootAnimation);
+
+                    break;
+                case 2:
+                    AkSoundEngine.PostEvent("galeforce_active_SFX", player.gameObject);
+                    
+                    BraveUtility.Swap(ref this.gun.shootAnimation, ref this.gun.alternateShootAnimation);
+                    BraveUtility.Swap(ref this.gun.shootAnimation, ref this.gun.criticalFireAnimation);
+
+                    break;
+                case 3:
+                    AkSoundEngine.PostEvent("hextech_rifle_headshot_sfx_001", player.gameObject);
+
+                    BraveUtility.Swap(ref this.gun.shootAnimation, ref this.gun.criticalFireAnimation);
+                    BraveUtility.Swap(ref this.gun.idleAnimation, ref this.gun.alternateIdleAnimation);
+
+                    break;
+                case 4:
+                    AkSoundEngine.PostEvent("vineboom", player.gameObject);
+
+                    BraveUtility.Swap(ref this.gun.idleAnimation, ref this.gun.alternateIdleAnimation);
+
+                    break;
+                default:
+                    Plugin.Log("something went wrong here LMAO");
+                    break;
+            }
+
             float clipSizeMod = player.stats.GetStatValue(PlayerStats.StatType.AdditionalClipCapacityMultiplier);
 
             if (clipSizeMod > 1f)
@@ -540,7 +573,7 @@ namespace LOLItems.weapons
             //Plugin.Log($"baseDamage: {projectile.GetCachedBaseDamage}, updated dmg: {projectile.baseData.damage}, clipSizeMod: {clipSizeMod}");
 
 
-            if (projectile.GetCachedBaseDamage == projectileDamageStat * fourthShotDamageScale)
+            if (shotCounter == 4 /*projectile.GetCachedBaseDamage == projectileDamageStat * fourthShotDamageScale*/)
             {
                 projectile.OnHitEnemy += (projHit, enemy, fatal) =>
                 {
@@ -570,10 +603,37 @@ namespace LOLItems.weapons
                 };
             }
 
+            shotCounter++;
+
             base.PostProcessProjectile(projectile);
         }
 
         public override void OnReload(PlayerController player, Gun gun)
+        {
+            fireRateToDamage(gun, player);
+
+            switch (shotCounter)
+            {
+                case 2:
+                    BraveUtility.Swap(ref gun.shootAnimation, ref gun.alternateShootAnimation);
+                    break;
+                case 3:
+                    BraveUtility.Swap(ref gun.shootAnimation, ref gun.criticalFireAnimation);
+                    break;
+                case 4:
+                    BraveUtility.Swap(ref gun.idleAnimation, ref gun.alternateIdleAnimation);
+                    break;
+            }
+
+            //BraveUtility.Swap(ref gun.shootAnimation, ref gun.criticalFireAnimation);
+
+            shotCounter = 1;
+            Plugin.Log($"on reload, shotCounter: {shotCounter}");
+
+            base.OnReload(player, gun);
+        }
+
+        private static void fireRateToDamage(Gun gun, PlayerController player)
         {
             float fireRateMod = player.stats.GetStatValue(PlayerStats.StatType.RateOfFire);
 
@@ -589,8 +649,6 @@ namespace LOLItems.weapons
                 Plugin.Log($"applied rate of fire mod: {1f / fireRateMod}");
                 player.stats.RecalculateStats(player, true, false);
             }
-
-            base.OnReload(player, gun);
         }
 
         public static void InitRuntimePatches()
