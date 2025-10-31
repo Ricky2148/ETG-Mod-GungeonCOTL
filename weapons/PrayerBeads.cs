@@ -252,8 +252,8 @@ namespace LOLItems.weapons
 
             /* OR */
             gun.DefaultModule.ammoType = GameUIAmmoType.AmmoType.CUSTOM;
-            gun.DefaultModule.customAmmoType = CustomClipAmmoTypeToolbox.AddCustomAmmoType("hextech_rifle_ammo",
-                "LOLItems/Resources/weapon_sprites/CustomGunAmmoTypes/hextech_rifle_ammo_full", "LOLItems/Resources/weapon_sprites/CustomGunAmmoTypes/hextech_rifle_ammo_empty");
+            gun.DefaultModule.customAmmoType = CustomClipAmmoTypeToolbox.AddCustomAmmoType("prayerbeads_ammo",
+                "LOLItems/Resources/weapon_sprites/CustomGunAmmoTypes/prayerbeads_ammo_full_001", "LOLItems/Resources/weapon_sprites/CustomGunAmmoTypes/prayerbeads_ammo_empty_001");
             /* If your gun uses special ammo for its final shot, use the below settings similar to the above */
             //gun.DefaultModule.finalAmmoType = GameUIAmmoType.AmmoType.CUSTOM;
             //gun.DefaultModule.finalCustomAmmoType = CustomClipAmmoTypeToolbox.AddCustomAmmoType("hextech_peacemaker_ammo",
@@ -488,7 +488,15 @@ namespace LOLItems.weapons
             ComplexProjectileModifier shockRounds = PickupObjectDatabase.GetById((int)Items.ShockRounds) as ComplexProjectileModifier;
             CustomLightningChainEnemiesModifierAOE chain = projectile.gameObject.GetOrAddComponent<CustomLightningChainEnemiesModifierAOE>();
             chain.LinkVFXPrefab = shockRounds.ChainLightningVFX;
-            chain.PlaysSFX = false;
+            chain.PlaysSFX = true;
+            string[] sfxList = {
+                    "statikk_shiv_lightning_SFX_1",
+                    "statikk_shiv_lightning_SFX_2",
+                    "statikk_shiv_lightning_SFX_3",
+                    "statikk_shiv_lightning_SFX_4",
+                    "statikk_shiv_lightning_SFX_5"
+                };
+            chain.updateSFXList(sfxList);
             chain.DamagesEnemies = true;
             chain.usesStaticDamageStat = false;
             chain.damageScale = 0.3f;

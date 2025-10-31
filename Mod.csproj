@@ -69,6 +69,7 @@
     <Compile Include="custom_class_data\GameActorCrippleEffect.cs" />
     <Compile Include="custom_class_data\LootTableTools.cs" />
     <Compile Include="custom_class_data\OnPreDamagedPassiveItem.cs" />
+    <Compile Include="custom_class_data\RicochetProjectileModule.cs" />
     <Compile Include="guon_stones\BraumsShield.cs" />
     <Compile Include="npcs\Bubbs.cs" />
     <Compile Include="passive_items\CarefreeMelody.cs" />
@@ -106,6 +107,7 @@
     <Compile Include="active_items\ZhonyasHourglass.cs" />
     <Compile Include="Synergies.cs" />
     <Compile Include="weapons\BasicGun.cs" />
+    <Compile Include="weapons\Crossblade.cs" />
     <Compile Include="weapons\ElectricRifle.cs" />
     <Compile Include="weapons\HextechRifle.cs" />
     <Compile Include="weapons\PowPow.cs" />
@@ -712,6 +714,8 @@
     <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\whisper_critical_fire_004.jtk2d" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Resources\weapon_sprites\CustomGunAmmoTypes\prayerbeads_ammo_empty_001.png" />
+    <EmbeddedResource Include="Resources\weapon_sprites\CustomGunAmmoTypes\prayerbeads_ammo_full_001.png" />
     <EmbeddedResource Include="Resources\weapon_sprites\CustomGunAmmoTypes\whisper_ammo_empty.png" />
     <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\whisper_critical_fire_001.png" />
     <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\whisper_critical_fire_002.png" />

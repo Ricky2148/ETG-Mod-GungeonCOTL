@@ -94,9 +94,9 @@ public class CustomLightningChainEnemiesModifierAOE : BraveBehaviour
         List<AIActor> chain = ChainEnemies(firstEnemy);
 
         //if (PlaysSFX) PlayLightningSFX(firstEnemy);
-        //if (PlaysSFX) HelpfulMethods.PlayRandomSFX(firstEnemy.gameObject, sfxPath);
+        if (PlaysSFX) HelpfulMethods.PlayRandomSFX(firstEnemy.gameObject, sfxPath);
 
-        AkSoundEngine.PostEvent("vineboom", proj.gameObject);
+        //AkSoundEngine.PostEvent("vineboom", proj.gameObject);
 
         if (!usesStaticDamageStat)
         {

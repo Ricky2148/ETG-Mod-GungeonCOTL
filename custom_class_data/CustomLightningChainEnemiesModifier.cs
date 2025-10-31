@@ -95,7 +95,7 @@ public class CustomLightningChainEnemiesModifier : BraveBehaviour
         if (chain.Count > 0)
         {
             // Include the initial enemy as the first link
-            chain.Insert(0, firstEnemy);
+            //chain.Insert(0, firstEnemy);
             UpdateLinkChain(chain);
         }
     }
@@ -163,10 +163,13 @@ public class CustomLightningChainEnemiesModifier : BraveBehaviour
             Destroy(vfxObj, 0.25f);
 
             // Damage enemy (with cooldown so they don’t get hit every frame)
+            //Plugin.Log($"Chaining damage to enemy {enemy.EnemyGuid}");
             if (!m_damagedEnemies.Contains(enemy))
             {
                 enemy.healthHaver.ApplyDamage(damagePerHit, Vector2.zero, "Chain Lightning", damageTypes);
-                if(UsesDispersalParticles)
+                m_damagedEnemies.Add(enemy);
+
+                if (UsesDispersalParticles)
                 {
                     DoDispersalParticles(prevPos, endPos);
                 }

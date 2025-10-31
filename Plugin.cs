@@ -105,6 +105,7 @@ namespace LOLItems
             ElectricRifle.Add();
             PrayerBeads.Add();
             Whisper.Add();
+            Crossblade.Add();
 
             //new items
             ShieldOfMoltenStone.Init();
