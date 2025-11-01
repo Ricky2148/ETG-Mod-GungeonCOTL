@@ -20,17 +20,18 @@ namespace LOLItems.weapons
         public static string realName = "Crossblade"; 
 
         private static int ammoStat = 750;
-        private static float reloadDuration = 1.6f;
-        private static float fireRateStat = 0.3f;
+        private static float reloadDuration = 1.0f;
+        private static float fireRateStat = 0.6f;
         private static int spreadAngle = 5;
 
         private static int ricochetRange = 5;
         private static int ricochetCount = 8;
         private static float ricochetDamageScale = 0.4f;
+        private static float ricochetSpeedScale = 0.5f;
 
         private static float projectileDamageStat = 10f;
         private static float projectileSpeedStat = 20f;
-        private static float projectileRangeStat = 100f;
+        private static float projectileRangeStat = 25f;
         private static float projectileForceStat = 8f;
 
         private static List<string> CrossbladeFiringSFXList = new List<string>
@@ -57,7 +58,7 @@ namespace LOLItems.weapons
             gun.SetAnimationFPS(gun.reloadAnimation, 20);
 
             gun.AddProjectileModuleFrom(PickupObjectDatabase.GetById((int)Items.MarineSidearm) as Gun, true, false);
-            gun.muzzleFlashEffects = (PickupObjectDatabase.GetById((int)Items.MarineSidearm) as Gun).muzzleFlashEffects;
+            gun.muzzleFlashEffects = null; //(PickupObjectDatabase.GetById((int)Items.MarineSidearm) as Gun).muzzleFlashEffects;
 
             gun.gunSwitchGroup = $"LOLItems_{FULLNAME.ToID()}";
             SoundManager.AddCustomSwitchData("WPN_Guns", gun.gunSwitchGroup, "Play_WPN_Gun_Shot_01", "Play_WPN_minigun_shot_01"); 
@@ -70,7 +71,7 @@ namespace LOLItems.weapons
             gun.DefaultModule.ammoCost = 1;
             gun.reloadTime = reloadDuration;
             gun.DefaultModule.cooldownTime = fireRateStat; 
-            gun.DefaultModule.numberOfShotsInClip = 25;
+            gun.DefaultModule.numberOfShotsInClip = ammoStat;
             gun.SetBaseMaxAmmo(ammoStat);
 
             gun.gunHandedness = GunHandedness.OneHanded;
@@ -97,14 +98,155 @@ namespace LOLItems.weapons
 
             RicochetProjectileModule ricochetModule = projectile.gameObject.AddComponent<RicochetProjectileModule>();
             ricochetModule.ricochetDamageScale = ricochetDamageScale;
+            ricochetModule.ricochetSpeedScale = ricochetSpeedScale;
+            ricochetModule.ricochetRange = ricochetRange;
 
             PierceProjModifier pierce = projectile.gameObject.GetOrAddComponent<PierceProjModifier>();
-            pierce.penetration = 7;
+            pierce.penetration = ricochetCount - 1;
             pierce.penetratesBreakables = false;
 
             gun.shellsToLaunchOnFire = 0;
             gun.shellsToLaunchOnReload = 0;
             gun.clipsToLaunchOnReload = 0;
+
+            projectile.SetProjectileSpriteRight("boomerangblade_projectile_001", 22, 22, true, tk2dBaseSprite.Anchor.MiddleCenter, 16, 16);
+
+            // A list of filenames in the sprites/ProjectileCollection folder for each frame in the animation, extension not required.
+            List<string> projectileSpriteNames = new List<string>
+            {
+                "boomerangblade_projectile_001",
+                "boomerangblade_projectile_002",
+                "boomerangblade_projectile_003",
+                "boomerangblade_projectile_004",
+                "boomerangblade_projectile_005",
+                "boomerangblade_projectile_006",
+                "boomerangblade_projectile_007",
+                "boomerangblade_projectile_008",
+            };
+            // Animation FPS.
+            int projectileFPS = 20;
+            // Visual sprite size for each frame.  Sprite images will stretch to match these sizes.
+            List<IntVector2> projectileSizes = new List<IntVector2>
+            {
+                new IntVector2(22, 22), //1
+                new IntVector2(22, 22), //2
+                new IntVector2(22, 22), //3
+                new IntVector2(22, 22), //4
+                new IntVector2(22, 22), //5 
+                new IntVector2(22, 22), //6
+                new IntVector2(22, 22), //7
+                new IntVector2(22, 22), //8
+            };
+            // Whether each frame should have a bit of glow.
+            List<bool> projectileLighteneds = new List<bool>
+            {
+                true,
+                true,
+                true,
+                true,
+                true,
+                true,
+                true,
+                true,
+            };
+            // Sprite anchor list.
+            List<tk2dBaseSprite.Anchor> projectileAnchors = new List<tk2dBaseSprite.Anchor>
+            {
+                tk2dBaseSprite.Anchor.MiddleCenter,
+                tk2dBaseSprite.Anchor.MiddleCenter,
+                tk2dBaseSprite.Anchor.MiddleCenter,
+                tk2dBaseSprite.Anchor.MiddleCenter,
+                tk2dBaseSprite.Anchor.MiddleCenter,
+                tk2dBaseSprite.Anchor.MiddleCenter,
+                tk2dBaseSprite.Anchor.MiddleCenter,
+                tk2dBaseSprite.Anchor.MiddleCenter,
+            };
+            // Whether or not the anchors should affect the hitboxees.
+            List<bool> projectileAnchorsChangeColiders = new List<bool>
+            {
+                false,
+                false,
+                false,
+                false,
+                false,
+                false,
+                false,
+                false,
+            };
+            // Unknown, doesn't appear to matter so leave as false. 
+            List<bool> projectilefixesScales = new List<bool>
+            {
+                false,
+                false,
+                false,
+                false,
+                false,
+                false,
+                false,
+                false,
+            };
+            // Manual Offsets for each sprite if needed.
+            List<Vector3?> projectileManualOffsets = new List<Vector3?>
+            {
+                Vector2.zero,
+                Vector2.zero,
+                Vector2.zero,
+                Vector2.zero,
+                Vector2.zero,
+                Vector2.zero,
+                Vector2.zero,
+                Vector2.zero,
+            };
+            // Override the projectile hitboxes on each frame.  Either null (same as visuals) or slightly smaller than the visuals is most common.
+            List<IntVector2?> projectileOverrideColliderSizes = new List<IntVector2?>
+            {
+                new IntVector2(16, 16), //1
+                new IntVector2(16, 16), //2
+                new IntVector2(16, 16), //3
+                new IntVector2(16, 16), //4
+                new IntVector2(16, 16), //5 
+                new IntVector2(16, 16), //6
+                new IntVector2(16, 16), //7
+                new IntVector2(16, 16), //8
+            };
+            // Manually assign the projectile offsets.
+            List<IntVector2?> projectileOverrideColliderOffsets = new List<IntVector2?>
+            {
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+            };
+            // Copy another projectile each frame.
+            List<Projectile> projectileOverrideProjectilesToCopyFrom = new List<Projectile>
+            {
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+            };
+            // Your animations wrap mode. If you just want it to do a looping animation, leave it as Loop. Only useful for when adding multiple differing animations.
+            tk2dSpriteAnimationClip.WrapMode ProjectileWrapMode = tk2dSpriteAnimationClip.WrapMode.Loop;
+            // Optionally, you can give your animations a clip name. Only useful for when adding multiple differing animations.
+            //string projectileClipName = "projectileName"; 
+            // Optionally, you can assign an animation as the default one that plays.  Only useful for when adding multiple differing animations.  If left as null then it will use the most recently added animation.
+            //string projectileDefaultClipName = "projectileName"; 
+
+            projectile.AddAnimationToProjectile(projectileSpriteNames, projectileFPS, projectileSizes, projectileLighteneds, projectileAnchors, projectileAnchorsChangeColiders, projectilefixesScales,
+                                                projectileManualOffsets, projectileOverrideColliderSizes, projectileOverrideColliderOffsets, projectileOverrideProjectilesToCopyFrom, ProjectileWrapMode);
+
+
+            gun.DefaultModule.ammoType = GameUIAmmoType.AmmoType.CUSTOM;
+            gun.DefaultModule.customAmmoType = CustomClipAmmoTypeToolbox.AddCustomAmmoType("crossblade_ammo",
+                "LOLItems/Resources/weapon_sprites/CustomGunAmmoTypes/boomerangblade_ammo_full_001", "LOLItems/Resources/weapon_sprites/CustomGunAmmoTypes/boomerangblade_ammo_empty_001");
 
             gun.quality = PickupObject.ItemQuality.B;
             ETGMod.Databases.Items.Add(gun, false, "ANY");
@@ -113,14 +255,17 @@ namespace LOLItems.weapons
 
         public override void PostProcessProjectile(Projectile projectile)
         {
+            /*
             if (projectile != null && projectile.Owner != null)
             {
                 projectile.OnHitEnemy += HandleHitEnemy;
             }
+            */
 
             base.PostProcessProjectile(projectile);
         }
 
+        /*
         private void HandleHitEnemy(Projectile proj, SpeculativeRigidbody enemy, bool fatal)
         {
             if (enemy != null && enemy.aiActor != null)
@@ -131,11 +276,11 @@ namespace LOLItems.weapons
                     //var dir = UnityEngine.Random.insideUnitCircle;
                     if (enemy.aiActor.ParentRoom != null && enemy.aiActor.ParentRoom.GetActiveEnemies(RoomHandler.ActiveEnemyType.All) != null)
                     {
-                        /*var t = enemy.aiActor.ParentRoom.GetActiveEnemies(RoomHandler.ActiveEnemyType.All).FindAll(x => x != null && x != enemy.aiActor && x.HasBeenEngaged && x.healthHaver != null && x.healthHaver.IsVulnerable);
+                        var t = enemy.aiActor.ParentRoom.GetActiveEnemies(RoomHandler.ActiveEnemyType.All).FindAll(x => x != null && x != enemy.aiActor && x.HasBeenEngaged && x.healthHaver != null && x.healthHaver.IsVulnerable);
                         if (t.Count > 0)
                         {
                             dir = BraveUtility.RandomElement(t.ToArray()).CenterPosition - proj.specRigidbody.UnitCenter;
-                        }*/
+                        }
 
                         AIActor closest = null;
                         float closestDistSq = ricochetRange * ricochetRange;
@@ -171,5 +316,6 @@ namespace LOLItems.weapons
                 }
             }
         }
+        */
     }
 }

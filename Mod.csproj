@@ -114,6 +114,7 @@
     <Compile Include="weapons\PowPowAltForm.cs" />
     <Compile Include="weapons\PrayerBeads.cs" />
     <Compile Include="weapons\TemplateGun.cs" />
+    <Compile Include="weapons\Virtue.cs" />
     <Compile Include="weapons\Whisper.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -714,6 +715,16 @@
     <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\whisper_critical_fire_004.jtk2d" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Resources\weapon_sprites\CustomGunAmmoTypes\boomerangblade_ammo_empty_001.png" />
+    <EmbeddedResource Include="Resources\weapon_sprites\CustomGunAmmoTypes\boomerangblade_ammo_full_001.png" />
+    <EmbeddedResource Include="Resources\weapon_sprites\ProjectileCollection\boomerangblade_projectile_001.png" />
+    <EmbeddedResource Include="Resources\weapon_sprites\ProjectileCollection\boomerangblade_projectile_002.png" />
+    <EmbeddedResource Include="Resources\weapon_sprites\ProjectileCollection\boomerangblade_projectile_003.png" />
+    <EmbeddedResource Include="Resources\weapon_sprites\ProjectileCollection\boomerangblade_projectile_004.png" />
+    <EmbeddedResource Include="Resources\weapon_sprites\ProjectileCollection\boomerangblade_projectile_005.png" />
+    <EmbeddedResource Include="Resources\weapon_sprites\ProjectileCollection\boomerangblade_projectile_006.png" />
+    <EmbeddedResource Include="Resources\weapon_sprites\ProjectileCollection\boomerangblade_projectile_007.png" />
+    <EmbeddedResource Include="Resources\weapon_sprites\ProjectileCollection\boomerangblade_projectile_008.png" />
     <EmbeddedResource Include="Resources\weapon_sprites\CustomGunAmmoTypes\prayerbeads_ammo_empty_001.png" />
     <EmbeddedResource Include="Resources\weapon_sprites\CustomGunAmmoTypes\prayerbeads_ammo_full_001.png" />
     <EmbeddedResource Include="Resources\weapon_sprites\CustomGunAmmoTypes\whisper_ammo_empty.png" />
@@ -883,14 +894,6 @@
     <EmbeddedResource Include="Resources\weapon_sprites\Ammonomicon Encounter Icon Collection\tempgun_idle_001.png" />
     <EmbeddedResource Include="Resources\weapon_sprites\CustomGunAmmoTypes\tempgun_clipempty.png" />
     <EmbeddedResource Include="Resources\weapon_sprites\CustomGunAmmoTypes\tempgun_clipfull.png" />
-    <EmbeddedResource Include="Resources\weapon_sprites\ProjectileCollection\basicchargegun_charged_projectile_001.png" />
-    <EmbeddedResource Include="Resources\weapon_sprites\ProjectileCollection\basicchargegun_charged_projectile_002.png" />
-    <EmbeddedResource Include="Resources\weapon_sprites\ProjectileCollection\basicgun_projectile_001.png" />
-    <EmbeddedResource Include="Resources\weapon_sprites\ProjectileCollection\basicgun_projectile_002.png" />
-    <EmbeddedResource Include="Resources\weapon_sprites\ProjectileCollection\basicgun_projectile_003.png" />
-    <EmbeddedResource Include="Resources\weapon_sprites\ProjectileCollection\basicgun_projectile_004.png" />
-    <EmbeddedResource Include="Resources\weapon_sprites\ProjectileCollection\basicgun_projectile_005.png" />
-    <EmbeddedResource Include="Resources\weapon_sprites\ProjectileCollection\tempgun_projectile_001.png" />
     <EmbeddedResource Include="Resources\active_item_sprites\galeforce_pixelart_sprite_small.png" />
     <EmbeddedResource Include="Resources\example_item_sprite.png" />
     <EmbeddedResource Include="Resources\passive_item_sprites\zekes_convergence_item_sprite.png" />

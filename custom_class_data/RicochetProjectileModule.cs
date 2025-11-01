@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Dungeonator;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,6 +11,8 @@ namespace LOLItems.custom_class_data
         public HashSet<AIActor> visited = new HashSet<AIActor>();
         public bool isRicocheting = false;
         public float ricochetDamageScale;
+        public float ricochetSpeedScale;
+        public int ricochetRange;
 
         public void Awake()
         {
@@ -31,6 +34,56 @@ namespace LOLItems.custom_class_data
             {
                 isRicocheting = true;
                 proj.baseData.damage *= ricochetDamageScale;
+                proj.baseData.speed *= ricochetSpeedScale;
+                proj.UpdateSpeed();
+            }
+
+            if (enemy != null && enemy.aiActor != null)
+            {
+                var ricochetModule = proj.GetComponent<RicochetProjectileModule>();
+                if (proj.GetComponent<PierceProjModifier>() != null && proj.GetComponent<PierceProjModifier>().penetration > 0 && enemy != null && enemy.aiActor != null)
+                {
+                    //var dir = UnityEngine.Random.insideUnitCircle;
+                    if (enemy.aiActor.ParentRoom != null && enemy.aiActor.ParentRoom.GetActiveEnemies(RoomHandler.ActiveEnemyType.All) != null)
+                    {
+                        /*var t = enemy.aiActor.ParentRoom.GetActiveEnemies(RoomHandler.ActiveEnemyType.All).FindAll(x => x != null && x != enemy.aiActor && x.HasBeenEngaged && x.healthHaver != null && x.healthHaver.IsVulnerable);
+                        if (t.Count > 0)
+                        {
+                            dir = BraveUtility.RandomElement(t.ToArray()).CenterPosition - proj.specRigidbody.UnitCenter;
+                        }*/
+
+                        AIActor closest = null;
+                        float closestDistSq = ricochetRange * ricochetRange;
+                        var t = enemy.aiActor.ParentRoom.GetActiveEnemies(RoomHandler.ActiveEnemyType.All).FindAll(x => x != null && x != enemy.aiActor && x.HasBeenEngaged && x.healthHaver != null && x.healthHaver.IsVulnerable);
+
+                        foreach (AIActor target in t)
+                        {
+                            if (proj.GetComponent<RicochetProjectileModule>().visited.Contains(target) || !target.IsNormalEnemy)
+                                continue;
+
+                            float distSq = (target.CenterPosition - enemy.aiActor.CenterPosition).sqrMagnitude;
+                            if (distSq < closestDistSq)
+                            {
+                                closest = target;
+                                closestDistSq = distSq;
+                            }
+                        }
+
+                        if (closest != null)
+                        {
+                            var dir = closest.CenterPosition - proj.specRigidbody.UnitCenter;
+                            proj.SendInDirection(dir, false);
+                            ricochetModule.visited.Add(enemy.aiActor);
+                            //Plugin.Log($"Crossblade ricochet to {closest.GetActorName()}");
+                        }
+                        else
+                        {
+                            Plugin.Log($"Crossblade found no ricochet targets");
+                            proj.ForceDestruction();
+                        }
+                    }
+                    //proj.SendInDirection(dir, false);
+                }
             }
         }
     }

@@ -68,9 +68,9 @@ namespace LOLItems
             player.stats.RecalculateStats(player, false, false);
             */
 
-            float damageIncrease;
+            //float damageIncrease;
 
-            if (enemyHealth.aiActor && enemyHealth && fatal)
+            if (enemyHealth.aiActor != null && enemyHealth && fatal)
             {
                 if (enemyHealth.aiActor.IsNormalEnemy && (enemyHealth.IsBoss || enemyHealth.IsSubboss))
                 {
@@ -86,7 +86,7 @@ namespace LOLItems
                 //Plugin.Log($"is normal enemy: {enemyHealth.aiActor.IsNormalEnemy}");
 
                 ItemBuilder.RemovePassiveStatModifier(this, PlayerStats.StatType.Damage);
-                damageIncrease = eminenceCount * eminenceDamageIncrease;
+                float damageIncrease = eminenceCount * eminenceDamageIncrease;
                 ItemBuilder.AddPassiveStatModifier(this, PlayerStats.StatType.Damage, 1.0f + damageIncrease, StatModifier.ModifyMethod.MULTIPLICATIVE);
                 Owner.stats.RecalculateStats(Owner, false, false);
             }
