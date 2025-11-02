@@ -298,7 +298,7 @@ namespace LOLItems.weapons
             wave.sprite.color = Color.cyan;
             wave.AdditionalScaleMultiplier = 5f;*/
 
-            TriggerFlight();
+            //TriggerFlight();
 
             Plugin.Log($"picked up {realName}");
 
@@ -309,7 +309,7 @@ namespace LOLItems.weapons
         {
             currentOwner.OnAnyEnemyReceivedDamage -= KillEnemyCount;
 
-            StopFlight();
+            //StopFlight();
 
             Plugin.Log($"dropped up {realName}");
 

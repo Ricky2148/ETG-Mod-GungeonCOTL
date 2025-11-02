@@ -23,17 +23,15 @@ namespace LOLItems.weapons
 
         private static int ammoStat = 750;
         private static float reloadDuration = 1.0f;
-        private static float fireRateStat = 0.8f;
-        private static int spreadAngle = 5;
-
-        private float DivineAscentExpTracker = 0f;
-        private float DivineAscentThreshold = 1000f;
-
-        private Gun NextFormWeapon;
+        private static float fireRateStat = 0.35f;
+        private static int spreadAngle = 0;
 
         public GameObject prefabToAttachToPlayer;
         private GameObject instanceWings;
         private tk2dSprite instanceWingsSprite;
+
+        private bool m_isCurrentlyActive;
+        private bool m_hiddenForAll;
 
         private static float projectileDamageStat = 10f;
         private static float projectileSpeedStat = 20f;
@@ -102,17 +100,23 @@ namespace LOLItems.weapons
             projectile.transform.parent = gun.barrelOffset;
             projectile.shouldRotate = true;
 
+            gun.Volley.ModulesAreTiers = true;
+            ProjectileModule mod1 = gun.DefaultModule;
+            ProjectileModule mod2 = ProjectileModule.CreateClone(mod1, false);
+            gun.Volley.projectiles.Add(mod2);
+
             Projectile wave = UnityEngine.Object.Instantiate<Projectile>((PickupObjectDatabase.GetById((int)Items.MarineSidearm) as Gun).DefaultModule.projectiles[0]);
-            gun.DefaultModule.projectiles.Add(wave);
+            //gun.DefaultModule.projectiles.Add(wave);
+            gun.Volley.projectiles[1].projectiles[0] = wave;
 
             wave.gameObject.SetActive(false);
             FakePrefab.MarkAsFakePrefab(wave.gameObject);
             UnityEngine.Object.DontDestroyOnLoad(wave);
 
-            wave.baseData.damage = projectileDamageStat;
+            wave.baseData.damage = projectileDamageStat * 0.5f;
             wave.baseData.speed = projectileSpeedStat;
             wave.baseData.range = projectileRangeStat;
-            wave.baseData.force = projectileForceStat;
+            wave.baseData.force = 0;
             wave.transform.parent = gun.barrelOffset;
             wave.shouldRotate = true;
 
@@ -130,9 +134,53 @@ namespace LOLItems.weapons
             ID = gun.PickupObjectId;
         }
 
+        public override void PostProcessProjectile(Projectile projectile)
+        {
+            if (projectile != null && projectile.Owner != null)
+            {
+                currentOwner.StartCoroutine(FireWaveDelayed(projectile));
+            }
+
+            base.PostProcessProjectile(projectile);
+        }
+
+        private System.Collections.IEnumerator FireWaveDelayed(Projectile projectile)
+        {
+            if (projectile == null || projectile.Owner == null || !projectile)
+            {
+                Plugin.Log("fail 1");
+                yield break;
+            }
+
+            yield return new WaitForSeconds(0.001f);
+
+            Vector2 direction = projectile.LastVelocity.normalized;
+
+            //Projectile wave = UnityEngine.Object.Instantiate(projectile.gameObject).GetComponent<Projectile>();
+
+            Projectile wave = UnityEngine.Object.Instantiate(this.gun.Volley.projectiles[1].projectiles[0].gameObject).GetComponent<Projectile>();
+
+            /*wave.baseData.damage = projectile.baseData.damage * 0.5f;
+            wave.baseData.force = 0;
+
+            wave.sprite.color = Color.cyan;
+            wave.AdditionalScaleMultiplier = 5f;*/
+
+            wave.Owner = projectile.Owner;
+            wave.Shooter = projectile.Shooter;
+
+            wave.transform.position = currentOwner.CurrentGun.barrelOffset.position;
+            float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+            wave.transform.rotation = Quaternion.Euler(0f, 0f, angle);
+
+            wave.SendInDirection(direction, true, true);
+        }
+
         public override void OnInitializedWithOwner(GameActor actor)
         {
             currentOwner = actor as PlayerController;
+
+            currentOwner.OnIsRolling += OnRollFrame;
 
             TriggerFlight();
 
@@ -152,16 +200,86 @@ namespace LOLItems.weapons
 
         private void TriggerFlight()
         {
-            currentOwner.SetIsFlying(value: true, "DivineAscent");
-            //instanceWings = player.RegisterAttachedObject(prefabToAttachToPlayer, "DivineAscentWings");
-            //instanceWingsSprite = instanceWings.GetComponent<tk2dSprite>();
+            Plugin.Log("trigger flight");
+            if (!Dungeon.IsGenerating && currentOwner && currentOwner.sprite && currentOwner.sprite.GetComponent<tk2dSpriteAttachPoint>())
+            {
+                Plugin.Log("flight work");
+
+                m_isCurrentlyActive = true;
+                currentOwner.AdditionalCanDodgeRollWhileFlying.SetOverride("Feather", true);
+                currentOwner.SetIsFlying(value: true, "DivineAscent");
+
+                var waxWings = PickupObjectDatabase.GetById((int)Items.WaxWings).gameObject.GetComponent<WingsItem>();
+
+                instanceWings = currentOwner.RegisterAttachedObject(waxWings.prefabToAttachToPlayer, "jetpack", 0.1f);
+                instanceWingsSprite = instanceWings.GetComponent<tk2dSprite>();
+
+                if (!instanceWingsSprite)
+                {
+                    instanceWingsSprite = instanceWings.GetComponentInChildren<tk2dSprite>();
+                }
+
+                //instanceWingsSprite.transform.localPosition = waxWings.GetLocalOffsetForCharacter(currentOwner.characterIdentity).ToVector3ZUp();
+            }
         }
 
         private void StopFlight()
         {
+            Plugin.Log("Stop flight");
+
+            m_isCurrentlyActive = false;
+            currentOwner.AdditionalCanDodgeRollWhileFlying.SetOverride("Feather", false);
+
             currentOwner.SetIsFlying(value: false, "DivineAscent");
-            //player.DeregisterAttachedObject(instanceWings);
-            //instanceWingsSprite = null;
+            currentOwner.DeregisterAttachedObject(instanceWings);
+            instanceWingsSprite = null;
+        }
+
+        protected override void Update()
+        {
+            base.Update();
+            if (currentOwner == null)
+            {
+                return;
+            }
+            if (m_isCurrentlyActive)
+            {
+                if (currentOwner.IsFalling)
+                {
+                    m_hiddenForAll = true;
+                    instanceWingsSprite.renderer.enabled = false;
+                }
+                else
+                {
+                    if (m_hiddenForAll)
+                    {
+                        m_hiddenForAll = false;
+                        instanceWingsSprite.renderer.enabled = true;
+                    }
+                    /*string text = "white_wing" + currentOwner.GetBaseAnimationSuffix(true);
+                    if (!instanceWingsSprite.spriteAnimator.IsPlaying(text) && (!currentOwner.IsDodgeRolling))
+                    {
+                        instanceWingsSprite.spriteAnimator.Play(text);
+                    }*/
+                    if (GameManager.Instance.CurrentLevelOverrideState == GameManager.LevelOverrideState.END_TIMES)
+                    {
+                        StopFlight();
+                    }
+                }
+            }
+            else if (GameManager.Instance.CurrentLevelOverrideState != GameManager.LevelOverrideState.END_TIMES)
+            {
+                Plugin.Log("update trigger flight");
+                TriggerFlight();
+            }
+        }
+
+        private void OnRollFrame(PlayerController player)
+        {
+            if (GameManager.Instance.CurrentLevelOverrideState == GameManager.LevelOverrideState.END_TIMES)
+            {
+                return;
+            }
         }
     }
 }

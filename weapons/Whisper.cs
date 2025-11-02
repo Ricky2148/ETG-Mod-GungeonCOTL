@@ -32,7 +32,7 @@ namespace LOLItems.weapons
 
         private static float projectileDamageStat = 25f;
         private static float projectileSpeedStat = 70f;
-        private static float projectileRangeStat = 200f;
+        private static float projectileRangeStat = 20f;
         private static float projectileForceStat = 40f;
 
         private static float fourthShotDamageScale = 1.75f;
@@ -49,6 +49,7 @@ namespace LOLItems.weapons
         };
 
         private int shotCounter;
+        private bool idleAnimSwapped = false;
 
 
         public static void Add()
@@ -177,9 +178,9 @@ namespace LOLItems.weapons
             //projectile.hitEffects.midairInheritsFlip = true; //Should impact be directional facing?
             //projectile.hitEffects.midairInheritsRotation = true; //Should the visual rotate with the gun's orientation?
             /* You can also copy individual properties using a format like this: */
-            projectile.hitEffects.deathAny = null;
-            projectile.hitEffects.deathEnemy = null;
-            projectile.hitEffects.enemy = null;
+            projectile.hitEffects.deathAny = (PickupObjectDatabase.GetById((int)Items.MarineSidearm) as Gun).DefaultModule.projectiles[0].hitEffects.deathAny;
+            projectile.hitEffects.deathEnemy = (PickupObjectDatabase.GetById((int)Items.MarineSidearm) as Gun).DefaultModule.projectiles[0].hitEffects.deathEnemy;
+            projectile.hitEffects.enemy = (PickupObjectDatabase.GetById((int)Items.MarineSidearm) as Gun).DefaultModule.projectiles[0].hitEffects.enemy;
             projectile.hitEffects.tileMapHorizontal = (PickupObjectDatabase.GetById((int)Items.MarineSidearm) as Gun).DefaultModule.projectiles[0].hitEffects.tileMapHorizontal;
             projectile.hitEffects.tileMapVertical = (PickupObjectDatabase.GetById((int)Items.MarineSidearm) as Gun).DefaultModule.projectiles[0].hitEffects.tileMapVertical;
 
@@ -212,7 +213,7 @@ namespace LOLItems.weapons
             UnityEngine.Object.DontDestroyOnLoad(fourthShot);
 
             fourthShot.baseData.damage = projectileDamageStat * fourthShotDamageScale;
-            fourthShot.baseData.speed = projectileSpeedStat;
+            fourthShot.baseData.speed = projectileSpeedStat * 1.25f;
             fourthShot.baseData.range = projectileRangeStat;
             fourthShot.baseData.force = projectileForceStat * fourthShotDamageScale; //Knockback strength
             fourthShot.transform.parent = gun.barrelOffset;
@@ -225,6 +226,13 @@ namespace LOLItems.weapons
 
             fourthShot.SetProjectileSpriteRight("whisper_projectile_pink_001", 9, 5, true, tk2dBaseSprite.Anchor.MiddleCenter, 7, 3);
             fourthShot.AdditionalScaleMultiplier = 2f;
+
+            fourthShot.hitEffects.deathAny = (PickupObjectDatabase.GetById((int)Items.TheJudge) as Gun).DefaultModule.projectiles[0].hitEffects.deathAny;
+            fourthShot.hitEffects.deathEnemy = (PickupObjectDatabase.GetById((int)Items.TheJudge) as Gun).DefaultModule.projectiles[0].hitEffects.deathEnemy;
+            fourthShot.hitEffects.enemy = (PickupObjectDatabase.GetById((int)Items.TheJudge) as Gun).DefaultModule.projectiles[0].hitEffects.enemy;
+            fourthShot.hitEffects.tileMapHorizontal = (PickupObjectDatabase.GetById((int)Items.Mailbox) as Gun).DefaultModule.projectiles[0].hitEffects.tileMapHorizontal;
+            fourthShot.hitEffects.tileMapVertical = (PickupObjectDatabase.GetById((int)Items.Mailbox) as Gun).DefaultModule.projectiles[0].hitEffects.tileMapVertical;
+
 
             gun.DefaultModule.finalProjectile = fourthShot;
             gun.DefaultModule.numberOfFinalProjectiles = 1;
@@ -550,11 +558,15 @@ namespace LOLItems.weapons
                     BraveUtility.Swap(ref this.gun.shootAnimation, ref this.gun.criticalFireAnimation);
                     BraveUtility.Swap(ref this.gun.idleAnimation, ref this.gun.alternateIdleAnimation);
 
+                    idleAnimSwapped = !idleAnimSwapped;
+
                     break;
                 case 4:
                     AkSoundEngine.PostEvent("vineboom", player.gameObject);
 
                     BraveUtility.Swap(ref this.gun.idleAnimation, ref this.gun.alternateIdleAnimation);
+
+                    idleAnimSwapped = !idleAnimSwapped;
 
                     break;
                 default:
@@ -621,8 +633,14 @@ namespace LOLItems.weapons
                     BraveUtility.Swap(ref gun.shootAnimation, ref gun.criticalFireAnimation);
                     break;
                 case 4:
-                    BraveUtility.Swap(ref gun.idleAnimation, ref gun.alternateIdleAnimation);
+                    //BraveUtility.Swap(ref gun.idleAnimation, ref gun.alternateIdleAnimation);
                     break;
+            }
+
+            if (idleAnimSwapped)
+            {
+                BraveUtility.Swap(ref gun.idleAnimation, ref gun.alternateIdleAnimation);
+                idleAnimSwapped = !idleAnimSwapped;
             }
 
             //BraveUtility.Swap(ref gun.shootAnimation, ref gun.criticalFireAnimation);
