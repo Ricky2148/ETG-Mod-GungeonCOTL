@@ -12,6 +12,7 @@ using LOLItems.custom_class_data;
 using Alexandria.VisualAPI;
 
 // need to make the gun's idle animation not its item sprite or the UI sprite somehow
+// figure out hit effects and spread vfx
 
 namespace LOLItems.weapons
 {

@@ -14,7 +14,7 @@ using System.Reflection;
 using System.Security.AccessControl;
 using UnityEngine;
 
-// might want to change the headshot mechanic to be stacking on hit instead of being a final projectile. any clip size modifiers make it not 5 shots then 1 headshot
+// figure out hit effects
 // balance this: what rarity dps etc.
 
 namespace LOLItems.weapons
