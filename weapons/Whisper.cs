@@ -108,7 +108,7 @@ namespace LOLItems.weapons
             gun.AddProjectileModuleFrom(PickupObjectDatabase.GetById((int)Items.MarineSidearm) as Gun, true, false);
             //gun.muzzleFlashEffects = (PickupObjectDatabase.GetById((int)Items.Awp) as Gun).muzzleFlashEffects; //Loads a muzzle flash based on gun ID names.
             gun.muzzleFlashEffects = (PickupObjectDatabase.GetById((int)Items.Magnum) as Gun).muzzleFlashEffects; //marine sidearm, colt1851, 38 special, machine pistol, winchester, tangler, 
-            gun.finalMuzzleFlashEffects = (PickupObjectDatabase.GetById((int)Items.PrototypeRailgun) as Gun).muzzleFlashEffects; //pheonix, prototype railgun, unfinished gun
+            gun.finalMuzzleFlashEffects = (PickupObjectDatabase.GetById((int)Items.UnfinishedGun) as Gun).muzzleFlashEffects; //pheonix, prototype railgun, unfinished gun
             /* gunSwitchGroup loads in the firing and reloading sound effects.
              * Use an existing ID if you want to copy another gun's firing and reloading sounds, otherwise use a custom gunSwitchGroup name then assign your sound effects manually.
              * List of default sound files https://mtgmodders.gitbook.io/etg-modding-guide/various-lists-of-ids-sounds-etc./sound-list
@@ -261,10 +261,10 @@ namespace LOLItems.weapons
              * Casings can be ejected on firing and reloading while clips can only be ejected on reload.
              * You can either use existing casings/clips from vanilla guns or add custom ones using a similar sprite import process as above with ammo.
              * Custom casings can also have their properties edited by adding more parameters to GenerateDebrisObject.*/
-            //gun.shellCasing = (PickupObjectDatabase.GetById((int)Items.M1)as Gun).shellCasing; //Example using AK-47 casings.
-            gun.shellCasing = BreakableAPIToolbox.GenerateDebrisObject("LOLItems/Resources/weapon_sprites/CustomGunAmmoTypes/hextech_casing").gameObject; //Example using a custom sprite as a casing.
-            //gun.clipObject = (PickupObjectDatabase.GetById((int)Items.M1) as Gun).clipObject; //Example using AK-47 clips.
-            gun.clipObject = BreakableAPIToolbox.GenerateDebrisObject("LOLItems/Resources/weapon_sprites/CustomGunAmmoTypes/hextech_clip").gameObject;
+            gun.shellCasing = (PickupObjectDatabase.GetById((int)Items.Magnum)as Gun).shellCasing;
+            //gun.shellCasing = BreakableAPIToolbox.GenerateDebrisObject("LOLItems/Resources/weapon_sprites/CustomGunAmmoTypes/hextech_casing").gameObject; //Example using a custom sprite as a casing.
+            gun.clipObject = (PickupObjectDatabase.GetById((int)Items.Magnum) as Gun).clipObject; //Example using AK-47 clips.
+            //gun.clipObject = BreakableAPIToolbox.GenerateDebrisObject("LOLItems/Resources/weapon_sprites/CustomGunAmmoTypes/hextech_clip").gameObject;
 
             gun.shellsToLaunchOnFire = 1; //Number of shells to eject when shooting.
             gun.shellsToLaunchOnReload = 0; //Number of shells to eject when reloading (revolvers for example).

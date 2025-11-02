@@ -101,12 +101,14 @@ namespace LOLItems
             //TemplateGun.Add();
             PowPow.Add();
             PowPowAltForm.Add();
-            HextechRifle.Add();
-            ElectricRifle.Add();
-            PrayerBeads.Add();
+            //HextechRifle.Add();
+            //ElectricRifle.Add();
+            //PrayerBeads.Add();
             Whisper.Add();
             //Crossblade.Add();
-            Virtue.Add();
+            VirtueForm1.Add();
+            VirtueForm2.Add();
+
 
             //new items
             ShieldOfMoltenStone.Init();

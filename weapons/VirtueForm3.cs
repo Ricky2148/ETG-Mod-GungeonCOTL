@@ -19,6 +19,8 @@ namespace LOLItems.weapons
         public static int ID;
         public static string realName = "Virtue";
 
+        private PlayerController currentOwner;
+
         private static int ammoStat = 750;
         private static float reloadDuration = 1.0f;
         private static float fireRateStat = 0.8f;
@@ -28,9 +30,13 @@ namespace LOLItems.weapons
         private int DivineAscentFormTracker = 0;
         private float[] DivineAscentThreshold =
         {
-            5000f,
-            10000f
+            500f,
+            1000f
         };
+
+        public GameObject prefabToAttachToPlayer;
+        private GameObject instanceWings;
+        private tk2dSprite instanceWingsSprite;
 
         private static float projectileDamageStat = 10f;
         private static float projectileSpeedStat = 20f;
@@ -58,7 +64,7 @@ namespace LOLItems.weapons
             gun.SetupSprite(null, "tempgun_idle_001", 8);
 
             gun.SetAnimationFPS(gun.shootAnimation, 12);
-            gun.SetAnimationFPS(gun.reloadAnimation, 20);
+            gun.SetAnimationFPS(gun.reloadAnimation, 10);
 
             gun.AddProjectileModuleFrom(PickupObjectDatabase.GetById((int)Items.MarineSidearm) as Gun, true, false);
             gun.muzzleFlashEffects = null; //(PickupObjectDatabase.GetById((int)Items.MarineSidearm) as Gun).muzzleFlashEffects;
@@ -99,8 +105,17 @@ namespace LOLItems.weapons
             projectile.transform.parent = gun.barrelOffset;
             projectile.shouldRotate = true;
 
-            Projectile wave = UnityEngine.Object.Instantiate<Projectile>((PickupObjectDatabase.GetById((int)Items.MarineSidearm) as Gun).DefaultModule.projectiles[0]);
-            gun.DefaultModule.projectiles.Add(wave);
+            gun.Volley.ModulesAreTiers = true;
+            ProjectileModule mod1 = gun.DefaultModule;
+            ProjectileModule mod2 = ProjectileModule.CreateClone(gun.DefaultModule, false);
+            gun.Volley.projectiles.Add(mod2);
+
+            gun.Volley.projectiles[1].projectiles[0].sprite.color = Color.cyan;
+
+            /*Projectile wave = UnityEngine.Object.Instantiate<Projectile>((PickupObjectDatabase.GetById((int)Items.MarineSidearm) as Gun).DefaultModule.projectiles[0]);
+            //gun.DefaultModule.projectiles.Add(wave);
+
+            gun.Volley.projectiles[1].projectiles[1] = wave;
 
             wave.gameObject.SetActive(false);
             FakePrefab.MarkAsFakePrefab(wave.gameObject);
@@ -113,9 +128,14 @@ namespace LOLItems.weapons
             wave.transform.parent = gun.barrelOffset;
             wave.shouldRotate = true;
 
+            wave.sprite.color = Color.cyan;
+            wave.AdditionalScaleMultiplier = 5f;*/
+
             gun.shellsToLaunchOnFire = 0;
             gun.shellsToLaunchOnReload = 0;
             gun.clipsToLaunchOnReload = 0;
+
+            //gun.CurrentStrengthTier = 0;
 
             gun.quality = PickupObject.ItemQuality.B;
             ETGMod.Databases.Items.Add(gun, false, "ANY");
@@ -124,10 +144,31 @@ namespace LOLItems.weapons
 
         public override void OnInitializedWithOwner(GameActor actor)
         {
-            PlayerController player = actor as PlayerController;
-            player.OnAnyEnemyReceivedDamage += KillEnemyCount;
+            currentOwner = actor as PlayerController;
+            currentOwner.OnAnyEnemyReceivedDamage += KillEnemyCount;
+
+            this.gun.CurrentStrengthTier = DivineAscentFormTracker;
+
+            Plugin.Log($"current strength tier: {this.gun.CurrentStrengthTier}");
+            Plugin.Log($"divine ascent form tracker: {DivineAscentFormTracker}");
+
+            if (DivineAscentFormTracker > 0)
+            {
+                TriggerFlight();
+            }
 
             base.OnInitializedWithOwner(actor);
+        }
+
+        public override void OnDropped()
+        {
+            currentOwner.OnAnyEnemyReceivedDamage -= KillEnemyCount;
+
+            StopFlight();
+
+            Plugin.Log($"divine ascent form tracker: {DivineAscentFormTracker}");
+
+            base.OnDropped();
         }
 
         private void KillEnemyCount(float damage, bool fatal, HealthHaver enemyHealth)
@@ -144,23 +185,46 @@ namespace LOLItems.weapons
             }
         }
 
+        private void TriggerFlight()
+        {
+            currentOwner.SetIsFlying(value:true, "DivineAscent");
+            //instanceWings = player.RegisterAttachedObject(prefabToAttachToPlayer, "DivineAscentWings");
+            //instanceWingsSprite = instanceWings.GetComponent<tk2dSprite>();
+        }
+
+        private void StopFlight()
+        {
+            currentOwner.SetIsFlying(value:false, "DivineAscent");
+            //player.DeregisterAttachedObject(instanceWings);
+            //instanceWingsSprite = null;
+        }
+
         private void TriggerAscent()
         {
+            //PlayerController player = this.Owner as PlayerController;
+            DivineAscentFormTracker++;
             switch (DivineAscentFormTracker)
             {
-                case 0:
-                    Plugin.Log($"Virtue has ascended to its 1st form! {DivineAscentFormTracker}");
-                    break;
                 case 1:
+                    Plugin.Log($"Virtue has ascended to its 1st form! {DivineAscentFormTracker}");
+                    
+                    gun.CurrentStrengthTier = 1;
+
+                    TriggerFlight();
+
+                    Plugin.Log($"current strength tier: {this.gun.CurrentStrengthTier}");
+
+                    break;
+                case 2:
                     Plugin.Log($"Virtue has ascended to its 2nd form! {DivineAscentFormTracker}");
-                    PlayerController player = this.Owner as PlayerController;
-                    player.OnAnyEnemyReceivedDamage -= KillEnemyCount;
+
+                    currentOwner.OnAnyEnemyReceivedDamage -= KillEnemyCount;
+
                     break;
                 default:
                     Plugin.Log("Shouldn't be here...");
                     break;
             }
-            DivineAscentFormTracker++;
         }
     }
 }

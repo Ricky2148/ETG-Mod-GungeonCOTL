@@ -114,7 +114,9 @@
     <Compile Include="weapons\PowPowAltForm.cs" />
     <Compile Include="weapons\PrayerBeads.cs" />
     <Compile Include="weapons\TemplateGun.cs" />
-    <Compile Include="weapons\Virtue.cs" />
+    <Compile Include="weapons\VirtueForm3.cs" />
+    <Compile Include="weapons\VirtueForm2.cs" />
+    <Compile Include="weapons\VirtueForm1.cs" />
     <Compile Include="weapons\Whisper.cs" />
   </ItemGroup>
   <ItemGroup>
