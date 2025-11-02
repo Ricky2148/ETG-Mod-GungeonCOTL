@@ -108,6 +108,7 @@ namespace LOLItems
             //Crossblade.Add();
             VirtueForm1.Add();
             VirtueForm2.Add();
+            VirtueForm3.Add();
 
 
             //new items

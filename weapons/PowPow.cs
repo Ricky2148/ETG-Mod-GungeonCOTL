@@ -598,7 +598,7 @@ namespace LOLItems.weapons
                 }
                 else
                 {
-                    gun.DefaultModule.cooldownTime = fireRateStat - rampUpStacks * rampUpIncPerStack;
+                    //gun.DefaultModule.cooldownTime = fireRateStat - rampUpStacks * rampUpIncPerStack;
                     ItemBuilder.RemoveCurrentGunStatModifier(gun, PlayerStats.StatType.RateOfFire);
                     ItemBuilder.AddCurrentGunStatModifier(gun, PlayerStats.StatType.RateOfFire, 1.0f + (rampUpStacks * 0.1f), StatModifier.ModifyMethod.MULTIPLICATIVE);
                     player.stats.RecalculateStats(player, true, false);

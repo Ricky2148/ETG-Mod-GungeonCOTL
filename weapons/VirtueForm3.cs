@@ -13,11 +13,11 @@ using Dungeonator;
 
 namespace LOLItems.weapons
 {
-    internal class Virtue : AdvancedGunBehavior
+    internal class VirtueForm3 : AdvancedGunBehavior
     {
         public static string internalName;
         public static int ID;
-        public static string realName = "Virtue";
+        public static string realName = "VirtueForm3";
 
         private PlayerController currentOwner;
 
@@ -27,12 +27,9 @@ namespace LOLItems.weapons
         private static int spreadAngle = 5;
 
         private float DivineAscentExpTracker = 0f;
-        private int DivineAscentFormTracker = 0;
-        private float[] DivineAscentThreshold =
-        {
-            500f,
-            1000f
-        };
+        private float DivineAscentThreshold = 1000f;
+
+        private Gun NextFormWeapon;
 
         public GameObject prefabToAttachToPlayer;
         private GameObject instanceWings;
@@ -53,15 +50,15 @@ namespace LOLItems.weapons
         public static void Add()
         {
             string FULLNAME = realName;
-            string SPRITENAME = "tempgun";
+            string SPRITENAME = "hextech";
             internalName = $"LOLItems:{FULLNAME.ToID()}";
             Gun gun = ETGMod.Databases.Items.NewGun(FULLNAME, SPRITENAME);
             Game.Items.Rename($"outdated_gun_mods:{FULLNAME.ToID()}", internalName);
-            gun.gameObject.AddComponent<Virtue>();
+            gun.gameObject.AddComponent<VirtueForm3>();
             gun.SetShortDescription("idk");
             gun.SetLongDescription("idk");
 
-            gun.SetupSprite(null, "tempgun_idle_001", 8);
+            gun.SetupSprite(null, "hextech_idle_001", 8);
 
             gun.SetAnimationFPS(gun.shootAnimation, 12);
             gun.SetAnimationFPS(gun.reloadAnimation, 10);
@@ -105,17 +102,8 @@ namespace LOLItems.weapons
             projectile.transform.parent = gun.barrelOffset;
             projectile.shouldRotate = true;
 
-            gun.Volley.ModulesAreTiers = true;
-            ProjectileModule mod1 = gun.DefaultModule;
-            ProjectileModule mod2 = ProjectileModule.CreateClone(gun.DefaultModule, false);
-            gun.Volley.projectiles.Add(mod2);
-
-            gun.Volley.projectiles[1].projectiles[0].sprite.color = Color.cyan;
-
-            /*Projectile wave = UnityEngine.Object.Instantiate<Projectile>((PickupObjectDatabase.GetById((int)Items.MarineSidearm) as Gun).DefaultModule.projectiles[0]);
-            //gun.DefaultModule.projectiles.Add(wave);
-
-            gun.Volley.projectiles[1].projectiles[1] = wave;
+            Projectile wave = UnityEngine.Object.Instantiate<Projectile>((PickupObjectDatabase.GetById((int)Items.MarineSidearm) as Gun).DefaultModule.projectiles[0]);
+            gun.DefaultModule.projectiles.Add(wave);
 
             wave.gameObject.SetActive(false);
             FakePrefab.MarkAsFakePrefab(wave.gameObject);
@@ -129,7 +117,7 @@ namespace LOLItems.weapons
             wave.shouldRotate = true;
 
             wave.sprite.color = Color.cyan;
-            wave.AdditionalScaleMultiplier = 5f;*/
+            wave.AdditionalScaleMultiplier = 5f;
 
             gun.shellsToLaunchOnFire = 0;
             gun.shellsToLaunchOnReload = 0;
@@ -145,86 +133,35 @@ namespace LOLItems.weapons
         public override void OnInitializedWithOwner(GameActor actor)
         {
             currentOwner = actor as PlayerController;
-            currentOwner.OnAnyEnemyReceivedDamage += KillEnemyCount;
 
-            this.gun.CurrentStrengthTier = DivineAscentFormTracker;
+            TriggerFlight();
 
-            Plugin.Log($"current strength tier: {this.gun.CurrentStrengthTier}");
-            Plugin.Log($"divine ascent form tracker: {DivineAscentFormTracker}");
-
-            if (DivineAscentFormTracker > 0)
-            {
-                TriggerFlight();
-            }
+            Plugin.Log($"picked up {realName}");
 
             base.OnInitializedWithOwner(actor);
         }
 
         public override void OnDropped()
         {
-            currentOwner.OnAnyEnemyReceivedDamage -= KillEnemyCount;
-
             StopFlight();
 
-            Plugin.Log($"divine ascent form tracker: {DivineAscentFormTracker}");
+            Plugin.Log($"dropped up {realName}");
 
             base.OnDropped();
         }
 
-        private void KillEnemyCount(float damage, bool fatal, HealthHaver enemyHealth)
-        {
-            if (enemyHealth && fatal && enemyHealth.aiActor != null)
-            {
-                DivineAscentExpTracker += enemyHealth.aiActor.healthHaver.GetMaxHealth();
-                Plugin.Log($"Gained {enemyHealth.aiActor.healthHaver.GetMaxHealth()} Divine Ascent EXP! Current EXP: {DivineAscentExpTracker}/{DivineAscentThreshold[DivineAscentFormTracker]}");
-                if (DivineAscentExpTracker >= DivineAscentThreshold[DivineAscentFormTracker] && DivineAscentFormTracker < DivineAscentThreshold.Length)
-                {
-                    TriggerAscent();
-                    DivineAscentExpTracker = 0f;
-                }
-            }
-        }
-
         private void TriggerFlight()
         {
-            currentOwner.SetIsFlying(value:true, "DivineAscent");
+            currentOwner.SetIsFlying(value: true, "DivineAscent");
             //instanceWings = player.RegisterAttachedObject(prefabToAttachToPlayer, "DivineAscentWings");
             //instanceWingsSprite = instanceWings.GetComponent<tk2dSprite>();
         }
 
         private void StopFlight()
         {
-            currentOwner.SetIsFlying(value:false, "DivineAscent");
+            currentOwner.SetIsFlying(value: false, "DivineAscent");
             //player.DeregisterAttachedObject(instanceWings);
             //instanceWingsSprite = null;
-        }
-
-        private void TriggerAscent()
-        {
-            //PlayerController player = this.Owner as PlayerController;
-            DivineAscentFormTracker++;
-            switch (DivineAscentFormTracker)
-            {
-                case 1:
-                    Plugin.Log($"Virtue has ascended to its 1st form! {DivineAscentFormTracker}");
-                    
-                    gun.CurrentStrengthTier = 1;
-
-                    TriggerFlight();
-
-                    Plugin.Log($"current strength tier: {this.gun.CurrentStrengthTier}");
-
-                    break;
-                case 2:
-                    Plugin.Log($"Virtue has ascended to its 2nd form! {DivineAscentFormTracker}");
-
-                    currentOwner.OnAnyEnemyReceivedDamage -= KillEnemyCount;
-
-                    break;
-                default:
-                    Plugin.Log("Shouldn't be here...");
-                    break;
-            }
         }
     }
 }

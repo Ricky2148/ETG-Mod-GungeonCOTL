@@ -29,12 +29,13 @@ namespace LOLItems.weapons
         private Gun NextFormWeapon;
 
         private float DivineAscentExpTracker = 0f;
-        private int DivineAscentFormTracker = 0;
-        private float[] DivineAscentThreshold =
+        //private int DivineAscentFormTracker = 0;
+        /*private float[] DivineAscentThreshold =
         {
             500f,
             1000f
-        };
+        };*/
+        private float DivineAscentThreshold = 500f;
 
         private static float projectileDamageStat = 10f;
         private static float projectileSpeedStat = 20f;
@@ -117,12 +118,16 @@ namespace LOLItems.weapons
             currentOwner = actor as PlayerController;
             currentOwner.OnAnyEnemyReceivedDamage += KillEnemyCount;
 
+            Plugin.Log($"picked up {realName}");
+
             base.OnInitializedWithOwner(actor);
         }
 
         public override void OnDropped()
         {
             currentOwner.OnAnyEnemyReceivedDamage -= KillEnemyCount;
+
+            Plugin.Log($"dropped up {realName}");
 
             base.OnDropped();
         }
@@ -132,11 +137,15 @@ namespace LOLItems.weapons
             if (enemyHealth && fatal && enemyHealth.aiActor != null)
             {
                 DivineAscentExpTracker += enemyHealth.aiActor.healthHaver.GetMaxHealth();
-                Plugin.Log($"Gained {enemyHealth.aiActor.healthHaver.GetMaxHealth()} Divine Ascent EXP! Current EXP: {DivineAscentExpTracker}/{DivineAscentThreshold[DivineAscentFormTracker]}");
-                if (DivineAscentExpTracker >= DivineAscentThreshold[DivineAscentFormTracker] && DivineAscentFormTracker < DivineAscentThreshold.Length)
+                Plugin.Log($"Gained {enemyHealth.aiActor.healthHaver.GetMaxHealth()} Divine Ascent EXP! Current EXP: {DivineAscentExpTracker}/{DivineAscentThreshold}");
+                /*if (DivineAscentExpTracker >= DivineAscentThreshold[DivineAscentFormTracker] && DivineAscentFormTracker < DivineAscentThreshold.Length)
                 {
                     TriggerAscent();
                     DivineAscentExpTracker = 0f;
+                }*/
+                if (DivineAscentExpTracker >= DivineAscentThreshold)
+                {
+                    TriggerAscent();
                 }
             }
         }
@@ -144,8 +153,11 @@ namespace LOLItems.weapons
         private void TriggerAscent()
         {
             //PlayerController player = this.Owner as PlayerController;
-            DivineAscentFormTracker++;
-            
+            //DivineAscentFormTracker++;
+
+            currentOwner.OnAnyEnemyReceivedDamage -= KillEnemyCount;
+            DivineAscentExpTracker = 0f;
+
             if (NextFormWeapon == null)
             {
                 NextFormWeapon = PickupObjectDatabase.GetById((int)VirtueForm2.ID) as Gun;
@@ -155,7 +167,8 @@ namespace LOLItems.weapons
             {
                 Plugin.Log("Upgrading Virtue1 to Virtue2");
                 currentOwner.inventory.RemoveGunFromInventory(this.gun);
-                currentOwner.inventory.AddGunToInventory(NextFormWeapon, true);
+                //currentOwner.inventory.AddGunToInventory(NextFormWeapon, true);
+                currentOwner.GiveItem("LOLItems:virtueform2");
             }
 
             /*
