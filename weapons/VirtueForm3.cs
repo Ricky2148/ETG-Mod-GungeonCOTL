@@ -10,6 +10,7 @@ using BepInEx;
 using System.Collections.Generic;
 using LOLItems.custom_class_data;
 using Dungeonator;
+using System.Runtime.CompilerServices;
 
 namespace LOLItems.weapons
 {
@@ -25,6 +26,8 @@ namespace LOLItems.weapons
         private static float reloadDuration = 1.0f;
         private static float fireRateStat = 0.35f;
         private static int spreadAngle = 0;
+
+        private static float zealSpeedInc = 1.1f;
 
         public GameObject prefabToAttachToPlayer;
         private GameObject instanceWings;
@@ -129,9 +132,13 @@ namespace LOLItems.weapons
 
             //gun.CurrentStrengthTier = 0;
 
+            gun.spriteAnimator.OverrideTimeScale = (0.8f / 0.35f);
+
             gun.quality = PickupObject.ItemQuality.B;
             ETGMod.Databases.Items.Add(gun, false, "ANY");
             ID = gun.PickupObjectId;
+
+            ItemBuilder.AddCurrentGunStatModifier(gun, PlayerStats.StatType.MovementSpeed, zealSpeedInc, StatModifier.ModifyMethod.MULTIPLICATIVE);
         }
 
         public override void PostProcessProjectile(Projectile projectile)
@@ -191,6 +198,10 @@ namespace LOLItems.weapons
 
         public override void OnDropped()
         {
+            currentOwner.OnIsRolling -= OnRollFrame;
+
+            currentOwner = null;
+
             StopFlight();
 
             Plugin.Log($"dropped up {realName}");
@@ -238,7 +249,7 @@ namespace LOLItems.weapons
         protected override void Update()
         {
             base.Update();
-            if (currentOwner == null)
+            if (!(currentOwner != null) || !this.PickedUp || !(this.Owner != null))
             {
                 return;
             }
@@ -256,11 +267,11 @@ namespace LOLItems.weapons
                         m_hiddenForAll = false;
                         instanceWingsSprite.renderer.enabled = true;
                     }
-                    /*string text = "white_wing" + currentOwner.GetBaseAnimationSuffix(true);
+                    string text = "white_wing" + currentOwner.GetBaseAnimationSuffix(false);
                     if (!instanceWingsSprite.spriteAnimator.IsPlaying(text) && (!currentOwner.IsDodgeRolling))
                     {
                         instanceWingsSprite.spriteAnimator.Play(text);
-                    }*/
+                    }
                     if (GameManager.Instance.CurrentLevelOverrideState == GameManager.LevelOverrideState.END_TIMES)
                     {
                         StopFlight();

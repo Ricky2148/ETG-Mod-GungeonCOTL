@@ -110,6 +110,15 @@ namespace LOLItems
             AkSoundEngine.PostEvent(sfxName, gameObject);
         }
 
+        /*public static uint PlayAndReturnRandomSFX(GameObject gameObject, List<string> sfxList)
+        {
+            var rand = new System.Random();
+            int sfxIndex = rand.Next(sfxList.Count);
+            string sfxName = sfxList[sfxIndex];
+            //Plugin.Log($"Played {sfxName}");
+            return AkSoundEngine.PostEvent(sfxName, gameObject);
+        }*/
+
         public static float GetFloorValue()
         {
             string currentFloor = GameManager.Instance.GetLastLoadedLevelDefinition().dungeonSceneName;

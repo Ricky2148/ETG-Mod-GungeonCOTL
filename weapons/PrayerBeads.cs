@@ -27,7 +27,7 @@ namespace LOLItems.weapons
         private static float fireRateStat = 0.5f;
         private static int spreadAngle = 5;
 
-        private static float projectileDamageStat = 10f;
+        private static float projectileDamageStat = 15f;
         private static float projectileSpeedStat = 70f;
         private static float projectileRangeStat = 200f;
         private static float projectileForceStat = 10f;
@@ -511,7 +511,7 @@ namespace LOLItems.weapons
 
             //SoundManager.AddCustomSwitchData("WPN_Guns", gun.gunSwitchGroup, "Play_WPN_Gun_Shot_02", null);
 
-            gun.quality = PickupObject.ItemQuality.C; //Sets the gun's quality rank. Use "EXCLUDED" if the gun should not appear in chests.
+            gun.quality = PickupObject.ItemQuality.B; //Sets the gun's quality rank. Use "EXCLUDED" if the gun should not appear in chests.
             ETGMod.Databases.Items.Add(gun, false, "ANY");  //Adds your gun to the databse.
             //gun.AddToSubShop(ItemBuilder.ShopType.Trorc); //Select which sub shops during a run can carry the gun
             //gun.AddToSubShop(ItemBuilder.ShopType.Flynt);

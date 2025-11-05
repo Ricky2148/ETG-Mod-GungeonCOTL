@@ -39,17 +39,31 @@ namespace LOLItems.weapons
         private static float fourthShotMissingHealthScale = 0.25f;
 
         private static float clipSizeToDamageScale = 0.25f;
+        private float currentFireRateMod;
 
         private static List<string> normalFiringSFXList = new List<string>
         {
-            "hextech_rifle_atk_sfx_001",
-            "hextech_rifle_atk_sfx_002",
-            "hextech_rifle_atk_sfx_003",
-            "hextech_rifle_atk_sfx_004"
+            "whisper_fire_sfx_001",
+            "whisper_fire_sfx_002",
+            "whisper_fire_sfx_003"
+        };
+
+        private static List<string> thirdShotFiringSFXList = new List<string>
+        {
+            "whisper_3rdshot_into_4thshot_walk_music_001",
+            "whisper_3rdshot_into_4thshot_walk_music_002"
+        };
+
+        private static List<string> fourthShotFiringSFXList = new List<string>
+        {
+            "whisper_4th_shot_fire_sfx_001",
+            "whisper_4th_shot_fire_sfx_002"
         };
 
         private int shotCounter;
         private bool idleAnimSwapped = false;
+
+        //private uint thirdShotSoundEvent;
 
 
         public static void Add()
@@ -117,8 +131,8 @@ namespace LOLItems.weapons
             //gun.gunSwitchGroup = (PickupObjectDatabase.GetById(56) as Gun).gunSwitchGroup; //Example using a vanilla gun's ID.
             /* OR */
             gun.gunSwitchGroup = $"LOLItems_{FULLNAME.ToID()}"; //Unique name for your gun's sound group. In this example it uses your console name but with an underscore.
-            //SoundManager.AddCustomSwitchData("WPN_Guns", gun.gunSwitchGroup, "Play_WPN_Gun_Shot_01", null); //Play_WPN_Gun_Shot_01 is your weapon's base shot sound.
-            SoundManager.AddCustomSwitchData("WPN_Guns", gun.gunSwitchGroup, "Play_WPN_Gun_Reload_01", "Play_WPN_m1911_reload_01"); //Play_WPN_Gun_Reload_01 is your weapon's base reload sound.
+            SoundManager.AddCustomSwitchData("WPN_Guns", gun.gunSwitchGroup, "Play_WPN_Gun_Shot_01", null); //Play_WPN_Gun_Shot_01 is your weapon's base shot sound.
+            SoundManager.AddCustomSwitchData("WPN_Guns", gun.gunSwitchGroup, "Play_WPN_Gun_Reload_01", "whisper_reload_sfx"); //Play_WPN_Gun_Reload_01 is your weapon's base reload sound.
             SoundManager.AddCustomSwitchData("WPN_Guns", gun.gunSwitchGroup, "Play_WPN_gun_finale_01", null);
             gun.DefaultModule.angleVariance = spreadAngle; //How far from where you're aiming that bullets can deviate. 0 equals perfect accuracy.
             gun.DefaultModule.shootStyle = ProjectileModule.ShootStyle.SemiAutomatic; //Sets the firing style of the gun.
@@ -461,7 +475,7 @@ namespace LOLItems.weapons
 
             //SoundManager.AddCustomSwitchData("WPN_Guns", gun.gunSwitchGroup, "Play_WPN_Gun_Shot_02", null);
 
-            gun.quality = PickupObject.ItemQuality.C; //Sets the gun's quality rank. Use "EXCLUDED" if the gun should not appear in chests.
+            gun.quality = PickupObject.ItemQuality.A; //Sets the gun's quality rank. Use "EXCLUDED" if the gun should not appear in chests.
             ETGMod.Databases.Items.Add(gun, false, "ANY");  //Adds your gun to the databse.
             //gun.AddToSubShop(ItemBuilder.ShopType.Trorc); //Select which sub shops during a run can carry the gun
             //gun.AddToSubShop(ItemBuilder.ShopType.Flynt);
@@ -492,6 +506,16 @@ namespace LOLItems.weapons
             Plugin.Log($"switched to gun, shotCounter: {shotCounter}");
 
             base.OnSwitchedToThisGun();
+        }
+
+        public override void OnSwitchedAwayFromThisGun()
+        {
+            foreach (string s in thirdShotFiringSFXList)
+            {
+                AkSoundEngine.PostEvent(s + "_stop", gun.gameObject);
+            }
+
+            base.OnSwitchedAwayFromThisGun();
         }
 
         public override void OnAmmoChanged(PlayerController player, Gun gun)
@@ -540,20 +564,20 @@ namespace LOLItems.weapons
             switch (shotCounter)
             {
                 case 1:
-                    AkSoundEngine.PostEvent("carefree_melody_SFX", player.gameObject);
+                    HelpfulMethods.PlayRandomSFX(gun.gameObject, normalFiringSFXList);
 
                     BraveUtility.Swap(ref this.gun.shootAnimation, ref this.gun.alternateShootAnimation);
 
                     break;
                 case 2:
-                    AkSoundEngine.PostEvent("galeforce_active_SFX", player.gameObject);
-                    
+                    HelpfulMethods.PlayRandomSFX(gun.gameObject, normalFiringSFXList);
+
                     BraveUtility.Swap(ref this.gun.shootAnimation, ref this.gun.alternateShootAnimation);
                     BraveUtility.Swap(ref this.gun.shootAnimation, ref this.gun.criticalFireAnimation);
 
                     break;
                 case 3:
-                    AkSoundEngine.PostEvent("hextech_rifle_headshot_sfx_001", player.gameObject);
+                    HelpfulMethods.PlayRandomSFX(gun.gameObject, thirdShotFiringSFXList);
 
                     BraveUtility.Swap(ref this.gun.shootAnimation, ref this.gun.criticalFireAnimation);
                     BraveUtility.Swap(ref this.gun.idleAnimation, ref this.gun.alternateIdleAnimation);
@@ -562,7 +586,12 @@ namespace LOLItems.weapons
 
                     break;
                 case 4:
-                    AkSoundEngine.PostEvent("vineboom", player.gameObject);
+                    foreach (string s in thirdShotFiringSFXList)
+                    {
+                        AkSoundEngine.PostEvent(s + "_stop", gun.gameObject);
+                    }
+
+                    HelpfulMethods.PlayRandomSFX(gun.gameObject, fourthShotFiringSFXList);
 
                     BraveUtility.Swap(ref this.gun.idleAnimation, ref this.gun.alternateIdleAnimation);
 
@@ -643,6 +672,11 @@ namespace LOLItems.weapons
                 idleAnimSwapped = !idleAnimSwapped;
             }
 
+            foreach (string s in thirdShotFiringSFXList)
+            {
+                AkSoundEngine.PostEvent(s + "_stop", gun.gameObject);
+            }
+
             //BraveUtility.Swap(ref gun.shootAnimation, ref gun.criticalFireAnimation);
 
             shotCounter = 1;
@@ -651,22 +685,30 @@ namespace LOLItems.weapons
             base.OnReload(player, gun);
         }
 
-        private static void fireRateToDamage(Gun gun, PlayerController player)
+        private void fireRateToDamage(Gun gun, PlayerController player)
         {
+            ItemBuilder.RemoveCurrentGunStatModifier(gun, PlayerStats.StatType.RateOfFire);
+            ItemBuilder.RemoveCurrentGunStatModifier(gun, PlayerStats.StatType.Damage);
+
+            player.stats.RecalculateStats(player, true, false);
+
             float fireRateMod = player.stats.GetStatValue(PlayerStats.StatType.RateOfFire);
 
             Plugin.Log($"fireRateMod: {fireRateMod}");
             if (fireRateMod > 1f)
             {
-                ItemBuilder.RemoveCurrentGunStatModifier(gun, PlayerStats.StatType.RateOfFire);
+                //ItemBuilder.RemoveCurrentGunStatModifier(gun, PlayerStats.StatType.RateOfFire);
+                currentFireRateMod = 1f / fireRateMod;
                 ItemBuilder.AddCurrentGunStatModifier(gun, PlayerStats.StatType.RateOfFire, 1f / fireRateMod, StatModifier.ModifyMethod.MULTIPLICATIVE);
 
-                ItemBuilder.RemoveCurrentGunStatModifier(gun, PlayerStats.StatType.Damage);
+                //ItemBuilder.RemoveCurrentGunStatModifier(gun, PlayerStats.StatType.Damage);
                 ItemBuilder.AddCurrentGunStatModifier(gun, PlayerStats.StatType.Damage, fireRateMod, StatModifier.ModifyMethod.MULTIPLICATIVE);
 
                 Plugin.Log($"applied rate of fire mod: {1f / fireRateMod}");
                 player.stats.RecalculateStats(player, true, false);
             }
+
+            //player.stats.RecalculateStats(player, true, false);
         }
 
         public static void InitRuntimePatches()

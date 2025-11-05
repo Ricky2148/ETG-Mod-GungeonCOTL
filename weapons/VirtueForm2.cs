@@ -31,6 +31,7 @@ namespace LOLItems.weapons
         private int zealStackCap = 5;
         //private float zealIncPerStack = 0.06f;
         private float zealIncPerStack = 0.12f;
+        private float zealSpeedInc = 1.1f;
         private Coroutine zealDecayCoroutine;
 
         private float DivineAscentExpTracker = 0f;
@@ -39,10 +40,6 @@ namespace LOLItems.weapons
         private Gun NextFormWeapon;
 
         private Projectile wave;
-
-        public GameObject prefabToAttachToPlayer;
-        private GameObject instanceWings;
-        private tk2dSprite instanceWingsSprite;
 
         private static float projectileDamageStat = 10f;
         private static float projectileSpeedStat = 20f;
@@ -144,6 +141,7 @@ namespace LOLItems.weapons
             ETGMod.Databases.Items.Add(gun, false, "ANY");
             ID = gun.PickupObjectId;
             ItemBuilder.AddCurrentGunStatModifier(gun, PlayerStats.StatType.RateOfFire, 1.0f, StatModifier.ModifyMethod.MULTIPLICATIVE);
+            ItemBuilder.AddCurrentGunStatModifier(gun, PlayerStats.StatType.MovementSpeed, 1.0f, StatModifier.ModifyMethod.MULTIPLICATIVE);
         }
 
         public override void OnPostFired(PlayerController player, Gun gun)
@@ -162,6 +160,14 @@ namespace LOLItems.weapons
 
                 Plugin.Log($"zealStacks: {zealStacks}, fireratemult: {player.stats.GetBaseStatValue(PlayerStats.StatType.RateOfFire)}");
                 zealStacks++;
+
+                if (zealStacks > zealStackCap)
+                {
+                    ItemBuilder.RemoveCurrentGunStatModifier(gun, PlayerStats.StatType.MovementSpeed);
+                    ItemBuilder.AddCurrentGunStatModifier(gun, PlayerStats.StatType.MovementSpeed, zealSpeedInc, StatModifier.ModifyMethod.MULTIPLICATIVE);
+                    player.stats.RecalculateStats(player, true, false);
+                }
+
                 base.Update();
             }
 
@@ -309,6 +315,8 @@ namespace LOLItems.weapons
         {
             currentOwner.OnAnyEnemyReceivedDamage -= KillEnemyCount;
 
+            currentOwner = null;
+
             //StopFlight();
 
             Plugin.Log($"dropped up {realName}");
@@ -321,25 +329,12 @@ namespace LOLItems.weapons
             if (enemyHealth && fatal && enemyHealth.aiActor != null)
             {
                 DivineAscentExpTracker += enemyHealth.aiActor.healthHaver.GetMaxHealth();
+                Plugin.Log($"Gained {enemyHealth.aiActor.healthHaver.GetMaxHealth()} Divine Ascent EXP! Current EXP: {DivineAscentExpTracker}/{DivineAscentThreshold}");
                 if (DivineAscentExpTracker >= DivineAscentThreshold)
                 {
                     TriggerAscent();
                 }
             }
-        }
-
-        private void TriggerFlight()
-        {
-            currentOwner.SetIsFlying(value:true, "DivineAscent");
-            //instanceWings = player.RegisterAttachedObject(prefabToAttachToPlayer, "DivineAscentWings");
-            //instanceWingsSprite = instanceWings.GetComponent<tk2dSprite>();
-        }
-
-        private void StopFlight()
-        {
-            currentOwner.SetIsFlying(value:false, "DivineAscent");
-            //player.DeregisterAttachedObject(instanceWings);
-            //instanceWingsSprite = null;
         }
 
         private void TriggerAscent()
