@@ -44,7 +44,7 @@ namespace LOLItems.weapons
         public static void Add()
         {
             string FULLNAME = realName;
-            string SPRITENAME = "tempgun";
+            string SPRITENAME = "boomerangblade";
             internalName = $"LOLItems:{FULLNAME.ToID()}";
             Gun gun = ETGMod.Databases.Items.NewGun(FULLNAME, SPRITENAME);
             Game.Items.Rename($"outdated_gun_mods:{FULLNAME.ToID()}", internalName);
@@ -52,9 +52,9 @@ namespace LOLItems.weapons
             gun.SetShortDescription("idk");
             gun.SetLongDescription("idk");
 
-            gun.SetupSprite(null, "tempgun_idle_001", 8);
+            gun.SetupSprite(null, $"{SPRITENAME}_idle_001", 8);
 
-            gun.SetAnimationFPS(gun.shootAnimation, 12);
+            gun.SetAnimationFPS(gun.shootAnimation, 20);
             gun.SetAnimationFPS(gun.reloadAnimation, 20);
 
             gun.AddProjectileModuleFrom(PickupObjectDatabase.GetById((int)Items.MarineSidearm) as Gun, true, false);
@@ -108,6 +108,13 @@ namespace LOLItems.weapons
             gun.shellsToLaunchOnFire = 0;
             gun.shellsToLaunchOnReload = 0;
             gun.clipsToLaunchOnReload = 0;
+
+            projectile.hitEffects.HasProjectileDeathVFX = true;
+            projectile.hitEffects.deathAny = (PickupObjectDatabase.GetById((int)Items.DartGun) as Gun).DefaultModule.projectiles[0].hitEffects.deathAny;
+            projectile.hitEffects.deathEnemy = null;
+            projectile.hitEffects.enemy = null;
+            projectile.hitEffects.tileMapHorizontal = (PickupObjectDatabase.GetById((int)Items.DartGun) as Gun).DefaultModule.projectiles[0].hitEffects.tileMapHorizontal;
+            projectile.hitEffects.tileMapVertical = (PickupObjectDatabase.GetById((int)Items.DartGun) as Gun).DefaultModule.projectiles[0].hitEffects.tileMapVertical;
 
             projectile.SetProjectileSpriteRight("boomerangblade_projectile_001", 22, 22, true, tk2dBaseSprite.Anchor.MiddleCenter, 16, 16);
 

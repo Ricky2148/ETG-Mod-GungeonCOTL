@@ -218,6 +218,9 @@ namespace LOLItems
                     float distance = Vector2.Distance(player.CenterPosition, enemy.CenterPosition);
                     // scale damage with player damage modifiers
                     //float ShockwaveDamage = ShockwaveBaseDamage * player.stats.GetStatValue(PlayerStats.StatType.Damage);
+
+                    //Plugin.Log($"player: {player.CenterPosition}, enemy: {enemy.CenterPosition}, distance: {distance}");
+
                     if (distance <= ShockwaveRadius)
                     {
                         enemy.healthHaver.ApplyDamage(

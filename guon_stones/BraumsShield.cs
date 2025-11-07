@@ -6,6 +6,8 @@ using Alexandria;
 using Alexandria.ItemAPI;
 using UnityEngine;
 
+// should polish a little more, maybe some sounds?
+
 namespace LOLItems.guon_stones
 {
     internal class BraumsShield : AdvancedPlayerOrbitalItem

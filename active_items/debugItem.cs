@@ -138,6 +138,8 @@ namespace LOLItems
 
             player.carriedConsumables.Currency += 10;
 
+            //AkSoundEngine.PostEvent("Play_WPN_sniperrifle_shot_01", player.gameObject);
+
             Plugin.Log("debug item finished");
         }
 

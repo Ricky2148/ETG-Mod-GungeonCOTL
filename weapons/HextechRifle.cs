@@ -453,7 +453,7 @@ namespace LOLItems.weapons
             }
             else
             {
-                Plugin.Log("fuck");
+                Plugin.Log($"fuck {this.gun.DisplayName}");
             }
             base.PostProcessProjectile(projectile);
         }

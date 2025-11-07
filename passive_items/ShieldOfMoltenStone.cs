@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 
-//uses custom class data to roll a chance to prevent damage when the player is hit
+//still needs a custom sfx
 
 namespace LOLItems.passive_items
 {

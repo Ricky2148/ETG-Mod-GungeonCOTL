@@ -476,7 +476,7 @@ namespace LOLItems.weapons
 
                 gun.spriteAnimator.OverrideTimeScale = 1f + rampUpStacks * 0.1f;
                 
-                Plugin.Log($"Increased fire rate to {gun.DefaultModule.cooldownTime}, rampUpStacks: {rampUpStacks}");
+                //Plugin.Log($"Increased fire rate to {gun.DefaultModule.cooldownTime}, rampUpStacks: {rampUpStacks}");
                 rampUpStacks++;
                 base.Update();
             }
@@ -511,7 +511,7 @@ namespace LOLItems.weapons
         // starts coroutine to ramp down fire rate when player stops firing
         public override void OnFinishAttack(PlayerController player, Gun gun)
         {
-            Plugin.Log("Finished Firing, starting cooldown rampdown");
+            //Plugin.Log("Finished Firing, starting cooldown rampdown");
 
             /*if (rampDownCoroutine == null) 
             { 
@@ -558,7 +558,7 @@ namespace LOLItems.weapons
 
                     gun.spriteAnimator.OverrideTimeScale = 1f;
                     rampUpStacks = 0;
-                    Plugin.Log($"Reset {gun}'s fire rate to {player.stats.GetBaseStatValue(PlayerStats.StatType.RateOfFire)}, rampUpStacks: {rampUpStacks}");
+                    //Plugin.Log($"Reset {gun}'s fire rate to {player.stats.GetBaseStatValue(PlayerStats.StatType.RateOfFire)}, rampUpStacks: {rampUpStacks}");
                 }
             }
 
@@ -586,7 +586,7 @@ namespace LOLItems.weapons
             yield break;
             */
 
-            Plugin.Log($"rampUpStacks: {rampUpStacks}");
+            //Plugin.Log($"rampUpStacks: {rampUpStacks}");
             yield return new WaitForSeconds(0.5f);
             while (rampUpStacks > 0)
             {
@@ -594,7 +594,7 @@ namespace LOLItems.weapons
                 rampUpStacks--;
                 if (isFishbones)
                 {
-                    Plugin.Log($"isFishbones: {isFishbones}, rampUpStacks: {rampUpStacks}");
+                    //Plugin.Log($"isFishbones: {isFishbones}, rampUpStacks: {rampUpStacks}");
                 }
                 else
                 {
@@ -606,7 +606,7 @@ namespace LOLItems.weapons
                     //float updatedFiringAnimationFPS = firingAnimationFPS + rampUpStacks * firingAnimationFPS / 10f;
                     //gun.SetAnimationFPS(gun.shootAnimation, (int)updatedFiringAnimationFPS);
                     gun.spriteAnimator.OverrideTimeScale = 1f + rampUpStacks * 0.1f;
-                    Plugin.Log($"Lowered fire rate to {player.stats.GetBaseStatValue(PlayerStats.StatType.RateOfFire)}, rampUpStacks: {rampUpStacks}");
+                    //Plugin.Log($"Lowered fire rate to {player.stats.GetBaseStatValue(PlayerStats.StatType.RateOfFire)}, rampUpStacks: {rampUpStacks}");
                 }   
             }
             yield break;
@@ -618,14 +618,14 @@ namespace LOLItems.weapons
 
             if (gun == null && player == null)
             {
-                Plugin.Log($"gun: {gun}, player: {player}, manuelReload: {manualReload}");
+                //Plugin.Log($"gun: {gun}, player: {player}, manuelReload: {manualReload}");
                 return;
             }
             if (/*gun.PickupObjectId.Equals(PowPow.ID)*/ !isFishbones)
             {
                 Gun targetGun = PickupObjectDatabase.GetById(PowPowAltForm.ID) as Gun;
 
-                Plugin.Log($"Gun is currently Pow Pow | isFishbones: {isFishbones} | Switch Target: {targetGun}, Switch ID: {PowPowAltForm.ID}");
+                //Plugin.Log($"Gun is currently Pow Pow | isFishbones: {isFishbones} | Switch Target: {targetGun}, Switch ID: {PowPowAltForm.ID}");
 
                 AkSoundEngine.PostEvent("SwitchToFishbones", player.gameObject);
 
@@ -642,8 +642,8 @@ namespace LOLItems.weapons
                 //gun.OnPostFired -= OnPostFired;
                 //gun.OnFinishAttack -= OnFinishAttack;
                 gun.spriteAnimator.OverrideTimeScale = 1f;
-                Plugin.Log($"Switching while firing? rampUpStacks: {rampUpStacks}, New Fire Rate: {gun.DefaultModule.cooldownTime}");
-                Plugin.Log($"overrideTimeScale: {gun.spriteAnimator.OverrideTimeScale}");
+                //Plugin.Log($"Switching while firing? rampUpStacks: {rampUpStacks}, New Fire Rate: {gun.DefaultModule.cooldownTime}");
+                //Plugin.Log($"overrideTimeScale: {gun.spriteAnimator.OverrideTimeScale}");
                 //rampUpStacks = 0;
                 if (rampDownCoroutine != null) StopCoroutine(rampDownCoroutine);
                 rampDownCoroutine = StartCoroutine(RampUpCooldown(player, gun));
@@ -652,7 +652,7 @@ namespace LOLItems.weapons
             {
                 Gun targetGun = PickupObjectDatabase.GetById(PowPow.ID) as Gun;
 
-                Plugin.Log($"Gun is currently Pow Pow Alt Form | isFishbones: {isFishbones} | Switch Target: {targetGun}, Switch ID: {PowPow.ID}");
+                //Plugin.Log($"Gun is currently Pow Pow Alt Form | isFishbones: {isFishbones} | Switch Target: {targetGun}, Switch ID: {PowPow.ID}");
 
                 AkSoundEngine.PostEvent("SwitchToPowPow", player.gameObject);
 
@@ -672,8 +672,8 @@ namespace LOLItems.weapons
 
                 gun.spriteAnimator.OverrideTimeScale = 1f + rampUpStacks * 0.1f;
 
-                Plugin.Log($"Switching while firing? rampUpStacks: {rampUpStacks}, New Fire Rate: {gun.DefaultModule.cooldownTime}");
-                Plugin.Log($"overrideTimeScale: {gun.spriteAnimator.OverrideTimeScale}");
+                //Plugin.Log($"Switching while firing? rampUpStacks: {rampUpStacks}, New Fire Rate: {gun.DefaultModule.cooldownTime}");
+                //Plugin.Log($"overrideTimeScale: {gun.spriteAnimator.OverrideTimeScale}");
                 //gun.OnPostFired += OnPostFired;
                 //gun.OnFinishAttack += OnFinishAttack;
                 //rampUpStacks = 0;
@@ -686,7 +686,7 @@ namespace LOLItems.weapons
             }
             */
             base.Update();
-            Plugin.Log($"isFishbones toggled to: {!isFishbones}");
+            //Plugin.Log($"isFishbones toggled to: {!isFishbones}");
             isFishbones = !isFishbones;
         }
     }

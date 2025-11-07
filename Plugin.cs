@@ -61,7 +61,6 @@ namespace LOLItems
             */
 
             BladeOfTheRuinedKing.Init();
-            //ExamplePassive.Register();
             ExperimentalHexplate.Init();
             GuardianAngel.Init();
             GuinsoosRageblade.Init();
@@ -76,7 +75,6 @@ namespace LOLItems
             SunfireAegis.Init();
             Thornmail.Init();
             ZhonyasHourglass.Init();
-            //Redemption.Init();
 
             //new update?
             Collector.Init();
@@ -92,6 +90,7 @@ namespace LOLItems
             //testing
             //CarefreeMelody.Init();
             debugItem.Init();
+            Redemption.Init();
 
             //guon stones
             BraumsShield.Init();
@@ -105,7 +104,7 @@ namespace LOLItems
             ElectricRifle.Add();
             PrayerBeads.Add();
             Whisper.Add();
-            //Crossblade.Add();
+            Crossblade.Add();
             //VirtueForm1.Add();
             //VirtueForm2.Add();
             //VirtueForm3.Add();

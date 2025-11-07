@@ -491,7 +491,7 @@ namespace LOLItems.weapons
             fireRateToDamage(this.gun, player);
 
             shotCounter = 1;
-            Plugin.Log($"initialized with owner, shotCounter: {shotCounter}");
+            //Plugin.Log($"initialized with owner, shotCounter: {shotCounter}");
 
             base.OnInitializedWithOwner(actor);
         }
@@ -503,7 +503,7 @@ namespace LOLItems.weapons
             fireRateToDamage(this.gun, player);
 
             shotCounter = 5 - this.gun.ClipShotsRemaining;
-            Plugin.Log($"switched to gun, shotCounter: {shotCounter}");
+            //Plugin.Log($"switched to gun, shotCounter: {shotCounter}");
 
             base.OnSwitchedToThisGun();
         }
@@ -680,7 +680,7 @@ namespace LOLItems.weapons
             //BraveUtility.Swap(ref gun.shootAnimation, ref gun.criticalFireAnimation);
 
             shotCounter = 1;
-            Plugin.Log($"on reload, shotCounter: {shotCounter}");
+            //Plugin.Log($"on reload, shotCounter: {shotCounter}");
 
             base.OnReload(player, gun);
         }
@@ -694,7 +694,7 @@ namespace LOLItems.weapons
 
             float fireRateMod = player.stats.GetStatValue(PlayerStats.StatType.RateOfFire);
 
-            Plugin.Log($"fireRateMod: {fireRateMod}");
+            //Plugin.Log($"fireRateMod: {fireRateMod}");
             if (fireRateMod > 1f)
             {
                 //ItemBuilder.RemoveCurrentGunStatModifier(gun, PlayerStats.StatType.RateOfFire);

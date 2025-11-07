@@ -89,7 +89,6 @@
     <Compile Include="passive_items\Shadowflame.cs" />
     <Compile Include="passive_items\SunfireAegis.cs" />
     <Compile Include="passive_items\BladeOfTheRuinedKing.cs" />
-    <Compile Include="ExamplePassive.cs" />
     <Compile Include="passive_items\ExperimentalHexplate.cs" />
     <Compile Include="passive_items\GuardianAngel.cs" />
     <Compile Include="passive_items\Hubris.cs" />
@@ -105,7 +104,6 @@
     <Compile Include="active_items\Stridebreaker.cs" />
     <Compile Include="passive_items\Thornmail.cs" />
     <Compile Include="active_items\ZhonyasHourglass.cs" />
-    <Compile Include="Synergies.cs" />
     <Compile Include="weapons\BasicGun.cs" />
     <Compile Include="weapons\Crossblade.cs" />
     <Compile Include="weapons\ElectricRifle.cs" />
@@ -715,8 +713,27 @@
     <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\whisper_critical_fire_002.jtk2d" />
     <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\whisper_critical_fire_003.jtk2d" />
     <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\whisper_critical_fire_004.jtk2d" />
+    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\boomerangblade_fire_001.jtk2d" />
+    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\boomerangblade_fire_002.jtk2d" />
+    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\boomerangblade_fire_003.jtk2d" />
+    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\boomerangblade_fire_004.jtk2d" />
+    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\boomerangblade_fire_005.jtk2d" />
+    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\boomerangblade_fire_006.jtk2d" />
+    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\boomerangblade_fire_007.jtk2d" />
+    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\boomerangblade_fire_008.jtk2d" />
+    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\boomerangblade_idle_001.jtk2d" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Resources\weapon_sprites\Ammonomicon Encounter Icon Collection\boomerangblade_idle_001.png" />
+    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\boomerangblade_fire_001.png" />
+    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\boomerangblade_fire_002.png" />
+    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\boomerangblade_fire_003.png" />
+    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\boomerangblade_fire_004.png" />
+    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\boomerangblade_fire_005.png" />
+    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\boomerangblade_fire_006.png" />
+    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\boomerangblade_fire_007.png" />
+    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\boomerangblade_fire_008.png" />
+    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\boomerangblade_idle_001.png" />
     <EmbeddedResource Include="Resources\weapon_sprites\CustomGunAmmoTypes\boomerangblade_ammo_empty_001.png" />
     <EmbeddedResource Include="Resources\weapon_sprites\CustomGunAmmoTypes\boomerangblade_ammo_full_001.png" />
     <EmbeddedResource Include="Resources\weapon_sprites\ProjectileCollection\boomerangblade_projectile_001.png" />
