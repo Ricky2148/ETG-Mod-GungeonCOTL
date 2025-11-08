@@ -95,7 +95,7 @@ namespace LOLItems
             base.DamagePerSecond = ImmolateBaseDamage + 3 * ImmolateDamagePerHeart;
 
             // called when player has health, skips if player has no health (uses only armor like robot)
-            if (player.healthHaver.GetMaxHealth() > 0)
+            if (!player.ForceZeroHealthState)
             {
                 player.healthHaver.OnHealthChanged += UpdateImmolateStats;
                 UpdateImmolateStats(0f, player.healthHaver.GetMaxHealth());

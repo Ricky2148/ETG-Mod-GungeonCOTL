@@ -209,30 +209,34 @@ namespace LOLItems
             };
 
             float ShockwaveDamage = ShockwaveBaseDamage * player.stats.GetStatValue(PlayerStats.StatType.Damage);
-            
+
             // checks for all enemies in the room that are in range, applies damage, slow effect, and plays sound
-            foreach (AIActor enemy in player.CurrentRoom.GetActiveEnemies(RoomHandler.ActiveEnemyType.All))
+            List<AIActor> enemyList = player.CurrentRoom.GetActiveEnemies(RoomHandler.ActiveEnemyType.All);
+            if (enemyList != null)
             {
-                if (enemy != null && enemy.healthHaver != null && enemy.healthHaver.IsVulnerable)
+                foreach (AIActor enemy in enemyList)
                 {
-                    float distance = Vector2.Distance(player.CenterPosition, enemy.CenterPosition);
-                    // scale damage with player damage modifiers
-                    //float ShockwaveDamage = ShockwaveBaseDamage * player.stats.GetStatValue(PlayerStats.StatType.Damage);
-
-                    //Plugin.Log($"player: {player.CenterPosition}, enemy: {enemy.CenterPosition}, distance: {distance}");
-
-                    if (distance <= ShockwaveRadius)
+                    if (enemy != null && enemy.healthHaver != null && enemy.healthHaver.IsVulnerable)
                     {
-                        enemy.healthHaver.ApplyDamage(
-                            ShockwaveDamage,
-                            Vector2.zero,
-                            "Stridebreaker",
-                            CoreDamageTypes.None,
-                            DamageCategory.Normal,
-                            false
-                        );
-                        enemy.ApplyEffect(slowEffect, 1f, null);
-                        AkSoundEngine.PostEvent("stridebreaker_active_hit_SFX", player.gameObject);
+                        float distance = Vector2.Distance(player.CenterPosition, enemy.CenterPosition);
+                        // scale damage with player damage modifiers
+                        //float ShockwaveDamage = ShockwaveBaseDamage * player.stats.GetStatValue(PlayerStats.StatType.Damage);
+
+                        //Plugin.Log($"player: {player.CenterPosition}, enemy: {enemy.CenterPosition}, distance: {distance}");
+
+                        if (distance <= ShockwaveRadius)
+                        {
+                            enemy.healthHaver.ApplyDamage(
+                                ShockwaveDamage,
+                                Vector2.zero,
+                                "Stridebreaker",
+                                CoreDamageTypes.None,
+                                DamageCategory.Normal,
+                                false
+                            );
+                            enemy.ApplyEffect(slowEffect, 1f, null);
+                            AkSoundEngine.PostEvent("stridebreaker_active_hit_SFX", player.gameObject);
+                        }
                     }
                 }
             }

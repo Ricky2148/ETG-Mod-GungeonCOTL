@@ -135,7 +135,7 @@ namespace LOLItems.weapons
             /* BarrelOffset sets the length and width away on the sprite where the barrel should end.
              * This is where the muzzle flash and projectile will appear. */
             gun.barrelOffset.transform.localPosition += new Vector3(16 / 16f, 7 / 16f);
-            gun.gunScreenShake.magnitude = 1f; //How much the gun shakes the screen when fired.
+            gun.gunScreenShake.magnitude = 0.8f; //How much the gun shakes the screen when fired.
 
             //gun.preventRotation = true; //Prevents the gun from rotating with aim direction -> will always face directly right or left.
             //gun.InfiniteAmmo = true; //Gives a gun infinite ammo. By default infinite ammo guns can't crack walls leading to secret rooms.

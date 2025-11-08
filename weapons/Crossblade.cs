@@ -22,7 +22,7 @@ namespace LOLItems.weapons
         private static int ammoStat = 750;
         private static float reloadDuration = 1.0f;
         private static float fireRateStat = 0.6f;
-        private static int spreadAngle = 5;
+        private static int spreadAngle = 0;
 
         private static int ricochetRange = 5;
         private static int ricochetCount = 8;
@@ -54,7 +54,7 @@ namespace LOLItems.weapons
 
             gun.SetupSprite(null, $"{SPRITENAME}_idle_001", 8);
 
-            gun.SetAnimationFPS(gun.shootAnimation, 20);
+            gun.SetAnimationFPS(gun.shootAnimation, 18);
             gun.SetAnimationFPS(gun.reloadAnimation, 20);
 
             gun.AddProjectileModuleFrom(PickupObjectDatabase.GetById((int)Items.MarineSidearm) as Gun, true, false);
@@ -78,7 +78,7 @@ namespace LOLItems.weapons
 
             gun.carryPixelOffset += new IntVector2(0, 0);
 
-            gun.barrelOffset.transform.localPosition += new Vector3(0 / 16f, 0 / 16f);
+            gun.barrelOffset.transform.localPosition += new Vector3(4 / 16f, 10 / 16f);
 
             gun.gunScreenShake.magnitude = 0f;
 
@@ -131,7 +131,7 @@ namespace LOLItems.weapons
                 "boomerangblade_projectile_008",
             };
             // Animation FPS.
-            int projectileFPS = 20;
+            int projectileFPS = 16;
             // Visual sprite size for each frame.  Sprite images will stretch to match these sizes.
             List<IntVector2> projectileSizes = new List<IntVector2>
             {

@@ -1,4 +1,5 @@
 ﻿using Alexandria;
+using Alexandria.BreakableAPI;
 using Alexandria.ItemAPI;
 using Alexandria.Misc;
 using Alexandria.VisualAPI;
@@ -9,6 +10,7 @@ using LOLItems.weapons;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using UnityEngine;
 
@@ -22,6 +24,9 @@ namespace LOLItems.active_items
         private static float ShroomDPS = 25f;
         private static float ShroomSlowPercent = 0.5f;
         private static float ShroomEffectDuration = 4f;
+
+        public static DebrisObject shroomObject;
+        public static Projectile shroomExplosion;
 
         private static List<string> VFXSpritePath = new List<string>
             {
@@ -93,8 +98,27 @@ namespace LOLItems.active_items
             ItemBuilder.SetCooldownType(item, ItemBuilder.CooldownType.Timed, 1f);
             item.consumable = true;
             item.canStack = true;
-
             item.usableDuringDodgeRoll = false;
+
+            shroomObject = BreakableAPIToolbox.GenerateDebrisObject("LOLItems/Resources/example_item_sprite", true, 7, 10, 100, 0, null, .2f, null, null, 0);
+
+            Projectile projectile = UnityEngine.Object.Instantiate<Projectile>((PickupObjectDatabase.GetById((int)Items.MarineSidearm) as Gun).DefaultModule.projectiles[0]);
+            
+            projectile.gameObject.SetActive(false);
+            FakePrefab.MarkAsFakePrefab(projectile.gameObject);
+            UnityEngine.Object.DontDestroyOnLoad(projectile);
+
+            projectile.baseData.damage = 2;
+            projectile.baseData.speed = 0f;
+            projectile.baseData.range = 20f;
+            projectile.SuppressHitEffects = true;
+            projectile.objectImpactEventName = null;
+            PierceProjModifier pierce = projectile.gameObject.GetOrAddComponent<PierceProjModifier>();
+            pierce.penetratesBreakables = true;
+            pierce.penetration = 100;
+
+            shroomExplosion = projectile;
+
             item.quality = PickupObject.ItemQuality.A;
             ID = item.PickupObjectId;
         }
@@ -116,6 +140,38 @@ namespace LOLItems.active_items
         public void DoEffect(PlayerController player)
         {
             // spawn a projectile that lingers in and when hitting an enemy, explodes and does shroom
+
+            if (player != null)
+            {
+                StartCoroutine(ThrowShroom());
+                player.DidUnstealthyAction();
+            }
+        }
+
+        private System.Collections.IEnumerator ThrowShroom()
+        {
+            Vector2 dir = this.LastOwner.unadjustedAimPoint - this.LastOwner.CurrentGun.barrelOffset.transform.position;
+            GameObject shroomObjectInstance = UnityEngine.Object.Instantiate<GameObject>(shroomObject.gameObject, this.LastOwner.CenterPosition, Quaternion.identity);
+            DebrisObject debris = LootEngine.DropItemWithoutInstantiating(shroomObjectInstance, this.LastOwner.CurrentGun.barrelOffset.transform.position, dir, 7, false, false, true, false);
+
+            while (shroomObjectInstance.gameObject != null)
+            {
+                if (GetPrivateType<DebrisObject, bool>(debris, "onGround"))
+                {
+                    if (debris != null)
+                    {
+                        
+                    }
+                }
+            }
+
+            yield return null;
+        }
+
+        private static T2 GetPrivateType<T, T2>(T obj, string field)
+        {
+            FieldInfo f = typeof(T).GetField(field, BindingFlags.NonPublic | BindingFlags.Instance);
+            return (T2)f.GetValue(obj);
         }
     }
 }

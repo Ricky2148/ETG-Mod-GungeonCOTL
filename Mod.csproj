@@ -72,7 +72,6 @@
     <Compile Include="custom_class_data\RicochetProjectileModule.cs" />
     <Compile Include="guon_stones\BraumsShield.cs" />
     <Compile Include="npcs\Bubbs.cs" />
-    <Compile Include="passive_items\CarefreeMelody.cs" />
     <Compile Include="passive_items\CloakOfStarryNight.cs" />
     <Compile Include="passive_items\ShieldOfMoltenStone.cs" />
     <Compile Include="passive_items\Collector.cs" />
@@ -104,14 +103,12 @@
     <Compile Include="active_items\Stridebreaker.cs" />
     <Compile Include="passive_items\Thornmail.cs" />
     <Compile Include="active_items\ZhonyasHourglass.cs" />
-    <Compile Include="weapons\BasicGun.cs" />
     <Compile Include="weapons\Crossblade.cs" />
     <Compile Include="weapons\ElectricRifle.cs" />
     <Compile Include="weapons\HextechRifle.cs" />
     <Compile Include="weapons\PowPow.cs" />
     <Compile Include="weapons\PowPowAltForm.cs" />
     <Compile Include="weapons\PrayerBeads.cs" />
-    <Compile Include="weapons\TemplateGun.cs" />
     <Compile Include="weapons\VirtueForm3.cs" />
     <Compile Include="weapons\VirtueForm2.cs" />
     <Compile Include="weapons\VirtueForm1.cs" />
@@ -722,8 +719,18 @@
     <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\boomerangblade_fire_007.jtk2d" />
     <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\boomerangblade_fire_008.jtk2d" />
     <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\boomerangblade_idle_001.jtk2d" />
+    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\boomerangblade_fire_009.jtk2d" />
+    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\boomerangblade_fire_010.jtk2d" />
+    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\boomerangblade_idle_002.jtk2d" />
+    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\boomerangblade_idle_003.jtk2d" />
+    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\boomerangblade_idle_004.jtk2d" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\boomerangblade_fire_009.png" />
+    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\boomerangblade_fire_010.png" />
+    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\boomerangblade_idle_002.png" />
+    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\boomerangblade_idle_003.png" />
+    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\boomerangblade_idle_004.png" />
     <EmbeddedResource Include="Resources\weapon_sprites\Ammonomicon Encounter Icon Collection\boomerangblade_idle_001.png" />
     <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\boomerangblade_fire_001.png" />
     <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\boomerangblade_fire_002.png" />

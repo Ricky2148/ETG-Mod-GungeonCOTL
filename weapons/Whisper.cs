@@ -160,7 +160,7 @@ namespace LOLItems.weapons
              * This is where the muzzle flash and projectile will appear. */
             gun.barrelOffset.transform.localPosition += new Vector3(28 / 16f, 15 / 16f);
             
-            gun.gunScreenShake.magnitude = 0f; //How much the gun shakes the screen when fired.
+            gun.gunScreenShake.magnitude = 0.8f; //How much the gun shakes the screen when fired.
             
             gun.CriticalDamageMultiplier = 1f;
             gun.CanCriticalFire = false;

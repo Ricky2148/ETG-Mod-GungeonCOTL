@@ -26,22 +26,24 @@ namespace LOLItems
 
         private static List<string> VFXSpritePath = new List<string>
             {
-                "LOLItems/Resources/vfxs/test_vfx/image (1)",
-                "LOLItems/Resources/vfxs/test_vfx/image (2)",
-                "LOLItems/Resources/vfxs/test_vfx/image (3)",
-                "LOLItems/Resources/vfxs/test_vfx/image (4)",
-                "LOLItems/Resources/vfxs/test_vfx/image (5)",
-                "LOLItems/Resources/vfxs/test_vfx/image (6)",
-                "LOLItems/Resources/vfxs/test_vfx/image (7)",
-                "LOLItems/Resources/vfxs/test_vfx/image (8)",
-                "LOLItems/Resources/vfxs/test_vfx/image (9)",
+                "LOLItems/Resources/vfxs/breakingshockwave/breakingshockwave_001",
+                "LOLItems/Resources/vfxs/breakingshockwave/breakingshockwave_002",
+                "LOLItems/Resources/vfxs/breakingshockwave/breakingshockwave_003",
+                "LOLItems/Resources/vfxs/breakingshockwave/breakingshockwave_004",
+                "LOLItems/Resources/vfxs/breakingshockwave/breakingshockwave_005",
+                "LOLItems/Resources/vfxs/breakingshockwave/breakingshockwave_006",
+                "LOLItems/Resources/vfxs/breakingshockwave/breakingshockwave_007",
+                "LOLItems/Resources/vfxs/breakingshockwave/breakingshockwave_008",
+                "LOLItems/Resources/vfxs/breakingshockwave/breakingshockwave_009",
+                "LOLItems/Resources/vfxs/breakingshockwave/breakingshockwave_010",
+                "LOLItems/Resources/vfxs/breakingshockwave/breakingshockwave_011"
             };
 
         private static GameObject EffectVFX = VFXBuilder.CreateVFX
         (
             "intervention_vfx",
             VFXSpritePath,
-            30,
+            5,
             new IntVector2(0, 0),
             tk2dBaseSprite.Anchor.MiddleCenter,
             false,
@@ -202,9 +204,19 @@ namespace LOLItems
 
         private System.Collections.IEnumerator DoInterventionEvent(PlayerController player, Vector2 cursorPos)
         {
-            Vector2 initialCursorPos = cursorPos;
+            //Vector2 initialCursorPos = cursorPos;
 
-            activeVFXObject = UnityEngine.Object.Instantiate(EffectVFX, cursorPos, Quaternion.identity);
+            Vector2 initialCursorPos = Vector2.zero;
+            if (BraveInput.GetInstanceForPlayer(player.PlayerIDX).IsKeyboardAndMouse())
+            {
+                initialCursorPos = player.unadjustedAimPoint.XY() - (player.CenterPosition - player.specRigidbody.UnitCenter);
+            }
+            if (initialCursorPos != Vector2.zero)
+            {
+                initialCursorPos = BraveMathCollege.ClampToBounds(initialCursorPos, GameManager.Instance.MainCameraController.MinVisiblePoint, GameManager.Instance.MainCameraController.MaxVisiblePoint);
+            }
+
+            activeVFXObject = UnityEngine.Object.Instantiate(EffectVFX, initialCursorPos, Quaternion.identity);
 
             var sprite = activeVFXObject.GetComponent<tk2dSprite>();
 
@@ -212,7 +224,7 @@ namespace LOLItems
             {
                 sprite.HeightOffGround = -50f; //-50f
 
-                //sprite.scale = new Vector3(3.1f, 3.1f, 1f);
+                sprite.scale = new Vector3(3.1f, 3.1f, 1f);
 
                 sprite.UpdateZDepth();
 
@@ -229,39 +241,53 @@ namespace LOLItems
                 Destroy(activeVFXObject);
             }
 
-            foreach (AIActor enemy in player.CurrentRoom.GetActiveEnemies(RoomHandler.ActiveEnemyType.All))
+            List<AIActor> enemyList = player.CurrentRoom.GetActiveEnemies(RoomHandler.ActiveEnemyType.All);
+            if (enemyList != null)
             {
-                if (enemy != null && enemy.healthHaver != null && enemy.healthHaver.IsVulnerable)
+                foreach (AIActor enemy in enemyList)
                 {
-                    float distance = Vector2.Distance(initialCursorPos, enemy.CenterPosition);
-                    // scale damage with player damage modifiers
-                    //float ShockwaveDamage = ShockwaveBaseDamage * player.stats.GetStatValue(PlayerStats.StatType.Damage);
-
-                    Plugin.Log($"cursor: {initialCursorPos.ToString()}, enemy: {enemy.CenterPosition.ToString()}, distance: {distance}");
-
-                    if (distance <= InterventionEffectRadius)
+                    if (enemy != null && enemy.healthHaver != null && enemy.healthHaver.IsVulnerable)
                     {
-                        float damageToDeal = enemy.healthHaver.GetMaxHealth() * InterventionDamageScale;
+                        float distance = Vector2.Distance(initialCursorPos, enemy.CenterPosition);
+                        // scale damage with player damage modifiers
+                        //float ShockwaveDamage = ShockwaveBaseDamage * player.stats.GetStatValue(PlayerStats.StatType.Damage);
 
-                        enemy.healthHaver.ApplyDamage(
-                            damageToDeal,
-                            Vector2.zero,
-                            "Stridebreaker",
-                            CoreDamageTypes.None,
-                            DamageCategory.Normal,
-                            false
-                        );
-                        //enemy.ApplyEffect(slowEffect, 1f, null);
-                        //AkSoundEngine.PostEvent("stridebreaker_active_hit_SFX", player.gameObject);
+                        Plugin.Log($"cursor: {initialCursorPos.ToString()}, enemy: {enemy.CenterPosition.ToString()}, distance: {distance}");
+
+                        if (distance <= InterventionEffectRadius)
+                        {
+                            float damageToDeal = enemy.healthHaver.GetMaxHealth() * InterventionDamageScale;
+
+                            enemy.healthHaver.ApplyDamage(
+                                damageToDeal,
+                                Vector2.zero,
+                                "intervention",
+                                CoreDamageTypes.None,
+                                DamageCategory.Normal,
+                                false
+                            );
+                            //enemy.ApplyEffect(slowEffect, 1f, null);
+                            //AkSoundEngine.PostEvent("stridebreaker_active_hit_SFX", player.gameObject);
+                        }
                     }
                 }
             }
 
-            if (Vector2.Distance(initialCursorPos, player.CenterPosition) <= InterventionEffectRadius)
+            if (GameManager.Instance.PrimaryPlayer != null)
             {
-                if (player.healthHaver.isPlayerCharacter && player.healthHaver.currentHealth < player.healthHaver.GetMaxHealth())
+                PlayerController player1 = GameManager.Instance.PrimaryPlayer;
+                if (Vector2.Distance(initialCursorPos, player1.CenterPosition) <= InterventionEffectRadius && player1.healthHaver.currentHealth < player1.healthHaver.GetMaxHealth())
                 {
-                    player.healthHaver.ForceSetCurrentHealth(player.healthHaver.currentHealth + InterventionHealAmount);
+                    player1.healthHaver.ForceSetCurrentHealth(player1.healthHaver.currentHealth + InterventionHealAmount);
+                }
+            }
+
+            if (GameManager.Instance.SecondaryPlayer != null)
+            {
+                PlayerController player2 = GameManager.Instance.SecondaryPlayer;
+                if (Vector2.Distance(initialCursorPos, player2.CenterPosition) <= InterventionEffectRadius && player2.healthHaver.currentHealth < player2.healthHaver.GetMaxHealth())
+                {
+                    player2.healthHaver.ForceSetCurrentHealth(player2.healthHaver.currentHealth + InterventionHealAmount);
                 }
             }
         }

@@ -68,21 +68,25 @@ namespace LOLItems
         {
             if (player.CurrentRoom == null) return;
 
-            foreach (AIActor enemy in player.CurrentRoom.GetActiveEnemies(RoomHandler.ActiveEnemyType.All))
+            List<AIActor> enemyList = player.CurrentRoom.GetActiveEnemies(RoomHandler.ActiveEnemyType.All);
+            if (enemyList != null)
             {
-                if (enemy != null && enemy.healthHaver != null && enemy.healthHaver.IsVulnerable)
+                foreach (AIActor enemy in enemyList)
                 {
-                    float dist = Vector2.Distance(player.CenterPosition, enemy.CenterPosition);
-                    if (dist <= ThornsRadius)
+                    if (enemy != null && enemy.healthHaver != null && enemy.healthHaver.IsVulnerable)
                     {
-                        enemy.healthHaver.ApplyDamage(
-                            ThornsDamage,
-                            Vector2.zero,
-                            "Blank Damage",
-                            CoreDamageTypes.None,
-                            DamageCategory.Normal,
-                            false
-                        );
+                        float dist = Vector2.Distance(player.CenterPosition, enemy.CenterPosition);
+                        if (dist <= ThornsRadius)
+                        {
+                            enemy.healthHaver.ApplyDamage(
+                                ThornsDamage,
+                                Vector2.zero,
+                                "thornmail_blank_damage",
+                                CoreDamageTypes.None,
+                                DamageCategory.Normal,
+                                false
+                            );
+                        }
                     }
                 }
             }
