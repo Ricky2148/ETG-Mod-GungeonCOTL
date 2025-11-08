@@ -557,9 +557,16 @@ namespace LOLItems.weapons
                 Plugin.Log("fuck");
             }
             */
-            HelpfulMethods.PlayRandomSFX(projectile.Owner.gameObject, normalFiringSFXList);
+            //HelpfulMethods.PlayRandomSFX(projectile.Owner.gameObject, normalFiringSFXList);
             //projectile.OnHitEnemy += HandleHitEnemy;
             base.PostProcessProjectile(projectile);
+        }
+
+        public override void OnPostFired(PlayerController player, Gun gun)
+        {
+            HelpfulMethods.PlayRandomSFX(gun.gameObject, normalFiringSFXList);
+
+            base.OnPostFired(player, gun);
         }
 
         /* Spread module

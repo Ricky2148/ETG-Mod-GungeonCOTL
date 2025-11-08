@@ -458,7 +458,7 @@ namespace LOLItems.weapons
                     Plugin.Log($"isFishbones: {isFishbones}, starting cooldown rampdown");
                     rampDownCoroutine = StartCoroutine(RampUpCooldown(player, gun));
                 }*/
-                HelpfulMethods.PlayRandomSFX(player.gameObject, FishbonesFiringSFXList);
+                HelpfulMethods.PlayRandomSFX(gun.gameObject, FishbonesFiringSFXList);
                 return;
             }
             if (rampDownCoroutine != null) StopCoroutine(rampDownCoroutine);

@@ -444,12 +444,12 @@ namespace LOLItems.weapons
             if (projectile.GetCachedBaseDamage == projectileDamageStat)
             {
                 //Plugin.Log("regular sound");
-                HelpfulMethods.PlayRandomSFX(player.gameObject , normalFiringSFXList);
+                HelpfulMethods.PlayRandomSFX(player.CurrentGun.gameObject , normalFiringSFXList);
             }
             else if (projectile.GetCachedBaseDamage == projectileDamageStat * headshotDamageScale)
             {
                 //Plugin.Log("headshot sound");
-                HelpfulMethods.PlayRandomSFX(player.gameObject, headshotSFXList);
+                HelpfulMethods.PlayRandomSFX(player.CurrentGun.gameObject, headshotSFXList);
             }
             else
             {

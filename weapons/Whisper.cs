@@ -564,20 +564,20 @@ namespace LOLItems.weapons
             switch (shotCounter)
             {
                 case 1:
-                    HelpfulMethods.PlayRandomSFX(gun.gameObject, normalFiringSFXList);
+                    HelpfulMethods.PlayRandomSFX(player.CurrentGun.gameObject, normalFiringSFXList);
 
                     BraveUtility.Swap(ref this.gun.shootAnimation, ref this.gun.alternateShootAnimation);
 
                     break;
                 case 2:
-                    HelpfulMethods.PlayRandomSFX(gun.gameObject, normalFiringSFXList);
+                    HelpfulMethods.PlayRandomSFX(player.CurrentGun.gameObject, normalFiringSFXList);
 
                     BraveUtility.Swap(ref this.gun.shootAnimation, ref this.gun.alternateShootAnimation);
                     BraveUtility.Swap(ref this.gun.shootAnimation, ref this.gun.criticalFireAnimation);
 
                     break;
                 case 3:
-                    HelpfulMethods.PlayRandomSFX(gun.gameObject, thirdShotFiringSFXList);
+                    HelpfulMethods.PlayRandomSFX(player.CurrentGun.gameObject, thirdShotFiringSFXList);
 
                     BraveUtility.Swap(ref this.gun.shootAnimation, ref this.gun.criticalFireAnimation);
                     BraveUtility.Swap(ref this.gun.idleAnimation, ref this.gun.alternateIdleAnimation);
@@ -591,7 +591,7 @@ namespace LOLItems.weapons
                         AkSoundEngine.PostEvent(s + "_stop", gun.gameObject);
                     }
 
-                    HelpfulMethods.PlayRandomSFX(gun.gameObject, fourthShotFiringSFXList);
+                    HelpfulMethods.PlayRandomSFX(player.CurrentGun.gameObject, fourthShotFiringSFXList);
 
                     BraveUtility.Swap(ref this.gun.idleAnimation, ref this.gun.alternateIdleAnimation);
 

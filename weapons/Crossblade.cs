@@ -19,10 +19,10 @@ namespace LOLItems.weapons
         public static int ID; 
         public static string realName = "Crossblade"; 
 
-        private static int ammoStat = 750;
-        private static float reloadDuration = 1.0f;
+        private static int ammoStat = 250;
+        private static float reloadDuration = 0f;
         private static float fireRateStat = 0.6f;
-        private static int spreadAngle = 0;
+        private static int spreadAngle = 5;
 
         private static int ricochetRange = 5;
         private static int ricochetCount = 8;
@@ -36,9 +36,13 @@ namespace LOLItems.weapons
 
         private static List<string> CrossbladeFiringSFXList = new List<string>
         {
-            "FishbonesFireSFX1",
-            "FishbonesFireSFX2",
-            "FishbonesFireSFX3"
+            //"boomerangblade_fire_sfx_001",
+            //"boomerangblade_fire_sfx_002",
+            //"boomerangblade_fire_sfx_003",
+            "boomerangblade_fire_sfx_004",
+            "boomerangblade_fire_sfx_005",
+            "boomerangblade_fire_sfx_006",
+            "boomerangblade_fire_sfx_007",
         };
 
         public static void Add()
@@ -61,7 +65,7 @@ namespace LOLItems.weapons
             gun.muzzleFlashEffects = null; //(PickupObjectDatabase.GetById((int)Items.MarineSidearm) as Gun).muzzleFlashEffects;
 
             gun.gunSwitchGroup = $"LOLItems_{FULLNAME.ToID()}";
-            SoundManager.AddCustomSwitchData("WPN_Guns", gun.gunSwitchGroup, "Play_WPN_Gun_Shot_01", "Play_WPN_minigun_shot_01"); 
+            SoundManager.AddCustomSwitchData("WPN_Guns", gun.gunSwitchGroup, "Play_WPN_Gun_Shot_01", null); 
             SoundManager.AddCustomSwitchData("WPN_Guns", gun.gunSwitchGroup, "Play_WPN_Gun_Reload_01", null); 
 
             gun.DefaultModule.angleVariance = spreadAngle;
@@ -115,6 +119,9 @@ namespace LOLItems.weapons
             projectile.hitEffects.enemy = null;
             projectile.hitEffects.tileMapHorizontal = (PickupObjectDatabase.GetById((int)Items.DartGun) as Gun).DefaultModule.projectiles[0].hitEffects.tileMapHorizontal;
             projectile.hitEffects.tileMapVertical = (PickupObjectDatabase.GetById((int)Items.DartGun) as Gun).DefaultModule.projectiles[0].hitEffects.tileMapVertical;
+
+            projectile.objectImpactEventName = "shockSMG3";
+            projectile.enemyImpactEventName = "boomerangblade1";
 
             projectile.SetProjectileSpriteRight("boomerangblade_projectile_001", 22, 22, true, tk2dBaseSprite.Anchor.MiddleCenter, 16, 16);
 
@@ -268,8 +275,16 @@ namespace LOLItems.weapons
                 projectile.OnHitEnemy += HandleHitEnemy;
             }
             */
+            //HelpfulMethods.PlayRandomSFX(projectile.gameObject, CrossbladeFiringSFXList);
 
             base.PostProcessProjectile(projectile);
+        }
+
+        public override void OnPostFired(PlayerController player, Gun gun)
+        {
+            HelpfulMethods.PlayRandomSFX(gun.gameObject, CrossbladeFiringSFXList);
+
+            base.OnPostFired(player, gun);
         }
 
         /*
