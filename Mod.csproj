@@ -109,6 +109,7 @@
     <Compile Include="weapons\PowPow.cs" />
     <Compile Include="weapons\PowPowAltForm.cs" />
     <Compile Include="weapons\PrayerBeads.cs" />
+    <Compile Include="weapons\SoulSpear.cs" />
     <Compile Include="weapons\VirtueForm3.cs" />
     <Compile Include="weapons\VirtueForm2.cs" />
     <Compile Include="weapons\VirtueForm1.cs" />

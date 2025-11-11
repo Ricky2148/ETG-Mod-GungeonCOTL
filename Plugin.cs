@@ -108,6 +108,7 @@ namespace LOLItems
             //VirtueForm1.Add();
             //VirtueForm2.Add();
             //VirtueForm3.Add();
+            SoulSpear.Add();
 
 
             //new items
@@ -119,11 +120,11 @@ namespace LOLItems
             Bubbs.Init();
             Log($"{NAME} v{VERSION} started successfully.", TEXT_COLOR);
 
-            var myOriginalMethods = _Harmony.GetPatchedMethods();
+            /*var myOriginalMethods = _Harmony.GetPatchedMethods();
             foreach (var method in myOriginalMethods) 
             {
                 Log("Patched Method: " + method.DeclaringType.FullName + "." + method.Name, TEXT_COLOR);
-            }
+            }*/
         }
 
         public static void Log(string text, string color= "#FF007F")
