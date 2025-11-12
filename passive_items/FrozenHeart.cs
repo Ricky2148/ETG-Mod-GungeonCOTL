@@ -29,7 +29,8 @@ namespace LOLItems
             effectIdentifier = "frozen_heart_cripple_effect",
             resistanceType = EffectResistanceType.None,
             AppliesOutlineTint = true,
-            OutlineTintColor = ExtendedColours.skyblue
+            OutlineTintColor = ExtendedColours.skyblue,
+            CrippleAmount = WintersCaressCrippleRatio
         };
 
         public static void Init()
@@ -81,8 +82,8 @@ namespace LOLItems
             {
                 AuraAction = delegate (AIActor actor, float dist)
                 {
-                    WintersCaressCrippleEffect.CrippleAmount = WintersCaressCrippleRatio;
-                    WintersCaressCrippleEffect.CrippleDuration = 0.5f;
+                    //WintersCaressCrippleEffect.CrippleAmount = WintersCaressCrippleRatio;
+                    //WintersCaressCrippleEffect.CrippleDuration = 0.5f;
                     actor.ApplyEffect(WintersCaressCrippleEffect);
                 };
             }
