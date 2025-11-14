@@ -19,6 +19,7 @@ using MonoMod.Cil;
 using Mono.Cecil.Cil;
 
 //bother balancing these items later
+// update bubbs with item list
 
 namespace LOLItems
 {

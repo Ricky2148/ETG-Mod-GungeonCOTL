@@ -12,6 +12,8 @@ using LOLItems.active_items;
 using LOLItems.passive_items;
 using Alexandria.DungeonAPI;
 
+// update item list before release
+
 namespace LOLItems
 {
     public static class Bubbs
@@ -20,96 +22,96 @@ namespace LOLItems
         public static GameObject HandyGameObject;
         public static void Init()
         {
-            ETGMod.Databases.Strings.Core.AddComplex("#BUBBS_GENERIC_TALK", "Everything I say is waterproof! Or if not, water-absorbent!");
+            ETGMod.Databases.Strings.Core.AddComplex("#BUBBS_GENERIC_TALK", "Everything I say is {ws}waterproof!{w} Or if not, {wq}water-absorbent!{w}");
             ETGMod.Databases.Strings.Core.AddComplex("#BUBBS_GENERIC_TALK", "Perhaps I could tell you about my impending odyssey!");
             ETGMod.Databases.Strings.Core.AddComplex("#BUBBS_GENERIC_TALK", "Frugality is not a virtue, I assure you.");
             ETGMod.Databases.Strings.Core.AddComplex("#BUBBS_GENERIC_TALK", "Purchase thoroughly! You'll never know when I shove off!");
             ETGMod.Databases.Strings.Core.AddComplex("#BUBBS_GENERIC_TALK", "You look like an aspiring patron of scientific research!");
-            ETGMod.Databases.Strings.Core.AddComplex("#BUBBS_GENERIC_TALK", "The sea is the final frontier!");
+            ETGMod.Databases.Strings.Core.AddComplex("#BUBBS_GENERIC_TALK", "{ws}The sea is the final frontier!{w}");
             ETGMod.Databases.Strings.Core.AddComplex("#BUBBS_GENERIC_TALK", "I've been designing some new fins!");
-            ETGMod.Databases.Strings.Core.AddComplex("#BUBBS_GENERIC_TALK", "Did you know: clams can smell colours!");
+            ETGMod.Databases.Strings.Core.AddComplex("#BUBBS_GENERIC_TALK", "{wq}Did you know?:{w} clams can smell colours!");
             ETGMod.Databases.Strings.Core.AddComplex("#BUBBS_GENERIC_TALK", "Once, people could breathe in water! Then we forgot how.");
             ETGMod.Databases.Strings.Core.AddComplex("#BUBBS_GENERIC_TALK", "Whale crabs. Octo-salmon. Barnacle sharks. Who knows what I'll find?");
             ETGMod.Databases.Strings.Core.AddComplex("#BUBBS_GENERIC_TALK", "The helmet never comes off! Well, except when I get hungry.");
             ETGMod.Databases.Strings.Core.AddComplex("#BUBBS_GENERIC_TALK", "I theorize that beneath this ocean, there is another, wetter, ocean!");
-            ETGMod.Databases.Strings.Core.AddComplex("#BUBBS_GENERIC_TALK", "Undersea exploration isn't a job, it's a privilege!");
+            ETGMod.Databases.Strings.Core.AddComplex("#BUBBS_GENERIC_TALK", "Undersea exploration isn't a job, it's a {wb}privilege!{w}");
             ETGMod.Databases.Strings.Core.AddComplex("#BUBBS_GENERIC_TALK", "I've done several trial runs in local puddles. I'm ready for the big show!");
-            ETGMod.Databases.Strings.Core.AddComplex("#BUBBS_GENERIC_TALK", "Sea monsters are no more than misunderstood ambassadors of the deep.");
+            ETGMod.Databases.Strings.Core.AddComplex("#BUBBS_GENERIC_TALK", "Sea monsters are no more than misunderstood {wj}ambassadors of the deep.{w}");
             ETGMod.Databases.Strings.Core.AddComplex("#BUBBS_GENERIC_TALK", "Exploring the sea in a boat is like eating a melon by the rind!");
             ETGMod.Databases.Strings.Core.AddComplex("#BUBBS_GENERIC_TALK", "Bilgewater is a lovely place—principally when facing out to sea.");
             ETGMod.Databases.Strings.Core.AddComplex("#BUBBS_GENERIC_TALK", "My research indicates that if you hold your breath long enough, you can kick the habit! You just need to stay awake.");
             ETGMod.Databases.Strings.Core.AddComplex("#BUBBS_GENERIC_TALK", "One day, the ocean will be my oyster—and the ocean's oysters will be my breakfast!");
-            ETGMod.Databases.Strings.Core.AddComplex("#BUBBS_GENERIC_TALK", "Oh, don't get me started on buoyancy.");
+            ETGMod.Databases.Strings.Core.AddComplex("#BUBBS_GENERIC_TALK", "Oh, don't get me started on {ws}buoyancy.{w}");
             ETGMod.Databases.Strings.Core.AddComplex("#BUBBS_GENERIC_TALK", "Gadgetry in Piltover, extinct overlords in Freljord? Hmph! I'll show them!");
-            ETGMod.Databases.Strings.Core.AddComplex("#BUBBS_GENERIC_TALK", "There's evidence to suggest that manatees once ruled the land and sea!");
+            ETGMod.Databases.Strings.Core.AddComplex("#BUBBS_GENERIC_TALK", "There's evidence to suggest that manatees once ruled the {wr}land and sea!{w}");
             ETGMod.Databases.Strings.Core.AddComplex("#BUBBS_GENERIC_TALK", "I can't wait to school some fish.");
-            ETGMod.Databases.Strings.Core.AddComplex("#BUBBS_GENERIC_TALK", "So many mysteries to explore.");
+            ETGMod.Databases.Strings.Core.AddComplex("#BUBBS_GENERIC_TALK", "So many {wj}mysteries{w} to explore.");
             ETGMod.Databases.Strings.Core.AddComplex("#BUBBS_GENERIC_TALK", "I can't wait to see what lies beneath!");
-            ETGMod.Databases.Strings.Core.AddComplex("#BUBBS_GENERIC_TALK", "The real sunken treasure is aquatic knowledge.");
+            ETGMod.Databases.Strings.Core.AddComplex("#BUBBS_GENERIC_TALK", "The real sunken {wb}treasure{w} is aquatic knowledge.");
             ETGMod.Databases.Strings.Core.AddComplex("#BUBBS_GENERIC_TALK", "Just as soon as I perfect my submersible, I'll be off!");
 
-            ETGMod.Databases.Strings.Core.AddComplex("#BUBBS_STOPPER_TALK", "Soon, very soon...");
-            ETGMod.Databases.Strings.Core.AddComplex("#BUBBS_STOPPER_TALK", "Every coin counts.");
-            ETGMod.Databases.Strings.Core.AddComplex("#BUBBS_STOPPER_TALK", "What mysteries await?");
-            ETGMod.Databases.Strings.Core.AddComplex("#BUBBS_STOPPER_TALK", "To knowledge!");
+            ETGMod.Databases.Strings.Core.AddComplex("#BUBBS_STOPPER_TALK", "{wj}Soon, very soon...{w}");
+            ETGMod.Databases.Strings.Core.AddComplex("#BUBBS_STOPPER_TALK", "{wb}Every coin counts.{w}");
+            ETGMod.Databases.Strings.Core.AddComplex("#BUBBS_STOPPER_TALK", "{wq}What mysteries await?{w}");
+            ETGMod.Databases.Strings.Core.AddComplex("#BUBBS_STOPPER_TALK", "{ws}To knowledge!{w}");
 
-            ETGMod.Databases.Strings.Core.AddComplex("#BUBBS_PURCHASE_TALK", "Perfect!");
-            ETGMod.Databases.Strings.Core.AddComplex("#BUBBS_PURCHASE_TALK", "Delightful!");
-            ETGMod.Databases.Strings.Core.AddComplex("#BUBBS_PURCHASE_TALK", "Impeccable taste!");
-            ETGMod.Databases.Strings.Core.AddComplex("#BUBBS_PURCHASE_TALK", "My, that is a beauty!");
+            ETGMod.Databases.Strings.Core.AddComplex("#BUBBS_PURCHASE_TALK", "{wb}Perfect!{w}");
+            ETGMod.Databases.Strings.Core.AddComplex("#BUBBS_PURCHASE_TALK", "{wb}Delightful!{w}");
+            ETGMod.Databases.Strings.Core.AddComplex("#BUBBS_PURCHASE_TALK", "{wb}Impeccable taste!{w}");
+            ETGMod.Databases.Strings.Core.AddComplex("#BUBBS_PURCHASE_TALK", "My, that is a {wq}beauty!{w}");
             ETGMod.Databases.Strings.Core.AddComplex("#BUBBS_PURCHASE_TALK", "Every little bit helps!");
             ETGMod.Databases.Strings.Core.AddComplex("#BUBBS_PURCHASE_TALK", "You've just supported science!");
             ETGMod.Databases.Strings.Core.AddComplex("#BUBBS_PURCHASE_TALK", "That is a singular find… oh, but I have more, if you need them!");
-            ETGMod.Databases.Strings.Core.AddComplex("#BUBBS_PURCHASE_TALK", "It complements you perfectly.");
+            ETGMod.Databases.Strings.Core.AddComplex("#BUBBS_PURCHASE_TALK", "It complements you {wq}perfectly.{w}");
             ETGMod.Databases.Strings.Core.AddComplex("#BUBBS_PURCHASE_TALK", "That is guaranteed for, at a minimum, ballast.");
             ETGMod.Databases.Strings.Core.AddComplex("#BUBBS_PURCHASE_TALK", "I've sold four of those today!");
             ETGMod.Databases.Strings.Core.AddComplex("#BUBBS_PURCHASE_TALK", "That will spur—or deter—violence swimmingly!");
-            ETGMod.Databases.Strings.Core.AddComplex("#BUBBS_PURCHASE_TALK", "Yeah, I have absolutely no idea what that does. Good luck!");
+            ETGMod.Databases.Strings.Core.AddComplex("#BUBBS_PURCHASE_TALK", "Yeah, I have absolutely no idea what that does. {wr}Good luck!{w}");
             ETGMod.Databases.Strings.Core.AddComplex("#BUBBS_PURCHASE_TALK", "Thank you for contributing to my expedition.");
             ETGMod.Databases.Strings.Core.AddComplex("#BUBBS_PURCHASE_TALK", "Would you like that wrapped?");
-            ETGMod.Databases.Strings.Core.AddComplex("#BUBBS_PURCHASE_TALK", "Uh, sorry, I haven't gotten around to drying that off!");
+            ETGMod.Databases.Strings.Core.AddComplex("#BUBBS_PURCHASE_TALK", "{wj}Uh, sorry,{w} I haven't gotten around to drying that off!");
             ETGMod.Databases.Strings.Core.AddComplex("#BUBBS_PURCHASE_TALK", "I prefer you only killed bad people with this—or nautical sceptics.");
-            ETGMod.Databases.Strings.Core.AddComplex("#BUBBS_PURCHASE_TALK", "That is, uh… most probably valuable!");
+            ETGMod.Databases.Strings.Core.AddComplex("#BUBBS_PURCHASE_TALK", "That is, {wj}uh… most probably valuable!{w}");
             ETGMod.Databases.Strings.Core.AddComplex("#BUBBS_PURCHASE_TALK", "A bare minimum of rust.");
-            ETGMod.Databases.Strings.Core.AddComplex("#BUBBS_PURCHASE_TALK", "No price is too great for progress.");
-            ETGMod.Databases.Strings.Core.AddComplex("#BUBBS_PURCHASE_TALK", "That will serve you splendidly.");
+            ETGMod.Databases.Strings.Core.AddComplex("#BUBBS_PURCHASE_TALK", "No price is too great for {wb}progress.{w}");
+            ETGMod.Databases.Strings.Core.AddComplex("#BUBBS_PURCHASE_TALK", "That will serve you {wb}splendidly.{w}");
             ETGMod.Databases.Strings.Core.AddComplex("#BUBBS_PURCHASE_TALK", "Keep this up, and I'll be diving in no time.");
             ETGMod.Databases.Strings.Core.AddComplex("#BUBBS_PURCHASE_TALK", "You'll receive a special thanks in my paper.");
-            ETGMod.Databases.Strings.Core.AddComplex("#BUBBS_PURCHASE_TALK", "Now that you've got the hang of it, purchase something else!");
-            ETGMod.Databases.Strings.Core.AddComplex("#BUBBS_PURCHASE_TALK", "Why not pick up a gift… for science?");
+            ETGMod.Databases.Strings.Core.AddComplex("#BUBBS_PURCHASE_TALK", "Now that you've got the hang of it, {wq}purchase something else!{w}");
+            ETGMod.Databases.Strings.Core.AddComplex("#BUBBS_PURCHASE_TALK", "Why not pick up a gift… {wr}for science?{w}");
             ETGMod.Databases.Strings.Core.AddComplex("#BUBBS_PURCHASE_TALK", "Your gold will be put to good use.");
             ETGMod.Databases.Strings.Core.AddComplex("#BUBBS_PURCHASE_TALK", "Now you're part of the adventure!");
             ETGMod.Databases.Strings.Core.AddComplex("#BUBBS_PURCHASE_TALK", "No need to explain what you plan to do with that.");
             ETGMod.Databases.Strings.Core.AddComplex("#BUBBS_PURCHASE_TALK", "I can tell you're a collector.");
-            ETGMod.Databases.Strings.Core.AddComplex("#BUBBS_PURCHASE_TALK", "There's simply no better… for whatever that does.");
+            ETGMod.Databases.Strings.Core.AddComplex("#BUBBS_PURCHASE_TALK", "There's simply no better… {wj}for whatever that does.{w}");
 
-            ETGMod.Databases.Strings.Core.AddComplex("#BUBBS_NOSALE_TALK", "Ah, yes, but science, tragically, doesn’t operate on credit.");
-            ETGMod.Databases.Strings.Core.AddComplex("#BUBBS_NOSALE_TALK", "I’d love to fund your dreams, but I can barely fund my own!");
-            ETGMod.Databases.Strings.Core.AddComplex("#BUBBS_NOSALE_TALK", "That’s the spirit! The financial spirit, however, is lacking.");
+            ETGMod.Databases.Strings.Core.AddComplex("#BUBBS_NOSALE_TALK", "Ah, yes, but science, {wj}tragically{w}, doesn’t operate on credit.");
+            ETGMod.Databases.Strings.Core.AddComplex("#BUBBS_NOSALE_TALK", "{wq}I’d love to fund your dreams{w}, but I can barely fund my own!");
+            ETGMod.Databases.Strings.Core.AddComplex("#BUBBS_NOSALE_TALK", "{wb}That’s the spirit!{w} The financial spirit, however, is lacking.");
             ETGMod.Databases.Strings.Core.AddComplex("#BUBBS_NOSALE_TALK", "Sorry, but seawater doesn’t pay the bills.");
-            ETGMod.Databases.Strings.Core.AddComplex("#BUBBS_NOSALE_TALK", "If only enthusiasm were a currency! You’d be rich indeed.");
-            ETGMod.Databases.Strings.Core.AddComplex("#BUBBS_NOSALE_TALK", "That price is, regrettably, non-negotiable—even for pioneers.");
+            ETGMod.Databases.Strings.Core.AddComplex("#BUBBS_NOSALE_TALK", "{wr}If only enthusiasm were a currency!{w} You’d be rich indeed.");
+            ETGMod.Databases.Strings.Core.AddComplex("#BUBBS_NOSALE_TALK", "That price is, {wj}regrettably{w}, non-negotiable—even for pioneers.");
             ETGMod.Databases.Strings.Core.AddComplex("#BUBBS_NOSALE_TALK", "Oh, don’t worry. Many great expeditions ended before they began.");
-            ETGMod.Databases.Strings.Core.AddComplex("#BUBBS_NOSALE_TALK", "Perhaps a smaller trinket? To, ah, stay afloat?");
-            ETGMod.Databases.Strings.Core.AddComplex("#BUBBS_NOSALE_TALK", "Close! Now, just a few more clams in the purse, as they say.");
+            ETGMod.Databases.Strings.Core.AddComplex("#BUBBS_NOSALE_TALK", "Perhaps a smaller trinket? To, ah, {ws}stay afloat?{w}");
+            ETGMod.Databases.Strings.Core.AddComplex("#BUBBS_NOSALE_TALK", "{wr}Close!{w} Now, just a few more clams in the purse, as they say.");
             ETGMod.Databases.Strings.Core.AddComplex("#BUBBS_NOSALE_TALK", "I accept gold, doubloons, and… well, mostly just gold.");
             ETGMod.Databases.Strings.Core.AddComplex("#BUBBS_NOSALE_TALK", "Research may be priceless, but my wares are not.");
             ETGMod.Databases.Strings.Core.AddComplex("#BUBBS_NOSALE_TALK", "I could loan it to you, but then I’d need to repossess it underwater.");
             ETGMod.Databases.Strings.Core.AddComplex("#BUBBS_NOSALE_TALK", "Come now, even barnacles save more diligently!");
-            ETGMod.Databases.Strings.Core.AddComplex("#BUBBS_NOSALE_TALK", "Ah, a true visionary! Sadly, visions don’t spend well at market.");
+            ETGMod.Databases.Strings.Core.AddComplex("#BUBBS_NOSALE_TALK", "{wb}Ah, a true visionary!{w} Sadly, visions don’t spend well at market.");
 
-            ETGMod.Databases.Strings.Core.AddComplex("#BUBBS_INTRO_TALK", "All profits go to cutting-edge research!");
-            ETGMod.Databases.Strings.Core.AddComplex("#BUBBS_INTRO_TALK", "Have I read you my thesis on sea slugs?");
-            ETGMod.Databases.Strings.Core.AddComplex("#BUBBS_INTRO_TALK", "Welcome to the dive site!");
-            ETGMod.Databases.Strings.Core.AddComplex("#BUBBS_INTRO_TALK", "Would you like to join my expedition?");
-            ETGMod.Databases.Strings.Core.AddComplex("#BUBBS_INTRO_TALK", "I brew my potions with salt water for that extra zing!");
+            ETGMod.Databases.Strings.Core.AddComplex("#BUBBS_INTRO_TALK", "All profits go to {wq}cutting-edge{w} research!");
+            ETGMod.Databases.Strings.Core.AddComplex("#BUBBS_INTRO_TALK", "Have I read you my thesis on {wj}sea slugs?{w}");
+            ETGMod.Databases.Strings.Core.AddComplex("#BUBBS_INTRO_TALK", "{wq}Welcome to the dive site!{w}");
+            ETGMod.Databases.Strings.Core.AddComplex("#BUBBS_INTRO_TALK", "Would you like to join my {wr}expedition?{w}");
+            ETGMod.Databases.Strings.Core.AddComplex("#BUBBS_INTRO_TALK", "I brew my potions with salt water for that extra {wb}zing!{w}");
 
-            ETGMod.Databases.Strings.Core.AddComplex("#BUBBS_ATTACKED_TALK", "Uncalled for!");
-            ETGMod.Databases.Strings.Core.AddComplex("#BUBBS_ATTACKED_TALK", "No discounts!");
-            ETGMod.Databases.Strings.Core.AddComplex("#BUBBS_ATTACKED_TALK", "Not the equipment!");
-            ETGMod.Databases.Strings.Core.AddComplex("#BUBBS_ATTACKED_TALK", "Science under siege!");
+            ETGMod.Databases.Strings.Core.AddComplex("#BUBBS_ATTACKED_TALK", "{wr}Uncalled for!{w}");
+            ETGMod.Databases.Strings.Core.AddComplex("#BUBBS_ATTACKED_TALK", "{wj}No discounts!{w}");
+            ETGMod.Databases.Strings.Core.AddComplex("#BUBBS_ATTACKED_TALK", "{wr}Not the equipment!{w}");
+            ETGMod.Databases.Strings.Core.AddComplex("#BUBBS_ATTACKED_TALK", "{wr}Science under siege!{w}");
 
-            ETGMod.Databases.Strings.Core.AddComplex("#BUBBS_STOLEN_TALK", "Robbery is hardly the scientific method!");
+            ETGMod.Databases.Strings.Core.AddComplex("#BUBBS_STOLEN_TALK", "{wr}Robbery{w} is hardly the scientific method!");
 
             List<int> LootTable = new List<int>()
             {
