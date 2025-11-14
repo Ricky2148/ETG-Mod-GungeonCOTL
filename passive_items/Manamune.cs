@@ -34,7 +34,7 @@ namespace LOLItems
         {
             string itemName = "Manamune";
             string resourceName = "LOLItems/Resources/passive_item_sprites/manamune_pixelart_sprite_small";
-            string upgradeResourceName = "LOLItems/Resources/passive_item_sprites/muramana_pixelart_sprite";
+            //string upgradeResourceName = "LOLItems/Resources/passive_item_sprites/muramana_pixelart_sprite";
 
             GameObject obj = new GameObject(itemName);
 
@@ -42,10 +42,10 @@ namespace LOLItems
 
             ItemBuilder.AddSpriteToObject(itemName, resourceName, obj);
 
-            tk2dBaseSprite sprite = item.sprite;
-            tk2dSpriteCollectionData collection = sprite.collection;
+            //tk2dBaseSprite sprite = item.sprite;
+            //tk2dSpriteCollectionData collection = sprite.collection;
 
-            SpriteBuilder.AddSpriteToCollection(upgradeResourceName, collection);
+            //SpriteBuilder.AddSpriteToCollection(upgradeResourceName, collection);
 
             string shortDesc = "from the Greatest Swordsmith";
             // maybe add effect explanation?

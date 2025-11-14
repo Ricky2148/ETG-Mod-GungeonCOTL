@@ -228,7 +228,7 @@ namespace LOLItems.weapons
             float statToMod = player.stats.GetStatValue(PlayerStats.StatType.MovementSpeed);
             ItemBuilder.AddCurrentGunStatModifier(gun, PlayerStats.StatType.MovementSpeed, -statToMod, StatModifier.ModifyMethod.ADDITIVE);
             player.stats.RecalculateStats(player, true, false);
-            Plugin.Log($"modifier: {-statToMod}");
+            //Plugin.Log($"modifier: {-statToMod}");
 
             float duration = dashBaseDuration / player.stats.GetStatValue(PlayerStats.StatType.RateOfFire);
             //float adjSpeed = dashBaseSpeed * player.stats.GetStatValue(PlayerStats.StatType.RateOfFire);
@@ -263,7 +263,7 @@ namespace LOLItems.weapons
             ItemBuilder.RemoveCurrentGunStatModifier(gun, PlayerStats.StatType.MovementSpeed);
             ItemBuilder.AddCurrentGunStatModifier(gun, PlayerStats.StatType.MovementSpeed, 1f, StatModifier.ModifyMethod.MULTIPLICATIVE);
             player.stats.RecalculateStats(player, true, false);
-            Plugin.Log($"modifier: {1f}");
+            //Plugin.Log($"modifier: {1f}");
         }
     }
 }

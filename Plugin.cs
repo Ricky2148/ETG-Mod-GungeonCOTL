@@ -91,7 +91,6 @@ namespace LOLItems
             //testing
             //CarefreeMelody.Init();
             debugItem.Init();
-            Redemption.Init();
 
             //guon stones
             BraumsShield.Init();
@@ -116,6 +115,16 @@ namespace LOLItems
             ShieldOfMoltenStone.Init();
             CloakOfStarryNight.Init();
             ZekesConvergence.Init();
+            Redemption.Init();
+
+
+            //low tier items
+            Sheen.Init();
+            FatedAshes.Init();
+            Cull.Init();
+            PerfectlyTimedStopwatch.Init();
+            //TearOfTheGoddess.Init();
+
 
             //npcs?
             Bubbs.Init();

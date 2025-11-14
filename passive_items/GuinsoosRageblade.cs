@@ -69,6 +69,7 @@ namespace LOLItems
 
         public override void DisableEffect(PlayerController player)
         {
+            base.DisableEffect(player);
             Plugin.Log($"Player dropped or got rid of {this.EncounterNameOrDisplayName}");
 
             player.PostProcessProjectile -= OnPostProcessProjectile;

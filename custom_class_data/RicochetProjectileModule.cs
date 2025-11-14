@@ -78,7 +78,7 @@ namespace LOLItems.custom_class_data
                         }
                         else
                         {
-                            Plugin.Log($"Crossblade found no ricochet targets");
+                            //Plugin.Log($"Crossblade found no ricochet targets");
                             proj.ForceDestruction();
                         }
                     }
