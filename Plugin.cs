@@ -123,7 +123,7 @@ namespace LOLItems
             FatedAshes.Init();
             Cull.Init();
             PerfectlyTimedStopwatch.Init();
-            //TearOfTheGoddess.Init();
+            TearOfTheGoddess.Init();
 
 
             //npcs?

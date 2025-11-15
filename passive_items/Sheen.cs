@@ -13,7 +13,7 @@ namespace LOLItems.passive_items
         private bool shouldApplySpellblade = false;
         private static float spellbladeDmg = 10f;
 
-        private static int ID;
+        public static int ID;
 
         public static void Init()
         {

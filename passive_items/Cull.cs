@@ -16,7 +16,7 @@ namespace LOLItems.passive_items
 
         private int ReapCount = 0;
 
-        private static int ID;
+        public static int ID;
 
         public static void Init()
         {
