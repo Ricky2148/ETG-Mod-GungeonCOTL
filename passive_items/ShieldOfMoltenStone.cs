@@ -24,7 +24,7 @@ namespace LOLItems.passive_items
         public static void Init()
         {
             string itemName = "Shield of Molten Stone";
-            string resourceName = "LOLItems/Resources/passive_item_sprites/shield_of_molten_stone_item_sprite";
+            string resourceName = "LOLItems/Resources/passive_item_sprites/shield_of_molten_stone_pixelart_sprite_outline";
 
             GameObject obj = new GameObject(itemName);
 

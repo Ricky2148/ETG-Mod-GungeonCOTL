@@ -25,7 +25,7 @@ namespace LOLItems.passive_items
         public static void Init()
         {
             string itemName = "Cloak of Starry Night";
-            string resourceName = "LOLItems/Resources/passive_item_sprites/cloak_of_starry_night_item_sprite";
+            string resourceName = "LOLItems/Resources/passive_item_sprites/cloak_of_starry_night_pixelart_sprite_outline";
 
             GameObject obj = new GameObject(itemName);
 

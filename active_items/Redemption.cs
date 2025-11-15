@@ -21,36 +21,110 @@ namespace LOLItems
         private static float InterventionHealAmount = 0.5f;
         private static float InterventionDamageScale = 0.1f;
         private static float InterventionActivationRange = 10f;
-        private static float InterventionEffectRadius = 10f;
+        private static float InterventionEffectRadius = 5f;
         private static float InterventionCooldown = 1f; //90f
 
         private static List<string> VFXSpritePath = new List<string>
             {
-                "LOLItems/Resources/vfxs/breakingshockwave/breakingshockwave_001",
-                "LOLItems/Resources/vfxs/breakingshockwave/breakingshockwave_002",
-                "LOLItems/Resources/vfxs/breakingshockwave/breakingshockwave_003",
-                "LOLItems/Resources/vfxs/breakingshockwave/breakingshockwave_004",
-                "LOLItems/Resources/vfxs/breakingshockwave/breakingshockwave_005",
-                "LOLItems/Resources/vfxs/breakingshockwave/breakingshockwave_006",
-                "LOLItems/Resources/vfxs/breakingshockwave/breakingshockwave_007",
-                "LOLItems/Resources/vfxs/breakingshockwave/breakingshockwave_008",
-                "LOLItems/Resources/vfxs/breakingshockwave/breakingshockwave_009",
-                "LOLItems/Resources/vfxs/breakingshockwave/breakingshockwave_010",
-                "LOLItems/Resources/vfxs/breakingshockwave/breakingshockwave_011"
+                "LOLItems/Resources/vfxs/redemption/redemption_attack_001",
+                "LOLItems/Resources/vfxs/redemption/redemption_attack_002",
+                "LOLItems/Resources/vfxs/redemption/redemption_attack_003",
+                "LOLItems/Resources/vfxs/redemption/redemption_attack_004",
+                "LOLItems/Resources/vfxs/redemption/redemption_attack_005",
+                "LOLItems/Resources/vfxs/redemption/redemption_attack_006",
+                "LOLItems/Resources/vfxs/redemption/redemption_attack_007",
+                "LOLItems/Resources/vfxs/redemption/redemption_attack_008",
+                "LOLItems/Resources/vfxs/redemption/redemption_attack_009",
+                "LOLItems/Resources/vfxs/redemption/redemption_attack_010",
+                "LOLItems/Resources/vfxs/redemption/redemption_attack_011",
+                "LOLItems/Resources/vfxs/redemption/redemption_attack_012",
+                "LOLItems/Resources/vfxs/redemption/redemption_attack_013",
+                "LOLItems/Resources/vfxs/redemption/redemption_attack_014",
+                "LOLItems/Resources/vfxs/redemption/redemption_attack_015",
+                "LOLItems/Resources/vfxs/redemption/redemption_attack_016",
+                "LOLItems/Resources/vfxs/redemption/redemption_attack_017",
+                "LOLItems/Resources/vfxs/redemption/redemption_attack_018",
+                "LOLItems/Resources/vfxs/redemption/redemption_attack_019",
+                "LOLItems/Resources/vfxs/redemption/redemption_attack_020",
+                "LOLItems/Resources/vfxs/redemption/redemption_attack_021",
+                "LOLItems/Resources/vfxs/redemption/redemption_attack_022",
+                "LOLItems/Resources/vfxs/redemption/redemption_attack_023",
+                "LOLItems/Resources/vfxs/redemption/redemption_attack_024",
+                "LOLItems/Resources/vfxs/redemption/redemption_attack_025",
+                "LOLItems/Resources/vfxs/redemption/redemption_attack_026",
+                "LOLItems/Resources/vfxs/redemption/redemption_attack_027",
+                "LOLItems/Resources/vfxs/redemption/redemption_attack_028",
+                "LOLItems/Resources/vfxs/redemption/redemption_attack_029",
+                "LOLItems/Resources/vfxs/redemption/redemption_attack_030",
+                "LOLItems/Resources/vfxs/redemption/redemption_attack_031",
             };
 
         private static GameObject EffectVFX = VFXBuilder.CreateVFX
         (
             "intervention_vfx",
             VFXSpritePath,
-            5,
+            8,
             new IntVector2(0, 0),
             tk2dBaseSprite.Anchor.MiddleCenter,
             false,
             0,
             -1,
             Color.cyan,
-            tk2dSpriteAnimationClip.WrapMode.Loop,
+            tk2dSpriteAnimationClip.WrapMode.Once,
+            true
+        );
+
+        private static List<string> DamageEffectSpritePath = new List<string>
+            {
+                "LOLItems/Resources/vfxs/redemption/redemption_damage_001",
+                "LOLItems/Resources/vfxs/redemption/redemption_damage_002",
+                "LOLItems/Resources/vfxs/redemption/redemption_damage_003",
+                "LOLItems/Resources/vfxs/redemption/redemption_damage_004",
+                "LOLItems/Resources/vfxs/redemption/redemption_damage_005",
+                "LOLItems/Resources/vfxs/redemption/redemption_damage_006",
+                "LOLItems/Resources/vfxs/redemption/redemption_damage_007",
+                "LOLItems/Resources/vfxs/redemption/redemption_damage_008",
+            };
+
+        private static GameObject DamageEffectVFX = VFXBuilder.CreateVFX
+        (
+            "intervention_damage_hiteffect",
+            DamageEffectSpritePath,
+            8,
+            new IntVector2(0, 0),
+            tk2dBaseSprite.Anchor.MiddleCenter,
+            false,
+            0,
+            -1,
+            Color.cyan,
+            tk2dSpriteAnimationClip.WrapMode.Once,
+            true
+        );
+
+        private static List<string> HealEffectSpritePath = new List<string>
+            {
+                "LOLItems/Resources/vfxs/redemption/redemption_heal_001",
+                "LOLItems/Resources/vfxs/redemption/redemption_heal_002",
+                "LOLItems/Resources/vfxs/redemption/redemption_heal_003",
+                "LOLItems/Resources/vfxs/redemption/redemption_heal_004",
+                "LOLItems/Resources/vfxs/redemption/redemption_heal_005",
+                "LOLItems/Resources/vfxs/redemption/redemption_heal_006",
+                "LOLItems/Resources/vfxs/redemption/redemption_heal_007",
+                "LOLItems/Resources/vfxs/redemption/redemption_heal_008",
+            };
+
+        private static GameObject HealEffectVFX = VFXBuilder.CreateVFX
+        (
+            "intervention_heal_hiteffect",
+            HealEffectSpritePath,
+            8,
+            new IntVector2(0, 0),
+            tk2dBaseSprite.Anchor.MiddleCenter,
+            false,
+            0,
+            -1,
+            Color.cyan,
+            tk2dSpriteAnimationClip.WrapMode.Once,
             true
         );
 
@@ -69,8 +143,8 @@ namespace LOLItems
 
             ItemBuilder.AddSpriteToObject(itemName, resourceName, obj);
 
-            string shortDesc = "Break their stride.";
-            string longDesc = "Increases health, damage, and fire rate. Active attacks in a circle around the player, slowing enemies hit and dealing set damage.";
+            string shortDesc = "idk";
+            string longDesc = "idk";
 
             ItemBuilder.SetupItem(item, shortDesc, longDesc, "LOLItems");
 
@@ -81,6 +155,7 @@ namespace LOLItems
             item.maxDistance = InterventionActivationRange;
 
             item.reticleQuad = (PickupObjectDatabase.GetById(443) as TargetedAttackPlayerItem).reticleQuad;
+            //item.reticleQuad.GetComponent<tk2dSprite>().SetSprite("redemption_overheadicon_001");
             item.doesStrike = false;
             item.doesGoop = false;
             item.DoScreenFlash = false;
@@ -89,6 +164,26 @@ namespace LOLItems
 
             item.quality = PickupObject.ItemQuality.A;
             ID = item.PickupObjectId;
+
+            var sprite = HealEffectVFX.GetComponent<tk2dSprite>();
+
+            if (sprite != null)
+            {
+                sprite.usesOverrideMaterial = true;
+
+                sprite.renderer.material.shader = ShaderCache.Acquire("Brave/Internal/SimpleAlphaFadeUnlit");
+                sprite.renderer.material.SetFloat("_Fade", 0.8f);
+            }
+
+            sprite = DamageEffectVFX.GetComponent<tk2dSprite>();
+
+            if (sprite != null)
+            {
+                sprite.usesOverrideMaterial = true;
+
+                sprite.renderer.material.shader = ShaderCache.Acquire("Brave/Internal/SimpleAlphaFadeUnlit");
+                sprite.renderer.material.SetFloat("_Fade", 0.8f);
+            }
         }
 
         public override void Pickup(PlayerController player)
@@ -115,6 +210,13 @@ namespace LOLItems
             UpdateReticlePosition();
             spriteAnimator.Play("Activate");
         }*/
+
+        public override void DoEffect(PlayerController user)
+        {
+            base.DoEffect(user);
+
+            AkSoundEngine.PostEvent("redemption_initial_activation_SFX", user.gameObject);
+        }
 
         public override void DoActiveEffect(PlayerController player)
         {
@@ -222,23 +324,27 @@ namespace LOLItems
 
             if (sprite != null)
             {
-                sprite.HeightOffGround = -50f; //-50f
+                sprite.HeightOffGround = 0f; //-50f
 
-                sprite.scale = new Vector3(3.1f, 3.1f, 1f);
+                sprite.scale = new Vector3(1.1f, 1.1f, 1f);
 
                 sprite.UpdateZDepth();
 
-                //sprite.usesOverrideMaterial = true;
+                sprite.usesOverrideMaterial = true;
 
-                //sprite.renderer.material.shader = ShaderCache.Acquire("Brave/Internal/SimpleAlphaFadeUnlit");
-                //sprite.renderer.material.SetFloat("_Fade", 0.8f);
+                sprite.renderer.material.shader = ShaderCache.Acquire("Brave/Internal/SimpleAlphaFadeUnlit");
+                sprite.renderer.material.SetFloat("_Fade", 0.8f);
             }
+
+            AkSoundEngine.PostEvent("redemption_effect_buildup_SFX", activeVFXObject.gameObject);
 
             yield return new WaitForSeconds(2.5f);
 
+            AkSoundEngine.PostEvent("redemption_effect_landing_SFX", activeVFXObject.gameObject);
+
             if (activeVFXObject != null)
             {
-                Destroy(activeVFXObject);
+                //Destroy(activeVFXObject);
             }
 
             List<AIActor> enemyList = player.CurrentRoom.GetActiveEnemies(RoomHandler.ActiveEnemyType.All);
@@ -266,6 +372,11 @@ namespace LOLItems
                                 DamageCategory.Normal,
                                 false
                             );
+
+                            enemy.PlayEffectOnActor(DamageEffectVFX, new Vector3(23 / 16f, 18 / 16f, -2f), true, false, false);
+
+                            AkSoundEngine.PostEvent("redemption_effect_damage_SFX", enemy.gameObject);
+
                             //enemy.ApplyEffect(slowEffect, 1f, null);
                             //AkSoundEngine.PostEvent("stridebreaker_active_hit_SFX", player.gameObject);
                         }
@@ -276,19 +387,39 @@ namespace LOLItems
             if (GameManager.Instance.PrimaryPlayer != null)
             {
                 PlayerController player1 = GameManager.Instance.PrimaryPlayer;
+
+                Plugin.Log($"cursor: {initialCursorPos.ToString()}, player1: {player1.CenterPosition.ToString()}, distance: {Vector2.Distance(initialCursorPos, player1.CenterPosition)}");
+
                 if (Vector2.Distance(initialCursorPos, player1.CenterPosition) <= InterventionEffectRadius && player1.healthHaver.currentHealth < player1.healthHaver.GetMaxHealth())
                 {
                     player1.healthHaver.ForceSetCurrentHealth(player1.healthHaver.currentHealth + InterventionHealAmount);
+
+                    player1.PlayEffectOnActor(HealEffectVFX, new Vector3(23 / 16f, 18 / 16f, -2f), true, false, false);
+
+                    AkSoundEngine.PostEvent("redemption_effect_heal_SFX", player1.gameObject);
                 }
             }
 
             if (GameManager.Instance.SecondaryPlayer != null)
             {
                 PlayerController player2 = GameManager.Instance.SecondaryPlayer;
+
+                Plugin.Log($"cursor: {initialCursorPos.ToString()}, player1: {player2.CenterPosition.ToString()}, distance: {Vector2.Distance(initialCursorPos, player2.CenterPosition)}");
+
                 if (Vector2.Distance(initialCursorPos, player2.CenterPosition) <= InterventionEffectRadius && player2.healthHaver.currentHealth < player2.healthHaver.GetMaxHealth())
                 {
                     player2.healthHaver.ForceSetCurrentHealth(player2.healthHaver.currentHealth + InterventionHealAmount);
+
+                    player2.PlayEffectOnActor(HealEffectVFX, new Vector3(23 / 16f, 18 / 16f, -2f), true, false, false);
+
+                    AkSoundEngine.PostEvent("redemption_effect_heal_SFX", player2.gameObject);
                 }
+            }
+
+            yield return new WaitForSeconds(5f);
+            if (activeVFXObject != null)
+            {
+                Destroy(activeVFXObject);
             }
         }
     }
