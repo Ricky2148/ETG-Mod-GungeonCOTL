@@ -1,14 +1,15 @@
-﻿using System;
-using System.Collections;
-using Gungeon;
-using MonoMod;
-using UnityEngine;
+﻿using Alexandria.BreakableAPI;
 using Alexandria.ItemAPI;
 using Alexandria.SoundAPI;
-using Alexandria.BreakableAPI;
+using Alexandria.VisualAPI;
 using BepInEx;
-using System.Collections.Generic;
+using Gungeon;
 using LOLItems.custom_class_data;
+using MonoMod;
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 
 namespace LOLItems.weapons
 {
@@ -24,7 +25,7 @@ namespace LOLItems.weapons
         private static int spreadAngle = 5;
 
         private static float projectileDamageStat = 5f;
-        private static float projectileSpeedStat = 75f;
+        private static float projectileSpeedStat = 5f; //75f;
         private static float projectileRangeStat = 25f;
         private static float projectileForceStat = 0f;
 
@@ -32,6 +33,29 @@ namespace LOLItems.weapons
         private static float dashBaseSpeed = 20f;
 
         private Coroutine dashCoroutine;
+
+        private static List<string> VFXSpritePath = new List<string>
+        {
+            "LOLItems/Resources/vfxs/vengencespear/vengencespear_vfx"
+        };
+
+
+        private static GameObject EffectVFX = VFXBuilder.CreateVFX
+        (
+            "soulspear_rend_vfx",
+            VFXSpritePath,
+            1,
+            new IntVector2(0, 0),
+            tk2dBaseSprite.Anchor.MiddleCenter,
+            false,
+            0,
+            -1,
+            Color.cyan,
+            tk2dSpriteAnimationClip.WrapMode.Loop,
+            true
+        );
+
+        private Dictionary<AIActor, List<GameObject>> activeVFXObjectList = new Dictionary<AIActor, List<GameObject>>();
 
         private Dictionary<AIActor, int> enemyRendStacks = new Dictionary<AIActor, int>();
         private static float rendScale = 0.4f;
@@ -49,7 +73,7 @@ namespace LOLItems.weapons
         public static void Add()
         {
             string FULLNAME = "Soul Spear";
-            string SPRITENAME = "tempgun";
+            string SPRITENAME = "vengencespear";
             internalName = $"LOLItems:{FULLNAME.ToID()}";
             Gun gun = ETGMod.Databases.Items.NewGun(FULLNAME, SPRITENAME);
             Game.Items.Rename($"outdated_gun_mods:{FULLNAME.ToID()}", internalName);
@@ -59,9 +83,9 @@ namespace LOLItems.weapons
 
             gun.SetupSprite(null, $"{SPRITENAME}_idle_001", 8);
 
-            gun.SetAnimationFPS(gun.shootAnimation, 5);
+            gun.SetAnimationFPS(gun.shootAnimation, 17);
 
-            gun.SetAnimationFPS(gun.reloadAnimation, 13);
+            gun.SetAnimationFPS(gun.reloadAnimation, 12);
 
             gun.AddProjectileModuleFrom(PickupObjectDatabase.GetById((int)Items._38Special) as Gun, true, false);
             gun.muzzleFlashEffects = null;
@@ -83,9 +107,9 @@ namespace LOLItems.weapons
 
             gun.gunHandedness = GunHandedness.OneHanded;
 
-            gun.carryPixelOffset += new IntVector2(0, 0);
+            gun.carryPixelOffset += new IntVector2(-32, 16);
 
-            gun.barrelOffset.transform.localPosition += new Vector3(0 / 16f, 0 / 16f);
+            gun.barrelOffset.transform.localPosition += new Vector3(16 / 16f, 0 / 16f);
             gun.gunScreenShake.magnitude = 0f;
 
             Projectile projectile = UnityEngine.Object.Instantiate<Projectile>((PickupObjectDatabase.GetById((int)Items._38Special) as Gun).DefaultModule.projectiles[0]);
@@ -109,11 +133,77 @@ namespace LOLItems.weapons
             projectile.transform.parent = gun.barrelOffset;
             projectile.shouldRotate = true;
 
-            //projectile.SetProjectileSpriteRight("hextech_projectile_glow", 11, 5, true, tk2dBaseSprite.Anchor.MiddleCenter, 9, 3);
+            projectile.SetProjectileSpriteRight("vengencespear_projectile_001", 34, 12, true, tk2dBaseSprite.Anchor.MiddleCenter, 32, 10);
+
+            List<string> projectileSpriteNames = new List<string>
+            {
+                "vengencespear_projectile_001",
+                "vengencespear_projectile_002",
+                "vengencespear_projectile_003",
+            };
+            int projectileFPS = 8;
+            List<IntVector2> projectileSizes = new List<IntVector2>
+            {
+                new IntVector2(34, 12),
+                new IntVector2(34, 12),
+                new IntVector2(34, 12),
+            };
+            List<bool> projectileLighteneds = new List<bool>
+            {
+                true,
+                true,
+                true,
+            };
+            List<tk2dBaseSprite.Anchor> projectileAnchors = new List<tk2dBaseSprite.Anchor>
+            {
+                tk2dBaseSprite.Anchor.MiddleCenter,
+                tk2dBaseSprite.Anchor.MiddleCenter,
+                tk2dBaseSprite.Anchor.MiddleCenter,
+            };
+            List<bool> projectileAnchorsChangeColiders = new List<bool>
+            {
+                false,
+                false,
+                false,
+            };
+            List<bool> projectilefixesScales = new List<bool>
+            {
+                false,
+                false,
+                false,
+            };
+            List<Vector3?> projectileManualOffsets = new List<Vector3?>
+            {
+                Vector2.zero,
+                Vector2.zero,
+                Vector2.zero,
+            };
+            List<IntVector2?> projectileOverrideColliderSizes = new List<IntVector2?>
+            {
+                new IntVector2(32, 10),
+                new IntVector2(32, 10),
+                new IntVector2(32, 10),
+            };
+            List<IntVector2?> projectileOverrideColliderOffsets = new List<IntVector2?>
+            {
+                null,
+                null,
+                null,
+            };
+            List<Projectile> projectileOverrideProjectilesToCopyFrom = new List<Projectile>
+            {
+                null,
+                null,
+                null,
+            };
+            tk2dSpriteAnimationClip.WrapMode ProjectileWrapMode = tk2dSpriteAnimationClip.WrapMode.Loop;
+
+            projectile.AddAnimationToProjectile(projectileSpriteNames, projectileFPS, projectileSizes, projectileLighteneds, projectileAnchors, projectileAnchorsChangeColiders, projectilefixesScales,
+                                                projectileManualOffsets, projectileOverrideColliderSizes, projectileOverrideColliderOffsets, projectileOverrideProjectilesToCopyFrom, ProjectileWrapMode);
 
             gun.DefaultModule.ammoType = GameUIAmmoType.AmmoType.CUSTOM;
             gun.DefaultModule.customAmmoType = CustomClipAmmoTypeToolbox.AddCustomAmmoType("soul_spear_ammo",
-                "LOLItems/Resources/weapon_sprites/CustomGunAmmoTypes/hextech_rifle_ammo_full", "LOLItems/Resources/weapon_sprites/CustomGunAmmoTypes/hextech_rifle_ammo_empty");
+                "LOLItems/Resources/weapon_sprites/CustomGunAmmoTypes/vengencespear_ammo_full_001", "LOLItems/Resources/weapon_sprites/CustomGunAmmoTypes/vengencespear_ammo_empty_001");
 
             gun.shellCasing = null;
             gun.clipObject = null;
@@ -127,6 +217,15 @@ namespace LOLItems.weapons
             ID = gun.PickupObjectId;
 
             ItemBuilder.AddCurrentGunStatModifier(gun, PlayerStats.StatType.MovementSpeed, 1f, StatModifier.ModifyMethod.MULTIPLICATIVE);
+
+            var sprite = EffectVFX.GetComponent<tk2dSprite>();
+
+            if (sprite != null)
+            {
+                sprite.usesOverrideMaterial = true;
+                sprite.renderer.material.shader = ShaderCache.Acquire("Brave/Internal/SimpleAlphaFadeUnlit");
+                sprite.renderer.material.SetFloat("_Fade", 0.5f);
+            }
         }
 
         public override void OnPostFired(PlayerController player, Gun gun)
@@ -156,7 +255,7 @@ namespace LOLItems.weapons
             {
                 if (enemy != null && enemy.aiActor != null && enemy.aiActor.healthHaver != null && enemy.healthHaver != null)
                 {
-                    if (fatal && enemyRendStacks.ContainsKey(enemy.aiActor))
+                    /*if (fatal && enemyRendStacks.ContainsKey(enemy.aiActor))
                     {
                         enemyRendStacks.Remove(enemy.aiActor);
                     }
@@ -164,10 +263,33 @@ namespace LOLItems.weapons
                     if (!enemyRendStacks.ContainsKey(enemy.aiActor))
                     {
                         enemyRendStacks.Add(enemy.aiActor, 1);
+                        //enemy.aiActor.PlayEffectOnActor(EffectVFX, new Vector3(0 / 16f, 0 / 16f), true, false, false);
+
                     }
                     else
                     {
                         enemyRendStacks[enemy.aiActor] += 1;
+                    }*/
+
+                    if (fatal && activeVFXObjectList.ContainsKey(enemy.aiActor))
+                    {
+                        activeVFXObjectList.Remove(enemy.aiActor);
+                    }
+
+                    if (!activeVFXObjectList.ContainsKey(enemy.aiActor))
+                    {
+                        var smth = enemy.aiActor.PlayEffectOnActor(EffectVFX, new Vector3(0 / 16f, 0 / 16f), true, false, false);
+
+                        activeVFXObjectList.Add(enemy.aiActor, new List<GameObject> {smth});
+                        //enemy.aiActor.PlayEffectOnActor(EffectVFX, new Vector3(0 / 16f, 0 / 16f), true, false, false);
+
+                    }
+                    else
+                    {
+
+                        var smth = enemy.aiActor.PlayEffectOnActor(EffectVFX, new Vector3(0 / 16f, 0 / 16f), true, false, false);
+
+                        activeVFXObjectList[enemy.aiActor].Add(smth);
                     }
                 }
             };
