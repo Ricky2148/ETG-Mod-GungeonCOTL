@@ -108,7 +108,7 @@ namespace LOLItems
 
             activeVFXObject = player.PlayEffectOnActor(EffectVFX, new Vector3(21 / 16f, 10 / 16f, -2f), true, false, false);
             var sprite = activeVFXObject.GetComponent<tk2dSprite>();
-
+            
             if (sprite != null)
             {
                 sprite.HeightOffGround = -50f;
@@ -128,7 +128,7 @@ namespace LOLItems
 
                 //Shader vfxShader = sprite.renderer.material.shader;
                 sprite.renderer.material.shader = ShaderCache.Acquire("Brave/Internal/SimpleAlphaFadeUnlit");
-                sprite.renderer.material.SetFloat("_Fade", 0.3f);
+                sprite.renderer.material.SetFloat("_Fade", 0.2f);
             }
         }
 

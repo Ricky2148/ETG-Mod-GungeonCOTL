@@ -156,6 +156,8 @@ namespace LOLItems.passive_items
 
             //vector3(width/2 + 1, length/2 - 10, ????) 
             activeVFXObject = player.PlayEffectOnActor(EffectVFX, new Vector3(51 / 16f, 40 / 16f, -2f), true, false, false);
+            AkSoundEngine.PostEvent("zekes_convergence_sfx_01", player.gameObject);
+            
             var sprite = activeVFXObject.GetComponent<tk2dSprite>();
 
             if (sprite != null)
@@ -170,8 +172,6 @@ namespace LOLItems.passive_items
 
                 sprite.renderer.material.shader = ShaderCache.Acquire("Brave/Internal/SimpleAlphaFadeUnlit");
                 sprite.renderer.material.SetFloat("_Fade", 0.5f);
-
-                AkSoundEngine.PostEvent("zekes_convergence_sfx_01", player.gameObject);
             }
 
             /*if (EffectVFX != null && player != null)
