@@ -35,7 +35,7 @@ namespace LOLItems.weapons
 
         private static float projectileDamageStat = 6f;
         private static float projectileSpeedStat = 50f;
-        private static float projectileRangeStat = 100f;
+        private static float projectileRangeStat = 35f;
         private static float projectileForceStat = 15f;
 
         public static void Add()

@@ -11,7 +11,7 @@ namespace LOLItems.passive_items
     {
         private static int ReapKillThreshold = 4;
         private static int ReapCountMax = 100;
-        private static int ReapCountMaxMoney = 10;
+        private static int ReapCountMaxMoney = 25;
         private bool ReapCountMaxReached = false;
 
         private int ReapCount = 0;
@@ -35,6 +35,10 @@ namespace LOLItems.passive_items
             ItemBuilder.SetupItem(item, shortDesc, longDesc, "LOLItems");
 
             item.quality = PickupObject.ItemQuality.D;
+
+            item.UsesCustomCost = true;
+            item.CustomCost = 20;
+
             ID = item.PickupObjectId;
         }
 

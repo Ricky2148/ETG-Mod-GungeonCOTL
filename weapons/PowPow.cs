@@ -36,7 +36,7 @@ namespace LOLItems.weapons
 
         private static float projectileDamageStat = 6f;
         private static float projectileSpeedStat = 50f;
-        private static float projectileRangeStat = 100f;
+        private static float projectileRangeStat = 20f;
         private static float projectileForceStat = 8f;
 
         private static List<string> FishbonesFiringSFXList = new List<string>

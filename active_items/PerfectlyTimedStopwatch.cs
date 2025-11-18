@@ -36,6 +36,10 @@ namespace LOLItems.active_items
 
             item.usableDuringDodgeRoll = true;
             item.quality = PickupObject.ItemQuality.D;
+
+            item.UsesCustomCost = true;
+            item.CustomCost = 20;
+
             ID = item.PickupObjectId;
         }
 

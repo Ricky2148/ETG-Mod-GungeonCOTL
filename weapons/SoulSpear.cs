@@ -25,8 +25,8 @@ namespace LOLItems.weapons
         private static int spreadAngle = 5;
 
         private static float projectileDamageStat = 5f;
-        private static float projectileSpeedStat = 5f; //75f;
-        private static float projectileRangeStat = 25f;
+        private static float projectileSpeedStat = 75f; //75f;
+        private static float projectileRangeStat = 20f;
         private static float projectileForceStat = 0f;
 
         private static float dashBaseDuration = 0.3f;
@@ -57,7 +57,7 @@ namespace LOLItems.weapons
 
         private Dictionary<AIActor, List<GameObject>> activeVFXObjectList = new Dictionary<AIActor, List<GameObject>>();
 
-        private Dictionary<AIActor, int> enemyRendStacks = new Dictionary<AIActor, int>();
+        //private Dictionary<AIActor, int> enemyRendStacks = new Dictionary<AIActor, int>();
         private static float rendScale = 0.4f;
 
         //private bool isFiring = false;
@@ -273,21 +273,35 @@ namespace LOLItems.weapons
 
                     if (fatal && activeVFXObjectList.ContainsKey(enemy.aiActor))
                     {
+                        foreach (GameObject vfxObj in activeVFXObjectList[enemy.aiActor])
+                        {
+                            if (vfxObj != null)
+                            {
+                                Destroy(vfxObj);
+                            }
+                        }
+
                         activeVFXObjectList.Remove(enemy.aiActor);
+                    }
+
+                    var smth = enemy.aiActor.PlayEffectOnActor(EffectVFX, new Vector3(0 / 16f, 0 / 16f), true, false, true);
+                    var sprite = smth.GetComponent<tk2dSprite>();
+
+                    if (sprite != null)
+                    {
+                        sprite.transform.rotation = projectile.transform.rotation;
                     }
 
                     if (!activeVFXObjectList.ContainsKey(enemy.aiActor))
                     {
-                        var smth = enemy.aiActor.PlayEffectOnActor(EffectVFX, new Vector3(0 / 16f, 0 / 16f), true, false, false);
-
+                        //var smth = enemy.aiActor.PlayEffectOnActor(EffectVFX, new Vector3(0 / 16f, 0 / 16f), true, false, false);
+                        
                         activeVFXObjectList.Add(enemy.aiActor, new List<GameObject> {smth});
                         //enemy.aiActor.PlayEffectOnActor(EffectVFX, new Vector3(0 / 16f, 0 / 16f), true, false, false);
-
                     }
                     else
                     {
-
-                        var smth = enemy.aiActor.PlayEffectOnActor(EffectVFX, new Vector3(0 / 16f, 0 / 16f), true, false, false);
+                        //var smth = enemy.aiActor.PlayEffectOnActor(EffectVFX, new Vector3(0 / 16f, 0 / 16f), true, false, false);
 
                         activeVFXObjectList[enemy.aiActor].Add(smth);
                     }
@@ -300,8 +314,8 @@ namespace LOLItems.weapons
         public override void OnReloadPressedSafe(PlayerController player, Gun gun, bool manualReload)
         {
             float rendDamagePerStack = gun.DefaultModule.projectiles[0].baseData.damage * rendScale;
-            Plugin.Log($"rend damage per stack: {rendDamagePerStack}");
-            foreach (KeyValuePair<AIActor, int> target in enemyRendStacks)
+            //Plugin.Log($"rend damage per stack: {rendDamagePerStack}");
+            /*foreach (KeyValuePair<AIActor, int> target in enemyRendStacks)
             {
                 float damageToDeal = (target.Value + 1) * rendDamagePerStack;
                 Plugin.Log($"rend stacks: {target.Value}, damage dealt: {damageToDeal}");
@@ -317,6 +331,32 @@ namespace LOLItems.weapons
             }
 
             enemyRendStacks.Clear();
+            */
+
+            foreach (KeyValuePair<AIActor, List<GameObject>> target in activeVFXObjectList)
+            {
+                float damageToDeal = (target.Value.Count + 1) * rendDamagePerStack;
+                Plugin.Log($"rend stacks: {target.Value.Count}, damage dealt: {damageToDeal}");
+
+                target.Key.healthHaver.ApplyDamage(
+                    damageToDeal,
+                    Vector2.zero,
+                    "soul_spear_rend_damage",
+                    CoreDamageTypes.None,
+                    DamageCategory.Normal,
+                    false
+                );
+
+                foreach (GameObject vfxObj in target.Value)
+                {
+                    if (vfxObj != null)
+                    {
+                        Destroy(vfxObj);
+                    }
+                }
+            }
+
+            activeVFXObjectList.Clear();
         }
 
         public override void OnFinishAttack(PlayerController player, Gun gun)

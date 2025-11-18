@@ -128,7 +128,7 @@ namespace LOLItems
 
                 //Shader vfxShader = sprite.renderer.material.shader;
                 sprite.renderer.material.shader = ShaderCache.Acquire("Brave/Internal/SimpleAlphaFadeUnlit");
-                sprite.renderer.material.SetFloat("_Fade", 0.2f);
+                sprite.renderer.material.SetFloat("_Fade", 0.25f);
             }
         }
 
