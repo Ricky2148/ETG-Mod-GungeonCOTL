@@ -5,6 +5,7 @@ using System.Text;
 using UnityEngine;
 using Alexandria.ItemAPI;
 using Alexandria;
+using Alexandria.Misc;
 
 //dmg increase, dmg increase increases per kill, scaling infinitely, but very slowly
 
@@ -88,7 +89,8 @@ namespace LOLItems
                 ItemBuilder.RemovePassiveStatModifier(this, PlayerStats.StatType.Damage);
                 float damageIncrease = eminenceCount * eminenceDamageIncrease;
                 ItemBuilder.AddPassiveStatModifier(this, PlayerStats.StatType.Damage, 1.0f + damageIncrease, StatModifier.ModifyMethod.MULTIPLICATIVE);
-                Owner.stats.RecalculateStats(Owner, false, false);
+                //Owner.stats.RecalculateStats(Owner, false, false);
+                Owner.stats.RecalculateStatsWithoutRebuildingGunVolleys(Owner);
             }
         }
     }

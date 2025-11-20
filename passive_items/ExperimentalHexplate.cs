@@ -5,6 +5,7 @@ using System.Text;
 using UnityEngine;
 using Alexandria.ItemAPI;
 using Alexandria;
+using Alexandria.Misc;
 
 //health, dmg, and fire rate, extra dmg and fire rate when using an item
 
@@ -81,7 +82,8 @@ namespace LOLItems
             ItemBuilder.AddPassiveStatModifier(this, PlayerStats.StatType.RateOfFire, OverdriveRateOfFireStat, StatModifier.ModifyMethod.MULTIPLICATIVE);
             ItemBuilder.AddPassiveStatModifier(this, PlayerStats.StatType.MovementSpeed, overdriveMovementSpeedStat, StatModifier.ModifyMethod.MULTIPLICATIVE);
 
-            player.stats.RecalculateStats(player, false, false);
+            //player.stats.RecalculateStats(player, false, false);
+            player.stats.RecalculateStatsWithoutRebuildingGunVolleys(player);
 
             AkSoundEngine.PostEvent("experimental_hexplate_passive_triggered_SFX", player.gameObject);
             AkSoundEngine.PostEvent("experimental_hexplate_passive_effect_SFX", player.gameObject);
@@ -95,7 +97,8 @@ namespace LOLItems
             // reapplies original base item stat buff
             ItemBuilder.AddPassiveStatModifier(this, PlayerStats.StatType.RateOfFire, RateOfFireStat, StatModifier.ModifyMethod.MULTIPLICATIVE);
             
-            player.stats.RecalculateStats(player, false, false);
+            //player.stats.RecalculateStats(player, false, false);
+            player.stats.RecalculateStatsWithoutRebuildingGunVolleys(player);
 
             // waits time to simulate cooldown
             yield return new WaitForSeconds(OverdriveCooldown - OverdriveDuration);

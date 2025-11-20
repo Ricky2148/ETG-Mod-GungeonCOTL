@@ -27,7 +27,7 @@ namespace LOLItems.weapons
         private static int spreadAngle = 5;
 
         private static float projectileDamageStat = 12f;
-        private static float projectileSpeedStat = 60f; //75f;
+        private static float projectileSpeedStat = 60f; //60f;
         private static float projectileRangeStat = 20f;
         private static float projectileForceStat = 0f;
 
@@ -97,7 +97,7 @@ namespace LOLItems.weapons
             SoundManager.AddCustomSwitchData("WPN_Guns", gun.gunSwitchGroup, "Play_WPN_Gun_Reload_01", "Play_WPN_m1911_reload_01");
             SoundManager.AddCustomSwitchData("WPN_Guns", gun.gunSwitchGroup, "Play_WPN_gun_finale_01", null);
             gun.DefaultModule.angleVariance = spreadAngle;
-            gun.DefaultModule.shootStyle = ProjectileModule.ShootStyle.Automatic;
+            gun.DefaultModule.shootStyle = ProjectileModule.ShootStyle.SemiAutomatic;
 
             gun.gunClass = GunClass.RIFLE;
             gun.DefaultModule.sequenceStyle = ProjectileModule.ProjectileSequenceStyle.Random;
@@ -113,7 +113,7 @@ namespace LOLItems.weapons
             gun.carryPixelDownOffset += new IntVector2(18, 4); //offset when aiming down
             gun.carryPixelUpOffset += new IntVector2(12, -22); // offset when aiming up
 
-            gun.barrelOffset.transform.localPosition += new Vector3(16 / 16f, -4 / 16f);
+            gun.barrelOffset.transform.localPosition += new Vector3(32 / 16f, 5 / 16f);
             gun.gunScreenShake.magnitude = 0f;
 
             Projectile projectile = UnityEngine.Object.Instantiate<Projectile>((PickupObjectDatabase.GetById((int)Items._38Special) as Gun).DefaultModule.projectiles[0]);
@@ -428,7 +428,8 @@ namespace LOLItems.weapons
             //isFiring = false;
             ItemBuilder.RemoveCurrentGunStatModifier(gun, PlayerStats.StatType.MovementSpeed);
             ItemBuilder.AddCurrentGunStatModifier(gun, PlayerStats.StatType.MovementSpeed, 1f, StatModifier.ModifyMethod.MULTIPLICATIVE);
-            player.stats.RecalculateStats(player, true, false);
+            //player.stats.RecalculateStats(player, true, false);
+            player.stats.RecalculateStatsWithoutRebuildingGunVolleys(player);
 
             base.OnSwitchedAwayFromThisGun();
         }
@@ -436,10 +437,14 @@ namespace LOLItems.weapons
         public System.Collections.IEnumerator MartialPoiseDash(PlayerController player)
         {
             ItemBuilder.RemoveCurrentGunStatModifier(gun, PlayerStats.StatType.MovementSpeed);
-            player.stats.RecalculateStats(player, true, false);
+            //player.stats.RecalculateStats(player, true, false);
+            player.stats.RecalculateStatsWithoutRebuildingGunVolleys(player);
+
             float statToMod = player.stats.GetStatValue(PlayerStats.StatType.MovementSpeed);
             ItemBuilder.AddCurrentGunStatModifier(gun, PlayerStats.StatType.MovementSpeed, -statToMod, StatModifier.ModifyMethod.ADDITIVE);
-            player.stats.RecalculateStats(player, true, false);
+            //player.stats.RecalculateStats(player, true, false);
+            player.stats.RecalculateStatsWithoutRebuildingGunVolleys(player);
+
             //Plugin.Log($"modifier: {-statToMod}");
 
             float duration = dashBaseDuration / player.stats.GetStatValue(PlayerStats.StatType.RateOfFire);
@@ -476,7 +481,8 @@ namespace LOLItems.weapons
 
             ItemBuilder.RemoveCurrentGunStatModifier(gun, PlayerStats.StatType.MovementSpeed);
             ItemBuilder.AddCurrentGunStatModifier(gun, PlayerStats.StatType.MovementSpeed, 1f, StatModifier.ModifyMethod.MULTIPLICATIVE);
-            player.stats.RecalculateStats(player, true, false);
+            //player.stats.RecalculateStats(player, true, false);
+            player.stats.RecalculateStatsWithoutRebuildingGunVolleys(player);
             //Plugin.Log($"modifier: {1f}");
         }
     }

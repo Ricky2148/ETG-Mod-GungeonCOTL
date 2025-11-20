@@ -69,7 +69,7 @@ namespace LOLItems.weapons
             SoundManager.AddCustomSwitchData("WPN_Guns", gun.gunSwitchGroup, "Play_WPN_Gun_Reload_01", null); 
 
             gun.DefaultModule.angleVariance = spreadAngle;
-            gun.DefaultModule.shootStyle = ProjectileModule.ShootStyle.Automatic;
+            gun.DefaultModule.shootStyle = ProjectileModule.ShootStyle.SemiAutomatic;
             gun.gunClass = GunClass.FULLAUTO; 
             gun.DefaultModule.sequenceStyle = ProjectileModule.ProjectileSequenceStyle.Random; 
             gun.DefaultModule.ammoCost = 1;

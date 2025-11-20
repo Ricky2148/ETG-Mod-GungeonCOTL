@@ -1,5 +1,6 @@
 ﻿using Alexandria.BreakableAPI;
 using Alexandria.ItemAPI;
+using Alexandria.Misc;
 using Alexandria.SoundAPI;
 using Alexandria.VisualAPI;
 using BepInEx;
@@ -538,30 +539,8 @@ namespace LOLItems.weapons
             base.OnAmmoChanged(player, gun);
         }
 
-        public override void PostProcessProjectile(Projectile projectile)
+        public override void OnPostFired(PlayerController player, Gun gun)
         {
-            //PlayerController player = projectile.Owner as PlayerController;
-            /*
-            if (projectile.GetCachedBaseDamage == projectileDamageStat)
-            {
-                //Plugin.Log("regular sound");
-                HelpfulMethods.PlayRandomSFX(player.gameObject, normalFiringSFXList);
-            }
-            else if (projectile.GetCachedBaseDamage == projectileDamageStat * headshotDamageScale)
-            {
-                //Plugin.Log("headshot sound");
-                HelpfulMethods.PlayRandomSFX(player.gameObject, headshotSFXList);
-            }
-            else
-            {
-                Plugin.Log("fuck");
-            }
-            */
-            //HelpfulMethods.PlayRandomSFX(player.gameObject, normalFiringSFXList);
-            //projectile.OnHitEnemy += HandleHitEnemy;
-
-            PlayerController player = Owner as PlayerController;
-
             switch (shotCounter)
             {
                 case 1:
@@ -604,6 +583,82 @@ namespace LOLItems.weapons
                     break;
             }
 
+            shotCounter++;
+
+            //Plugin.Log($"postfired shotcounter: {shotCounter}");
+            
+            base.OnPostFired(player, gun);
+        }
+
+        //comes before postfired
+        public override void PostProcessProjectile(Projectile projectile)
+        {
+            //PlayerController player = projectile.Owner as PlayerController;
+            /*
+            if (projectile.GetCachedBaseDamage == projectileDamageStat)
+            {
+                //Plugin.Log("regular sound");
+                HelpfulMethods.PlayRandomSFX(player.gameObject, normalFiringSFXList);
+            }
+            else if (projectile.GetCachedBaseDamage == projectileDamageStat * headshotDamageScale)
+            {
+                //Plugin.Log("headshot sound");
+                HelpfulMethods.PlayRandomSFX(player.gameObject, headshotSFXList);
+            }
+            else
+            {
+                Plugin.Log("fuck");
+            }
+            */
+            //HelpfulMethods.PlayRandomSFX(player.gameObject, normalFiringSFXList);
+            //projectile.OnHitEnemy += HandleHitEnemy;
+
+            PlayerController player = Owner as PlayerController;
+
+            /*switch (shotCounter)
+            {
+                case 1:
+                    HelpfulMethods.PlayRandomSFX(player.CurrentGun.gameObject, normalFiringSFXList);
+
+                    BraveUtility.Swap(ref this.gun.shootAnimation, ref this.gun.alternateShootAnimation);
+
+                    break;
+                case 2:
+                    HelpfulMethods.PlayRandomSFX(player.CurrentGun.gameObject, normalFiringSFXList);
+
+                    BraveUtility.Swap(ref this.gun.shootAnimation, ref this.gun.alternateShootAnimation);
+                    BraveUtility.Swap(ref this.gun.shootAnimation, ref this.gun.criticalFireAnimation);
+
+                    break;
+                case 3:
+                    HelpfulMethods.PlayRandomSFX(player.CurrentGun.gameObject, thirdShotFiringSFXList);
+
+                    BraveUtility.Swap(ref this.gun.shootAnimation, ref this.gun.criticalFireAnimation);
+                    BraveUtility.Swap(ref this.gun.idleAnimation, ref this.gun.alternateIdleAnimation);
+
+                    idleAnimSwapped = !idleAnimSwapped;
+
+                    break;
+                case 4:
+                    foreach (string s in thirdShotFiringSFXList)
+                    {
+                        AkSoundEngine.PostEvent(s + "_stop", gun.gameObject);
+                    }
+
+                    HelpfulMethods.PlayRandomSFX(player.CurrentGun.gameObject, fourthShotFiringSFXList);
+
+                    BraveUtility.Swap(ref this.gun.idleAnimation, ref this.gun.alternateIdleAnimation);
+
+                    idleAnimSwapped = !idleAnimSwapped;
+
+                    break;
+                default:
+                    Plugin.Log("something went wrong here LMAO");
+                    break;
+            }
+
+            shotCounter++;*/
+
             float clipSizeMod = player.stats.GetStatValue(PlayerStats.StatType.AdditionalClipCapacityMultiplier);
 
             if (clipSizeMod > 1f)
@@ -645,7 +700,7 @@ namespace LOLItems.weapons
                 };
             }
 
-            shotCounter++;
+            //Plugin.Log($"postprocessprojectile shotcounter: {shotCounter}");
 
             base.PostProcessProjectile(projectile);
         }
@@ -691,7 +746,8 @@ namespace LOLItems.weapons
             ItemBuilder.RemoveCurrentGunStatModifier(gun, PlayerStats.StatType.RateOfFire);
             ItemBuilder.RemoveCurrentGunStatModifier(gun, PlayerStats.StatType.Damage);
 
-            player.stats.RecalculateStats(player, true, false);
+            //player.stats.RecalculateStats(player, true, false);
+            player.stats.RecalculateStatsWithoutRebuildingGunVolleys(player);
 
             float fireRateMod = player.stats.GetStatValue(PlayerStats.StatType.RateOfFire);
 
@@ -706,7 +762,8 @@ namespace LOLItems.weapons
                 ItemBuilder.AddCurrentGunStatModifier(gun, PlayerStats.StatType.Damage, fireRateMod, StatModifier.ModifyMethod.MULTIPLICATIVE);
 
                 Plugin.Log($"applied rate of fire mod: {1f / fireRateMod}");
-                player.stats.RecalculateStats(player, true, false);
+                //player.stats.RecalculateStats(player, true, false);
+                player.stats.RecalculateStatsWithoutRebuildingGunVolleys(player);
             }
 
             //player.stats.RecalculateStats(player, true, false);

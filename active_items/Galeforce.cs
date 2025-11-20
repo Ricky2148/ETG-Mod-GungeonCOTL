@@ -69,7 +69,8 @@ namespace LOLItems.active_items
 
             ItemBuilder.RemovePassiveStatModifier(this, PlayerStats.StatType.Damage);
             ItemBuilder.RemovePassiveStatModifier(this, PlayerStats.StatType.RateOfFire);
-            player.stats.RecalculateStats(player, false, false);
+            //player.stats.RecalculateStats(player, false, false);
+            player.stats.RecalculateStatsWithoutRebuildingGunVolleys(player);
 
             return base.Drop(player);
         }

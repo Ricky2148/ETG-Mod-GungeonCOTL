@@ -1,5 +1,6 @@
 ﻿using Alexandria;
 using Alexandria.ItemAPI;
+using Alexandria.Misc;
 using LOLItems.passive_items;
 using System;
 using System.Collections.Generic;
@@ -129,7 +130,8 @@ namespace LOLItems
                     ManaflowStackCount++;
                     ItemBuilder.AddPassiveStatModifier(this, PlayerStats.StatType.AdditionalClipCapacityMultiplier, 1f + ManaflowIncrementValue * ManaflowStackCount, StatModifier.ModifyMethod.MULTIPLICATIVE);
                     ItemBuilder.AddPassiveStatModifier(this, PlayerStats.StatType.AmmoCapacityMultiplier, 1f + ManaflowIncrementValue * ManaflowStackCount, StatModifier.ModifyMethod.MULTIPLICATIVE);
-                    Owner.stats.RecalculateStats(Owner, false, false);
+                    //Owner.stats.RecalculateStats(Owner, false, false);
+                    Owner.stats.RecalculateStatsWithoutRebuildingGunVolleys(Owner);
                     // when stack count reaches max, upgrade to Muramana
                     //Plugin.Log($"manaflow stack count: {ManaflowStackCount}, manaflow increment value: {ManaflowIncrementValue}, ({ManaflowStackCount} * {ManaflowIncrementValue} = {ManaflowStackCount * ManaflowIncrementValue}) >= manaflow increase max: {ManaflowIncreaseMax}");
                     if (ManaflowStackCount * ManaflowIncrementValue >= ManaflowIncreaseMax) UpgradeToMuramana(Owner);

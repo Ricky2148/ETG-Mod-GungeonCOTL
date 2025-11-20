@@ -125,7 +125,7 @@ namespace LOLItems.weapons
             SoundManager.AddCustomSwitchData("WPN_Guns", gun.gunSwitchGroup, "Play_WPN_Gun_Reload_01", null); //Play_WPN_Gun_Reload_01 is your weapon's base reload sound.
             //SoundManager.AddCustomSwitchData("WPN_Guns", gun.gunSwitchGroup, "Play_WPN_gun_finale_01", null);
             gun.DefaultModule.angleVariance = spreadAngle; //How far from where you're aiming that bullets can deviate. 0 equals perfect accuracy.
-            gun.DefaultModule.shootStyle = ProjectileModule.ShootStyle.Automatic; //Sets the firing style of the gun.
+            gun.DefaultModule.shootStyle = ProjectileModule.ShootStyle.SemiAutomatic; //Sets the firing style of the gun.
             /* Optional settings for Burst style guns. */
             //gun.DefaultModule.burstShotCount = 3; //Number of shots per burst.
             //gun.DefaultModule.burstCooldownTime = 0.1f; //Time in between shots during a burst.

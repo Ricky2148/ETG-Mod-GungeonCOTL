@@ -1,5 +1,6 @@
 ﻿using Alexandria;
 using Alexandria.ItemAPI;
+using Alexandria.Misc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -83,7 +84,8 @@ namespace LOLItems
                 ItemBuilder.AddPassiveStatModifier(this, PlayerStats.StatType.AmmoCapacityMultiplier, 1f + (TimelessIncrementValue * TimelessStackCount), StatModifier.ModifyMethod.MULTIPLICATIVE);
                 ItemBuilder.AddPassiveStatModifier(this, PlayerStats.StatType.AdditionalClipCapacityMultiplier, 1f + (TimelessIncrementValue * TimelessStackCount), StatModifier.ModifyMethod.MULTIPLICATIVE);
             
-                player.stats.RecalculateStats(player, false, false);
+                //player.stats.RecalculateStats(player, false, false);
+                player.stats.RecalculateStatsWithoutRebuildingGunVolleys(player);
             }
 
             // when at max stacks, increase health and provide eternity effect

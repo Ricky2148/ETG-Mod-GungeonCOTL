@@ -1,5 +1,6 @@
 ﻿using Alexandria;
 using Alexandria.ItemAPI;
+using Alexandria.Misc;
 using Alexandria.VisualAPI;
 using Dungeonator;
 using System;
@@ -110,7 +111,9 @@ namespace LOLItems
             ItemBuilder.RemovePassiveStatModifier(this, PlayerStats.StatType.Damage);
             ItemBuilder.RemovePassiveStatModifier(this, PlayerStats.StatType.RateOfFire);
             ItemBuilder.RemovePassiveStatModifier(this, PlayerStats.StatType.Health);
-            player.stats.RecalculateStats(player, false, false);
+            //player.stats.RecalculateStats(player, false, false);
+            player.stats.RecalculateStatsWithoutRebuildingGunVolleys(player);
+            
             return base.Drop(player);
         }
 

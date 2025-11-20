@@ -10,6 +10,7 @@ using BepInEx;
 using System.Collections.Generic;
 using LOLItems.passive_items;
 using System.Runtime.CompilerServices;
+using Alexandria.Misc;
 
 // balance this: figure out what rarity it should be
 // scattershot bugs powpow 
@@ -470,7 +471,8 @@ namespace LOLItems.weapons
                 //gun.DefaultModule.cooldownTime = fireRateStat - rampUpStacks * rampUpIncPerStack;
                 ItemBuilder.RemoveCurrentGunStatModifier(gun, PlayerStats.StatType.RateOfFire);
                 ItemBuilder.AddCurrentGunStatModifier(gun, PlayerStats.StatType.RateOfFire, 1.0f + (rampUpStacks * 0.1f), StatModifier.ModifyMethod.MULTIPLICATIVE);
-                player.stats.RecalculateStats(player, true, false);
+                //player.stats.RecalculateStats(player, true, false);
+                player.stats.RecalculateStatsWithoutRebuildingGunVolleys(player);
 
                 //float updatedFiringAnimationFPS = firingAnimationFPS + rampUpStacks * firingAnimationFPS / 10f;
                 //gun.SetAnimationFPS(gun.shootAnimation, (int)updatedFiringAnimationFPS);
@@ -602,7 +604,8 @@ namespace LOLItems.weapons
                     //gun.DefaultModule.cooldownTime = fireRateStat - rampUpStacks * rampUpIncPerStack;
                     ItemBuilder.RemoveCurrentGunStatModifier(gun, PlayerStats.StatType.RateOfFire);
                     ItemBuilder.AddCurrentGunStatModifier(gun, PlayerStats.StatType.RateOfFire, 1.0f + (rampUpStacks * 0.1f), StatModifier.ModifyMethod.MULTIPLICATIVE);
-                    player.stats.RecalculateStats(player, true, false);
+                    //player.stats.RecalculateStats(player, true, false);
+                    player.stats.RecalculateStatsWithoutRebuildingGunVolleys(player);
 
                     //float updatedFiringAnimationFPS = firingAnimationFPS + rampUpStacks * firingAnimationFPS / 10f;
                     //gun.SetAnimationFPS(gun.shootAnimation, (int)updatedFiringAnimationFPS);
@@ -638,7 +641,8 @@ namespace LOLItems.weapons
 
                 gun.DefaultModule.cooldownTime = targetGun.DefaultModule.cooldownTime;
                 ItemBuilder.RemoveCurrentGunStatModifier(gun, PlayerStats.StatType.RateOfFire);
-                player.stats.RecalculateStats(player, true, false);
+                //player.stats.RecalculateStats(player, true, false);
+                player.stats.RecalculateStatsWithoutRebuildingGunVolleys(player);
 
                 //gun.OnPostFired -= OnPostFired;
                 //gun.OnFinishAttack -= OnFinishAttack;
@@ -669,7 +673,8 @@ namespace LOLItems.weapons
                 gun.DefaultModule.cooldownTime = fireRateStat;
                 ItemBuilder.RemoveCurrentGunStatModifier(gun, PlayerStats.StatType.RateOfFire);
                 ItemBuilder.AddCurrentGunStatModifier(gun, PlayerStats.StatType.RateOfFire, Mathf.Min(1.0f + (rampUpStacks * 0.1f), 3.0f), StatModifier.ModifyMethod.MULTIPLICATIVE);
-                player.stats.RecalculateStats(player, true, false);
+                //player.stats.RecalculateStats(player, true, false);
+                player.stats.RecalculateStatsWithoutRebuildingGunVolleys(player);
 
                 gun.spriteAnimator.OverrideTimeScale = 1f + rampUpStacks * 0.1f;
 

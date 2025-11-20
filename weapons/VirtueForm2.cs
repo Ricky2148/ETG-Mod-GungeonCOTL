@@ -1,16 +1,17 @@
-﻿using System;
-using System.Collections;
-using Gungeon;
-using MonoMod;
-using UnityEngine;
+﻿using Alexandria.BreakableAPI;
 using Alexandria.ItemAPI;
+using Alexandria.Misc;
 using Alexandria.SoundAPI;
-using Alexandria.BreakableAPI;
 using BepInEx;
-using System.Collections.Generic;
-using LOLItems.custom_class_data;
 using Dungeonator;
+using Gungeon;
+using LOLItems.custom_class_data;
+using MonoMod;
+using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+using UnityEngine;
 
 namespace LOLItems.weapons
 {
@@ -154,7 +155,8 @@ namespace LOLItems.weapons
             {
                 ItemBuilder.RemoveCurrentGunStatModifier(gun, PlayerStats.StatType.RateOfFire);
                 ItemBuilder.AddCurrentGunStatModifier(gun, PlayerStats.StatType.RateOfFire, 1.0f + (zealStacks * zealIncPerStack), StatModifier.ModifyMethod.MULTIPLICATIVE);
-                player.stats.RecalculateStats(player, true, false);
+                //player.stats.RecalculateStats(player, true, false);
+                player.stats.RecalculateStatsWithoutRebuildingGunVolleys(player);
 
                 gun.spriteAnimator.OverrideTimeScale = 1f + zealStacks * zealIncPerStack;
 
@@ -165,7 +167,8 @@ namespace LOLItems.weapons
                 {
                     ItemBuilder.RemoveCurrentGunStatModifier(gun, PlayerStats.StatType.MovementSpeed);
                     ItemBuilder.AddCurrentGunStatModifier(gun, PlayerStats.StatType.MovementSpeed, zealSpeedInc, StatModifier.ModifyMethod.MULTIPLICATIVE);
-                    player.stats.RecalculateStats(player, true, false);
+                    //player.stats.RecalculateStats(player, true, false);
+                    player.stats.RecalculateStatsWithoutRebuildingGunVolleys(player);
                 }
 
                 base.Update();
@@ -231,7 +234,8 @@ namespace LOLItems.weapons
             zealStacks = 0;
             ItemBuilder.RemoveCurrentGunStatModifier(gun, PlayerStats.StatType.RateOfFire);
             ItemBuilder.AddCurrentGunStatModifier(gun, PlayerStats.StatType.RateOfFire, 1.0f + (zealStacks * zealIncPerStack), StatModifier.ModifyMethod.MULTIPLICATIVE);
-            player.stats.RecalculateStats(player, true, false);
+            //player.stats.RecalculateStats(player, true, false);
+            player.stats.RecalculateStatsWithoutRebuildingGunVolleys(player);
 
             gun.spriteAnimator.OverrideTimeScale = 1f + zealStacks * zealIncPerStack;
         }
