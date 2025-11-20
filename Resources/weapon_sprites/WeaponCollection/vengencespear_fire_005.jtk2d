@@ -2,19 +2,28 @@
   "name": null,
   "x": 0,
   "y": 0,
-  "width": 95,
-  "height": 8,
+  "width": 62,
+  "height": 16,
   "flip": 1,
   "attachPoints": [
     {
       ".": "arraytype",
       "name": "array",
-      "size": 1
+      "size": 2
     },
     {
       "name": "PrimaryHand",
       "position": {
-        "x": 1.0,
+        "x": 1.5625,
+        "y": 0.8125,
+        "z": 0.0
+      },
+      "angle": 0.0
+    },
+    {
+      "name": "SecondaryHand",
+      "position": {
+        "x": 1.0625,
         "y": 0.25,
         "z": 0.0
       },

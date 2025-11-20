@@ -732,7 +732,6 @@
     <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\boomerangblade_idle_003.jtk2d" />
     <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\boomerangblade_idle_004.jtk2d" />
     <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\vengencespear_idle_001.jtk2d" />
-    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\vengencespear_reload_001.jtk2d" />
     <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\vengencespear_fire_001.jtk2d" />
     <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\vengencespear_fire_002.jtk2d" />
     <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\vengencespear_fire_003.jtk2d" />
@@ -741,10 +740,19 @@
     <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\vengencespear_fire_006.jtk2d" />
     <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\vengencespear_fire_007.jtk2d" />
     <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\vengencespear_fire_008.jtk2d" />
-    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\vengencespear_fire_009.jtk2d" />
-    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\vengencespear_fire_010.jtk2d" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\vengencespear_fire_008.png" />
+    <EmbeddedResource Include="Resources\weapon_sprites\ProjectileCollection\vengencespear_projectile_spearonly.png" />
+    <EmbeddedResource Include="Resources\weapon_sprites\CustomGunAmmoTypes\fishbones_clipempty_nooutline.png" />
+    <EmbeddedResource Include="Resources\weapon_sprites\CustomGunAmmoTypes\fishbones_clipfull_nooutline.png" />
+    <EmbeddedResource Include="Resources\weapon_sprites\CustomGunAmmoTypes\hextech_peacemaker_ammo_empty_nooutline.png" />
+    <EmbeddedResource Include="Resources\weapon_sprites\CustomGunAmmoTypes\hextech_peacemaker_ammo_full_nooutline.png" />
+    <EmbeddedResource Include="Resources\weapon_sprites\CustomGunAmmoTypes\hextech_rifle_ammo_empty_nooutline.png" />
+    <EmbeddedResource Include="Resources\weapon_sprites\CustomGunAmmoTypes\hextech_rifle_ammo_full_nooutline.png" />
+    <EmbeddedResource Include="Resources\weapon_sprites\CustomGunAmmoTypes\shockSMG_ammo_empty_nooutline.png" />
+    <EmbeddedResource Include="Resources\weapon_sprites\CustomGunAmmoTypes\shockSMG_ammo_full_nooutline.png" />
+    <EmbeddedResource Include="Resources\weapon_sprites\CustomGunAmmoTypes\whisper_ammo_empty_001.png" />
     <EmbeddedResource Include="Resources\vfxs\vengencespear\vengencespear_vfx.png" />
     <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\vengencespear_fire_001.png" />
     <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\vengencespear_fire_002.png" />
@@ -753,10 +761,6 @@
     <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\vengencespear_fire_005.png" />
     <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\vengencespear_fire_006.png" />
     <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\vengencespear_fire_007.png" />
-    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\vengencespear_fire_008.png" />
-    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\vengencespear_fire_009.png" />
-    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\vengencespear_fire_010.png" />
-    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\vengencespear_reload_001.png" />
     <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\vengencespear_idle_001.png" />
     <EmbeddedResource Include="Resources\weapon_sprites\ProjectileCollection\vengencespear_projectile_001.png" />
     <EmbeddedResource Include="Resources\weapon_sprites\ProjectileCollection\vengencespear_projectile_002.png" />
@@ -841,7 +845,6 @@
     <EmbeddedResource Include="Resources\weapon_sprites\ProjectileCollection\boomerangblade_projectile_008.png" />
     <EmbeddedResource Include="Resources\weapon_sprites\CustomGunAmmoTypes\prayerbeads_ammo_empty_001.png" />
     <EmbeddedResource Include="Resources\weapon_sprites\CustomGunAmmoTypes\prayerbeads_ammo_full_001.png" />
-    <EmbeddedResource Include="Resources\weapon_sprites\CustomGunAmmoTypes\whisper_ammo_empty.png" />
     <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\whisper_critical_fire_001.png" />
     <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\whisper_critical_fire_002.png" />
     <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\whisper_critical_fire_003.png" />

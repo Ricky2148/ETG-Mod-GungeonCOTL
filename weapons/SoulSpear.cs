@@ -1,5 +1,6 @@
 ﻿using Alexandria.BreakableAPI;
 using Alexandria.ItemAPI;
+using Alexandria.Misc;
 using Alexandria.SoundAPI;
 using Alexandria.VisualAPI;
 using BepInEx;
@@ -10,6 +11,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static GlobalSparksDoer;
 
 namespace LOLItems.weapons
 {
@@ -19,13 +21,13 @@ namespace LOLItems.weapons
         public static int ID; //The Gun ID stored by the game.  Can be used by other functions to call your custom gun.
         public static string realName = "Soul Spear"; //The name that shows up in the Ammonomicon and the mod console.
 
-        private static int ammoStat = 200;
+        private static int ammoStat = 600;
         private static float reloadDuration = 0f;
         private static float fireRateStat = 0.6f;
         private static int spreadAngle = 5;
 
-        private static float projectileDamageStat = 5f;
-        private static float projectileSpeedStat = 75f; //75f;
+        private static float projectileDamageStat = 12f;
+        private static float projectileSpeedStat = 60f; //75f;
         private static float projectileRangeStat = 20f;
         private static float projectileForceStat = 0f;
 
@@ -105,11 +107,13 @@ namespace LOLItems.weapons
             gun.DefaultModule.numberOfShotsInClip = ammoStat;
             gun.SetBaseMaxAmmo(ammoStat);
 
-            gun.gunHandedness = GunHandedness.OneHanded;
+            gun.gunHandedness = GunHandedness.TwoHanded;
 
-            gun.carryPixelOffset += new IntVector2(-32, 16);
+            gun.carryPixelOffset += new IntVector2(-14, 10);
+            gun.carryPixelDownOffset += new IntVector2(18, 4); //offset when aiming down
+            gun.carryPixelUpOffset += new IntVector2(12, -22); // offset when aiming up
 
-            gun.barrelOffset.transform.localPosition += new Vector3(16 / 16f, 0 / 16f);
+            gun.barrelOffset.transform.localPosition += new Vector3(16 / 16f, -4 / 16f);
             gun.gunScreenShake.magnitude = 0f;
 
             Projectile projectile = UnityEngine.Object.Instantiate<Projectile>((PickupObjectDatabase.GetById((int)Items._38Special) as Gun).DefaultModule.projectiles[0]);
@@ -133,8 +137,9 @@ namespace LOLItems.weapons
             projectile.transform.parent = gun.barrelOffset;
             projectile.shouldRotate = true;
 
-            projectile.SetProjectileSpriteRight("vengencespear_projectile_001", 34, 12, true, tk2dBaseSprite.Anchor.MiddleCenter, 32, 10);
+            projectile.SetProjectileSpriteRight("vengencespear_projectile_spearonly", 34, 4, true, tk2dBaseSprite.Anchor.MiddleCenter, 32, 3);
 
+            /*
             List<string> projectileSpriteNames = new List<string>
             {
                 "vengencespear_projectile_001",
@@ -200,6 +205,7 @@ namespace LOLItems.weapons
 
             projectile.AddAnimationToProjectile(projectileSpriteNames, projectileFPS, projectileSizes, projectileLighteneds, projectileAnchors, projectileAnchorsChangeColiders, projectilefixesScales,
                                                 projectileManualOffsets, projectileOverrideColliderSizes, projectileOverrideColliderOffsets, projectileOverrideProjectilesToCopyFrom, ProjectileWrapMode);
+            */
 
             gun.DefaultModule.ammoType = GameUIAmmoType.AmmoType.CUSTOM;
             gun.DefaultModule.customAmmoType = CustomClipAmmoTypeToolbox.AddCustomAmmoType("soul_spear_ammo",
@@ -211,6 +217,16 @@ namespace LOLItems.weapons
             gun.shellsToLaunchOnReload = 0;
             gun.clipsToLaunchOnReload = 0;
             gun.reloadClipLaunchFrame = 0;
+
+            EasyTrailBullet trail = projectile.gameObject.AddComponent<EasyTrailBullet>();
+            trail.TrailPos = projectile.transform.position;
+            trail.StartWidth = 0.15f;
+            trail.EndWidth = 0f;
+            trail.LifeTime = 0.1f;
+
+            trail.BaseColor = Color.cyan;
+            trail.StartColor = Color.white;
+            trail.EndColor = Color.blue;
 
             gun.quality = PickupObject.ItemQuality.A;
             ETGMod.Databases.Items.Add(gun, false, "ANY");
@@ -284,7 +300,18 @@ namespace LOLItems.weapons
                         activeVFXObjectList.Remove(enemy.aiActor);
                     }
 
-                    var smth = enemy.aiActor.PlayEffectOnActor(EffectVFX, new Vector3(0 / 16f, 0 / 16f), true, false, true);
+                    Vector3 idk = (enemy as SpeculativeRigidbody).UnitDimensions;
+                    //Plugin.Log($"unit dimensions: {idk}");
+                    float num = ((idk.x + idk.y) / 2);
+                    //idk.x *= UnityEngine.Random.Range(-1.1f, 1.1f);
+                    //idk.y *= UnityEngine.Random.Range(-1.1f, 1.1f);
+
+                    Vector3 offset = new Vector3(26 / 16f, 0 / 16f);
+                    offset += new Vector3(num * UnityEngine.Random.Range(-0.3f, 0.3f), num * UnityEngine.Random.Range(-0.3f, 0.3f));
+                    //Plugin.Log($"offset (randomized): {offset}");
+
+                    //var smth = enemy.aiActor.PlayEffectOnActor(EffectVFX, new Vector3(26 / 16f, 0 / 16f), true, false, true);
+                    var smth = enemy.aiActor.PlayEffectOnActor(EffectVFX, offset, true, false, true);
                     var sprite = smth.GetComponent<tk2dSprite>();
 
                     if (sprite != null)
@@ -313,7 +340,7 @@ namespace LOLItems.weapons
 
         public override void OnReloadPressedSafe(PlayerController player, Gun gun, bool manualReload)
         {
-            float rendDamagePerStack = gun.DefaultModule.projectiles[0].baseData.damage * rendScale;
+            float rendDamagePerStack = gun.DefaultModule.projectiles[0].baseData.damage * rendScale * player.stats.GetBaseStatValue(PlayerStats.StatType.Damage);
             //Plugin.Log($"rend damage per stack: {rendDamagePerStack}");
             /*foreach (KeyValuePair<AIActor, int> target in enemyRendStacks)
             {
@@ -336,16 +363,39 @@ namespace LOLItems.weapons
             foreach (KeyValuePair<AIActor, List<GameObject>> target in activeVFXObjectList)
             {
                 float damageToDeal = (target.Value.Count + 1) * rendDamagePerStack;
-                Plugin.Log($"rend stacks: {target.Value.Count}, damage dealt: {damageToDeal}");
+                //Plugin.Log($"rend stacks: {target.Value.Count}, damage dealt: {damageToDeal}");
 
-                target.Key.healthHaver.ApplyDamage(
-                    damageToDeal,
-                    Vector2.zero,
-                    "soul_spear_rend_damage",
-                    CoreDamageTypes.None,
-                    DamageCategory.Normal,
-                    false
-                );
+                if (target.Key.healthHaver != null && target.Key.gameObject != null)
+                {
+                    target.Key.healthHaver.ApplyDamage(
+                        damageToDeal,
+                        Vector2.zero,
+                        "soul_spear_rend_damage",
+                        CoreDamageTypes.None,
+                        DamageCategory.Normal,
+                        false
+                    );
+
+                    Vector2 unitDimensions = target.Key.specRigidbody.HitboxPixelCollider.UnitDimensions;
+                    Vector2 a = unitDimensions / 2f;
+
+                    int num3 = Mathf.Min(target.Value.Count, 50);
+                    Vector2 vector = target.Key.specRigidbody.HitboxPixelCollider.UnitBottomLeft;
+                    Vector2 vector2 = target.Key.specRigidbody.HitboxPixelCollider.UnitTopRight;
+                    PixelCollider pixelCollider = target.Key.specRigidbody.GetPixelCollider(ColliderType.Ground);
+                    if (pixelCollider != null && pixelCollider.ColliderGenerationMode == PixelCollider.PixelColliderGeneration.Manual)
+                    {
+                        vector = Vector2.Min(vector, pixelCollider.UnitBottomLeft);
+                        vector2 = Vector2.Max(vector2, pixelCollider.UnitTopRight);
+                    }
+                    vector += Vector2.Min(a * 0.15f, new Vector2(0.25f, 0.25f));
+                    vector2 -= Vector2.Min(a * 0.15f, new Vector2(0.25f, 0.25f));
+                    vector2.y -= Mathf.Min(a.y * 0.1f, 0.1f);
+                    //GlobalSparksDoer.DoRandomParticleBurst(num3, vector, vector2, Vector2.zero, 5f, 5f, 0.3f, 1, ExtendedColours.skyblue, GlobalSparksDoer.SparksType.FLOATY_CHAFF);
+                    HelpfulMethods.DoRandomParticleBurst(num3, vector, vector2, 1f, 1f, 0.3f, 1, Color.cyan, GlobalSparksDoer.SparksType.FLOATY_CHAFF);
+                    //anglevariance, magnitudevariance, startsize, startlifetime
+                    //GlobalSparksDoer.DoRandomParticleBurst(Mathf.Max(target.Value.Count, 30), )
+                }
 
                 foreach (GameObject vfxObj in target.Value)
                 {
@@ -396,6 +446,8 @@ namespace LOLItems.weapons
             //float adjSpeed = dashBaseSpeed * player.stats.GetStatValue(PlayerStats.StatType.RateOfFire);
             float adjSpeed = dashBaseSpeed * (1 + ((player.stats.GetStatValue(PlayerStats.StatType.RateOfFire) - 1) * 0.5f));
             float elapsed = -BraveTime.DeltaTime;
+
+            player.healthHaver.TriggerInvulnerabilityPeriod(duration);
 
             //Plugin.Log($"\n\n{player.m_playerCommandedDirection}\n{player.LastCommandedDirection}\n{player.m_activeActions.Move.Vector}");
 

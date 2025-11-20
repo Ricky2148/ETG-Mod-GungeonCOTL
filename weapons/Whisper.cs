@@ -16,6 +16,7 @@ using UnityEngine;
 
 // figure out hit effects
 // balance this: what rarity dps etc.
+// scattershot breaks shot counting
 
 namespace LOLItems.weapons
 {
@@ -272,11 +273,11 @@ namespace LOLItems.weapons
             /* OR */
             gun.DefaultModule.ammoType = GameUIAmmoType.AmmoType.CUSTOM;
             gun.DefaultModule.customAmmoType = CustomClipAmmoTypeToolbox.AddCustomAmmoType("whisper_ammo",
-                "LOLItems/Resources/weapon_sprites/CustomGunAmmoTypes/whisper_ammo_blue_001", "LOLItems/Resources/weapon_sprites/CustomGunAmmoTypes/whisper_ammo_empty");
+                "LOLItems/Resources/weapon_sprites/CustomGunAmmoTypes/whisper_ammo_blue_001", "LOLItems/Resources/weapon_sprites/CustomGunAmmoTypes/whisper_ammo_empty_001");
             /* If your gun uses special ammo for its final shot, use the below settings similar to the above */
             gun.DefaultModule.finalAmmoType = GameUIAmmoType.AmmoType.CUSTOM;
             gun.DefaultModule.finalCustomAmmoType = CustomClipAmmoTypeToolbox.AddCustomAmmoType("whisper_fourth_ammo",
-                "LOLItems/Resources/weapon_sprites/CustomGunAmmoTypes/whisper_ammo_pink_001", "LOLItems/Resources/weapon_sprites/CustomGunAmmoTypes/whisper_ammo_empty");
+                "LOLItems/Resources/weapon_sprites/CustomGunAmmoTypes/whisper_ammo_pink_001", "LOLItems/Resources/weapon_sprites/CustomGunAmmoTypes/whisper_ammo_empty_001");
 
             // Casings and Clips
             /* Casings are the individual bullet shells and clips are the holders that are ejected from the gun.

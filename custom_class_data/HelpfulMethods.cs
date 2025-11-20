@@ -1,10 +1,12 @@
-﻿using System;
+﻿using Alexandria;
+using Alexandria.ItemAPI;
+using Alexandria.Misc;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using UnityEngine;
-using Alexandria;
-using Alexandria.ItemAPI;
+using static GlobalSparksDoer;
 
 namespace LOLItems
 {
@@ -27,6 +29,17 @@ namespace LOLItems
                 case "tt_forge": return 2.0f;
                 case "tt_bullethell": return 2.25f;
                 default: return 0f; // safety fallback
+            }
+        }
+
+        public static void DoRandomParticleBurst(int num, Vector3 minPosition, Vector3 maxPosition, float angleVariance, float magnitudeVariance, float? startSize = null, float? startLifetime = null, Color? startColor = null, SparksType systemType = SparksType.SPARKS_ADDITIVE_DEFAULT)
+        {
+            for (int i = 0; i < num; i++)
+            {
+                Vector3 direction = BraveUtility.RandomAngle().DegreeToVector2();
+                Vector3 position = new Vector3(UnityEngine.Random.Range(minPosition.x, maxPosition.x), UnityEngine.Random.Range(minPosition.y, maxPosition.y), UnityEngine.Random.Range(minPosition.z, maxPosition.z));
+                Vector3 direction2 = Quaternion.Euler(0f, 0f, UnityEngine.Random.Range(0f - angleVariance, angleVariance)) * (direction.normalized * UnityEngine.Random.Range(direction.magnitude - magnitudeVariance, direction.magnitude + magnitudeVariance));
+                GlobalSparksDoer.DoSingleParticle(position, direction2, startSize, startLifetime, startColor, systemType);
             }
         }
 

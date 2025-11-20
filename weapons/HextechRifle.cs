@@ -235,11 +235,11 @@ namespace LOLItems.weapons
             /* OR */
             gun.DefaultModule.ammoType = GameUIAmmoType.AmmoType.CUSTOM;
             gun.DefaultModule.customAmmoType = CustomClipAmmoTypeToolbox.AddCustomAmmoType("hextech_rifle_ammo",
-                "LOLItems/Resources/weapon_sprites/CustomGunAmmoTypes/hextech_rifle_ammo_full", "LOLItems/Resources/weapon_sprites/CustomGunAmmoTypes/hextech_rifle_ammo_empty");
+                "LOLItems/Resources/weapon_sprites/CustomGunAmmoTypes/hextech_rifle_ammo_full_nooutline", "LOLItems/Resources/weapon_sprites/CustomGunAmmoTypes/hextech_rifle_ammo_empty_nooutline");
             /* If your gun uses special ammo for its final shot, use the below settings similar to the above */
             gun.DefaultModule.finalAmmoType = GameUIAmmoType.AmmoType.CUSTOM;
             gun.DefaultModule.finalCustomAmmoType = CustomClipAmmoTypeToolbox.AddCustomAmmoType("hextech_peacemaker_ammo",
-                "LOLItems/Resources/weapon_sprites/CustomGunAmmoTypes/hextech_peacemaker_ammo_full", "LOLItems/Resources/weapon_sprites/CustomGunAmmoTypes/hextech_peacemaker_ammo_empty");
+                "LOLItems/Resources/weapon_sprites/CustomGunAmmoTypes/hextech_peacemaker_ammo_full_nooutline", "LOLItems/Resources/weapon_sprites/CustomGunAmmoTypes/hextech_peacemaker_ammo_empty_nooutline");
 
             // Casings and Clips
             /* Casings are the individual bullet shells and clips are the holders that are ejected from the gun.

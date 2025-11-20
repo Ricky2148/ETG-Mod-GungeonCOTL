@@ -1,17 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using UnityEngine;
+﻿using Alexandria.DungeonAPI;
 using Alexandria.ItemAPI;
-using LootTableAPI;
 using Alexandria.NPCAPI;
-using System.Reflection;
 using Dungeonator;
 using LOLItems.active_items;
+using LOLItems.guon_stones;
 using LOLItems.passive_items;
-using Alexandria.DungeonAPI;
+using LOLItems.weapons;
+using LootTableAPI;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
+using System.Text;
+using UnityEngine;
 
+// check appearance weights
 // update item list before release
 
 namespace LOLItems
@@ -115,31 +118,68 @@ namespace LOLItems
 
             List<int> LootTable = new List<int>()
             {
-                Galeforce.ID,
-                //Redemption.ID,
-                Stridebreaker.ID,
-                ZhonyasHourglass.ID,
-                
                 BladeOfTheRuinedKing.ID,
-                Collector.ID,
                 ExperimentalHexplate.ID,
-                FrozenHeart.ID,
                 GuardianAngel.ID,
                 GuinsoosRageblade.ID,
-                HorizonFocus.ID,
                 Hubris.ID,
                 KrakenSlayer.ID,
                 LiandrysTorment.ID,
+                MuramanaSynergyActivation.ID,
                 Manamune.ID,
                 Muramana.ID,
-                NavoriQuickblades.ID,
-                Puppeteer.ID,
-                RodOfAges.ID,
-                RylaisCrystalScepter.ID,
-                Shadowflame.ID,
                 StatikkShiv.ID,
+                Stridebreaker.ID,
                 SunfireAegis.ID,
                 Thornmail.ID,
+                ZhonyasHourglass.ID,
+                    
+                //new update?
+                Collector.ID,
+                FrozenHeart.ID,
+                RodOfAges.ID,
+                HorizonFocus.ID,
+                Puppeteer.ID,
+                Galeforce.ID,
+                RylaisCrystalScepter.ID,
+                Shadowflame.ID,
+                NavoriQuickblades.ID,
+                    
+                //testing
+                //CarefreeMelody.Init();
+                //debugItem.Init();
+
+                //guon stones
+                BraumsShield.ID,
+
+                //weapons
+                PowPow.ID,
+                PowPowAltForm.ID,
+                HextechRifle.ID,
+                ElectricRifle.ID,
+                PrayerBeads.ID,
+                Whisper.ID,
+                Crossblade.ID,
+                //VirtueForm1.Add();
+                //VirtueForm2.Add();
+                //VirtueForm3.Add();
+                SoulSpear.ID,
+
+
+                //new items
+                ShieldOfMoltenStone.ID,
+                CloakOfStarryNight.ID,
+                ZekesConvergence.ID,
+                Redemption.ID,
+
+
+                //low tier items
+                Sheen.ID,
+                FatedAshes.ID,
+                Cull.ID,
+                PerfectlyTimedStopwatch.ID,
+                TearOfTheGoddess.ID,
+
             };
 
             ShopKeeperLootTable = LootTableTools.CreateLootTable();
@@ -185,7 +225,7 @@ namespace LOLItems
                 Alexandria.NPCAPI.ShopAPI.VoiceBoxes.DOUG,
                 Alexandria.NPCAPI.ShopAPI.defaultItemPositions,
 
-                1f, //cost mod
+                0.7f, //cost mod
                 false, //stats on purchase
                 null, //no stats on purchase
                 null, // custom can buy?
@@ -202,7 +242,7 @@ namespace LOLItems
                 true, // minimap icon?
                 "LOLItems/Resources/npc_sprites/shopkeeper/bubbs_sprites/bubbs_minimap", // minimap icon sprite
                 true, // in main shop pool?
-                1f // weight for main pool (default 1f)
+                0.1f // weight for main pool (default 0.1f)
             );
             
             List<string> purchaseAnimationSpritePathList = new List<string>

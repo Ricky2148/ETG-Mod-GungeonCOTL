@@ -243,7 +243,7 @@ namespace LOLItems.weapons
             /* OR */
 
             gun.DefaultModule.customAmmoType = CustomClipAmmoTypeToolbox.AddCustomAmmoType("Template Gun Orbs",
-                "LOLItems/Resources/weapon_sprites/CustomGunAmmoTypes/fishbones_clipfull", "LOLItems/Resources/weapon_sprites/CustomGunAmmoTypes/fishbones_clipempty");
+                "LOLItems/Resources/weapon_sprites/CustomGunAmmoTypes/fishbones_clipfull_nooutline", "LOLItems/Resources/weapon_sprites/CustomGunAmmoTypes/fishbones_clipempty_nooutline");
             /* If your gun uses special ammo for its final shot, use the below settings similar to the above */
             //gun.DefaultModule.finalAmmoType = GameUIAmmoType.AmmoType.FISH;
             //gun.DefaultModule.finalCustomAmmoType = "burning hand";

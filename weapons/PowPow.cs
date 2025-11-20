@@ -12,6 +12,7 @@ using LOLItems.passive_items;
 using System.Runtime.CompilerServices;
 
 // balance this: figure out what rarity it should be
+// scattershot bugs powpow 
 
 namespace LOLItems.weapons
 {

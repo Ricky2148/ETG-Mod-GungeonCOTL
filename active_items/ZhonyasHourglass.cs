@@ -90,6 +90,19 @@ namespace LOLItems
 
             AkSoundEngine.PostEvent("zhonyas_hourglass_activation_SFX", GameManager.Instance.gameObject);
 
+            /*
+            Vector2 unitDimensions = player.specRigidbody.HitboxPixelCollider.UnitDimensions;
+            Vector2 a = unitDimensions / 2f;
+
+            Vector2 vector = player.specRigidbody.HitboxPixelCollider.UnitBottomLeft;
+            Vector2 vector2 = player.specRigidbody.HitboxPixelCollider.UnitTopRight;
+            vector += Vector2.Min(a * 0.15f, new Vector2(0.25f, 0.25f));
+            vector2 -= Vector2.Min(a * 0.15f, new Vector2(0.25f, 0.25f));
+            vector2.y -= Mathf.Min(a.y * 0.1f, 0.1f);
+
+            HelpfulMethods.DoRandomParticleBurst(15, vector, vector2, 1f, 0.7f, 0.4f, 2, ExtendedColours.honeyYellow, GlobalSparksDoer.SparksType.SOLID_SPARKLES);
+            */
+
             yield return new WaitForSeconds(StasisDuration);
 
             player.sprite.color = originalPlayerColor;
