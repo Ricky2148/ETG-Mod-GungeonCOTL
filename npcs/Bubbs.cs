@@ -174,11 +174,11 @@ namespace LOLItems
 
 
                 //low tier items
-                Sheen.ID,
-                FatedAshes.ID,
-                Cull.ID,
-                PerfectlyTimedStopwatch.ID,
-                TearOfTheGoddess.ID,
+                //Sheen.ID,
+                //FatedAshes.ID,
+                //Cull.ID,
+                //PerfectlyTimedStopwatch.ID,
+                //TearOfTheGoddess.ID,
 
             };
 

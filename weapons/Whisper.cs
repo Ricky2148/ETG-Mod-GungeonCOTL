@@ -86,8 +86,9 @@ namespace LOLItems.weapons
             Gun gun = ETGMod.Databases.Items.NewGun(FULLNAME, SPRITENAME);
             Game.Items.Rename($"outdated_gun_mods:{FULLNAME.ToID()}", internalName); //Renames the default internal name to your custom internal name
             gun.gameObject.AddComponent<Whisper>(); //AddComponent<[ClassName]>
-            gun.SetShortDescription("Whisper");  //The description that pops up when you pick up the gun.
-            gun.SetLongDescription("This gun has the potential to become any other gun!  Way better than that other Unfinished Gun."); //The full description in the Ammonomicon.
+            gun.SetShortDescription("\"Art is worth the pain.\"");  //The description that pops up when you pick up the gun.
+            gun.SetLongDescription("A strange yet artistic weapon once wielded by a psychopath serial killer. It's said that he believed murder to be art and used this gun as his paintbrush. " +
+                "He would go to lengths to create elatborate scenes of artistic brutality and loved every second of it.\n"); //The full description in the Ammonomicon.
             /* SetupSprite sets up the default gun sprite for the ammonomicon and the "gun get" popup.  Your "..._idle_001" is often a good example.  
              * A copy of the sprite used must be in your "sprites/Ammonomicon Encounter Icon Collection/" folder.
              * The variable at the end assigns a default FPS to all other animations. */

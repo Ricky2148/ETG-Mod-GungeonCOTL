@@ -98,8 +98,9 @@ namespace LOLItems.passive_items
 
             ItemBuilder.AddSpriteToObject(itemName, resourceName, obj);
 
-            string shortDesc = "idk";
-            string longDesc = "idk";
+            string shortDesc = "ICY HOT";
+            string longDesc = "Another strange piece of armor that helps protect the user. There appears to be a mechanism to emit an aura of fire and ice, " +
+                "but the trigger is nowhere to be found. It makes you feel both hot and cold at the same time and it's really annoying.\n";
             ItemBuilder.SetupItem(item, shortDesc, longDesc, "LOLItems");
 
             ItemBuilder.AddPassiveStatModifier(item, PlayerStats.StatType.Health, HealthStat, StatModifier.ModifyMethod.ADDITIVE);

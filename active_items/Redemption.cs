@@ -23,6 +23,7 @@ namespace LOLItems
         private static float InterventionActivationRange = 10f;
         private static float InterventionEffectRadius = 5f;
         private static float InterventionCooldown = 1f; //90f
+        private static float InterventionPerRoomCooldown = 10f;
 
         private static List<string> VFXSpritePath = new List<string>
             {
@@ -143,12 +144,14 @@ namespace LOLItems
 
             ItemBuilder.AddSpriteToObject(itemName, resourceName, obj);
 
-            string shortDesc = "idk";
-            string longDesc = "idk";
+            string shortDesc = "Deus Ex Machina";
+            string longDesc = "A magical pendant with the power to call upon a beam of light at will. It's purifying light harms those it deems evil and " +
+                "heals those it deems good. The light's morals seem questionable if it deems the gungeoneers as good.\n";
 
             ItemBuilder.SetupItem(item, shortDesc, longDesc, "LOLItems");
 
-            ItemBuilder.SetCooldownType(item, ItemBuilder.CooldownType.Timed, InterventionCooldown);
+            //ItemBuilder.SetCooldownType(item, ItemBuilder.CooldownType.Timed, InterventionCooldown);
+            ItemBuilder.SetCooldownType(item, ItemBuilder.CooldownType.PerRoom, InterventionPerRoomCooldown);
             item.consumable = false;
 
             item.minDistance = 0f;

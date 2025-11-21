@@ -80,7 +80,8 @@ namespace LOLItems.weapons
             gun.SetShortDescription("Get Jinxed!");  //The description that pops up when you pick up the gun.
             gun.SetLongDescription("Unique weapons of an infamous terrorist known as \"Jinx\". Despite its shoddy appearance, the genius engineering of these weapons is undeniable.\n\n" +
                 "Pow-Pow: a fast-firing minigun that shreds enemies like cake. \"Why does it have animal ears tho?\"\n\n" +
-                "Fishbones: a powerful rocket launcher that blows enemies to pieces. \"Why does it look like a shark?\"\n"); //The full description in the Ammonomicon.
+                "Fishbones: a powerful rocket launcher that blows enemies to pieces. \"Why does it look like a shark?\"\n\n" +
+                "Press reload to swap forms.\n"); //The full description in the Ammonomicon.
             /* SetupSprite sets up the default gun sprite for the ammonomicon and the "gun get" popup.  Your "..._idle_001" is often a good example.  
              * A copy of the sprite used must be in your "sprites/Ammonomicon Encounter Icon Collection/" folder.
              * The variable at the end assigns a default FPS to all other animations. */

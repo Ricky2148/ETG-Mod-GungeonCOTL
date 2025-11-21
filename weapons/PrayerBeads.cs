@@ -20,7 +20,7 @@ namespace LOLItems.weapons
     {
         public static string internalName; //Internal name of the gun as used by console commands
         public static int ID; //The Gun ID stored by the game.  Can be used by other functions to call your custom gun.
-        public static string realName = "Prayer Beads"; //The name that shows up in the Ammonomicon and the mod console.
+        public static string realName = "Aion Er'na"; //The name that shows up in the Ammonomicon and the mod console.
 
         private static int ammoStat = 200;
         private static float reloadDuration = 0.5f;
@@ -56,14 +56,15 @@ namespace LOLItems.weapons
              * Rename(a,b) works where "a" is what the game names your gun internally which uses lower case and underscores.  Here it would be "outdated_gun_mods:template_gun".
              * "b" is how you're renaming the gun to show up in the mod console.
              * The default here is to use your mod's prefix then shortname so in this example it would come out as "twp:template_gun". */
-            string FULLNAME = "Prayer Beads"; //Full name of your gun 
+            string FULLNAME = "Aion Er'na"; //Full name of your gun 
             string SPRITENAME = "prayerbeads"; //The name that prefixes your sprite files
             internalName = $"LOLItems:{FULLNAME.ToID()}";
             Gun gun = ETGMod.Databases.Items.NewGun(FULLNAME, SPRITENAME);
             Game.Items.Rename($"outdated_gun_mods:{FULLNAME.ToID()}", internalName); //Renames the default internal name to your custom internal name
             gun.gameObject.AddComponent<PrayerBeads>(); //AddComponent<[ClassName]>
-            gun.SetShortDescription("Prayer Beads");  //The description that pops up when you pick up the gun.
-            gun.SetLongDescription("This gun has the potential to become any other gun!  Way better than that other Unfinished Gun."); //The full description in the Ammonomicon.
+            gun.SetShortDescription("\"Relentless fortitude!\n");  //The description that pops up when you pick up the gun.
+            gun.SetLongDescription("A legendary Kinkou relic. The Kinkou were known for their abilities to interact with both the physical world and the spiritual world. " +
+                "This set of prayer beads can be sent out with simple hand motions, almost as if there's someone else helping you control them.\n"); //The full description in the Ammonomicon.
             /* SetupSprite sets up the default gun sprite for the ammonomicon and the "gun get" popup.  Your "..._idle_001" is often a good example.  
              * A copy of the sprite used must be in your "sprites/Ammonomicon Encounter Icon Collection/" folder.
              * The variable at the end assigns a default FPS to all other animations. */

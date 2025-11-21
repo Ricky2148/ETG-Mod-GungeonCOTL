@@ -53,8 +53,9 @@ namespace LOLItems.weapons
             Gun gun = ETGMod.Databases.Items.NewGun(FULLNAME, SPRITENAME);
             Game.Items.Rename($"outdated_gun_mods:{FULLNAME.ToID()}", internalName);
             gun.gameObject.AddComponent<Crossblade>();
-            gun.SetShortDescription("idk");
-            gun.SetLongDescription("idk");
+            gun.SetShortDescription("\"Catch!\"");
+            gun.SetLongDescription("A special cross-shaped boomerang blade said to be from a famous desert mercenary. As if the boomerang itself " +
+                "is determined to finish the job, it will try to attack more enemies if possible.\n");
 
             gun.SetupSprite(null, $"{SPRITENAME}_idle_001", 8);
 

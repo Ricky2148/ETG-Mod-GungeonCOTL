@@ -63,7 +63,7 @@ namespace LOLItems
             string longDesc = "idk";
 
             ItemBuilder.SetupItem(item, shortDesc, longDesc, "LOLItems");
-            ItemBuilder.SetCooldownType(item, ItemBuilder.CooldownType.Timed, 1f);
+            //ItemBuilder.SetCooldownType(item, ItemBuilder.CooldownType.PerRoom, 20f);
             item.consumable = false;
 
             item.usableDuringDodgeRoll = true;
