@@ -66,10 +66,28 @@ namespace LOLItems.weapons
 
         private static List<string> normalFiringSFXList = new List<string>
         {
-            "hextech_rifle_atk_sfx_001",
-            "hextech_rifle_atk_sfx_002",
-            "hextech_rifle_atk_sfx_003",
-            "hextech_rifle_atk_sfx_004"
+            "vengencespear_dry_fire_sfx_001",
+            "vengencespear_dry_fire_sfx_002",
+            "vengencespear_dry_fire_sfx_003",
+            "vengencespear_dry_fire_sfx_004",
+            "vengencespear_dry_fire_sfx_005",
+            "vengencespear_dry_fire_sfx_006",
+            "vengencespear_dry_fire_sfx_007",
+            "vengencespear_dry_fire_sfx_008",
+        };
+
+        private static List<string> rendSFXList = new List<string>
+        {
+            //"vengencespear_rend_sfx_001",
+            //"vengencespear_rend_sfx_002",
+            //"vengencespear_rend_sfx_003",
+            //"vengencespear_rend_sfx_004",
+
+            "rend1",
+            "rend2",
+            "rend3",
+            "rend4",
+            "rend5",
         };
 
         public static void Add()
@@ -94,7 +112,7 @@ namespace LOLItems.weapons
 
             gun.gunSwitchGroup = $"LOLItems_{FULLNAME.ToID()}"; 
             SoundManager.AddCustomSwitchData("WPN_Guns", gun.gunSwitchGroup, "Play_WPN_Gun_Shot_01", null);
-            SoundManager.AddCustomSwitchData("WPN_Guns", gun.gunSwitchGroup, "Play_WPN_Gun_Reload_01", "Play_WPN_m1911_reload_01");
+            SoundManager.AddCustomSwitchData("WPN_Guns", gun.gunSwitchGroup, "Play_WPN_Gun_Reload_01", null);
             SoundManager.AddCustomSwitchData("WPN_Guns", gun.gunSwitchGroup, "Play_WPN_gun_finale_01", null);
             gun.DefaultModule.angleVariance = spreadAngle;
             gun.DefaultModule.shootStyle = ProjectileModule.ShootStyle.SemiAutomatic;
@@ -120,11 +138,14 @@ namespace LOLItems.weapons
 
             gun.DefaultModule.projectiles[0] = projectile;
 
-            projectile.hitEffects.deathAny = null;
+            projectile.hitEffects.deathAny = (PickupObjectDatabase.GetById((int)Items.Bow) as Gun).DefaultModule.projectiles[0].hitEffects.deathAny;
             projectile.hitEffects.deathEnemy = null;
             projectile.hitEffects.enemy = null;
             projectile.hitEffects.tileMapHorizontal = (PickupObjectDatabase.GetById((int)Items.MarineSidearm) as Gun).DefaultModule.projectiles[0].hitEffects.tileMapHorizontal;
             projectile.hitEffects.tileMapVertical = (PickupObjectDatabase.GetById((int)Items.MarineSidearm) as Gun).DefaultModule.projectiles[0].hitEffects.tileMapVertical;
+
+            projectile.objectImpactEventName = "vengencespear5";
+            projectile.enemyImpactEventName = "vengencespear4";
 
             projectile.gameObject.SetActive(false);
             FakePrefab.MarkAsFakePrefab(projectile.gameObject);
@@ -246,6 +267,8 @@ namespace LOLItems.weapons
 
         public override void OnPostFired(PlayerController player, Gun gun)
         {
+            HelpfulMethods.PlayRandomSFX(gun.gameObject, normalFiringSFXList);
+
             if (dashCoroutine != null)
             {
                 StopCoroutine(dashCoroutine);
@@ -367,6 +390,8 @@ namespace LOLItems.weapons
 
                 if (target.Key.healthHaver != null && target.Key.gameObject != null)
                 {
+                    HelpfulMethods.PlayRandomSFX(target.Key.gameObject, rendSFXList);
+
                     target.Key.healthHaver.ApplyDamage(
                         damageToDeal,
                         Vector2.zero,
