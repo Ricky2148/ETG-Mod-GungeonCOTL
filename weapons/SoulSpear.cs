@@ -465,7 +465,7 @@ namespace LOLItems.weapons
             base.OnSwitchedAwayFromThisGun();
         }
 
-        public System.Collections.IEnumerator MartialPoiseDash(PlayerController player)
+        /*public System.Collections.IEnumerator MartialPoiseDash(PlayerController player)
         {
             ItemBuilder.RemoveCurrentGunStatModifier(gun, PlayerStats.StatType.MovementSpeed);
             //player.stats.RecalculateStats(player, true, false);
@@ -515,6 +515,55 @@ namespace LOLItems.weapons
             //player.stats.RecalculateStats(player, true, false);
             player.stats.RecalculateStatsWithoutRebuildingGunVolleys(player);
             //Plugin.Log($"modifier: {1f}");
+        }*/
+
+        public System.Collections.IEnumerator MartialPoiseDash(PlayerController player)
+        {
+            Vector2 angle = Vector2.zero;
+            if (player.CurrentInputState != PlayerInputState.NoMovement)
+            {
+                angle = player.AdjustInputVector(player.m_activeActions.Move.Vector, BraveInput.MagnetAngles.movementCardinal, BraveInput.MagnetAngles.movementOrdinal);
+                if (angle.magnitude <= 0)
+                {
+                    //Plugin.Log("break");
+                    ItemBuilder.RemoveCurrentGunStatModifier(gun, PlayerStats.StatType.MovementSpeed);
+                    player.stats.RecalculateStatsWithoutRebuildingGunVolleys(player);
+                    yield break;
+                }
+            }
+
+            //Plugin.Log("dash");
+
+            ItemBuilder.RemoveCurrentGunStatModifier(gun, PlayerStats.StatType.MovementSpeed);
+            player.stats.RecalculateStatsWithoutRebuildingGunVolleys(player);
+
+            float statToMod = player.stats.GetStatValue(PlayerStats.StatType.MovementSpeed);
+            ItemBuilder.AddCurrentGunStatModifier(gun, PlayerStats.StatType.MovementSpeed, -statToMod, StatModifier.ModifyMethod.ADDITIVE);
+            player.stats.RecalculateStatsWithoutRebuildingGunVolleys(player);
+
+            float duration = dashBaseDuration / player.stats.GetStatValue(PlayerStats.StatType.RateOfFire);
+            float adjSpeed = dashBaseSpeed * (1 + ((player.stats.GetStatValue(PlayerStats.StatType.RateOfFire) - 1) * 0.5f));
+            float elapsed = -BraveTime.DeltaTime;
+
+            player.healthHaver.TriggerInvulnerabilityPeriod(duration);
+
+            if (angle.magnitude > 1f)
+            {
+                angle.Normalize();
+            }
+
+            while (elapsed < duration)
+            {
+                elapsed += BraveTime.DeltaTime;
+                player.specRigidbody.Velocity = angle * adjSpeed;
+                yield return null;
+            }
+
+            yield return new WaitForSeconds(duration);
+
+            ItemBuilder.RemoveCurrentGunStatModifier(gun, PlayerStats.StatType.MovementSpeed);
+            ItemBuilder.AddCurrentGunStatModifier(gun, PlayerStats.StatType.MovementSpeed, 1f, StatModifier.ModifyMethod.MULTIPLICATIVE);
+            player.stats.RecalculateStatsWithoutRebuildingGunVolleys(player);
         }
     }
 }
