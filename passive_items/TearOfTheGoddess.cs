@@ -92,7 +92,7 @@ namespace LOLItems.passive_items
                     Owner.stats.RecalculateStatsWithoutRebuildingGunVolleys(Owner);
 
                     // when stack count reaches max, upgrade to Muramana
-                    Plugin.Log($"manaflow stack count: {ManaflowStackCount}, manaflow increment value: {ManaflowIncrementValue}, ({ManaflowStackCount} * {ManaflowIncrementValue} = {ManaflowStackCount * ManaflowIncrementValue}) >= manaflow increase max: {ManaflowIncreaseMax}");
+                    //Plugin.Log($"manaflow stack count: {ManaflowStackCount}, manaflow increment value: {ManaflowIncrementValue}, ({ManaflowStackCount} * {ManaflowIncrementValue} = {ManaflowStackCount * ManaflowIncrementValue}) >= manaflow increase max: {ManaflowIncreaseMax}");
                     if (ManaflowStackCount * ManaflowIncrementValue >= ManaflowIncreaseMax)
                     {
                         Owner.OnAnyEnemyReceivedDamage -= ManaflowStack;

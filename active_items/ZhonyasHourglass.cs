@@ -82,6 +82,13 @@ namespace LOLItems
             // find a better color later
             player.sprite.color = ExtendedColours.honeyYellow;
             player.CurrentGun.sprite.color = ExtendedColours.honeyYellow;
+
+            Material mat = SpriteOutlineManager.GetOutlineMaterial(player.sprite);
+            if (mat)
+            {
+                mat.SetColor("_OverrideColor", new Color(255f * 0.7f, 180f * 0.7f, 18f * 0.7f));
+            }
+
             //player.aiAnimator.FpsScale = 0f;
             //player.spriteAnimator.OverrideTimeScale = 0f;
 
@@ -107,6 +114,12 @@ namespace LOLItems
 
             player.sprite.color = originalPlayerColor;
             player.CurrentGun.sprite.color = originalGunColor;
+
+            if (mat)
+            {
+                mat.SetColor("_OverrideColor", new Color(0f, 0f, 0f));
+            }
+
             //player.aiAnimator.FpsScale = ogFpsScale;
             //player.spriteAnimator.OverrideTimeScale = 1f;
 

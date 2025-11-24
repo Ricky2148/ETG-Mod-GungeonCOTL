@@ -1,4 +1,5 @@
 ﻿using Alexandria.BreakableAPI;
+using Alexandria.cAPI;
 using Alexandria.ItemAPI;
 using Alexandria.Misc;
 using Alexandria.SoundAPI;
@@ -457,6 +458,18 @@ namespace LOLItems.weapons
         {
             PlayerController player = Owner as PlayerController;
             //isFiring = false;
+
+            if (dashCoroutine != null)
+            {
+                StopCoroutine(dashCoroutine);
+            }
+
+            Material mat = SpriteOutlineManager.GetOutlineMaterial(player.sprite);
+            if (mat)
+            {
+                mat.SetColor("_OverrideColor", new Color(0f, 0f, 0f));
+            }
+
             ItemBuilder.RemoveCurrentGunStatModifier(gun, PlayerStats.StatType.MovementSpeed);
             ItemBuilder.AddCurrentGunStatModifier(gun, PlayerStats.StatType.MovementSpeed, 1f, StatModifier.ModifyMethod.MULTIPLICATIVE);
             //player.stats.RecalculateStats(player, true, false);
@@ -520,9 +533,11 @@ namespace LOLItems.weapons
         public System.Collections.IEnumerator MartialPoiseDash(PlayerController player)
         {
             Vector2 angle = Vector2.zero;
+            //check and record player direction input
             if (player.CurrentInputState != PlayerInputState.NoMovement)
             {
                 angle = player.AdjustInputVector(player.m_activeActions.Move.Vector, BraveInput.MagnetAngles.movementCardinal, BraveInput.MagnetAngles.movementOrdinal);
+                //if no direction input, no dash
                 if (angle.magnitude <= 0)
                 {
                     //Plugin.Log("break");
@@ -534,6 +549,7 @@ namespace LOLItems.weapons
 
             //Plugin.Log("dash");
 
+            //makes player unable to move while being dashed in direction, gives invulerability frames
             ItemBuilder.RemoveCurrentGunStatModifier(gun, PlayerStats.StatType.MovementSpeed);
             player.stats.RecalculateStatsWithoutRebuildingGunVolleys(player);
 
@@ -547,6 +563,13 @@ namespace LOLItems.weapons
 
             player.healthHaver.TriggerInvulnerabilityPeriod(duration);
 
+            //colored outline for invul frames
+            Material mat = SpriteOutlineManager.GetOutlineMaterial(player.sprite);
+            if (mat)
+            {
+                mat.SetColor("_OverrideColor", new Color(51f * 0.3f, 255f * 0.3f, 153f * 0.3f));
+            }
+
             if (angle.magnitude > 1f)
             {
                 angle.Normalize();
@@ -554,13 +577,37 @@ namespace LOLItems.weapons
 
             while (elapsed < duration)
             {
+                if (player.IsFalling)
+                {
+                    if (mat)
+                    {
+                        mat.SetColor("_OverrideColor", new Color(0f, 0f, 0f));
+                    }
+
+                    ItemBuilder.RemoveCurrentGunStatModifier(gun, PlayerStats.StatType.MovementSpeed);
+                    ItemBuilder.AddCurrentGunStatModifier(gun, PlayerStats.StatType.MovementSpeed, 1f, StatModifier.ModifyMethod.MULTIPLICATIVE);
+                    player.stats.RecalculateStatsWithoutRebuildingGunVolleys(player);
+
+                    yield break;
+                }
+
                 elapsed += BraveTime.DeltaTime;
                 player.specRigidbody.Velocity = angle * adjSpeed;
                 yield return null;
             }
+            Plugin.Log("before wait");
 
-            yield return new WaitForSeconds(duration);
+            //yield return new WaitForSeconds(duration);
 
+            Plugin.Log("after wait");
+
+            //reset outline color
+            if (mat)
+            {
+                mat.SetColor("_OverrideColor", new Color(0f, 0f, 0f));
+            }
+
+            //resets movementspeed and gives player back control
             ItemBuilder.RemoveCurrentGunStatModifier(gun, PlayerStats.StatType.MovementSpeed);
             ItemBuilder.AddCurrentGunStatModifier(gun, PlayerStats.StatType.MovementSpeed, 1f, StatModifier.ModifyMethod.MULTIPLICATIVE);
             player.stats.RecalculateStatsWithoutRebuildingGunVolleys(player);

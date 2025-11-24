@@ -90,6 +90,12 @@ namespace LOLItems
             player.sprite.color = ExtendedColours.paleYellow;
             player.CurrentGun.sprite.color = ExtendedColours.paleYellow;
 
+            Material mat = SpriteOutlineManager.GetOutlineMaterial(player.sprite);
+            if (mat)
+            {
+                mat.SetColor("_OverrideColor", new Color(242f * 0.7f, 238f * 0.7f, 148f * 0.7f));
+            }
+
             AkSoundEngine.PostEvent("guardian_angel_passive_SFX", GameManager.Instance.gameObject);
 
             // animations for the revive: animation of the player's health being restored
@@ -101,6 +107,11 @@ namespace LOLItems
 
             player.sprite.color = originalPlayerColor;
             player.CurrentGun.sprite.color = originalGunColor;
+
+            if (mat)
+            {
+                mat.SetColor("_OverrideColor", new Color(0f, 0f, 0f));
+            }
 
             // trigger blank to push away enemies and clear bullets, restore input, and remove invulerability
             player.ForceBlank();

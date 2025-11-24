@@ -60,7 +60,7 @@ namespace LOLItems
                 "LOLItems/Resources/vfxs/redemption/redemption_attack_031",
             };
 
-        private static GameObject EffectVFX = VFXBuilder.CreateVFX
+        /*private static GameObject EffectVFX = VFXBuilder.CreateVFX
         (
             "intervention_vfx",
             VFXSpritePath,
@@ -73,7 +73,9 @@ namespace LOLItems
             Color.cyan,
             tk2dSpriteAnimationClip.WrapMode.Once,
             true
-        );
+        );*/
+
+        private static GameObject EffectVFX;
 
         private static List<string> DamageEffectSpritePath = new List<string>
             {
@@ -87,7 +89,7 @@ namespace LOLItems
                 "LOLItems/Resources/vfxs/redemption/redemption_damage_008",
             };
 
-        private static GameObject DamageEffectVFX = VFXBuilder.CreateVFX
+        /*private static GameObject DamageEffectVFX = VFXBuilder.CreateVFX
         (
             "intervention_damage_hiteffect",
             DamageEffectSpritePath,
@@ -100,7 +102,9 @@ namespace LOLItems
             Color.cyan,
             tk2dSpriteAnimationClip.WrapMode.Once,
             true
-        );
+        );*/
+
+        private static GameObject DamageEffectVFX;
 
         private static List<string> HealEffectSpritePath = new List<string>
             {
@@ -114,7 +118,7 @@ namespace LOLItems
                 "LOLItems/Resources/vfxs/redemption/redemption_heal_008",
             };
 
-        private static GameObject HealEffectVFX = VFXBuilder.CreateVFX
+        /*private static GameObject HealEffectVFX = VFXBuilder.CreateVFX
         (
             "intervention_heal_hiteffect",
             HealEffectSpritePath,
@@ -127,7 +131,31 @@ namespace LOLItems
             Color.cyan,
             tk2dSpriteAnimationClip.WrapMode.Once,
             true
-        );
+        );*/
+
+        private static GameObject HealEffectVFX;
+
+        private static List<string> ReticleVFXSpritePath = new List<string>
+            {
+                "LOLItems/Resources/vfxs/redemption/redemption_overheadicon_001",
+            };
+
+        /*private static GameObject ReticleVFX = VFXBuilder.CreateVFX
+        (
+            "intervention_reticle_vfx",
+            ReticleVFXSpritePath,
+            9,
+            new IntVector2(0, 0),
+            tk2dBaseSprite.Anchor.MiddleCenter,
+            false,
+            0,
+            -1,
+            Color.cyan,
+            tk2dSpriteAnimationClip.WrapMode.Loop,
+            true
+        );*/
+
+        private static GameObject ReticleVFX;
 
         private GameObject activeVFXObject;
 
@@ -150,28 +178,76 @@ namespace LOLItems
 
             ItemBuilder.SetupItem(item, shortDesc, longDesc, "LOLItems");
 
-            //ItemBuilder.SetCooldownType(item, ItemBuilder.CooldownType.Timed, InterventionCooldown);
-            ItemBuilder.SetCooldownType(item, ItemBuilder.CooldownType.PerRoom, InterventionPerRoomCooldown);
-            item.consumable = false;
+            EffectVFX = VFXBuilder.CreateVFX
+            (
+                "intervention_vfx",
+                VFXSpritePath,
+                8,
+                new IntVector2(0, 0),
+                tk2dBaseSprite.Anchor.MiddleCenter,
+                false,
+                0,
+                -1,
+                Color.cyan,
+                tk2dSpriteAnimationClip.WrapMode.Once,
+                true
+            );
 
-            item.minDistance = 0f;
-            item.maxDistance = InterventionActivationRange;
+            DamageEffectVFX = VFXBuilder.CreateVFX
+            (
+                "intervention_damage_hiteffect",
+                DamageEffectSpritePath,
+                8,
+                new IntVector2(0, 0),
+                tk2dBaseSprite.Anchor.MiddleCenter,
+                false,
+                0,
+                -1,
+                Color.cyan,
+                tk2dSpriteAnimationClip.WrapMode.Once,
+                true
+            );
 
-            item.reticleQuad = (PickupObjectDatabase.GetById(443) as TargetedAttackPlayerItem).reticleQuad;
-            //item.reticleQuad.GetComponent<tk2dSprite>().SetSprite("redemption_overheadicon_001");
-            item.doesStrike = false;
-            item.doesGoop = false;
-            item.DoScreenFlash = false;
+            HealEffectVFX = VFXBuilder.CreateVFX
+            (
+                "intervention_heal_hiteffect",
+                HealEffectSpritePath,
+                8,
+                new IntVector2(0, 0),
+                tk2dBaseSprite.Anchor.MiddleCenter,
+                false,
+                0,
+                -1,
+                Color.cyan,
+                tk2dSpriteAnimationClip.WrapMode.Once,
+                true
+            );
 
-            ItemBuilder.AddPassiveStatModifier(item, PlayerStats.StatType.Health, HealthStat, StatModifier.ModifyMethod.ADDITIVE);
+            ReticleVFX = VFXBuilder.CreateVFX
+            (
+                "intervention_reticle_vfx",
+                ReticleVFXSpritePath,
+                1,
+                new IntVector2(16, 13),
+                tk2dBaseSprite.Anchor.MiddleCenter,
+                false,
+                0,
+                -1,
+                Color.cyan,
+                tk2dSpriteAnimationClip.WrapMode.Loop,
+                true
+            );
 
-            item.quality = PickupObject.ItemQuality.A;
-            ID = item.PickupObjectId;
-
-            var sprite = HealEffectVFX.GetComponent<tk2dSprite>();
+            var sprite = EffectVFX.GetComponent<tk2dSprite>();
 
             if (sprite != null)
             {
+                sprite.HeightOffGround = 0f; //-50f
+
+                sprite.scale = new Vector3(1.1f, 1.1f, 1f);
+
+                sprite.UpdateZDepth();
+
                 sprite.usesOverrideMaterial = true;
 
                 sprite.renderer.material.shader = ShaderCache.Acquire("Brave/Internal/SimpleAlphaFadeUnlit");
@@ -187,6 +263,49 @@ namespace LOLItems
                 sprite.renderer.material.shader = ShaderCache.Acquire("Brave/Internal/SimpleAlphaFadeUnlit");
                 sprite.renderer.material.SetFloat("_Fade", 0.8f);
             }
+
+            sprite = HealEffectVFX.GetComponent<tk2dSprite>();
+
+            if (sprite != null)
+            {
+                sprite.usesOverrideMaterial = true;
+
+                sprite.renderer.material.shader = ShaderCache.Acquire("Brave/Internal/SimpleAlphaFadeUnlit");
+                sprite.renderer.material.SetFloat("_Fade", 0.8f);
+            }
+
+            ItemBuilder.SetCooldownType(item, ItemBuilder.CooldownType.Timed, 1f);
+            //ItemBuilder.SetCooldownType(item, ItemBuilder.CooldownType.PerRoom, InterventionPerRoomCooldown);
+            item.consumable = false;
+
+            item.minDistance = 0f;
+            item.maxDistance = InterventionActivationRange;
+
+            item.reticleQuad = PickupObjectDatabase.GetById(443).gameObject.GetComponent<TargetedAttackPlayerItem>().reticleQuad.InstantiateAndFakeprefab();
+
+            tk2dBaseSprite vfxSprite = ReticleVFX.GetComponent<tk2dBaseSprite>();
+            int spriteId = vfxSprite.spriteId;
+            tk2dSpriteCollectionData spriteCollection = vfxSprite.collection;
+
+            tk2dSlicedSprite quad = item.reticleQuad.GetComponent<tk2dSlicedSprite>();
+            //Plugin.Log($"spriteId: {spriteId}, spriteCollection: {spriteCollection}, vfxSprite: {vfxSprite}");
+
+            quad.scale = new Vector3(0.8f, 0.8f, 1f);
+            //quad.dimensions = new Vector2(64, 52);
+
+            quad.SetSprite(spriteCollection, spriteId);
+
+            UnityEngine.Object.Destroy(item.reticleQuad.GetComponent<ReticleRiserEffect>());
+
+            //item.reticleQuad.GetComponent<tk2dSprite>().SetSprite("redemption_overheadicon_001");
+            item.doesStrike = false;
+            item.doesGoop = false;
+            item.DoScreenFlash = false;
+
+            ItemBuilder.AddPassiveStatModifier(item, PlayerStats.StatType.Health, HealthStat, StatModifier.ModifyMethod.ADDITIVE);
+
+            item.quality = PickupObject.ItemQuality.A;
+            ID = item.PickupObjectId;
         }
 
         public override void Pickup(PlayerController player)
@@ -246,13 +365,12 @@ namespace LOLItems
                 IsCurrentlyActive = false;
                 user.DropActiveItem(this);
             }*/
+            base.DoActiveEffect(player);
 
             tk2dBaseSprite cursor = this.m_extantReticleQuad;
             Vector2 overridePos = cursor.WorldCenter; //this sets the vector2 to the bottom left of the reticle sprite, not to the actual cursor
 
             //Plugin.Log("before active effect");
-
-            base.DoActiveEffect(player);
 
             Plugin.Log("after active effect");
 
@@ -323,7 +441,7 @@ namespace LOLItems
 
             activeVFXObject = UnityEngine.Object.Instantiate(EffectVFX, initialCursorPos, Quaternion.identity);
 
-            var sprite = activeVFXObject.GetComponent<tk2dSprite>();
+            /*var sprite = activeVFXObject.GetComponent<tk2dSprite>();
 
             if (sprite != null)
             {
@@ -337,7 +455,7 @@ namespace LOLItems
 
                 sprite.renderer.material.shader = ShaderCache.Acquire("Brave/Internal/SimpleAlphaFadeUnlit");
                 sprite.renderer.material.SetFloat("_Fade", 0.8f);
-            }
+            }*/
 
             AkSoundEngine.PostEvent("redemption_effect_buildup_SFX", activeVFXObject.gameObject);
 

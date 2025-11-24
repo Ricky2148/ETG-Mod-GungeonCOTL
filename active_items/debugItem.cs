@@ -7,6 +7,7 @@ using LOLItems.guon_stones;
 using LOLItems.passive_items;
 using LOLItems.weapons;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -64,6 +65,7 @@ namespace LOLItems
 
             ItemBuilder.SetupItem(item, shortDesc, longDesc, "LOLItems");
             //ItemBuilder.SetCooldownType(item, ItemBuilder.CooldownType.PerRoom, 20f);
+            ItemBuilder.SetCooldownType(item, ItemBuilder.CooldownType.Timed, 1f);
             item.consumable = false;
 
             item.usableDuringDodgeRoll = true;
@@ -136,55 +138,26 @@ namespace LOLItems
             customVFX2.SetActive(true);
             */
 
-            player.carriedConsumables.Currency += 10;
+            //player.carriedConsumables.Currency += 10;
 
             //AkSoundEngine.PostEvent("Play_WPN_sniperrifle_shot_01", player.gameObject);
+
+            StartCoroutine(EffectCoroutine(player));
 
             Plugin.Log("debug item finished");
         }
 
         private System.Collections.IEnumerator EffectCoroutine(PlayerController player)
         {
-            foreach (string name in ShaderBase.Shaders)
+            Material mat = SpriteOutlineManager.GetOutlineMaterial(player.sprite);
+            if (mat)
             {
-                if (name != null)
-                {
-                    activeVFXObject = player.PlayEffectOnActor(EffectVFX, new Vector3(0, 0, 0), true, false, false);
-                    var sprite = activeVFXObject.GetComponent<tk2dSprite>();
-
-                    if (sprite != null)
-                    {
-                        sprite.HeightOffGround = -1f;
-                        sprite.UpdateZDepth();
-
-                        sprite.usesOverrideMaterial = true;
-
-                        Material mat = sprite.renderer.material;
-
-                        mat.shader = ShaderCache.Acquire(name);
-
-                        mat.SetFloat("_EmissivePower", 10f);
-
-                        sprite.UpdateMaterial();
-                        sprite.UpdateColors();
-                        //sprite.ForceUpdateMaterial();
-                        //sprite.UpdateColorsImpl();
-
-                        Plugin.Log($"shader name: {name}");
-
-                        yield return new WaitForSeconds(1f);
-                    }
-                }
-                else
-                {
-                    Plugin.Log($"failed shader name: {name}");
-
-                    yield return new WaitForSeconds(0.2f);
-                }
-
-                Destroy(activeVFXObject);
-
-                yield return new WaitForSeconds(0.2f);
+                mat.SetColor("_OverrideColor", new Color(255f * 0.3f, 180f * 0.3f, 18f * 0.3f));
+            }
+            yield return new WaitForSeconds(1f);
+            if (mat)
+            {
+                mat.SetColor("_OverrideColor", new Color(0f, 0f, 0f));
             }
         }
 
