@@ -18,7 +18,7 @@ namespace LOLItems.passive_items
         public static void Init()
         {
             string itemName = "Sheen";
-            string resourceName = "LOLItems/Resources/passive_item_sprites/sheen_item_sprite";
+            string resourceName = "LOLItems/Resources/passive_item_sprites/sheen_pixelart_sprite";
 
             GameObject obj = new GameObject(itemName);
 

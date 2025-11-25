@@ -1436,6 +1436,9 @@
     <EmbeddedResource Include="Resources\passive_item_sprites\cloak_of_starry_night_pixelart_sprite.png" />
     <EmbeddedResource Include="Resources\passive_item_sprites\cloak_of_starry_night_pixelart_sprite_outline.png" />
     <EmbeddedResource Include="Resources\passive_item_sprites\shield_of_molten_stone_pixelart_sprite_outline.png" />
+    <EmbeddedResource Include="Resources\passive_item_sprites\cull_pixelart_sprite.png" />
+    <EmbeddedResource Include="Resources\passive_item_sprites\tear_of_the_goddess_pixelart_sprite.png" />
+    <EmbeddedResource Include="Resources\passive_item_sprites\sheen_pixelart_sprite.png" />
     <Content Include="Resources\Sounds\gen-gungeon-audio-bank.py" />
     <EmbeddedResource Include="Resources\active_item_sprites\redemption_item_sprite.png" />
     <EmbeddedResource Include="Resources\active_item_sprites\stridebreaker_item_sprite.png" />
