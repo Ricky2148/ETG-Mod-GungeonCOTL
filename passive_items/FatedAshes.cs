@@ -36,8 +36,8 @@ namespace LOLItems.passive_items
 
             ItemBuilder.AddSpriteToObject(itemName, resourceName, obj);
 
-            string shortDesc = "idk";
-            string longDesc = "idk";
+            string shortDesc = "It's getting warm...";
+            string longDesc = "A vase storing the ashes of the guilty. Their guilt marks their fate for hell and, in turn, causes their ashes to burn up occasionally.\n";
 
             ItemBuilder.SetupItem(item, shortDesc, longDesc, "LOLItems");
 

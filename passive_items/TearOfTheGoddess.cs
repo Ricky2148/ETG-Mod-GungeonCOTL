@@ -32,8 +32,8 @@ namespace LOLItems.passive_items
 
             ItemBuilder.AddSpriteToObject(itemName, resourceName, obj);
 
-            string shortDesc = "idk";
-            string longDesc = "idk";
+            string shortDesc = "*NOT REAL A TEAR*";
+            string longDesc = "A preserved \"tear\" from an unknown goddess. It appears to increase the size of your pockets for some reason. Maybe it was the goddess of storage?\n";
 
             ItemBuilder.SetupItem(item, shortDesc, longDesc, "LOLItems");
 

@@ -29,8 +29,8 @@ namespace LOLItems.passive_items
 
             ItemBuilder.AddSpriteToObject(itemName, resourceName, obj);
 
-            string shortDesc = "idk";
-            string longDesc = "idk";
+            string shortDesc = "\"full clearing\"";
+            string longDesc = "A simple worn-out scythe used by many to farm crops. Farming enemies seems more efficient now.\n";
 
             ItemBuilder.SetupItem(item, shortDesc, longDesc, "LOLItems");
 

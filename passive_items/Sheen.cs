@@ -26,8 +26,8 @@ namespace LOLItems.passive_items
 
             ItemBuilder.AddSpriteToObject(itemName, resourceName, obj);
 
-            string shortDesc = "idk";
-            string longDesc = "idk";
+            string shortDesc = "who makes a sword out of ice?";
+            string longDesc = "A sword made out of ice... It's been magically enchanted to mend itself when shattered, but since it's made of ice, it always shatters...\n";
 
             ItemBuilder.SetupItem(item, shortDesc, longDesc, "LOLItems");
 

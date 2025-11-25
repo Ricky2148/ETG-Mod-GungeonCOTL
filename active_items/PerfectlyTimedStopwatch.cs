@@ -27,8 +27,8 @@ namespace LOLItems.active_items
 
             ItemBuilder.AddSpriteToObject(itemName, resourceName, obj);
 
-            string shortDesc = "idk";
-            string longDesc = "idk";
+            string shortDesc = "\"yea, I got time.\"";
+            string longDesc = "A stopwatch that is stuck at 2:37:56. Activating it will affect time itself but it'll shatter instantly since it's been stuck for so long.\n";
 
             ItemBuilder.SetupItem(item, shortDesc, longDesc, "LOLItems");
             ItemBuilder.SetCooldownType(item, ItemBuilder.CooldownType.None, 0);
