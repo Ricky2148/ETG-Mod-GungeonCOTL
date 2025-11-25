@@ -85,6 +85,12 @@ namespace LOLItems
             //player.stats.RecalculateStats(player, false, false);
             player.stats.RecalculateStatsWithoutRebuildingGunVolleys(player);
 
+            Material mat = SpriteOutlineManager.GetOutlineMaterial(player.sprite);
+            if (mat)
+            {
+                mat.SetColor("_OverrideColor", new Color(0f * 0.7f, 128f * 0.7f, 255f * 0.7f));
+            }
+
             AkSoundEngine.PostEvent("experimental_hexplate_passive_triggered_SFX", player.gameObject);
             AkSoundEngine.PostEvent("experimental_hexplate_passive_effect_SFX", player.gameObject);
 
@@ -99,6 +105,11 @@ namespace LOLItems
             
             //player.stats.RecalculateStats(player, false, false);
             player.stats.RecalculateStatsWithoutRebuildingGunVolleys(player);
+
+            if (mat)
+            {
+                mat.SetColor("_OverrideColor", new Color(0f, 0f, 0f));
+            }
 
             // waits time to simulate cooldown
             yield return new WaitForSeconds(OverdriveCooldown - OverdriveDuration);

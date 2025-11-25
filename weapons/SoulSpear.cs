@@ -27,7 +27,7 @@ namespace LOLItems.weapons
         private static int ammoStat = 600;
         private static float reloadDuration = 0f;
         private static float fireRateStat = 0.6f;
-        private static int spreadAngle = 5;
+        private static int spreadAngle = 2;
 
         private static float projectileDamageStat = 12f;
         private static float projectileSpeedStat = 60f; //60f;
@@ -45,20 +45,7 @@ namespace LOLItems.weapons
         };
 
 
-        private static GameObject EffectVFX = VFXBuilder.CreateVFX
-        (
-            "soulspear_rend_vfx",
-            VFXSpritePath,
-            1,
-            new IntVector2(0, 0),
-            tk2dBaseSprite.Anchor.MiddleCenter,
-            false,
-            0,
-            -1,
-            Color.cyan,
-            tk2dSpriteAnimationClip.WrapMode.Loop,
-            true
-        );
+        private static GameObject EffectVFX;
 
         private Dictionary<AIActor, List<GameObject>> activeVFXObjectList = new Dictionary<AIActor, List<GameObject>>();
 
@@ -109,6 +96,21 @@ namespace LOLItems.weapons
                 "Press reload to recall the spears.\n");
 
             gun.SetupSprite(null, $"{SPRITENAME}_idle_001", 8);
+
+            EffectVFX = VFXBuilder.CreateVFX
+            (
+                "soulspear_rend_vfx",
+                VFXSpritePath,
+                1,
+                new IntVector2(0, 0),
+                tk2dBaseSprite.Anchor.MiddleCenter,
+                false,
+                0,
+                -1,
+                Color.cyan,
+                tk2dSpriteAnimationClip.WrapMode.Loop,
+                true
+            );
 
             gun.SetAnimationFPS(gun.shootAnimation, 17);
 
@@ -164,6 +166,8 @@ namespace LOLItems.weapons
             projectile.baseData.force = projectileForceStat;
             projectile.transform.parent = gun.barrelOffset;
             projectile.shouldRotate = true;
+
+            projectile.ignoreDamageCaps = true;
 
             projectile.SetProjectileSpriteRight("vengencespear_projectile_spearonly", 34, 4, true, tk2dBaseSprite.Anchor.MiddleCenter, 32, 3);
 
@@ -405,7 +409,7 @@ namespace LOLItems.weapons
                         "soul_spear_rend_damage",
                         CoreDamageTypes.None,
                         DamageCategory.Normal,
-                        false
+                        true
                     );
 
                     Vector2 unitDimensions = target.Key.specRigidbody.HitboxPixelCollider.UnitDimensions;
@@ -595,11 +599,6 @@ namespace LOLItems.weapons
                 player.specRigidbody.Velocity = angle * adjSpeed;
                 yield return null;
             }
-            Plugin.Log("before wait");
-
-            //yield return new WaitForSeconds(duration);
-
-            Plugin.Log("after wait");
 
             //reset outline color
             if (mat)

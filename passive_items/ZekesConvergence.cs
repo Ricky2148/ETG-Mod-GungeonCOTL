@@ -47,20 +47,7 @@ namespace LOLItems.passive_items
                 "LOLItems/Resources/vfxs/convergence/convergenceaura_008"
             };
 
-        private static GameObject EffectVFX = VFXBuilder.CreateVFX
-        (
-            "convergenceaura",
-            VFXSpritePath,
-            8,
-            new IntVector2(0, 0),
-            tk2dBaseSprite.Anchor.MiddleCenter,
-            false,
-            0,
-            -1,
-            Color.cyan,
-            tk2dSpriteAnimationClip.WrapMode.Loop,
-            true
-        );
+        private static GameObject EffectVFX;
 
         private GameObject activeVFXObject;
 
@@ -110,6 +97,21 @@ namespace LOLItems.passive_items
             item.AuraRadius = 0f;
             item.DamagePerSecond = 0f;
             //item.AuraVFX = EffectVFX;
+
+            EffectVFX = VFXBuilder.CreateVFX
+            (
+                "convergenceaura",
+                VFXSpritePath,
+                8,
+                new IntVector2(0, 0),
+                tk2dBaseSprite.Anchor.MiddleCenter,
+                false,
+                0,
+                -1,
+                Color.cyan,
+                tk2dSpriteAnimationClip.WrapMode.Loop,
+                true
+            );
 
             item.quality = PickupObject.ItemQuality.B;
             ID = item.PickupObjectId;

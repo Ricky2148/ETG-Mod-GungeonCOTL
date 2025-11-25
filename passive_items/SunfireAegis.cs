@@ -38,20 +38,7 @@ namespace LOLItems
                 "LOLItems/Resources/vfxs/sunfireaura/sunfireaura_008"
             };
 
-        private static GameObject EffectVFX = VFXBuilder.CreateVFX
-        (
-            "sunfireaura",
-            VFXSpritePath,
-            8,
-            new IntVector2(0, 0),
-            tk2dBaseSprite.Anchor.MiddleCenter,
-            false,
-            0,
-            -1,
-            Color.cyan,
-            tk2dSpriteAnimationClip.WrapMode.Loop,
-            true
-        );
+        private static GameObject EffectVFX;
 
         private GameObject activeVFXObject;
 
@@ -78,6 +65,21 @@ namespace LOLItems
             // sets damage aura stats
             item.AuraRadius = ImmolateBaseRadius;
             item.DamagePerSecond = ImmolateBaseDamage;
+
+            EffectVFX = VFXBuilder.CreateVFX
+            (
+                "sunfireaura",
+                VFXSpritePath,
+                8,
+                new IntVector2(0, 0),
+                tk2dBaseSprite.Anchor.MiddleCenter,
+                false,
+                0,
+                -1,
+                Color.cyan,
+                tk2dSpriteAnimationClip.WrapMode.Loop,
+                true
+            );
 
             item.quality = PickupObject.ItemQuality.B;
             ID = item.PickupObjectId;

@@ -49,20 +49,7 @@ namespace LOLItems
                 "LOLItems/Resources/vfxs/breakingshockwave/breakingshockwave_011"
             };
 
-        private static GameObject EffectVFX = VFXBuilder.CreateVFX
-        (
-            "breakingshockwave",
-            VFXSpritePath,
-            30,
-            new IntVector2(0, 0),
-            tk2dBaseSprite.Anchor.MiddleCenter,
-            false,
-            0,
-            -1,
-            Color.cyan,
-            tk2dSpriteAnimationClip.WrapMode.Once,
-            true
-        );
+        private static GameObject EffectVFX;
 
         private GameObject activeVFXObject;
 
@@ -91,6 +78,21 @@ namespace LOLItems
 
             ItemBuilder.SetCooldownType(item, ItemBuilder.CooldownType.Timed, ShockwaveCooldown);
             item.consumable = false;
+
+            EffectVFX = VFXBuilder.CreateVFX
+            (
+                "breakingshockwave",
+                VFXSpritePath,
+                30,
+                new IntVector2(0, 0),
+                tk2dBaseSprite.Anchor.MiddleCenter,
+                false,
+                0,
+                -1,
+                Color.cyan,
+                tk2dSpriteAnimationClip.WrapMode.Once,
+                true
+            );
 
             item.usableDuringDodgeRoll = true;
             item.quality = PickupObject.ItemQuality.A;

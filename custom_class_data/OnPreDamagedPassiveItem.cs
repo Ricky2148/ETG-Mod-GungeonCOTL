@@ -18,7 +18,13 @@ public class OnPreDamagedPassiveItem : PassiveItem
 
     public bool triggersInvulnerability = false;
 
-    public float invulnerabilityDuration = 1f;
+    public bool triggersOutline = false;
+
+    public Color outlineColor = new Color(0, 0, 0);
+
+    public bool triggersGlow = false;
+
+    public float effectDuration = 1f;
 
     //private System.Random rand = new System.Random();
 
@@ -82,12 +88,16 @@ public class OnPreDamagedPassiveItem : PassiveItem
             if (triggersInvulnerability)
             {
                 PlayerController player = source.GetComponent<PlayerController>();
-                //source.TriggerInvulnerabilityPeriod(invulnerabilityDuration);
-                player.TriggerInvulnerableFrames(invulnerabilityDuration);
+                source.TriggerInvulnerabilityPeriod(effectDuration);
+                //player.TriggerInvulnerableFrames(effectDuration);
             }
             if (triggerBlank)
             {
                 m_owner.ForceBlank();
+            }
+            if (triggersOutline)
+            {
+                Owner.StartCoroutine(TriggerVisualEffect(Owner));
             }
             args.ModifiedDamage = 0f;
         }
@@ -95,6 +105,28 @@ public class OnPreDamagedPassiveItem : PassiveItem
         {
             //rand = new System.Random();
             //randValue = rand.Next(100);
+        }
+    }
+
+    private System.Collections.IEnumerator TriggerVisualEffect(PlayerController player)
+    {
+        Material mat = SpriteOutlineManager.GetOutlineMaterial(Owner.sprite);
+        if (triggersGlow)
+        {
+            if (mat)
+            {
+                mat.SetColor("_OverrideColor", outlineColor);
+            }
+        }
+
+        yield return new WaitForSeconds(effectDuration);
+
+        if (triggersGlow)
+        {
+            if (mat)
+            {
+                mat.SetColor("_OverrideColor", new Color(0f, 0f, 0f));
+            }
         }
     }
 

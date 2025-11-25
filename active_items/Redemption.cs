@@ -60,21 +60,6 @@ namespace LOLItems
                 "LOLItems/Resources/vfxs/redemption/redemption_attack_031",
             };
 
-        /*private static GameObject EffectVFX = VFXBuilder.CreateVFX
-        (
-            "intervention_vfx",
-            VFXSpritePath,
-            8,
-            new IntVector2(0, 0),
-            tk2dBaseSprite.Anchor.MiddleCenter,
-            false,
-            0,
-            -1,
-            Color.cyan,
-            tk2dSpriteAnimationClip.WrapMode.Once,
-            true
-        );*/
-
         private static GameObject EffectVFX;
 
         private static List<string> DamageEffectSpritePath = new List<string>
@@ -88,21 +73,6 @@ namespace LOLItems
                 "LOLItems/Resources/vfxs/redemption/redemption_damage_007",
                 "LOLItems/Resources/vfxs/redemption/redemption_damage_008",
             };
-
-        /*private static GameObject DamageEffectVFX = VFXBuilder.CreateVFX
-        (
-            "intervention_damage_hiteffect",
-            DamageEffectSpritePath,
-            8,
-            new IntVector2(0, 0),
-            tk2dBaseSprite.Anchor.MiddleCenter,
-            false,
-            0,
-            -1,
-            Color.cyan,
-            tk2dSpriteAnimationClip.WrapMode.Once,
-            true
-        );*/
 
         private static GameObject DamageEffectVFX;
 
@@ -118,42 +88,12 @@ namespace LOLItems
                 "LOLItems/Resources/vfxs/redemption/redemption_heal_008",
             };
 
-        /*private static GameObject HealEffectVFX = VFXBuilder.CreateVFX
-        (
-            "intervention_heal_hiteffect",
-            HealEffectSpritePath,
-            8,
-            new IntVector2(0, 0),
-            tk2dBaseSprite.Anchor.MiddleCenter,
-            false,
-            0,
-            -1,
-            Color.cyan,
-            tk2dSpriteAnimationClip.WrapMode.Once,
-            true
-        );*/
-
         private static GameObject HealEffectVFX;
 
         private static List<string> ReticleVFXSpritePath = new List<string>
             {
                 "LOLItems/Resources/vfxs/redemption/redemption_overheadicon_001",
             };
-
-        /*private static GameObject ReticleVFX = VFXBuilder.CreateVFX
-        (
-            "intervention_reticle_vfx",
-            ReticleVFXSpritePath,
-            9,
-            new IntVector2(0, 0),
-            tk2dBaseSprite.Anchor.MiddleCenter,
-            false,
-            0,
-            -1,
-            Color.cyan,
-            tk2dSpriteAnimationClip.WrapMode.Loop,
-            true
-        );*/
 
         private static GameObject ReticleVFX;
 
@@ -283,17 +223,23 @@ namespace LOLItems
 
             item.reticleQuad = PickupObjectDatabase.GetById(443).gameObject.GetComponent<TargetedAttackPlayerItem>().reticleQuad.InstantiateAndFakeprefab();
 
-            tk2dBaseSprite vfxSprite = ReticleVFX.GetComponent<tk2dBaseSprite>();
+            tk2dBaseSprite vfxSprite = EffectVFX.GetComponent<tk2dBaseSprite>();
             int spriteId = vfxSprite.spriteId;
             tk2dSpriteCollectionData spriteCollection = vfxSprite.collection;
 
             tk2dSlicedSprite quad = item.reticleQuad.GetComponent<tk2dSlicedSprite>();
             //Plugin.Log($"spriteId: {spriteId}, spriteCollection: {spriteCollection}, vfxSprite: {vfxSprite}");
 
-            quad.scale = new Vector3(0.8f, 0.8f, 1f);
-            //quad.dimensions = new Vector2(64, 52);
-
             quad.SetSprite(spriteCollection, spriteId);
+
+            quad.scale = new Vector3(1.1f, 1.1f, 1f);
+            //quad.transform.position += new Vector3(-5f, -5f);
+            quad.dimensions = new Vector2(150, 143);
+
+            //quad.CreateBoxCollider = false;
+            //quad.UpdateCollider();
+
+            //quad.ReshapeBounds(new Vector3(0f, 0f, 1f), new Vector3(5f, 5f, 1f));
 
             UnityEngine.Object.Destroy(item.reticleQuad.GetComponent<ReticleRiserEffect>());
 
@@ -440,6 +386,8 @@ namespace LOLItems
             }
 
             activeVFXObject = UnityEngine.Object.Instantiate(EffectVFX, initialCursorPos, Quaternion.identity);
+
+            activeVFXObject.GetComponent<tk2dSprite>().transform.localPosition += new Vector3(-1.5f / 16f, 7.5f / 16f);
 
             /*var sprite = activeVFXObject.GetComponent<tk2dSprite>();
 

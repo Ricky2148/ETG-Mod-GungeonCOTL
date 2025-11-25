@@ -45,9 +45,13 @@ namespace LOLItems.passive_items
 
             item.procChance = preDamageProcChance;
             item.triggersInvulnerability = true;
-            item.invulnerabilityDuration = 1f;
+            item.effectDuration = 1f;
+            item.triggersOutline = true;
+            item.triggersGlow = true;
+            item.outlineColor = new Color(178f * 0.7f, 34f * 0.7f, 34f * 0.7f);
+
             item.playsSFX = true;
-            string[] sfxList = { "stridebreaker_active_SFX" };
+            string[] sfxList = { "carefree_melody_SFX" };
             item.updateSFXList(sfxList);
 
             ID = item.PickupObjectId;
