@@ -10,7 +10,7 @@ using UnityEngine;
 using static HealthHaver;
 
 //health, active targets a circle zone that applies a heal to players and dmg to enemies, the effect casts down after a delay
-// NOT COMPLETE
+// reticle center check doesn't work on controller
 
 namespace LOLItems
 {

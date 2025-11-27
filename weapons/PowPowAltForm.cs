@@ -22,7 +22,7 @@ namespace LOLItems.weapons
 
         private static float rampUpIncCap = 5f;
         private static float rampUpIncPerSecond = 0.5f;
-        private static int ammoStat = 750;
+        private static int ammoStat = 450;
         private static float reloadDuration = 1.6f;
         private static float fireRateStat = 0.3f * 1.25f;
         private static int spreadAngle = 5;

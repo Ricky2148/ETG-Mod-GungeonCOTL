@@ -33,7 +33,8 @@ namespace LOLItems.passive_items
             ItemBuilder.AddSpriteToObject(itemName, resourceName, obj);
 
             string shortDesc = "*NOT REAL A TEAR*";
-            string longDesc = "A preserved \"tear\" from an unknown goddess. It appears to increase the size of your pockets for some reason. Maybe it was the goddess of storage?\n";
+            string longDesc = "\"Few are fortunate enough to come across the tears of the very goddess who created our world... " +
+                "but those who are lucky enough to acquire a Tear of the Goddess may take pleasure in a significant boost of ammo capacity and clip capacity.\"";
 
             ItemBuilder.SetupItem(item, shortDesc, longDesc, "LOLItems");
 

@@ -15,6 +15,7 @@ using UnityEngine;
 using static GlobalSparksDoer;
 
 // work on making the dashes feel better
+// make the particles spawn count have a floor and then scale up so they look better
 
 namespace LOLItems.weapons
 {
@@ -24,7 +25,7 @@ namespace LOLItems.weapons
         public static int ID; //The Gun ID stored by the game.  Can be used by other functions to call your custom gun.
         public static string realName = "Soul Spear"; //The name that shows up in the Ammonomicon and the mod console.
 
-        private static int ammoStat = 600;
+        private static int ammoStat = 254;
         private static float reloadDuration = 0f;
         private static float fireRateStat = 0.6f;
         private static int spreadAngle = 2;
@@ -167,7 +168,7 @@ namespace LOLItems.weapons
             projectile.transform.parent = gun.barrelOffset;
             projectile.shouldRotate = true;
 
-            projectile.ignoreDamageCaps = true;
+            projectile.ignoreDamageCaps = false;
 
             projectile.SetProjectileSpriteRight("vengencespear_projectile_spearonly", 34, 4, true, tk2dBaseSprite.Anchor.MiddleCenter, 32, 3);
 
@@ -409,7 +410,7 @@ namespace LOLItems.weapons
                         "soul_spear_rend_damage",
                         CoreDamageTypes.None,
                         DamageCategory.Normal,
-                        true
+                        ignoreDamageCaps: true
                     );
 
                     Vector2 unitDimensions = target.Key.specRigidbody.HitboxPixelCollider.UnitDimensions;

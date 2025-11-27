@@ -13,6 +13,7 @@ using Alexandria.VisualAPI;
 
 // need to make the gun's idle animation not its item sprite or the UI sprite somehow
 // figure out hit effects and spread vfx
+// why did i make this do 15 dmg per shot?
 
 namespace LOLItems.weapons
 {

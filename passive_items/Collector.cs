@@ -6,6 +6,8 @@ using UnityEngine;
 using Alexandria.ItemAPI;
 using Alexandria;
 
+// increase rarity, nerf execute gold amount with rng chance instead of guarantee
+
 namespace LOLItems
 {
     internal class Collector : PassiveItem

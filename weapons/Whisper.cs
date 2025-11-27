@@ -88,7 +88,7 @@ namespace LOLItems.weapons
             gun.gameObject.AddComponent<Whisper>(); //AddComponent<[ClassName]>
             gun.SetShortDescription("\"Art is worth the pain.\"");  //The description that pops up when you pick up the gun.
             gun.SetLongDescription("A strange yet artistic weapon once wielded by a psychopath serial killer. It's said that he believed murder to be art and used this gun as his paintbrush. " +
-                "He would go to lengths to create elatborate scenes of artistic brutality and loved every second of it.\n"); //The full description in the Ammonomicon.
+                "He would go to great lengths to create elaborate scenes of artistic brutality and loved every second of it.\n"); //The full description in the Ammonomicon.
             /* SetupSprite sets up the default gun sprite for the ammonomicon and the "gun get" popup.  Your "..._idle_001" is often a good example.  
              * A copy of the sprite used must be in your "sprites/Ammonomicon Encounter Icon Collection/" folder.
              * The variable at the end assigns a default FPS to all other animations. */
@@ -218,6 +218,8 @@ namespace LOLItems.weapons
             projectile.shouldRotate = true; //If the projectile should rotate to match the direction it was shot and you don't want your default projectile's setting
             //projectile.AdditionalScaleMultiplier = 1f; //Further modify the projectile's size
 
+            projectile.ignoreDamageCaps = true;
+
             /* Optionally sets a custom Projectile Sprite if you don't want to use the default.
              * The first value is the sprite name in sprites\ProjectileCollection without the extension.
              * tk2dBaseSprite.Anchor.MiddleCenter controls where the sprite is anchored. MiddleCenter will work in most cases.
@@ -250,6 +252,7 @@ namespace LOLItems.weapons
             fourthShot.hitEffects.tileMapHorizontal = (PickupObjectDatabase.GetById((int)Items.Mailbox) as Gun).DefaultModule.projectiles[0].hitEffects.tileMapHorizontal;
             fourthShot.hitEffects.tileMapVertical = (PickupObjectDatabase.GetById((int)Items.Mailbox) as Gun).DefaultModule.projectiles[0].hitEffects.tileMapVertical;
 
+            fourthShot.ignoreDamageCaps = true;
 
             gun.DefaultModule.finalProjectile = fourthShot;
             gun.DefaultModule.numberOfFinalProjectiles = 1;
@@ -334,7 +337,7 @@ namespace LOLItems.weapons
             //pierce.penetration = projectilePierceStat; //How many enemies it can pierce.
             //pierce.penetratesBreakables = true; //Are breakables included?
 
-            projectile.ignoreDamageCaps = true; //Damage caps exist for bosses to keep their HP from going down too fast. Set to True if you want to circumvent that.
+            //projectile.ignoreDamageCaps = true; //Damage caps exist for bosses to keep their HP from going down too fast. Set to True if you want to circumvent that.
             //projectile.BossDamageMultiplier = 1.5f; //Should bosses take more/less damage?
             //projectile.BlackPhantomDamageMultiplier = 1.5f; //Should Jammed enemies take more/less damage?
             //projectile.PlayerKnockbackForce = 2f; //Should the player get pushed back?
@@ -695,7 +698,7 @@ namespace LOLItems.weapons
                             DamageCategory.Normal,
                             false,
                             null,
-                            true
+                            ignoreDamageCaps: true
                         );
                     }
                 };
