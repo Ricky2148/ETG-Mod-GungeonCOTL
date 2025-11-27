@@ -225,7 +225,7 @@ namespace LOLItems
                 Alexandria.NPCAPI.ShopAPI.VoiceBoxes.DOUG,
                 Alexandria.NPCAPI.ShopAPI.defaultItemPositions,
 
-                0.7f, //cost mod
+                0.8f, //cost mod
                 false, //stats on purchase
                 null, //no stats on purchase
                 null, // custom can buy?

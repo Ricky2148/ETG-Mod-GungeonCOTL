@@ -263,7 +263,7 @@ namespace LOLItems.weapons
             gun.DefaultModule.customAmmoType = CustomClipAmmoTypeToolbox.AddCustomAmmoType("crossblade_ammo",
                 "LOLItems/Resources/weapon_sprites/CustomGunAmmoTypes/boomerangblade_ammo_full_001", "LOLItems/Resources/weapon_sprites/CustomGunAmmoTypes/boomerangblade_ammo_empty_001");
 
-            gun.quality = PickupObject.ItemQuality.B;
+            gun.quality = PickupObject.ItemQuality.C;
             ETGMod.Databases.Items.Add(gun, false, "ANY");
             ID = gun.PickupObjectId;
         }

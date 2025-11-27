@@ -214,8 +214,8 @@ namespace LOLItems
                 sprite.renderer.material.SetFloat("_Fade", 0.8f);
             }
 
-            //ItemBuilder.SetCooldownType(item, ItemBuilder.CooldownType.Timed, 1f);
-            ItemBuilder.SetCooldownType(item, ItemBuilder.CooldownType.PerRoom, InterventionPerRoomCooldown);
+            ItemBuilder.SetCooldownType(item, ItemBuilder.CooldownType.Timed, 1f);
+            //ItemBuilder.SetCooldownType(item, ItemBuilder.CooldownType.PerRoom, InterventionPerRoomCooldown);
             item.consumable = false;
 
             item.minDistance = 0f;
@@ -316,10 +316,6 @@ namespace LOLItems
             tk2dBaseSprite cursor = this.m_extantReticleQuad;
             Vector2 overridePos = cursor.WorldCenter; //this sets the vector2 to the bottom left of the reticle sprite, not to the actual cursor
 
-            //Plugin.Log("before active effect");
-
-            Plugin.Log("after active effect");
-
             StartCoroutine(DoInterventionEvent(player, overridePos));
 
             /*Exploder.Explode(overridePos, new ExplosionData
@@ -376,9 +372,23 @@ namespace LOLItems
             //Vector2 initialCursorPos = cursorPos;
 
             Vector2 initialCursorPos = Vector2.zero;
+            Vector3 positionOffset = Vector3.zero;
+
             if (BraveInput.GetInstanceForPlayer(player.PlayerIDX).IsKeyboardAndMouse())
             {
                 initialCursorPos = player.unadjustedAimPoint.XY() - (player.CenterPosition - player.specRigidbody.UnitCenter);
+                positionOffset = new Vector3(0.0f / 16f, 8.0f / 16f);
+            }
+            else
+            {
+                BraveInput instanceForPlayer = BraveInput.GetInstanceForPlayer(m_currentUser.PlayerIDX);
+                Vector2 vector3 = m_currentUser.CenterPosition + (Quaternion.Euler(0f, 0f, m_currentAngle) * Vector2.right).XY() * m_currentDistance;
+                vector3 += instanceForPlayer.ActiveActions.Aim.Vector;
+                m_currentAngle = BraveMathCollege.Atan2Degrees(vector3 - m_currentUser.CenterPosition);
+                m_currentDistance = Vector2.Distance(vector3, m_currentUser.CenterPosition);
+                m_currentDistance = Mathf.Min(m_currentDistance, maxDistance);
+                vector3 = m_currentUser.CenterPosition + (Quaternion.Euler(0f, 0f, m_currentAngle) * Vector2.right).XY() * m_currentDistance;
+                initialCursorPos = vector3;
             }
             if (initialCursorPos != Vector2.zero)
             {
@@ -387,7 +397,7 @@ namespace LOLItems
 
             activeVFXObject = UnityEngine.Object.Instantiate(EffectVFX, initialCursorPos, Quaternion.identity);
 
-            activeVFXObject.GetComponent<tk2dSprite>().transform.localPosition += new Vector3(-1.5f / 16f, 7.5f / 16f);
+            activeVFXObject.GetComponent<tk2dSprite>().transform.localPosition += positionOffset;
 
             /*var sprite = activeVFXObject.GetComponent<tk2dSprite>();
 
@@ -411,11 +421,6 @@ namespace LOLItems
 
             AkSoundEngine.PostEvent("redemption_effect_landing_SFX", activeVFXObject.gameObject);
 
-            if (activeVFXObject != null)
-            {
-                //Destroy(activeVFXObject);
-            }
-
             List<AIActor> enemyList = player.CurrentRoom.GetActiveEnemies(RoomHandler.ActiveEnemyType.All);
             if (enemyList != null)
             {
@@ -427,7 +432,7 @@ namespace LOLItems
                         // scale damage with player damage modifiers
                         //float ShockwaveDamage = ShockwaveBaseDamage * player.stats.GetStatValue(PlayerStats.StatType.Damage);
 
-                        Plugin.Log($"cursor: {initialCursorPos.ToString()}, enemy: {enemy.CenterPosition.ToString()}, distance: {distance}");
+                        //Plugin.Log($"cursor: {initialCursorPos.ToString()}, enemy: {enemy.CenterPosition.ToString()}, distance: {distance}");
 
                         if (distance <= InterventionEffectRadius)
                         {
@@ -457,7 +462,7 @@ namespace LOLItems
             {
                 PlayerController player1 = GameManager.Instance.PrimaryPlayer;
 
-                Plugin.Log($"cursor: {initialCursorPos.ToString()}, player1: {player1.CenterPosition.ToString()}, distance: {Vector2.Distance(initialCursorPos, player1.CenterPosition)}");
+                //Plugin.Log($"cursor: {initialCursorPos.ToString()}, player1: {player1.CenterPosition.ToString()}, distance: {Vector2.Distance(initialCursorPos, player1.CenterPosition)}");
 
                 if (Vector2.Distance(initialCursorPos, player1.CenterPosition) <= InterventionEffectRadius && player1.healthHaver.currentHealth < player1.healthHaver.GetMaxHealth())
                 {
@@ -473,7 +478,7 @@ namespace LOLItems
             {
                 PlayerController player2 = GameManager.Instance.SecondaryPlayer;
 
-                Plugin.Log($"cursor: {initialCursorPos.ToString()}, player1: {player2.CenterPosition.ToString()}, distance: {Vector2.Distance(initialCursorPos, player2.CenterPosition)}");
+                //Plugin.Log($"cursor: {initialCursorPos.ToString()}, player1: {player2.CenterPosition.ToString()}, distance: {Vector2.Distance(initialCursorPos, player2.CenterPosition)}");
 
                 if (Vector2.Distance(initialCursorPos, player2.CenterPosition) <= InterventionEffectRadius && player2.healthHaver.currentHealth < player2.healthHaver.GetMaxHealth())
                 {
@@ -488,7 +493,7 @@ namespace LOLItems
             yield return new WaitForSeconds(5f);
             if (activeVFXObject != null)
             {
-                Destroy(activeVFXObject);
+                //Destroy(activeVFXObject);
             }
         }
     }

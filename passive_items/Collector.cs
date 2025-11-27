@@ -15,6 +15,7 @@ namespace LOLItems
         // stats pool for item
         private static float DamageStat = 1.1f;
         private static int DeathGoldStat = 1;
+        private static float DeathGoldChance = 0.30f;
 
         private static float ExecuteThreshold = 0.05f;
 
@@ -39,7 +40,7 @@ namespace LOLItems
 
             ItemBuilder.AddPassiveStatModifier(item, PlayerStats.StatType.Damage, DamageStat, StatModifier.ModifyMethod.MULTIPLICATIVE);
 
-            item.quality = PickupObject.ItemQuality.B;
+            item.quality = PickupObject.ItemQuality.A;
             ID = item.PickupObjectId;
         }
 
@@ -110,13 +111,16 @@ namespace LOLItems
         {
             enemy.healthHaver.OnDeath += (obj) =>
             {
-                if (enemy.healthHaver.IsBoss || enemy.healthHaver.IsSubboss)
+                if (UnityEngine.Random.value < DeathGoldChance)
                 {
-                    LootEngine.SpawnCurrency(enemy.specRigidbody.UnitCenter, DeathGoldStat * 10);
-                }
-                else
-                {
-                    LootEngine.SpawnCurrency(enemy.specRigidbody.UnitCenter, DeathGoldStat);
+                    if (enemy.healthHaver.IsBoss || enemy.healthHaver.IsSubboss)
+                    {
+                        LootEngine.SpawnCurrency(enemy.specRigidbody.UnitCenter, DeathGoldStat * 10);
+                    }
+                    else
+                    {
+                        LootEngine.SpawnCurrency(enemy.specRigidbody.UnitCenter, DeathGoldStat);
+                    }
                 }
             };
         }

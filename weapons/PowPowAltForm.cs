@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using HutongGames.PlayMaker.Actions;
 
 // gotta figure out how to make the sprites .json files without taking 15 centuries
+// retry making the explosions larger
 
 namespace LOLItems.weapons
 {

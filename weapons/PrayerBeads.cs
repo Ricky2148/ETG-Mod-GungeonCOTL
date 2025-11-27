@@ -23,7 +23,7 @@ namespace LOLItems.weapons
         public static int ID; //The Gun ID stored by the game.  Can be used by other functions to call your custom gun.
         public static string realName = "Aion Er'na"; //The name that shows up in the Ammonomicon and the mod console.
 
-        private static int ammoStat = 200;
+        private static int ammoStat = 300;
         private static float reloadDuration = 0.5f;
         private static float fireRateStat = 0.5f;
         private static int spreadAngle = 5;

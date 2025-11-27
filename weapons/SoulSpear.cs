@@ -14,9 +14,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using static GlobalSparksDoer;
 
-// work on making the dashes feel better
-// make the particles spawn count have a floor and then scale up so they look better
-
 namespace LOLItems.weapons
 {
     internal class SoulSpear : AdvancedGunBehavior
@@ -375,8 +372,8 @@ namespace LOLItems.weapons
 
         public override void OnReloadPressedSafe(PlayerController player, Gun gun, bool manualReload)
         {
-            float rendDamagePerStack = gun.DefaultModule.projectiles[0].baseData.damage * rendScale * player.stats.GetBaseStatValue(PlayerStats.StatType.Damage);
-            //Plugin.Log($"rend damage per stack: {rendDamagePerStack}");
+            float rendDamagePerStack = gun.DefaultModule.projectiles[0].baseData.damage * rendScale * player.stats.GetStatValue(PlayerStats.StatType.Damage);
+            //Plugin.Log($"rend damage per stack: {rendDamagePerStack}, projectile dmg: {gun.DefaultModule.projectiles[0].baseData.damage}, damage mult: {player.stats.GetStatValue(PlayerStats.StatType.Damage)}");
             /*foreach (KeyValuePair<AIActor, int> target in enemyRendStacks)
             {
                 float damageToDeal = (target.Value + 1) * rendDamagePerStack;
@@ -416,7 +413,7 @@ namespace LOLItems.weapons
                     Vector2 unitDimensions = target.Key.specRigidbody.HitboxPixelCollider.UnitDimensions;
                     Vector2 a = unitDimensions / 2f;
 
-                    int num3 = Mathf.Min(target.Value.Count, 50);
+                    int num3 = Mathf.Min(target.Value.Count, 50) + 15;
                     Vector2 vector = target.Key.specRigidbody.HitboxPixelCollider.UnitBottomLeft;
                     Vector2 vector2 = target.Key.specRigidbody.HitboxPixelCollider.UnitTopRight;
                     PixelCollider pixelCollider = target.Key.specRigidbody.GetPixelCollider(ColliderType.Ground);
@@ -559,11 +556,15 @@ namespace LOLItems.weapons
             player.stats.RecalculateStatsWithoutRebuildingGunVolleys(player);
 
             float statToMod = player.stats.GetStatValue(PlayerStats.StatType.MovementSpeed);
+            //Plugin.Log($"statToMod: {statToMod}, base stat: {player.stats.GetBaseStatValue(PlayerStats.StatType.MovementSpeed)}");
             ItemBuilder.AddCurrentGunStatModifier(gun, PlayerStats.StatType.MovementSpeed, -statToMod, StatModifier.ModifyMethod.ADDITIVE);
             player.stats.RecalculateStatsWithoutRebuildingGunVolleys(player);
 
             float duration = dashBaseDuration / player.stats.GetStatValue(PlayerStats.StatType.RateOfFire);
             float adjSpeed = dashBaseSpeed * (1 + ((player.stats.GetStatValue(PlayerStats.StatType.RateOfFire) - 1) * 0.5f));
+            //Plugin.Log($"adjSpeed: {adjSpeed}");
+            adjSpeed *= ((7f + ((statToMod - 7f) * 0.5f)) / 7f);
+            //Plugin.Log($"final adjSpeed: {adjSpeed}");
             float elapsed = -BraveTime.DeltaTime;
 
             player.healthHaver.TriggerInvulnerabilityPeriod(duration);
