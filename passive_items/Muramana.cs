@@ -45,7 +45,7 @@ namespace LOLItems
 
             ID = item.PickupObjectId;
 
-            List<string> mandatoryConsoleIDs = new List<string>
+            /*List<string> mandatoryConsoleIDs = new List<string>
             {
                 "LOLItems:muramana",
                 "LOLItems:manaflow_fully_stacked"
@@ -55,6 +55,7 @@ namespace LOLItems
                 ""
             };
             CustomSynergies.Add("Manamune Upgraded To Muramana", mandatoryConsoleIDs, null, true);
+            */
         }
 
         // subscribe to the player events
@@ -62,6 +63,8 @@ namespace LOLItems
         {
             base.Pickup(player);
             Plugin.Log($"Player picked up {this.EncounterNameOrDisplayName}");
+
+            //HelpfulMethods.CustomNotification("Manamune Upgraded to Muramana", "", this.sprite, UINotificationController.NotificationColor.GOLD);
 
             player.PostProcessProjectile += MuramanaShock;
             player.PostProcessBeamTick += MuramanaShock;

@@ -172,13 +172,15 @@ namespace LOLItems
                 ZekesConvergence.ID,
                 Redemption.ID,
 
+                DetonationOrb.ID,
+
 
                 //low tier items
-                //Sheen.ID,
-                //FatedAshes.ID,
-                //Cull.ID,
-                //PerfectlyTimedStopwatch.ID,
-                //TearOfTheGoddess.ID,
+                Sheen.ID,
+                FatedAshes.ID,
+                Cull.ID,
+                PerfectlyTimedStopwatch.ID,
+                TearOfTheGoddess.ID,
 
             };
 

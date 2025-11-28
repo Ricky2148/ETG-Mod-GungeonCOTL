@@ -89,60 +89,9 @@ namespace LOLItems
 
         public override void DoEffect(PlayerController player)
         {
-            //Plugin.Log($"Manamune is {Manamune.ID}");
-            //Plugin.Log($"Muramana is {Muramana.ID}");
-            //Plugin.Log($"MuramanaSynergyActivation is {MuramanaSynergyActivation.ID}");
-            //Plugin.Log($"PowPow is {PowPow.ID}");
-            //Plugin.Log($"PowPowAltForm is {PowPowAltForm.ID}");
-            //Plugin.Log($"BladeOfTheRuinedKing is {BladeOfTheRuinedKing.ID}");
-            //Plugin.Log($"CloakOfStarryNight is {CloakOfStarryNight.ID}");
-            //Plugin.Log($"ShieldOfMoltenStone is {ShieldOfMoltenStone.ID}");
-            //Plugin.Log($"BraumsShield is {BraumsShield.ID}");
             //StartCoroutine(EffectCoroutine(player));
-            //string enemyEventName = player.CurrentGun.projectile.enemyImpactEventName;
-            //string objectEventName = player.CurrentGun.projectile.objectImpactEventName;
-            //Plugin.Log($"enemyEventName: {enemyEventName}, objectEventName: {objectEventName}");
-            /*
-            List<string> spreadVFXSpritePath = new List<string>
-            {
-                "LOLItems/Resources/vfxs/test_vfx/test_vfx_01",
-                "LOLItems/Resources/vfxs/test_vfx/test_vfx_02",
-                "LOLItems/Resources/vfxs/test_vfx/test_vfx_03",
-                "LOLItems/Resources/vfxs/test_vfx/test_vfx_04",
-                "LOLItems/Resources/vfxs/test_vfx/test_vfx_05",
-                "LOLItems/Resources/vfxs/test_vfx/test_vfx_06",
-                "LOLItems/Resources/vfxs/test_vfx/test_vfx_07",
-                "LOLItems/Resources/vfxs/test_vfx/test_vfx_08",
-                "LOLItems/Resources/vfxs/test_vfx/test_vfx_09"
-            };
 
-            GameObject customVFXPrefab = VFXBuilder.CreateVFX
-            (
-                "test_vfx",
-                spreadVFXSpritePath,
-                10,
-                new IntVector2(9, 9),
-                tk2dBaseSprite.Anchor.MiddleCenter,
-                false,
-                0,
-                -1,
-                Color.cyan,
-                tk2dSpriteAnimationClip.WrapMode.Loop,
-                true
-            );
-
-            GameObject customVFX = SpawnManager.SpawnVFX(customVFXPrefab, true);
-            customVFX.transform.position = player.CenterPosition;
-
-            GameObject customVFX2 = Instantiate(customVFXPrefab, player.CenterPosition, Quaternion.identity);
-            customVFX2.SetActive(true);
-            */
-
-            //player.carriedConsumables.Currency += 10;
-
-            //AkSoundEngine.PostEvent("Play_WPN_sniperrifle_shot_01", player.gameObject);
-
-            StartCoroutine(EffectCoroutine(player));
+            HelpfulMethods.CustomNotification("smth1", "smth2", this.sprite);
 
             Plugin.Log("debug item finished");
         }

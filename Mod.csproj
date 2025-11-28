@@ -74,6 +74,7 @@
     <Compile Include="npcs\Bubbs.cs" />
     <Compile Include="passive_items\CloakOfStarryNight.cs" />
     <Compile Include="passive_items\Cull.cs" />
+    <Compile Include="passive_items\DetonationOrb.cs" />
     <Compile Include="passive_items\FatedAshes.cs" />
     <Compile Include="active_items\PerfectlyTimedStopwatch.cs" />
     <Compile Include="passive_items\Sheen.cs" />
@@ -1439,6 +1440,7 @@
     <EmbeddedResource Include="Resources\passive_item_sprites\cull_pixelart_sprite.png" />
     <EmbeddedResource Include="Resources\passive_item_sprites\tear_of_the_goddess_pixelart_sprite.png" />
     <EmbeddedResource Include="Resources\passive_item_sprites\sheen_pixelart_sprite.png" />
+    <EmbeddedResource Include="Resources\passive_item_sprites\detonation_orb_item_sprite.png" />
     <Content Include="Resources\Sounds\gen-gungeon-audio-bank.py" />
     <EmbeddedResource Include="Resources\active_item_sprites\redemption_item_sprite.png" />
     <EmbeddedResource Include="Resources\active_item_sprites\stridebreaker_item_sprite.png" />

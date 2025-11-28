@@ -68,7 +68,7 @@ namespace LOLItems
             Hubris.Init();
             KrakenSlayer.Init();
             LiandrysTorment.Init();
-            MuramanaSynergyActivation.Init();
+            //MuramanaSynergyActivation.Init();
             Manamune.Init();
             Muramana.Init();
             StatikkShiv.Init();
@@ -116,6 +116,8 @@ namespace LOLItems
             CloakOfStarryNight.Init();
             ZekesConvergence.Init();
             Redemption.Init();
+
+            DetonationOrb.Init();
 
 
             //low tier items

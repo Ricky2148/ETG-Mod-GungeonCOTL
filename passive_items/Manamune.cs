@@ -170,10 +170,15 @@ namespace LOLItems
             {
                 //player.AcquirePassiveItem(muramanasynergy);
                 //player.AcquirePassiveItem(muramana);
+
+                HelpfulMethods.CustomNotification("Manamune Upgraded to Muramana", "", muramanaItem.sprite, UINotificationController.NotificationColor.PURPLE);
+
                 player.RemovePassiveItem(this.PickupObjectId);
-                player.AcquirePassiveItem(PickupObjectDatabase.GetById(Muramana.ID) as PassiveItem);
-                player.GiveItem("LOLItems:manaflow_fully_stacked");
-                player.RemovePassiveItem(MuramanaSynergyActivation.ID);
+                //player.AcquirePassiveItem(PickupObjectDatabase.GetById(Muramana.ID) as PassiveItem);
+                player.GiveItem("LOLItems:muramana");
+
+                //player.GiveItem("LOLItems:manaflow_fully_stacked");
+                //player.RemovePassiveItem(MuramanaSynergyActivation.ID);
                 //player.PostProcessProjectile += MuramanaShock;
                 Plugin.Log("Manamune has been upgraded to Muramana");
             }

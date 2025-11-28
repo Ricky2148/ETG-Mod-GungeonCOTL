@@ -162,6 +162,19 @@ namespace LOLItems
             return 0f;
         }
 
+        public static void CustomNotification(string header, string text, tk2dBaseSprite sprite = null, UINotificationController.NotificationColor? color = null)
+        {
+            sprite ??= GameUIRoot.Instance.notificationController.notificationObjectSprite;
+            GameUIRoot.Instance.notificationController.DoCustomNotification(
+                header,
+                text,
+                sprite.Collection,
+                sprite.spriteId,
+                color ?? UINotificationController.NotificationColor.PURPLE,
+                false,
+                false);
+        }
+
         public static void AddItemToSynergy(this PickupObject obj, CustomSynergyType type)
         {
             AddItemToSynergy(type, obj.PickupObjectId);
