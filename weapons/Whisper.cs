@@ -27,9 +27,9 @@ namespace LOLItems.weapons
         public static int ID; //The Gun ID stored by the game.  Can be used by other functions to call your custom gun.
         public static string realName = "Whisper"; //The name that shows up in the Ammonomicon and the mod console.
 
-        private static int ammoStat = 88;
+        private static int ammoStat = 144;
         private static float reloadDuration = 2.5f;
-        private static float fireRateStat = 0.85f;
+        private static float fireRateStat = 1.3f;
         private static int spreadAngle = 0;
 
         private static float projectileDamageStat = 25f;
@@ -584,6 +584,7 @@ namespace LOLItems.weapons
                     break;
                 default:
                     Plugin.Log("something went wrong here LMAO");
+                    HelpfulMethods.PlayRandomSFX(player.CurrentGun.gameObject, normalFiringSFXList);
                     break;
             }
 

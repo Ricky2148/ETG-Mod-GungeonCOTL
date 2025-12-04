@@ -7,6 +7,7 @@ using Alexandria.ItemAPI;
 using Alexandria;
 
 // increase rarity, nerf execute gold amount with rng chance instead of guarantee
+// gold chance doesn't seem accurate
 
 namespace LOLItems
 {
