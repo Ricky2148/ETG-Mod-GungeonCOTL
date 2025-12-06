@@ -19,7 +19,7 @@ namespace LOLItems.active_items
         public static void Init()
         {
             string itemName = "Perfectly Timed Stopwatch";
-            string resourceName = "LOLItems/Resources/active_item_sprites/perfectly_timed_stopwatch_item_sprite";
+            string resourceName = "LOLItems/Resources/active_item_sprites/perfectly_timed_stopwatch_pixelart_sprite";
 
             GameObject obj = new GameObject(itemName);
 

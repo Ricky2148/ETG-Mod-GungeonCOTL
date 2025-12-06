@@ -741,8 +741,26 @@
     <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\vengencespear_fire_006.jtk2d" />
     <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\vengencespear_fire_007.jtk2d" />
     <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\vengencespear_fire_008.jtk2d" />
+    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\virtue_form1_fire_001.jtk2d" />
+    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\virtue_form1_fire_002.jtk2d" />
+    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\virtue_form1_fire_003.jtk2d" />
+    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\virtue_form1_fire_004.jtk2d" />
+    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\virtue_form1_fire_005.jtk2d" />
+    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\virtue_form1_fire_006.jtk2d" />
+    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\virtue_form1_fire_007.jtk2d" />
+    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\virtue_form1_fire_008.jtk2d" />
+    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\virtue_form1_idle_001.jtk2d" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\virtue_form1_fire_001.png" />
+    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\virtue_form1_fire_002.png" />
+    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\virtue_form1_fire_003.png" />
+    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\virtue_form1_fire_004.png" />
+    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\virtue_form1_fire_005.png" />
+    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\virtue_form1_fire_006.png" />
+    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\virtue_form1_fire_007.png" />
+    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\virtue_form1_fire_008.png" />
+    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\virtue_form1_idle_001.png" />
     <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\vengencespear_fire_008.png" />
     <EmbeddedResource Include="Resources\weapon_sprites\ProjectileCollection\vengencespear_projectile_spearonly.png" />
     <EmbeddedResource Include="Resources\weapon_sprites\CustomGunAmmoTypes\fishbones_clipempty_nooutline.png" />
@@ -1441,6 +1459,9 @@
     <EmbeddedResource Include="Resources\passive_item_sprites\tear_of_the_goddess_pixelart_sprite.png" />
     <EmbeddedResource Include="Resources\passive_item_sprites\sheen_pixelart_sprite.png" />
     <EmbeddedResource Include="Resources\passive_item_sprites\detonation_orb_item_sprite.png" />
+    <EmbeddedResource Include="Resources\active_item_sprites\perfectly_timed_stopwatch_pixelart_sprite.png" />
+    <EmbeddedResource Include="Resources\passive_item_sprites\detonation_orb_pixelart_sprite.png" />
+    <EmbeddedResource Include="Resources\passive_item_sprites\detonation_orb_pixelart_sprite_nosparks.png" />
     <Content Include="Resources\Sounds\gen-gungeon-audio-bank.py" />
     <EmbeddedResource Include="Resources\active_item_sprites\redemption_item_sprite.png" />
     <EmbeddedResource Include="Resources\active_item_sprites\stridebreaker_item_sprite.png" />

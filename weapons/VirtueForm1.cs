@@ -52,7 +52,7 @@ namespace LOLItems.weapons
         public static void Add()
         {
             string FULLNAME = realName;
-            string SPRITENAME = "tempgun";
+            string SPRITENAME = "virtue_form1";
             internalName = $"LOLItems:{FULLNAME.ToID()}";
             Gun gun = ETGMod.Databases.Items.NewGun(FULLNAME, SPRITENAME);
             Game.Items.Rename($"outdated_gun_mods:{FULLNAME.ToID()}", internalName);
@@ -60,10 +60,10 @@ namespace LOLItems.weapons
             gun.SetShortDescription("idk");
             gun.SetLongDescription("idk");
 
-            gun.SetupSprite(null, "tempgun_idle_001", 8);
+            gun.SetupSprite(null, $"{SPRITENAME}_idle_001", 8);
 
-            gun.SetAnimationFPS(gun.shootAnimation, 12);
-            gun.SetAnimationFPS(gun.reloadAnimation, 10);
+            gun.SetAnimationFPS(gun.shootAnimation, 10);
+            //gun.SetAnimationFPS(gun.reloadAnimation, 10);
 
             gun.AddProjectileModuleFrom(PickupObjectDatabase.GetById((int)Items.MarineSidearm) as Gun, true, false);
             gun.muzzleFlashEffects = null; //(PickupObjectDatabase.GetById((int)Items.MarineSidearm) as Gun).muzzleFlashEffects;

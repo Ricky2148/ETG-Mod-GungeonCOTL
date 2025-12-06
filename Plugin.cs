@@ -105,7 +105,7 @@ namespace LOLItems
             PrayerBeads.Add();
             Whisper.Add();
             Crossblade.Add();
-            //VirtueForm1.Add();
+            VirtueForm1.Add();
             //VirtueForm2.Add();
             //VirtueForm3.Add();
             SoulSpear.Add();
