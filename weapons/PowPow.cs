@@ -89,7 +89,7 @@ namespace LOLItems.weapons
             /* You can also manually assign the FPS of indivisual animations, below are some examples.
              * Note that if your animation takes too long it might not get to finish, like if your reload animation takes longer than the act of reloading. */
             gun.SetAnimationFPS(gun.shootAnimation, firingAnimationFPS);
-            gun.SetAnimationFPS(gun.reloadAnimation, 20);
+            //gun.SetAnimationFPS(gun.reloadAnimation, 20);
             
             /* You can also optionally add an intro animation that plays when picking up the gun by using the below line and also set the FPS the same as above. */
             

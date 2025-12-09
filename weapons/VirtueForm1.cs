@@ -24,7 +24,7 @@ namespace LOLItems.weapons
         private static int ammoStat = 750;
         private static float reloadDuration = 1.0f;
         private static float fireRateStat = 0.8f;
-        private static int spreadAngle = 5;
+        private static int spreadAngle = 0;
 
         private Gun NextFormWeapon;
 
@@ -63,6 +63,7 @@ namespace LOLItems.weapons
             gun.SetupSprite(null, $"{SPRITENAME}_idle_001", 8);
 
             gun.SetAnimationFPS(gun.shootAnimation, 10);
+            gun.SetAnimationFPS(gun.alternateShootAnimation, 10);
             //gun.SetAnimationFPS(gun.reloadAnimation, 10);
 
             gun.AddProjectileModuleFrom(PickupObjectDatabase.GetById((int)Items.MarineSidearm) as Gun, true, false);
@@ -73,8 +74,8 @@ namespace LOLItems.weapons
             SoundManager.AddCustomSwitchData("WPN_Guns", gun.gunSwitchGroup, "Play_WPN_Gun_Reload_01", null);
 
             gun.DefaultModule.angleVariance = spreadAngle;
-            gun.DefaultModule.shootStyle = ProjectileModule.ShootStyle.Automatic;
-            gun.gunClass = GunClass.FULLAUTO;
+            gun.DefaultModule.shootStyle = ProjectileModule.ShootStyle.SemiAutomatic;
+            gun.gunClass = GunClass.RIFLE;
             gun.DefaultModule.sequenceStyle = ProjectileModule.ProjectileSequenceStyle.Random;
             gun.DefaultModule.ammoCost = 1;
             gun.reloadTime = reloadDuration;
@@ -82,11 +83,13 @@ namespace LOLItems.weapons
             gun.DefaultModule.numberOfShotsInClip = ammoStat;
             gun.SetBaseMaxAmmo(ammoStat);
 
-            gun.gunHandedness = GunHandedness.OneHanded;
+            gun.gunHandedness = GunHandedness.TwoHanded;
 
-            gun.carryPixelOffset += new IntVector2(0, 0);
+            gun.carryPixelOffset += new IntVector2(12, 0); //offset when holding gun vertically
+            gun.carryPixelDownOffset += new IntVector2(0, 0); //offset when aiming down
+            gun.carryPixelUpOffset += new IntVector2(0, 0); //offset when aiming up
 
-            gun.barrelOffset.transform.localPosition += new Vector3(0 / 16f, 0 / 16f);
+            gun.barrelOffset.transform.localPosition += new Vector3(64 / 16f, 52 / 16f);
 
             gun.gunScreenShake.magnitude = 0f;
 
@@ -103,6 +106,10 @@ namespace LOLItems.weapons
             projectile.baseData.force = projectileForceStat;
             projectile.transform.parent = gun.barrelOffset;
             projectile.shouldRotate = true;
+
+            gun.DefaultModule.ammoType = GameUIAmmoType.AmmoType.CUSTOM;
+            gun.DefaultModule.customAmmoType = CustomClipAmmoTypeToolbox.AddCustomAmmoType("virtue_form1_ammo",
+                "LOLItems/Resources/weapon_sprites/CustomGunAmmoTypes/virtue_form1_ammo_full", "LOLItems/Resources/weapon_sprites/CustomGunAmmoTypes/virtue_form1_ammo_empty");
 
             gun.shellsToLaunchOnFire = 0;
             gun.shellsToLaunchOnReload = 0;
@@ -130,6 +137,13 @@ namespace LOLItems.weapons
             Plugin.Log($"dropped up {realName}");
 
             base.OnDropped();
+        }
+
+        public override void OnPostFired(PlayerController player, Gun gun)
+        {
+            BraveUtility.Swap(ref this.gun.shootAnimation, ref this.gun.alternateShootAnimation);
+
+            base.OnPostFired(player, gun);
         }
 
         private void KillEnemyCount(float damage, bool fatal, HealthHaver enemyHealth)

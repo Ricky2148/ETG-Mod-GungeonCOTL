@@ -748,18 +748,29 @@
     <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\virtue_form1_fire_005.jtk2d" />
     <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\virtue_form1_fire_006.jtk2d" />
     <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\virtue_form1_fire_007.jtk2d" />
-    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\virtue_form1_fire_008.jtk2d" />
+    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\virtue_form1_alternate_shoot_001.jtk2d" />
+    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\virtue_form1_alternate_shoot_002.jtk2d" />
+    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\virtue_form1_alternate_shoot_003.jtk2d" />
+    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\virtue_form1_alternate_shoot_004.jtk2d" />
+    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\virtue_form1_alternate_shoot_005.jtk2d" />
+    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\virtue_form1_alternate_shoot_006.jtk2d" />
     <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\virtue_form1_idle_001.jtk2d" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Resources\weapon_sprites\CustomGunAmmoTypes\virtue_form1_ammo_empty.png" />
+    <EmbeddedResource Include="Resources\weapon_sprites\CustomGunAmmoTypes\virtue_form1_ammo_full.png" />
+    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\virtue_form1_alternate_shoot_001.png" />
+    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\virtue_form1_alternate_shoot_002.png" />
+    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\virtue_form1_alternate_shoot_003.png" />
+    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\virtue_form1_alternate_shoot_004.png" />
+    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\virtue_form1_alternate_shoot_005.png" />
+    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\virtue_form1_alternate_shoot_006.png" />
     <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\virtue_form1_fire_001.png" />
     <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\virtue_form1_fire_002.png" />
     <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\virtue_form1_fire_003.png" />
     <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\virtue_form1_fire_004.png" />
     <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\virtue_form1_fire_005.png" />
     <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\virtue_form1_fire_006.png" />
-    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\virtue_form1_fire_007.png" />
-    <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\virtue_form1_fire_008.png" />
     <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\virtue_form1_idle_001.png" />
     <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\vengencespear_fire_008.png" />
     <EmbeddedResource Include="Resources\weapon_sprites\ProjectileCollection\vengencespear_projectile_spearonly.png" />

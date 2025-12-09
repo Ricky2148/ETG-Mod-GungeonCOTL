@@ -60,7 +60,7 @@ namespace LOLItems.weapons
             gun.SetupSprite(null, $"{SPRITENAME}_idle_001", 8);
 
             gun.SetAnimationFPS(gun.shootAnimation, 18);
-            gun.SetAnimationFPS(gun.reloadAnimation, 20);
+            //gun.SetAnimationFPS(gun.reloadAnimation, 20);
 
             gun.AddProjectileModuleFrom(PickupObjectDatabase.GetById((int)Items.MarineSidearm) as Gun, true, false);
             gun.muzzleFlashEffects = null; //(PickupObjectDatabase.GetById((int)Items.MarineSidearm) as Gun).muzzleFlashEffects;

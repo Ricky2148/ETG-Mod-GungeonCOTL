@@ -112,7 +112,7 @@ namespace LOLItems.weapons
 
             gun.SetAnimationFPS(gun.shootAnimation, 17);
 
-            gun.SetAnimationFPS(gun.reloadAnimation, 12);
+            //gun.SetAnimationFPS(gun.reloadAnimation, 12);
 
             gun.AddProjectileModuleFrom(PickupObjectDatabase.GetById((int)Items._38Special) as Gun, true, false);
             gun.muzzleFlashEffects = null;

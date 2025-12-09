@@ -21,10 +21,10 @@
       "angle": 0.0
     },
     {
-      "name": "Casing",
+      "name": "SecondaryHand",
       "position": {
-        "x": 0.5625,
-        "y": 0.375,
+        "x": 2.125,
+        "y": 3.4375,
         "z": 0.0
       },
       "angle": 0.0

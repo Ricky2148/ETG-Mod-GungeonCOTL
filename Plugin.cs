@@ -117,9 +117,6 @@ namespace LOLItems
             ZekesConvergence.Init();
             Redemption.Init();
 
-            DetonationOrb.Init();
-
-
             //low tier items
             Sheen.Init();
             FatedAshes.Init();
@@ -127,6 +124,8 @@ namespace LOLItems
             PerfectlyTimedStopwatch.Init();
             TearOfTheGoddess.Init();
 
+            //next update items
+            //DetonationOrb.Init();
 
             //npcs?
             Bubbs.Init();

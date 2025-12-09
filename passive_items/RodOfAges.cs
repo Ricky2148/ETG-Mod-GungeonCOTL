@@ -92,6 +92,8 @@ namespace LOLItems
             Plugin.Log("Rod of Ages has reached max Timeless stacks");
             ItemBuilder.AddPassiveStatModifier(this, PlayerStats.StatType.Health, TimelessMaxStackHealthIncrease, StatModifier.ModifyMethod.ADDITIVE);
 
+            HelpfulMethods.CustomNotification("Rod of Ages has achieved Eternity!", "", this.sprite, UINotificationController.NotificationColor.PURPLE);
+
             player.OnReceivedDamage += EternityEffect;
         }
 

@@ -142,6 +142,11 @@ namespace LOLItems.passive_items
             yield return new WaitForSeconds(PullTheirStringsCooldown);
             isOnCooldown = false;
             enemyCharmStacks.Clear();
+
+            tk2dBaseSprite s = this.sprite;
+            GameUIRoot.Instance.RegisterDefaultLabel(s.transform, new Vector3(s.GetBounds().max.x + 0f, s.GetBounds().min.y + 0f, 0f), $"{this.EncounterNameOrDisplayName} ready");
+            yield return new WaitForSeconds(1.5f);
+            GameUIRoot.Instance.DeregisterDefaultLabel(s.transform);
             yield break;
         }
     }

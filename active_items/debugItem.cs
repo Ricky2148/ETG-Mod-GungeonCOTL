@@ -89,16 +89,16 @@ namespace LOLItems
 
         public override void DoEffect(PlayerController player)
         {
-            //StartCoroutine(EffectCoroutine(player));
+            StartCoroutine(EffectCoroutine(player));
 
-            HelpfulMethods.CustomNotification("smth1", "smth2", this.sprite);
+            //HelpfulMethods.CustomNotification("smth1", "smth2", this.sprite);
 
             Plugin.Log("debug item finished");
         }
 
         private System.Collections.IEnumerator EffectCoroutine(PlayerController player)
         {
-            Material mat = SpriteOutlineManager.GetOutlineMaterial(player.sprite);
+            /*Material mat = SpriteOutlineManager.GetOutlineMaterial(player.sprite);
             if (mat)
             {
                 mat.SetColor("_OverrideColor", new Color(255f * 0.3f, 180f * 0.3f, 18f * 0.3f));
@@ -107,7 +107,18 @@ namespace LOLItems
             if (mat)
             {
                 mat.SetColor("_OverrideColor", new Color(0f, 0f, 0f));
-            }
+            }*/
+
+            tk2dBaseSprite s = this.sprite;
+
+            //GameUIRoot.Instance.RegisterDefaultLabel(s.transform, new Vector3(s.GetBounds().max.x + 0f, s.GetBounds().min.y + 0f, 0f), "something message here");
+
+            GameUIRoot.Instance.RegisterDefaultLabel(s.transform, new Vector3(s.GetBounds().max.x - 1f, s.GetBounds().min.y - 2f, 0f), "something message here");
+
+
+            yield return new WaitForSeconds(5f);
+
+            GameUIRoot.Instance.DeregisterDefaultLabel(s.transform);
         }
 
         /*private System.Collections.IEnumerator StasisCoroutine(PlayerController player)
