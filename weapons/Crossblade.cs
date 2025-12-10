@@ -155,14 +155,14 @@ namespace LOLItems.weapons
             // Whether each frame should have a bit of glow.
             List<bool> projectileLighteneds = new List<bool>
             {
-                true,
-                true,
-                true,
-                true,
-                true,
-                true,
-                true,
-                true,
+                false,
+                false,
+                false,
+                false,
+                false,
+                false,
+                false,
+                false,
             };
             // Sprite anchor list.
             List<tk2dBaseSprite.Anchor> projectileAnchors = new List<tk2dBaseSprite.Anchor>

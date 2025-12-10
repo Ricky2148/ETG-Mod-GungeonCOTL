@@ -107,6 +107,101 @@ namespace LOLItems.weapons
             projectile.transform.parent = gun.barrelOffset;
             projectile.shouldRotate = true;
 
+            projectile.SetProjectileSpriteRight("virtue_green_projectile_001", 20, 6, true, tk2dBaseSprite.Anchor.MiddleCenter, 16, 5);
+
+            // A list of filenames in the sprites/ProjectileCollection folder for each frame in the animation, extension not required.
+            List<string> projectileSpriteNames = new List<string>
+            {
+                "virtue_green_projectile_001",
+                "virtue_green_projectile_002",
+                "virtue_green_projectile_003",
+                "virtue_green_projectile_004",
+            };
+            // Animation FPS.
+            int projectileFPS = 8;
+            // Visual sprite size for each frame.  Sprite images will stretch to match these sizes.
+            List<IntVector2> projectileSizes = new List<IntVector2>
+            {
+                new IntVector2(20, 6), //1
+                new IntVector2(20, 6), //2
+                new IntVector2(20, 6), //3
+                new IntVector2(20, 6), //4
+            };
+            // Whether each frame should have a bit of glow.
+            List<bool> projectileLighteneds = new List<bool>
+            {
+                true,
+                true,
+                true,
+                true,
+            };
+            // Sprite anchor list.
+            List<tk2dBaseSprite.Anchor> projectileAnchors = new List<tk2dBaseSprite.Anchor>
+            {
+                tk2dBaseSprite.Anchor.MiddleCenter,
+                tk2dBaseSprite.Anchor.MiddleCenter,
+                tk2dBaseSprite.Anchor.MiddleCenter,
+                tk2dBaseSprite.Anchor.MiddleCenter,
+            };
+            // Whether or not the anchors should affect the hitboxees.
+            List<bool> projectileAnchorsChangeColiders = new List<bool>
+            {
+                false,
+                false,
+                false,
+                false,
+            };
+            // Unknown, doesn't appear to matter so leave as false. 
+            List<bool> projectilefixesScales = new List<bool>
+            {
+                false,
+                false,
+                false,
+                false,
+            };
+            // Manual Offsets for each sprite if needed.
+            List<Vector3?> projectileManualOffsets = new List<Vector3?>
+            {
+                Vector2.zero,
+                Vector2.zero,
+                Vector2.zero,
+                Vector2.zero,
+            };
+            // Override the projectile hitboxes on each frame.  Either null (same as visuals) or slightly smaller than the visuals is most common.
+            List<IntVector2?> projectileOverrideColliderSizes = new List<IntVector2?>
+            {
+                new IntVector2(16, 5), //1
+                new IntVector2(16, 5), //2
+                new IntVector2(16, 5), //3
+                new IntVector2(16, 5), //4
+            };
+            // Manually assign the projectile offsets.
+            List<IntVector2?> projectileOverrideColliderOffsets = new List<IntVector2?>
+            {
+                null,
+                null,
+                null,
+                null,
+            };
+            // Copy another projectile each frame.
+            List<Projectile> projectileOverrideProjectilesToCopyFrom = new List<Projectile>
+            {
+                null,
+                null,
+                null,
+                null,
+            };
+            // Your animations wrap mode. If you just want it to do a looping animation, leave it as Loop. Only useful for when adding multiple differing animations.
+            tk2dSpriteAnimationClip.WrapMode ProjectileWrapMode = tk2dSpriteAnimationClip.WrapMode.Loop;
+            // Optionally, you can give your animations a clip name. Only useful for when adding multiple differing animations.
+            //string projectileClipName = "projectileName"; 
+            // Optionally, you can assign an animation as the default one that plays.  Only useful for when adding multiple differing animations.  If left as null then it will use the most recently added animation.
+            //string projectileDefaultClipName = "projectileName"; 
+
+            projectile.AddAnimationToProjectile(projectileSpriteNames, projectileFPS, projectileSizes, projectileLighteneds, projectileAnchors, projectileAnchorsChangeColiders, projectilefixesScales,
+                                                projectileManualOffsets, projectileOverrideColliderSizes, projectileOverrideColliderOffsets, projectileOverrideProjectilesToCopyFrom, ProjectileWrapMode);
+
+
             gun.DefaultModule.ammoType = GameUIAmmoType.AmmoType.CUSTOM;
             gun.DefaultModule.customAmmoType = CustomClipAmmoTypeToolbox.AddCustomAmmoType("virtue_form1_ammo",
                 "LOLItems/Resources/weapon_sprites/CustomGunAmmoTypes/virtue_form1_ammo_full", "LOLItems/Resources/weapon_sprites/CustomGunAmmoTypes/virtue_form1_ammo_empty");

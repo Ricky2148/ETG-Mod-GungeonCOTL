@@ -53,7 +53,7 @@ namespace LOLItems.active_items
             
             item.usableDuringDodgeRoll = true;
             
-            item.quality = PickupObject.ItemQuality.S;
+            item.quality = PickupObject.ItemQuality.A;
             ID = item.PickupObjectId;
         }
 

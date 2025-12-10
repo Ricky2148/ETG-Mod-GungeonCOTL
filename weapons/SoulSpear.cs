@@ -91,7 +91,7 @@ namespace LOLItems.weapons
                 "and traitors. It was said that once you were made the focus of her wrath, there was nothing you could do but offer up your soul.\n" +
                 "These soul spears impale themselves onto the target and can be recalled out at will, inflicting even more suffering.\n\n" +
                 "Every attacks forces the player to either stay still or dash. You are invulnerable during the dash.\n" +
-                "Press reload to recall the spears.\n");
+                "Press reload to recall the spears and deal damage.\n");
 
             gun.SetupSprite(null, $"{SPRITENAME}_idle_001", 8);
 

@@ -16,7 +16,7 @@ namespace LOLItems
         private static float TimelessDamageIncrementValue = 0.02f;
         private static float TimelessIncreaseMax = 0.75f;
         private static float TimelessIncrementValue = 0.05f;
-        private static float TimelessIncrementTimeInterval = 60f; // seconds
+        private static float TimelessIncrementTimeInterval = 120f; // seconds
         private int TimelessStackCount = 0;
         private static float TimelessMaxStackHealthIncrease = 1f;
 
@@ -77,7 +77,7 @@ namespace LOLItems
                 ItemBuilder.RemovePassiveStatModifier(this, PlayerStats.StatType.AdditionalClipCapacityMultiplier);
 
                 TimelessStackCount++;
-                Plugin.Log($"Rod of Ages Timeless Stack Count: {TimelessStackCount}");
+                //Plugin.Log($"Rod of Ages Timeless Stack Count: {TimelessStackCount}");
 
                 // apply new increased stat mods
                 ItemBuilder.AddPassiveStatModifier(this, PlayerStats.StatType.Damage, 1f + (TimelessDamageIncrementValue * TimelessStackCount), StatModifier.ModifyMethod.MULTIPLICATIVE);
@@ -89,7 +89,7 @@ namespace LOLItems
             }
 
             // when at max stacks, increase health and provide eternity effect
-            Plugin.Log("Rod of Ages has reached max Timeless stacks");
+            //Plugin.Log("Rod of Ages has reached max Timeless stacks");
             ItemBuilder.AddPassiveStatModifier(this, PlayerStats.StatType.Health, TimelessMaxStackHealthIncrease, StatModifier.ModifyMethod.ADDITIVE);
 
             HelpfulMethods.CustomNotification("Rod of Ages has achieved Eternity!", "", this.sprite, UINotificationController.NotificationColor.PURPLE);

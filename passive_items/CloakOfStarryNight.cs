@@ -15,7 +15,7 @@ namespace LOLItems.passive_items
     internal class CloakOfStarryNight : OnPreDamagedPassiveItem
     {
         private static float HealthStat = 1f;
-        private static int ArmorStat = 1;
+        private static int ArmorStat = 0;
 
         private static float preDamageProcChance = 0.1f;
         private static float synergyProcChance = 0.3f;

@@ -757,6 +757,10 @@
     <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\virtue_form1_idle_001.jtk2d" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Resources\weapon_sprites\ProjectileCollection\virtue_green_projectile_001.png" />
+    <EmbeddedResource Include="Resources\weapon_sprites\ProjectileCollection\virtue_green_projectile_002.png" />
+    <EmbeddedResource Include="Resources\weapon_sprites\ProjectileCollection\virtue_green_projectile_003.png" />
+    <EmbeddedResource Include="Resources\weapon_sprites\ProjectileCollection\virtue_green_projectile_004.png" />
     <EmbeddedResource Include="Resources\weapon_sprites\CustomGunAmmoTypes\virtue_form1_ammo_empty.png" />
     <EmbeddedResource Include="Resources\weapon_sprites\CustomGunAmmoTypes\virtue_form1_ammo_full.png" />
     <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\virtue_form1_alternate_shoot_001.png" />
@@ -1457,13 +1461,7 @@
     <Content Include="packages\Newtonsoft.Json.13.0.1\lib\netstandard2.0\Newtonsoft.Json.dll" />
     <Content Include="packages\Newtonsoft.Json.13.0.1\lib\netstandard2.0\Newtonsoft.Json.xml" />
     <Content Include="packages\Newtonsoft.Json.13.0.1\packageIcon.png" />
-    <EmbeddedResource Include="Resources\passive_item_sprites\cull_item_sprite.png" />
-    <EmbeddedResource Include="Resources\passive_item_sprites\fated_ashes_item_sprite.png" />
     <EmbeddedResource Include="Resources\active_item_sprites\perfectly_timed_stopwatch_item_sprite.png" />
-    <EmbeddedResource Include="Resources\passive_item_sprites\sheen_item_sprite.png" />
-    <EmbeddedResource Include="Resources\passive_item_sprites\tear_of_the_goddess_item_sprite.png" />
-    <EmbeddedResource Include="Resources\passive_item_sprites\shield_of_molten_stone_pixelart_sprite.png" />
-    <EmbeddedResource Include="Resources\passive_item_sprites\cloak_of_starry_night_pixelart_sprite.png" />
     <EmbeddedResource Include="Resources\passive_item_sprites\cloak_of_starry_night_pixelart_sprite_outline.png" />
     <EmbeddedResource Include="Resources\passive_item_sprites\shield_of_molten_stone_pixelart_sprite_outline.png" />
     <EmbeddedResource Include="Resources\passive_item_sprites\cull_pixelart_sprite.png" />
@@ -1473,6 +1471,7 @@
     <EmbeddedResource Include="Resources\active_item_sprites\perfectly_timed_stopwatch_pixelart_sprite.png" />
     <EmbeddedResource Include="Resources\passive_item_sprites\detonation_orb_pixelart_sprite.png" />
     <EmbeddedResource Include="Resources\passive_item_sprites\detonation_orb_pixelart_sprite_nosparks.png" />
+    <EmbeddedResource Include="Resources\passive_item_sprites\fated_ashes_pixelart_sprite.png" />
     <Content Include="Resources\Sounds\gen-gungeon-audio-bank.py" />
     <EmbeddedResource Include="Resources\active_item_sprites\redemption_item_sprite.png" />
     <EmbeddedResource Include="Resources\active_item_sprites\stridebreaker_item_sprite.png" />

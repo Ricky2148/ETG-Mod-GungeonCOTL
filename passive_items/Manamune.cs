@@ -22,7 +22,7 @@ namespace LOLItems
         private static float DamageStat = 1.05f;
         private static float ManaflowIncreaseMax = 0.5f;
         private static float ManaflowIncrementValue = 0.05f;
-        private static float ManaflowIncrementKillReq = 15f;
+        private static float ManaflowIncrementKillReq = 25f;
         private static float MuramanaShockBaseDamage = 5f;
         private float CurrentManaflowKillCount = 0f;
         private int ManaflowStackCount = 0;

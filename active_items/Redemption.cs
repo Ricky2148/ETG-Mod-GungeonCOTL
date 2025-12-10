@@ -214,8 +214,8 @@ namespace LOLItems
                 sprite.renderer.material.SetFloat("_Fade", 0.8f);
             }
 
-            ItemBuilder.SetCooldownType(item, ItemBuilder.CooldownType.Timed, 1f);
-            //ItemBuilder.SetCooldownType(item, ItemBuilder.CooldownType.PerRoom, InterventionPerRoomCooldown);
+            //ItemBuilder.SetCooldownType(item, ItemBuilder.CooldownType.Timed, 1f);
+            ItemBuilder.SetCooldownType(item, ItemBuilder.CooldownType.PerRoom, InterventionPerRoomCooldown);
             item.consumable = false;
 
             item.minDistance = 0f;

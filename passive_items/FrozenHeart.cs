@@ -18,7 +18,7 @@ namespace LOLItems
         // stats pool for item
         private static int ArmorStat = 1;
 
-        private static float WintersCaressCrippleRatio = 0.8f;
+        private static float WintersCaressCrippleRatio = 0.7f;
         private static float WintersCaressRange = 8f;
 
         public static int ID;

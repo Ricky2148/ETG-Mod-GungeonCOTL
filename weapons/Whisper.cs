@@ -766,7 +766,7 @@ namespace LOLItems.weapons
                 //ItemBuilder.RemoveCurrentGunStatModifier(gun, PlayerStats.StatType.Damage);
                 ItemBuilder.AddCurrentGunStatModifier(gun, PlayerStats.StatType.Damage, fireRateMod, StatModifier.ModifyMethod.MULTIPLICATIVE);
 
-                Plugin.Log($"applied rate of fire mod: {1f / fireRateMod}");
+                //Plugin.Log($"applied rate of fire mod: {1f / fireRateMod}");
                 //player.stats.RecalculateStats(player, true, false);
                 player.stats.RecalculateStatsWithoutRebuildingGunVolleys(player);
             }
