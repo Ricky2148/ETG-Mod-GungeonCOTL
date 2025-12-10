@@ -1,3 +1,7 @@
+check if heart increases work with armor only characters
+
+check if guardian angel rebirth effect is reenabled on a new run
+
 ﻿NEW ITEMS:
 
 IMPLEMENTED frozen heart: armor, ammo/clip capacity, decreases enemy fire rate in radius around player
