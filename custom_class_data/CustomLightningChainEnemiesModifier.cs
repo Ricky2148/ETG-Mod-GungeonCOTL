@@ -19,7 +19,7 @@ public class CustomLightningChainEnemiesModifier : BraveBehaviour
 
     public float damagePerHit;
 
-    public float damageCooldown = 1f;
+    public float damageCooldown = 0.1f;
 
     public float maxLinkCount;
 
@@ -90,12 +90,12 @@ public class CustomLightningChainEnemiesModifier : BraveBehaviour
         List<AIActor> chain = ChainEnemies(firstEnemy.CenterPosition);
 
         //if (PlaysSFX) PlayLightningSFX(firstEnemy);
-        if (PlaysSFX) HelpfulMethods.PlayRandomSFX(firstEnemy, sfxPath);
+        if (PlaysSFX) HelpfulMethods.PlayRandomSFX(firstEnemy.gameObject, sfxPath);
 
         if (chain.Count > 0)
         {
             // Include the initial enemy as the first link
-            chain.Insert(0, firstEnemy);
+            //chain.Insert(0, firstEnemy);
             UpdateLinkChain(chain);
         }
     }
@@ -163,14 +163,17 @@ public class CustomLightningChainEnemiesModifier : BraveBehaviour
             Destroy(vfxObj, 0.25f);
 
             // Damage enemy (with cooldown so they don’t get hit every frame)
+            //Plugin.Log($"Chaining damage to enemy {enemy.EnemyGuid}");
             if (!m_damagedEnemies.Contains(enemy))
             {
                 enemy.healthHaver.ApplyDamage(damagePerHit, Vector2.zero, "Chain Lightning", damageTypes);
-                if(UsesDispersalParticles)
+                m_damagedEnemies.Add(enemy);
+
+                if (UsesDispersalParticles)
                 {
                     DoDispersalParticles(prevPos, endPos);
                 }
-                GameManager.Instance.StartCoroutine(HandleDamageCooldown(enemy));
+                //GameManager.Instance.StartCoroutine(HandleDamageCooldown(enemy));
             }
 
             // Move chain forward

@@ -6,8 +6,11 @@ using Alexandria.ItemAPI;
 using UnityEngine;
 using Alexandria;
 using LOLItems.custom_class_data;
+using Alexandria.Misc;
 
 //add vfx and sfx during revive duration
+// sometimes can get hit immediately after revive ends, add extra iframes?
+// has a bug where the player gets stuck in last animation after invul ends, bug gets fixed by simply dodge rolling
 
 namespace LOLItems
 {
@@ -17,6 +20,9 @@ namespace LOLItems
         private static float DamageStat = 1.25f;
         private static int ArmorStat = 2;
         private bool hasRevived = false;
+
+        public static int ID;
+
         public static void Init()
         {
             string itemName = "Guardian Angel";
@@ -39,6 +45,7 @@ namespace LOLItems
             item.ArmorToGainOnInitialPickup = ArmorStat;
 
             item.quality = PickupObject.ItemQuality.S;
+            ID = item.PickupObjectId;
         }
 
         // subscribe to the player events
@@ -71,7 +78,8 @@ namespace LOLItems
         private System.Collections.IEnumerator ReviveCoroutine(PlayerController player)
         {
             // makes player character invulnerable, reset health, take no inputs from player, and remove revive effect
-            player.healthHaver.TriggerInvulnerabilityPeriod(4f);
+            player.healthHaver.TriggerInvulnerabilityPeriod(4.1f);
+            //player.TriggerInvulnerableFrames(4.1f);
             player.healthHaver.ForceSetCurrentHealth(player.healthHaver.GetMaxHealth() / 2);
             player.CurrentInputState = PlayerInputState.NoInput;
             player.healthHaver.OnPreDeath -= Rebirth;
@@ -81,6 +89,12 @@ namespace LOLItems
 
             player.sprite.color = ExtendedColours.paleYellow;
             player.CurrentGun.sprite.color = ExtendedColours.paleYellow;
+
+            Material mat = SpriteOutlineManager.GetOutlineMaterial(player.sprite);
+            if (mat)
+            {
+                mat.SetColor("_OverrideColor", new Color(242f * 0.7f, 238f * 0.7f, 148f * 0.7f));
+            }
 
             AkSoundEngine.PostEvent("guardian_angel_passive_SFX", GameManager.Instance.gameObject);
 
@@ -93,6 +107,11 @@ namespace LOLItems
 
             player.sprite.color = originalPlayerColor;
             player.CurrentGun.sprite.color = originalGunColor;
+
+            if (mat)
+            {
+                mat.SetColor("_OverrideColor", new Color(0f, 0f, 0f));
+            }
 
             // trigger blank to push away enemies and clear bullets, restore input, and remove invulerability
             player.ForceBlank();

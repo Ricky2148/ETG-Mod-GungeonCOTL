@@ -1,11 +1,13 @@
-﻿using System;
+﻿using Alexandria;
+using Alexandria.ItemAPI;
+using Alexandria.Misc;
+using Alexandria.VisualAPI;
+using Dungeonator;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Alexandria.ItemAPI;
-using Alexandria;
 using UnityEngine;
-using Dungeonator;
 
 //health, dmg, and fire rate, active attacks in a circle around player, slows enemies hit and deals set dmg
 
@@ -25,7 +27,33 @@ namespace LOLItems
         private static float slowDuration = 3f;
         private static float ShockwaveBaseDamage = 10f;
         private static float ShockwaveRadius = 6f;
-        private static float ShockwaveCooldown = 15f;
+        private static float ShockwaveCooldown = 15f; //15f
+
+        private static GameObject slashVFX = ((Gun)PickupObjectDatabase.GetById(417))
+                .DefaultModule.projectiles[0]
+                .hitEffects.tileMapHorizontal.effects[0]
+                .effects[0].effect;
+
+        private static List<string> VFXSpritePath = new List<string>
+            {
+                "LOLItems/Resources/vfxs/breakingshockwave/breakingshockwave_001",
+                "LOLItems/Resources/vfxs/breakingshockwave/breakingshockwave_002",
+                "LOLItems/Resources/vfxs/breakingshockwave/breakingshockwave_003",
+                "LOLItems/Resources/vfxs/breakingshockwave/breakingshockwave_004",
+                "LOLItems/Resources/vfxs/breakingshockwave/breakingshockwave_005",
+                "LOLItems/Resources/vfxs/breakingshockwave/breakingshockwave_006",
+                "LOLItems/Resources/vfxs/breakingshockwave/breakingshockwave_007",
+                "LOLItems/Resources/vfxs/breakingshockwave/breakingshockwave_008",
+                "LOLItems/Resources/vfxs/breakingshockwave/breakingshockwave_009",
+                "LOLItems/Resources/vfxs/breakingshockwave/breakingshockwave_010",
+                "LOLItems/Resources/vfxs/breakingshockwave/breakingshockwave_011"
+            };
+
+        private static GameObject EffectVFX;
+
+        private GameObject activeVFXObject;
+
+        public static int ID;
 
         public static void Init()
         {
@@ -51,8 +79,24 @@ namespace LOLItems
             ItemBuilder.SetCooldownType(item, ItemBuilder.CooldownType.Timed, ShockwaveCooldown);
             item.consumable = false;
 
+            EffectVFX = VFXBuilder.CreateVFX
+            (
+                "breakingshockwave",
+                VFXSpritePath,
+                30,
+                new IntVector2(0, 0),
+                tk2dBaseSprite.Anchor.MiddleCenter,
+                false,
+                0,
+                -1,
+                Color.cyan,
+                tk2dSpriteAnimationClip.WrapMode.Once,
+                true
+            );
+
             item.usableDuringDodgeRoll = true;
             item.quality = PickupObject.ItemQuality.A;
+            ID = item.PickupObjectId;
         }
 
         // subscribe to the player events
@@ -69,7 +113,9 @@ namespace LOLItems
             ItemBuilder.RemovePassiveStatModifier(this, PlayerStats.StatType.Damage);
             ItemBuilder.RemovePassiveStatModifier(this, PlayerStats.StatType.RateOfFire);
             ItemBuilder.RemovePassiveStatModifier(this, PlayerStats.StatType.Health);
-            player.stats.RecalculateStats(player, false, false);
+            //player.stats.RecalculateStats(player, false, false);
+            player.stats.RecalculateStatsWithoutRebuildingGunVolleys(player);
+            
             return base.Drop(player);
         }
 
@@ -110,13 +156,7 @@ namespace LOLItems
         {
             AkSoundEngine.PostEvent("stridebreaker_active_SFX", player.gameObject);
 
-            // sets vfx to slash effect of blasphemy (bullet character weapon)
-            GameObject slashVFX = ((Gun)PickupObjectDatabase.GetById(417))
-                .DefaultModule.projectiles[0]
-                .hitEffects.tileMapHorizontal.effects[0]
-                .effects[0].effect;
-
-            if (slashVFX != null)
+            /*if (slashVFX != null)
             {
                 GameObject vfxInstance = UnityEngine.Object.Instantiate(slashVFX, player.CenterPosition, Quaternion.identity);
                 vfxInstance.SetActive(true);
@@ -135,6 +175,32 @@ namespace LOLItems
 
                 var anim = vfxInstance.GetComponent<tk2dSpriteAnimator>();
                 if (anim != null) anim.Play();
+            }*/
+
+            // seperation line LMAO
+
+            if (activeVFXObject != null)
+            {
+                Destroy(activeVFXObject);
+            }
+
+            //activeVFXObject = player.PlayEffectOnActor(EffectVFX, new Vector3(32 / 16f, 21 / 16f, -2f), true, false, false);
+            activeVFXObject = UnityEngine.Object.Instantiate(EffectVFX, player.CenterPosition, Quaternion.identity);
+
+            var sprite = activeVFXObject.GetComponent<tk2dSprite>();
+
+            if (sprite != null)
+            {
+                sprite.HeightOffGround = 0f; //-50f
+
+                sprite.scale = new Vector3(3.1f, 3.1f, 1f);
+                
+                sprite.UpdateZDepth();
+
+                //sprite.usesOverrideMaterial = true;
+
+                //sprite.renderer.material.shader = ShaderCache.Acquire("Brave/Internal/SimpleAlphaFadeUnlit");
+                //sprite.renderer.material.SetFloat("_Fade", 0.8f);
             }
 
             GameActorSpeedEffect slowEffect = new GameActorSpeedEffect
@@ -147,26 +213,35 @@ namespace LOLItems
                 SpeedMultiplier = slowPercent,
             };
 
+            float ShockwaveDamage = ShockwaveBaseDamage * player.stats.GetStatValue(PlayerStats.StatType.Damage);
+
             // checks for all enemies in the room that are in range, applies damage, slow effect, and plays sound
-            foreach (AIActor enemy in player.CurrentRoom.GetActiveEnemies(RoomHandler.ActiveEnemyType.All))
+            List<AIActor> enemyList = player.CurrentRoom.GetActiveEnemies(RoomHandler.ActiveEnemyType.All);
+            if (enemyList != null)
             {
-                if (enemy != null && enemy.healthHaver != null && enemy.healthHaver.IsVulnerable)
+                foreach (AIActor enemy in enemyList)
                 {
-                    float distance = Vector2.Distance(player.CenterPosition, enemy.CenterPosition);
-                    // scale damage with player damage modifiers
-                    float ShockwaveDamage = ShockwaveBaseDamage * player.stats.GetStatValue(PlayerStats.StatType.Damage);
-                    if (distance <= ShockwaveRadius)
+                    if (enemy != null && enemy.healthHaver != null && enemy.healthHaver.IsVulnerable)
                     {
-                        enemy.healthHaver.ApplyDamage(
-                            ShockwaveDamage,
-                            Vector2.zero,
-                            "Stridebreaker",
-                            CoreDamageTypes.None,
-                            DamageCategory.Normal,
-                            false
-                        );
-                        enemy.ApplyEffect(slowEffect, 1f, null);
-                        AkSoundEngine.PostEvent("stridebreaker_active_hit_SFX", player.gameObject);
+                        float distance = Vector2.Distance(player.CenterPosition, enemy.CenterPosition);
+                        // scale damage with player damage modifiers
+                        //float ShockwaveDamage = ShockwaveBaseDamage * player.stats.GetStatValue(PlayerStats.StatType.Damage);
+
+                        //Plugin.Log($"player: {player.CenterPosition}, enemy: {enemy.CenterPosition}, distance: {distance}");
+
+                        if (distance <= ShockwaveRadius)
+                        {
+                            enemy.healthHaver.ApplyDamage(
+                                ShockwaveDamage,
+                                Vector2.zero,
+                                "Stridebreaker",
+                                CoreDamageTypes.None,
+                                DamageCategory.Normal,
+                                false
+                            );
+                            enemy.ApplyEffect(slowEffect, 1f, null);
+                            AkSoundEngine.PostEvent("stridebreaker_active_hit_SFX", player.gameObject);
+                        }
                     }
                 }
             }

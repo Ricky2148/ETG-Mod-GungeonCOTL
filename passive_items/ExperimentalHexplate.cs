@@ -5,6 +5,7 @@ using System.Text;
 using UnityEngine;
 using Alexandria.ItemAPI;
 using Alexandria;
+using Alexandria.Misc;
 
 //health, dmg, and fire rate, extra dmg and fire rate when using an item
 
@@ -21,6 +22,8 @@ namespace LOLItems
         private static float OverdriveRateOfFireStat = 1.5f;
         private static float overdriveMovementSpeedStat = 1.25f;
         private bool isOverdriveActive = false;
+
+        public static int ID;
         public static void Init()
         {
             string itemName = "Experimental Hexplate";
@@ -46,6 +49,7 @@ namespace LOLItems
             ItemBuilder.AddPassiveStatModifier(item, PlayerStats.StatType.Health, HealthStat, StatModifier.ModifyMethod.ADDITIVE);
 
             item.quality = PickupObject.ItemQuality.A;
+            ID = item.PickupObjectId;
         }
 
         // subscribe to the player events
@@ -78,7 +82,14 @@ namespace LOLItems
             ItemBuilder.AddPassiveStatModifier(this, PlayerStats.StatType.RateOfFire, OverdriveRateOfFireStat, StatModifier.ModifyMethod.MULTIPLICATIVE);
             ItemBuilder.AddPassiveStatModifier(this, PlayerStats.StatType.MovementSpeed, overdriveMovementSpeedStat, StatModifier.ModifyMethod.MULTIPLICATIVE);
 
-            player.stats.RecalculateStats(player, false, false);
+            //player.stats.RecalculateStats(player, false, false);
+            player.stats.RecalculateStatsWithoutRebuildingGunVolleys(player);
+
+            Material mat = SpriteOutlineManager.GetOutlineMaterial(player.sprite);
+            if (mat)
+            {
+                mat.SetColor("_OverrideColor", new Color(0f * 0.7f, 128f * 0.7f, 255f * 0.7f));
+            }
 
             AkSoundEngine.PostEvent("experimental_hexplate_passive_triggered_SFX", player.gameObject);
             AkSoundEngine.PostEvent("experimental_hexplate_passive_effect_SFX", player.gameObject);
@@ -92,12 +103,22 @@ namespace LOLItems
             // reapplies original base item stat buff
             ItemBuilder.AddPassiveStatModifier(this, PlayerStats.StatType.RateOfFire, RateOfFireStat, StatModifier.ModifyMethod.MULTIPLICATIVE);
             
-            player.stats.RecalculateStats(player, false, false);
+            //player.stats.RecalculateStats(player, false, false);
+            player.stats.RecalculateStatsWithoutRebuildingGunVolleys(player);
+
+            if (mat)
+            {
+                mat.SetColor("_OverrideColor", new Color(0f, 0f, 0f));
+            }
 
             // waits time to simulate cooldown
             yield return new WaitForSeconds(OverdriveCooldown - OverdriveDuration);
-
             isOverdriveActive = false;
+
+            //tk2dBaseSprite s = this.sprite;
+            //GameUIRoot.Instance.RegisterDefaultLabel(s.transform, new Vector3(s.GetBounds().max.x + 0f, s.GetBounds().min.y + 0f, 0f), $"{this.EncounterNameOrDisplayName} ready");
+            //yield return new WaitForSeconds(1.5f);
+            //GameUIRoot.Instance.DeregisterDefaultLabel(s.transform);
         }
     }
 }

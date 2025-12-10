@@ -25,9 +25,21 @@ public class GameActorCrippleEffect : GameActorEffect
 
     public override void OnEffectApplied(GameActor actor, RuntimeGameActorEffectData effectData, float partialAmount = 1f)
     {
-        actor.behaviorSpeculator.CooldownScale = CrippleAmount;
-        actor.aiShooter.AimTimeScale = CrippleAmount;
-        actor.bulletBank.TimeScale = CrippleAmount;
+        //actor.behaviorSpeculator.CooldownScale = CrippleAmount;
+        //actor.aiShooter.AimTimeScale = CrippleAmount;
+        //actor.bulletBank.TimeScale = CrippleAmount;
+        if ((bool)actor.aiShooter)
+        {
+            actor.aiShooter.AimTimeScale = CrippleAmount;
+        }
+        if ((bool)actor.behaviorSpeculator)
+        {
+            actor.behaviorSpeculator.CooldownScale = CrippleAmount;
+        }
+        if ((bool)actor.bulletBank)
+        {
+            actor.bulletBank.TimeScale = CrippleAmount;
+        }
     }
 
     public override void OnEffectRemoved(GameActor actor, RuntimeGameActorEffectData effectData)

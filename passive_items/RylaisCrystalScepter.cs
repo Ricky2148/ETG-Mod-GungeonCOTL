@@ -14,6 +14,18 @@ namespace LOLItems.passive_items
         private static float RimefrostSlowPercent = 0.7f;
         private static float RimefrostSlowDuration = 1f;
 
+        private static GameActorSpeedEffect slowEffect = new GameActorSpeedEffect
+        {
+            duration = RimefrostSlowDuration,
+            effectIdentifier = "rimefrost_slow",
+            resistanceType = EffectResistanceType.Freeze,
+            AppliesOutlineTint = true,
+            OutlineTintColor = Color.cyan,
+            SpeedMultiplier = RimefrostSlowPercent,
+        };
+
+        public static int ID;
+
         public static void Init()
         {
             string itemName = "Rylai's Crystal Scepter";
@@ -33,7 +45,8 @@ namespace LOLItems.passive_items
 
             ItemBuilder.AddPassiveStatModifier(item, PlayerStats.StatType.Health, HealthStat, StatModifier.ModifyMethod.ADDITIVE);
 
-            item.quality = ItemQuality.B;
+            item.quality = ItemQuality.C;
+            ID = item.PickupObjectId;
         }
 
         public override void Pickup(PlayerController player)
@@ -56,38 +69,22 @@ namespace LOLItems.passive_items
         {
             if (hitRigidbody != null && hitRigidbody.aiActor != null)
             {
-                GameActorSpeedEffect slowEffect = new GameActorSpeedEffect
-                {
-                    duration = RimefrostSlowDuration,
-                    effectIdentifier = "rimefrost_slow",
-                    resistanceType = EffectResistanceType.Freeze,
-                    AppliesOutlineTint = true,
-                    OutlineTintColor = Color.cyan,
-                    SpeedMultiplier = RimefrostSlowPercent,
-                };
                 hitRigidbody.aiActor.ApplyEffect(slowEffect);
             }
         }
 
         private void ApplyRimefrostEffect(Projectile proj, float f)
         {
-            GameActorSpeedEffect slowEffect = new GameActorSpeedEffect
+            if (proj.Shooter == proj.Owner.specRigidbody)
             {
-                duration = RimefrostSlowDuration,
-                effectIdentifier = "rimefrost_slow",
-                resistanceType = EffectResistanceType.Freeze,
-                AppliesOutlineTint = true,
-                OutlineTintColor = Color.cyan,
-                SpeedMultiplier = RimefrostSlowPercent,
-            };
-
-            proj.OnHitEnemy += (projHit, enemy, fatal) =>
-            {
-                if (enemy != null && enemy.aiActor != null)
+                proj.OnHitEnemy += (projHit, enemy, fatal) =>
                 {
-                    enemy.aiActor.ApplyEffect(slowEffect);
-                }
-            };
+                    if (enemy != null && enemy.aiActor != null)
+                    {
+                        enemy.aiActor.ApplyEffect(slowEffect);
+                    }
+                };
+            }
         }
     }
 }

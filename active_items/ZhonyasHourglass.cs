@@ -6,6 +6,7 @@ using Alexandria.ItemAPI;
 using UnityEngine;
 using Alexandria;
 using LOLItems.custom_class_data;
+using Alexandria.Misc;
 
 //add vfx and sfx during revive duration
 
@@ -18,6 +19,8 @@ namespace LOLItems
         private bool hasGainedArmor = false;
         private static float StasisDuration = 2.5f;
         private static float StasisCooldown = 120f;
+
+        public static int ID;
 
         public static void Init()
         {
@@ -40,6 +43,7 @@ namespace LOLItems
 
             item.usableDuringDodgeRoll = true;
             item.quality = PickupObject.ItemQuality.A;
+            ID = item.PickupObjectId;
         }
 
         // subscribe to the player events
@@ -67,23 +71,57 @@ namespace LOLItems
         // upon activation, player enters invul then forces blank effect after invul
         private System.Collections.IEnumerator StasisCoroutine(PlayerController player)
         {
-            player.healthHaver.TriggerInvulnerabilityPeriod(StasisDuration);
+            player.healthHaver.TriggerInvulnerabilityPeriod(StasisDuration + 0.1f);
             player.CurrentInputState = PlayerInputState.NoInput;
             player.healthHaver.PreventAllDamage = true;
 
             Color originalPlayerColor = player.sprite.color;
             Color originalGunColor = player.CurrentGun.sprite.color;
+            //float ogFpsScale = player.aiAnimator.FpsScale;
 
             // find a better color later
             player.sprite.color = ExtendedColours.honeyYellow;
             player.CurrentGun.sprite.color = ExtendedColours.honeyYellow;
 
+            Material mat = SpriteOutlineManager.GetOutlineMaterial(player.sprite);
+            if (mat)
+            {
+                mat.SetColor("_OverrideColor", new Color(255f * 0.7f, 180f * 0.7f, 18f * 0.7f));
+            }
+
+            //player.aiAnimator.FpsScale = 0f;
+            //player.spriteAnimator.OverrideTimeScale = 0f;
+
+            //player.TriggerInvulnerableFrames(StasisDuration + 0.1f);
+            //player.CurrentInputState = PlayerInputState.NoInput;
+
             AkSoundEngine.PostEvent("zhonyas_hourglass_activation_SFX", GameManager.Instance.gameObject);
+
+            /*
+            Vector2 unitDimensions = player.specRigidbody.HitboxPixelCollider.UnitDimensions;
+            Vector2 a = unitDimensions / 2f;
+
+            Vector2 vector = player.specRigidbody.HitboxPixelCollider.UnitBottomLeft;
+            Vector2 vector2 = player.specRigidbody.HitboxPixelCollider.UnitTopRight;
+            vector += Vector2.Min(a * 0.15f, new Vector2(0.25f, 0.25f));
+            vector2 -= Vector2.Min(a * 0.15f, new Vector2(0.25f, 0.25f));
+            vector2.y -= Mathf.Min(a.y * 0.1f, 0.1f);
+
+            HelpfulMethods.DoRandomParticleBurst(15, vector, vector2, 1f, 0.7f, 0.4f, 2, ExtendedColours.honeyYellow, GlobalSparksDoer.SparksType.SOLID_SPARKLES);
+            */
 
             yield return new WaitForSeconds(StasisDuration);
 
             player.sprite.color = originalPlayerColor;
             player.CurrentGun.sprite.color = originalGunColor;
+
+            if (mat)
+            {
+                mat.SetColor("_OverrideColor", new Color(0f, 0f, 0f));
+            }
+
+            //player.aiAnimator.FpsScale = ogFpsScale;
+            //player.spriteAnimator.OverrideTimeScale = 1f;
 
             player.ForceBlank();
             player.CurrentInputState = PlayerInputState.AllInput;

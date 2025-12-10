@@ -6,6 +6,9 @@ using UnityEngine;
 using Alexandria.ItemAPI;
 using Alexandria;
 
+// increase rarity, nerf execute gold amount with rng chance instead of guarantee
+// gold chance doesn't seem accurate
+
 namespace LOLItems
 {
     internal class Collector : PassiveItem
@@ -13,8 +16,11 @@ namespace LOLItems
         // stats pool for item
         private static float DamageStat = 1.1f;
         private static int DeathGoldStat = 1;
+        private static float DeathGoldChance = 0.30f;
 
         private static float ExecuteThreshold = 0.05f;
+
+        public static int ID;
 
         public static void Init()
         {
@@ -36,6 +42,7 @@ namespace LOLItems
             ItemBuilder.AddPassiveStatModifier(item, PlayerStats.StatType.Damage, DamageStat, StatModifier.ModifyMethod.MULTIPLICATIVE);
 
             item.quality = PickupObject.ItemQuality.A;
+            ID = item.PickupObjectId;
         }
 
         public override void Pickup(PlayerController player)
@@ -105,13 +112,16 @@ namespace LOLItems
         {
             enemy.healthHaver.OnDeath += (obj) =>
             {
-                if (enemy.healthHaver.IsBoss || enemy.healthHaver.IsSubboss)
+                if (UnityEngine.Random.value < DeathGoldChance)
                 {
-                    LootEngine.SpawnCurrency(enemy.specRigidbody.UnitCenter, DeathGoldStat * 10);
-                }
-                else
-                {
-                    LootEngine.SpawnCurrency(enemy.specRigidbody.UnitCenter, DeathGoldStat);
+                    if (enemy.healthHaver.IsBoss || enemy.healthHaver.IsSubboss)
+                    {
+                        LootEngine.SpawnCurrency(enemy.specRigidbody.UnitCenter, DeathGoldStat * 10);
+                    }
+                    else
+                    {
+                        LootEngine.SpawnCurrency(enemy.specRigidbody.UnitCenter, DeathGoldStat);
+                    }
                 }
             };
         }

@@ -12,7 +12,9 @@ namespace LOLItems
     {
         private static float DamageStat = 1.15f;
         private static float CinderbloomThreshold = 0.4f;
-        private static float CinderbloomDamageAmp = 0.2f;
+        private static float CinderbloomDamageAmp = 0.4f;
+
+        public static int ID;
 
         public static void Init()
         {
@@ -35,6 +37,7 @@ namespace LOLItems
             ItemBuilder.AddPassiveStatModifier(item, PlayerStats.StatType.Damage, DamageStat, StatModifier.ModifyMethod.MULTIPLICATIVE);
             
             item.quality = PickupObject.ItemQuality.A;
+            ID = item.PickupObjectId;
         }
 
         public override void Pickup(PlayerController player)
@@ -47,6 +50,7 @@ namespace LOLItems
 
         public override void DisableEffect(PlayerController player)
         {
+            base.DisableEffect(player);
             Plugin.Log($"Player dropped or got rid of {this.EncounterNameOrDisplayName}");
 
             player.PostProcessProjectile -= OnPostProcessProjectile;

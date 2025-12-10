@@ -24,6 +24,8 @@ namespace LOLItems.passive_items
         private static GameActorCharmEffect CharmEffect = (PickupObjectDatabase.GetById(527)
             as BulletStatusEffectItem).CharmModifierEffect;
 
+        public static int ID;
+
         public static void Init()
         {
             string itemName = "Puppeteer";
@@ -46,6 +48,7 @@ namespace LOLItems.passive_items
             CharmEffect.duration = PullTheirStringsCharmDuration;
 
             item.quality = PickupObject.ItemQuality.A;
+            ID = item.PickupObjectId;
         }
 
         public override void Pickup(PlayerController player)
@@ -74,9 +77,9 @@ namespace LOLItems.passive_items
                 PlayerController player = this.Owner;
                 AIActor aiActor = hitRigidbody.aiActor;
                 // simulate random chance to apply a stack upon hit
-                var rand = new System.Random();
-                int randomPool = 100;
-                if (rand.Next(randomPool) == 0)
+                //var rand = new System.Random();
+                //int randomPool = 100;
+                if (UnityEngine.Random.value >= 0.05f)
                 {
                     // increase stack count if enemy is already in dictionary
                     if (!enemyCharmStacks.ContainsKey(aiActor))
@@ -103,31 +106,34 @@ namespace LOLItems.passive_items
         private void OnPostProcessProjectile(Projectile proj, float f)
         {
             if (isOnCooldown) return;
-            proj.OnHitEnemy += (proj, enemy, fatal) =>
+            if (proj.Shooter == proj.Owner.specRigidbody)
             {
-                if (enemy != null || enemy.aiActor != null)
+                proj.OnHitEnemy += (proj, enemy, fatal) =>
                 {
-                    PlayerController player = this.Owner;
-                    AIActor aiActor = enemy.aiActor;
-                    // increase stack count if enemy is already in dictionary
-                    if (!enemyCharmStacks.ContainsKey(aiActor))
+                    if (enemy != null || enemy.aiActor != null)
                     {
-                        enemyCharmStacks.Add(aiActor, 1);
+                        PlayerController player = this.Owner;
+                        AIActor aiActor = enemy.aiActor;
+                        // increase stack count if enemy is already in dictionary
+                        if (!enemyCharmStacks.ContainsKey(aiActor))
+                        {
+                            enemyCharmStacks.Add(aiActor, 1);
+                        }
+                        // if not, add them to dictionary with 1 stack
+                        else
+                        {
+                            enemyCharmStacks[aiActor] += 1;
+                        }
+                        // if the hit enemy's stack count is at max stacks, trigger charm effect and cooldown
+                        if (enemyCharmStacks[aiActor] >= PullTheirStringsMaxStacks)
+                        {
+                            enemyCharmStacks.Clear();
+                            aiActor.ApplyEffect(CharmEffect);
+                            StartCoroutine(StartPullTheirStringsCooldown(player));
+                        }
                     }
-                    // if not, add them to dictionary with 1 stack
-                    else
-                    {
-                        enemyCharmStacks[aiActor] += 1;
-                    }
-                    // if the hit enemy's stack count is at max stacks, trigger charm effect and cooldown
-                    if (enemyCharmStacks[aiActor] >= PullTheirStringsMaxStacks)
-                    {
-                        enemyCharmStacks.Clear();
-                        aiActor.ApplyEffect(CharmEffect);
-                        StartCoroutine(StartPullTheirStringsCooldown(player));
-                    }
-                }
-            };
+                };
+            }
         }
 
         private System.Collections.IEnumerator StartPullTheirStringsCooldown(PlayerController player)
@@ -136,6 +142,11 @@ namespace LOLItems.passive_items
             yield return new WaitForSeconds(PullTheirStringsCooldown);
             isOnCooldown = false;
             enemyCharmStacks.Clear();
+
+            //tk2dBaseSprite s = this.sprite;
+            //GameUIRoot.Instance.RegisterDefaultLabel(s.transform, new Vector3(s.GetBounds().max.x + 0f, s.GetBounds().min.y + 0f, 0f), $"{this.EncounterNameOrDisplayName} ready");
+            //yield return new WaitForSeconds(1.5f);
+            //GameUIRoot.Instance.DeregisterDefaultLabel(s.transform);
             yield break;
         }
     }

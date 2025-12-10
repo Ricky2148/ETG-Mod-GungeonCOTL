@@ -23,6 +23,8 @@ namespace LOLItems
         private static float ElectroSparkChainCount = 5f;
         private static float ElectroSparkChainRange = 5f;
 
+        public static int ID;
+
         public static void Init()
         {
             string itemName = "Statikk Shiv";
@@ -44,6 +46,7 @@ namespace LOLItems
             ItemBuilder.AddPassiveStatModifier(item, PlayerStats.StatType.RateOfFire, RateOfFireStat, StatModifier.ModifyMethod.MULTIPLICATIVE);
 
             item.quality = PickupObject.ItemQuality.A;
+            ID = item.PickupObjectId;
         }
 
         // subscribe to the player events
@@ -70,7 +73,7 @@ namespace LOLItems
         {
             if (proj.Owner is not PlayerController player) return;
             if (player.CurrentGun is not Gun gun) return;
-            if (ElectroSparkShotCount > 0)
+            if (proj.Shooter == proj.Owner.specRigidbody && ElectroSparkShotCount > 0)
             {
                 //applies chain lightning effect to the projectile
                 ComplexProjectileModifier shockRounds = PickupObjectDatabase.GetById(298)

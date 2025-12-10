@@ -35,7 +35,7 @@ IMPLEMENTED rylai's crystal scepter: dmg, health,
 IMPLEMENTED shadowflame: dmg,
 	passive: increases dmg against enemies below % health
 
-zeke's convergence: health, armor
+IMPLEMENTED zeke's convergence: health, armor
 	passive: creates aoe around player that slows and deals dmg upon item use
 
 IMPLEMENTED horizon focus: dmg
@@ -47,6 +47,8 @@ maybe add luden's item:
 
 add league item shop into the game as a custom shopkeeper?
 	custom asset building
+
+
 
 OPTIMIZATIONS/UPDATES:
 
@@ -66,4 +68,36 @@ maybe make some weapons based on energize items?
 maybe add some ui assets for items with cooldowns or stack counts?
 
 potentially make some custom weapons based on league items
+
+make external damage count for on kill effects?
 	
+the one piece: passive item gives you luffy hat
+description: THE ONE PIECE IS REAL! This information weighs heavily on you, you are slowed.
+
+
+
+GUON STONE IDEAS:
+
+braum shield
+
+
+
+WEAPON IDEAS:
+
+JINX gun (form change between minigun and rocket)
+
+Aphelios (HARD AS FUCK)
+
+Caitlyn gun (has the 5 shot charge headshot passive)
+
+Graves gun (2 clip shotgun, reloads one bullet on dodge roll)
+
+Sivir gun (ricochets a lot)
+
+Xayah gun (shoots feathers, recall feathers with reload)
+
+Teemo gun (poisons people)
+
+Zeri gun (shoots multishot volleys)
+
+Yunara (bullets spread within range)

@@ -26,6 +26,9 @@ namespace LOLItems
             "kraken_slayer_passive_SFX_2",
             "kraken_slayer_passive_SFX_3"
         };
+
+        public static int ID;
+
         public static void Init()
         {
             string itemName = "Kraken Slayer";
@@ -47,6 +50,7 @@ namespace LOLItems
             ItemBuilder.AddPassiveStatModifier(item, PlayerStats.StatType.RateOfFire, RateOfFireStat, StatModifier.ModifyMethod.MULTIPLICATIVE); ;
 
             item.quality = ItemQuality.S;
+            ID = item.PickupObjectId;
         }
 
         // subscribe to events
@@ -99,7 +103,12 @@ namespace LOLItems
             bringItDownCount++;
             if (bringItDownCount >= 3)
             {
-                if (hitRigidbody != null && hitRigidbody.aiActor != null)
+                if (beam.sprite != null)
+                {
+                    beam.sprite.color = Color.Lerp(beam.sprite.color, Color.cyan, 0.7f);
+                }
+                HelpfulMethods.PlayRandomSFX(beam.gameObject, sfxList);
+                if (hitRigidbody != null && hitRigidbody.aiActor != null && hitRigidbody.aiActor.healthHaver != null && hitRigidbody.healthHaver != null)
                 {
                     // scales damage based on enemy's missing health percentage
                     float percentDamageIncrease = 0.75f * (1.0f - hitRigidbody.aiActor.healthHaver.GetCurrentHealthPercentage());
@@ -108,7 +117,7 @@ namespace LOLItems
                     // damage is 1/4 against bosses and sub-bosses
                     if (hitRigidbody.aiActor.healthHaver.IsBoss || hitRigidbody.aiActor.healthHaver.IsSubboss)
                     {
-                        damageToDeal *= 0.25f;
+                        //damageToDeal *= 0.25f;
                     }
                     // calculates additional extra damage to apply to enemy
                     hitRigidbody.aiActor.healthHaver.ApplyDamage(
@@ -126,37 +135,43 @@ namespace LOLItems
 
         private void OnPostProcessProjectile(Projectile proj, float f)
         {
-            bringItDownCount++;
-            if (bringItDownCount >= 3)
+            if (proj.Shooter == proj.Owner.specRigidbody)
             {
-                proj.sprite.color = Color.Lerp(proj.sprite.color, Color.cyan, 0.7f);
-                HelpfulMethods.PlayRandomSFX(proj, sfxList);
-                proj.OnHitEnemy += (projHit, enemy, fatal) =>
+                bringItDownCount++;
+                if (bringItDownCount >= 3)
                 {
-                    if (enemy != null && enemy.aiActor != null)
+                    if (proj.sprite != null)
                     {
-                        // scales damage based on enemy's missing health percentage
-                        float percentDamageIncrease = 0.75f * (1.0f - enemy.healthHaver.GetCurrentHealthPercentage());
-                        // GetFloorPriceMod works instead of explicitly stating it like GetFloorDamageScale
-                        float damageToDeal = bringItDownDamage * (1.0f + percentDamageIncrease) * HelpfulMethods.GetFloorPriceMod();
-                        // damage is 1/4 against bosses and sub-bosses
-                        if (enemy.healthHaver.IsBoss || enemy.healthHaver.IsSubboss)
-                        {
-                            damageToDeal *= 0.25f;
-                        }
-
-                        // calculates additional extra damage to apply to enemy
-                        enemy.healthHaver.ApplyDamage(
-                            damageToDeal,
-                            Vector2.zero,
-                            "kraken_slayer_bring_it_down_damage",
-                            CoreDamageTypes.None,
-                            DamageCategory.Normal,
-                            false
-                        );
+                        proj.sprite.color = Color.Lerp(proj.sprite.color, Color.cyan, 0.7f);
                     }
-                };
-                bringItDownCount = 0;
+                    HelpfulMethods.PlayRandomSFX(proj.gameObject, sfxList);
+                    proj.OnHitEnemy += (projHit, enemy, fatal) =>
+                    {
+                        if (enemy != null && enemy.aiActor != null && enemy.aiActor.healthHaver != null && enemy.healthHaver != null)
+                        {
+                            // scales damage based on enemy's missing health percentage
+                            float percentDamageIncrease = 0.75f * (1.0f - enemy.healthHaver.GetCurrentHealthPercentage());
+                            // GetFloorPriceMod works instead of explicitly stating it like GetFloorDamageScale
+                            float damageToDeal = bringItDownDamage * (1.0f + percentDamageIncrease) * HelpfulMethods.GetFloorPriceMod();
+                            // damage is 1/4 against bosses and sub-bosses
+                            if (enemy.healthHaver.IsBoss || enemy.healthHaver.IsSubboss)
+                            {
+                                //damageToDeal *= 0.25f;
+                            }
+
+                            // calculates additional extra damage to apply to enemy
+                            enemy.healthHaver.ApplyDamage(
+                                damageToDeal,
+                                Vector2.zero,
+                                "kraken_slayer_bring_it_down_damage",
+                                CoreDamageTypes.None,
+                                DamageCategory.Normal,
+                                false
+                            );
+                        }
+                    };
+                    bringItDownCount = 0;
+                }
             }
         }
 

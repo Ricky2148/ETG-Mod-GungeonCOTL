@@ -24,6 +24,8 @@ namespace LOLItems.active_items
             .DefaultModule.projectiles[0].InstantiateAndFakeprefab();
         public int NumToSpawn = 3;
 
+        public static int ID;
+
         public static void Init()
         {
             string itemName = "Galeforce";
@@ -39,6 +41,7 @@ namespace LOLItems.active_items
             string longDesc = "A strangely crafted bow that seems to make the feet below you lighter. " +
                 "You can't help but feel that there's something hidden with this bow. Maybe there's something " +
                 "hidden in the bow?\n";
+
             ItemBuilder.SetupItem(item, shortDesc, longDesc, "LOLItems");
             
             ItemBuilder.AddPassiveStatModifier(item, PlayerStats.StatType.Damage, DamageStat, StatModifier.ModifyMethod.MULTIPLICATIVE);
@@ -50,7 +53,8 @@ namespace LOLItems.active_items
             
             item.usableDuringDodgeRoll = true;
             
-            item.quality = PickupObject.ItemQuality.S;
+            item.quality = PickupObject.ItemQuality.A;
+            ID = item.PickupObjectId;
         }
 
         public override void Pickup(PlayerController player)
@@ -65,7 +69,8 @@ namespace LOLItems.active_items
 
             ItemBuilder.RemovePassiveStatModifier(this, PlayerStats.StatType.Damage);
             ItemBuilder.RemovePassiveStatModifier(this, PlayerStats.StatType.RateOfFire);
-            player.stats.RecalculateStats(player, false, false);
+            //player.stats.RecalculateStats(player, false, false);
+            player.stats.RecalculateStatsWithoutRebuildingGunVolleys(player);
 
             return base.Drop(player);
         }
@@ -145,7 +150,7 @@ namespace LOLItems.active_items
             // set up explosion data
             ExplosionData explosion = CloudburstProjectile.GetComponent<ExplosiveModifier>().explosionData = new ExplosionData();
             explosion.doDamage = true;
-            explosion.damage = 5f;
+            explosion.damage = 0.1f;
             explosion.doForce = false;
 
             // dash in last input player direction

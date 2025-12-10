@@ -1,5 +1,6 @@
 ﻿using Alexandria;
 using Alexandria.ItemAPI;
+using Alexandria.Misc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,11 +16,13 @@ namespace LOLItems
         private static float TimelessDamageIncrementValue = 0.02f;
         private static float TimelessIncreaseMax = 0.75f;
         private static float TimelessIncrementValue = 0.05f;
-        private static float TimelessIncrementTimeInterval = 90f; // seconds
+        private static float TimelessIncrementTimeInterval = 120f; // seconds
         private int TimelessStackCount = 0;
         private static float TimelessMaxStackHealthIncrease = 1f;
 
         private static float EternityAmmoRestorePercent = 0.25f;
+
+        public static int ID;
 
         public static void Init()
         {
@@ -40,6 +43,7 @@ namespace LOLItems
             ItemBuilder.SetupItem(item, shortDesc, longDesc, "LOLItems");
 
             item.quality = PickupObject.ItemQuality.B;
+            ID = item.PickupObjectId;
         }
 
         public override void Pickup(PlayerController player)
@@ -73,19 +77,22 @@ namespace LOLItems
                 ItemBuilder.RemovePassiveStatModifier(this, PlayerStats.StatType.AdditionalClipCapacityMultiplier);
 
                 TimelessStackCount++;
-                Plugin.Log($"Rod of Ages Timeless Stack Count: {TimelessStackCount}");
+                //Plugin.Log($"Rod of Ages Timeless Stack Count: {TimelessStackCount}");
 
                 // apply new increased stat mods
                 ItemBuilder.AddPassiveStatModifier(this, PlayerStats.StatType.Damage, 1f + (TimelessDamageIncrementValue * TimelessStackCount), StatModifier.ModifyMethod.MULTIPLICATIVE);
                 ItemBuilder.AddPassiveStatModifier(this, PlayerStats.StatType.AmmoCapacityMultiplier, 1f + (TimelessIncrementValue * TimelessStackCount), StatModifier.ModifyMethod.MULTIPLICATIVE);
                 ItemBuilder.AddPassiveStatModifier(this, PlayerStats.StatType.AdditionalClipCapacityMultiplier, 1f + (TimelessIncrementValue * TimelessStackCount), StatModifier.ModifyMethod.MULTIPLICATIVE);
             
-                player.stats.RecalculateStats(player, false, false);
+                //player.stats.RecalculateStats(player, false, false);
+                player.stats.RecalculateStatsWithoutRebuildingGunVolleys(player);
             }
 
             // when at max stacks, increase health and provide eternity effect
-            Plugin.Log("Rod of Ages has reached max Timeless stacks");
+            //Plugin.Log("Rod of Ages has reached max Timeless stacks");
             ItemBuilder.AddPassiveStatModifier(this, PlayerStats.StatType.Health, TimelessMaxStackHealthIncrease, StatModifier.ModifyMethod.ADDITIVE);
+
+            HelpfulMethods.CustomNotification("Rod of Ages has achieved Eternity!", "", this.sprite, UINotificationController.NotificationColor.PURPLE);
 
             player.OnReceivedDamage += EternityEffect;
         }

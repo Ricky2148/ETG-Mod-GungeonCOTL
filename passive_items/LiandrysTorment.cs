@@ -9,6 +9,7 @@ using UnityEngine;
 
 //health, dmg, every bullet applies a burn effect that deals dmg over time, DOT is %max health of enemy (scales on bosses and mini bosses)
 // this applies the regular burn effect: damage, duration, and vfx all seem to match
+// test the damage doesnt seem accurate
 
 namespace LOLItems
 {
@@ -17,7 +18,7 @@ namespace LOLItems
         // stats pool for item
         private static float DamageStat = 1.15f;
         private static float HealthStat = 1f;
-        private static float TormentPercentHealthDamage = 0.03f;
+        private static float TormentPercentHealthDamage = 0.10f;
         private static float TormentDuration = 3f;
 
         // tracks enemies affected by the torment burn effect and their coroutines
@@ -31,6 +32,9 @@ namespace LOLItems
             ignitesGoops = false,
             FlameVfx = phoenix.DefaultModule.projectiles[0].fireEffect.FlameVfx,
         };
+
+        public static int ID;
+
         public static void Init()
         {
             string itemName = "Liandry's Torment";
@@ -53,6 +57,7 @@ namespace LOLItems
             ItemBuilder.AddPassiveStatModifier(item, PlayerStats.StatType.Health, HealthStat, StatModifier.ModifyMethod.ADDITIVE);
 
             item.quality = PickupObject.ItemQuality.B;
+            ID = item.PickupObjectId;
         }
 
         // subscribe to the player events

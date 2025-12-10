@@ -1,5 +1,7 @@
 ﻿using Alexandria;
 using Alexandria.ItemAPI;
+using Alexandria.Misc;
+using LOLItems.passive_items;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +11,8 @@ using UnityEngine;
 
 //increase max ammo, increase max clip size with the stacks, at max stacks, increase damage a little
 // only thing that needs changing is the sprite update when upgrading to Muramana
+
+// doesn't give the player muramana after having gotten it once before, this is true even over the course of multiple runs as long as the game is the same loaded instance
 
 namespace LOLItems
 {
@@ -23,11 +27,15 @@ namespace LOLItems
         private float CurrentManaflowKillCount = 0f;
         private int ManaflowStackCount = 0;
 
+        public static int ID;
+
+        private PassiveItem muramanaItem;
+
         public static void Init()
         {
             string itemName = "Manamune";
             string resourceName = "LOLItems/Resources/passive_item_sprites/manamune_pixelart_sprite_small";
-            string upgradeResourceName = "LOLItems/Resources/passive_item_sprites/muramana_pixelart_sprite";
+            //string upgradeResourceName = "LOLItems/Resources/passive_item_sprites/muramana_pixelart_sprite";
 
             GameObject obj = new GameObject(itemName);
 
@@ -35,21 +43,22 @@ namespace LOLItems
 
             ItemBuilder.AddSpriteToObject(itemName, resourceName, obj);
 
-            tk2dBaseSprite sprite = item.sprite;
-            tk2dSpriteCollectionData collection = sprite.collection;
+            //tk2dBaseSprite sprite = item.sprite;
+            //tk2dSpriteCollectionData collection = sprite.collection;
 
-            SpriteBuilder.AddSpriteToCollection(upgradeResourceName, collection);
+            //SpriteBuilder.AddSpriteToCollection(upgradeResourceName, collection);
 
             string shortDesc = "from the Greatest Swordsmith";
             // maybe add effect explanation?
             string longDesc = "Created by the Greatest Swordsmith, Masamune, this sword increases the wielder's" +
-                " capacity for battle.\n\nLegends hint at the blade's true strength being sealed away.";
+                " capacity for battle.\n\nLegends hint at the blade's true strength being sealed away.\n";
 
             ItemBuilder.SetupItem(item, shortDesc, longDesc, "LOLItems");
 
             ItemBuilder.AddPassiveStatModifier(item, PlayerStats.StatType.Damage, DamageStat, StatModifier.ModifyMethod.MULTIPLICATIVE);
 
             item.quality = PickupObject.ItemQuality.B;
+            ID = item.PickupObjectId;
         }
 
         // subscribe to the player events
@@ -58,7 +67,33 @@ namespace LOLItems
             base.Pickup(player);
             Plugin.Log($"Player picked up {this.EncounterNameOrDisplayName}");
 
-            player.OnKilledEnemy += ManaflowStack;
+            //player.OnKilledEnemy += ManaflowStack;
+            if (ManaflowStackCount * ManaflowIncrementValue <= ManaflowIncreaseMax)
+            {
+                player.OnAnyEnemyReceivedDamage += ManaflowStack;
+            }
+               
+            foreach (PassiveItem item in player.passiveItems)
+            {
+                if (item.PickupObjectId == TearOfTheGoddess.ID && item != null)
+                {
+                    if (item.GetComponent<TearOfTheGoddess>().ManaflowMaxed)
+                    {
+                        UpgradeToMuramana(Owner);
+                    }
+                    else
+                    {
+                        ManaflowStackCount = item.GetComponent<TearOfTheGoddess>().ManaflowStackCount;
+                        CurrentManaflowKillCount = item.GetComponent<TearOfTheGoddess>().CurrentManaflowKillCount * (3f/5f);
+                        ItemBuilder.AddPassiveStatModifier(this, PlayerStats.StatType.AdditionalClipCapacityMultiplier, 1f + ManaflowIncrementValue * ManaflowStackCount, StatModifier.ModifyMethod.MULTIPLICATIVE);
+                        ItemBuilder.AddPassiveStatModifier(this, PlayerStats.StatType.AmmoCapacityMultiplier, 1f + ManaflowIncrementValue * ManaflowStackCount, StatModifier.ModifyMethod.MULTIPLICATIVE);
+                        Plugin.Log($"tear: {item.GetComponent<TearOfTheGoddess>().ManaflowStackCount}, {item.GetComponent<TearOfTheGoddess>().CurrentManaflowKillCount}" +
+                            $"\nmanamune: {ManaflowStackCount}, {CurrentManaflowKillCount}");
+                    }
+                    player.RemovePassiveItem(TearOfTheGoddess.ID);
+                }
+
+            }
         }
 
         public override void DisableEffect(PlayerController player)
@@ -66,25 +101,41 @@ namespace LOLItems
             base.DisableEffect(player);
             Plugin.Log($"Player dropped or got rid of {this.EncounterNameOrDisplayName}");
 
-            player.OnKilledEnemy -= ManaflowStack;
+            //player.OnKilledEnemy -= ManaflowStack;
+            player.OnAnyEnemyReceivedDamage -= ManaflowStack;
             //player.PostProcessProjectile -= MuramanaShock;
         }
 
-        private void ManaflowStack(PlayerController player)
+        private void ManaflowStack(float damage, bool fatal, HealthHaver enemyHealth)
         {
-            CurrentManaflowKillCount++;
-            // when kill count reaches threshold, reset count and increase stack count and update stats
-            if (CurrentManaflowKillCount >= ManaflowIncrementKillReq)
+            if (enemyHealth.aiActor && enemyHealth && fatal)
             {
-                CurrentManaflowKillCount = 0f;
-                ItemBuilder.RemovePassiveStatModifier(this, PlayerStats.StatType.AdditionalClipCapacityMultiplier);
-                ItemBuilder.RemovePassiveStatModifier(this, PlayerStats.StatType.AmmoCapacityMultiplier);
-                ManaflowStackCount++;
-                ItemBuilder.AddPassiveStatModifier(this, PlayerStats.StatType.AdditionalClipCapacityMultiplier, 1f + ManaflowIncrementValue * ManaflowStackCount, StatModifier.ModifyMethod.MULTIPLICATIVE);
-                ItemBuilder.AddPassiveStatModifier(this, PlayerStats.StatType.AmmoCapacityMultiplier, 1f + ManaflowIncrementValue * ManaflowStackCount, StatModifier.ModifyMethod.MULTIPLICATIVE);
-                player.stats.RecalculateStats(player, false, false);
-                // when stack count reaches max, upgrade to Muramana
-                if (ManaflowStackCount * ManaflowIncrementValue >= ManaflowIncreaseMax) UpgradeToMuramana(player);
+                if (enemyHealth.aiActor.IsNormalEnemy && (enemyHealth.IsBoss || enemyHealth.IsSubboss))
+                {
+                    CurrentManaflowKillCount += 5;
+                    //Plugin.Log($"is boss: {enemyHealth.IsBoss}, is sub boss: {enemyHealth.IsSubboss}");
+                }
+                else
+                {
+                    CurrentManaflowKillCount++;
+                    //Plugin.Log($"is normal enemy");
+                }
+                //CurrentManaflowKillCount++;
+                // when kill count reaches threshold, reset count and increase stack count and update stats
+                if (CurrentManaflowKillCount >= ManaflowIncrementKillReq)
+                {
+                    CurrentManaflowKillCount -= ManaflowIncrementKillReq;
+                    ItemBuilder.RemovePassiveStatModifier(this, PlayerStats.StatType.AdditionalClipCapacityMultiplier);
+                    ItemBuilder.RemovePassiveStatModifier(this, PlayerStats.StatType.AmmoCapacityMultiplier);
+                    ManaflowStackCount++;
+                    ItemBuilder.AddPassiveStatModifier(this, PlayerStats.StatType.AdditionalClipCapacityMultiplier, 1f + ManaflowIncrementValue * ManaflowStackCount, StatModifier.ModifyMethod.MULTIPLICATIVE);
+                    ItemBuilder.AddPassiveStatModifier(this, PlayerStats.StatType.AmmoCapacityMultiplier, 1f + ManaflowIncrementValue * ManaflowStackCount, StatModifier.ModifyMethod.MULTIPLICATIVE);
+                    //Owner.stats.RecalculateStats(Owner, false, false);
+                    Owner.stats.RecalculateStatsWithoutRebuildingGunVolleys(Owner);
+                    // when stack count reaches max, upgrade to Muramana
+                    //Plugin.Log($"manaflow stack count: {ManaflowStackCount}, manaflow increment value: {ManaflowIncrementValue}, ({ManaflowStackCount} * {ManaflowIncrementValue} = {ManaflowStackCount * ManaflowIncrementValue}) >= manaflow increase max: {ManaflowIncreaseMax}");
+                    if (ManaflowStackCount * ManaflowIncrementValue >= ManaflowIncreaseMax) UpgradeToMuramana(Owner);
+                }
             }
         }
 
@@ -107,13 +158,27 @@ namespace LOLItems
             */
 
             // tries to remove manamune from player and give muramana
-            player.OnKilledEnemy -= ManaflowStack;
-            player.RemovePassiveItem(this.PickupObjectId);
+            //player.OnKilledEnemy -= ManaflowStack;
+            player.OnAnyEnemyReceivedDamage -= ManaflowStack;
+            ManaflowStackCount = 0;
+            CurrentManaflowKillCount = 0;
+            //player.RemovePassiveItem(this.PickupObjectId);
 
-            PassiveItem muramana = PickupObjectDatabase.GetByName("Muramana") as PassiveItem;
-            if (muramana != null)
+            if (muramanaItem == null) muramanaItem = PickupObjectDatabase.GetByName("Muramana") as PassiveItem;
+            //PassiveItem muramanasynergy = PickupObjectDatabase.GetByName("MuramanaSynergyActivation") as PassiveItem;
+            if (muramanaItem != null)
             {
-                player.AcquirePassiveItem(muramana);
+                //player.AcquirePassiveItem(muramanasynergy);
+                //player.AcquirePassiveItem(muramana);
+
+                HelpfulMethods.CustomNotification("Manamune Upgraded to Muramana", "", muramanaItem.sprite, UINotificationController.NotificationColor.PURPLE);
+
+                player.RemovePassiveItem(this.PickupObjectId);
+                //player.AcquirePassiveItem(PickupObjectDatabase.GetById(Muramana.ID) as PassiveItem);
+                player.GiveItem("LOLItems:muramana");
+
+                //player.GiveItem("LOLItems:manaflow_fully_stacked");
+                //player.RemovePassiveItem(MuramanaSynergyActivation.ID);
                 //player.PostProcessProjectile += MuramanaShock;
                 Plugin.Log("Manamune has been upgraded to Muramana");
             }
