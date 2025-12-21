@@ -62,8 +62,8 @@ namespace LOLItems.weapons
 
             gun.SetupSprite(null, $"{SPRITENAME}_idle_001", 8);
 
-            gun.SetAnimationFPS(gun.shootAnimation, 10);
-            gun.SetAnimationFPS(gun.alternateShootAnimation, 10);
+            gun.SetAnimationFPS(gun.shootAnimation, 12);
+            gun.SetAnimationFPS(gun.alternateShootAnimation, 12);
             //gun.SetAnimationFPS(gun.reloadAnimation, 10);
 
             gun.AddProjectileModuleFrom(PickupObjectDatabase.GetById((int)Items.MarineSidearm) as Gun, true, false);
@@ -85,9 +85,9 @@ namespace LOLItems.weapons
 
             gun.gunHandedness = GunHandedness.TwoHanded;
 
-            gun.carryPixelOffset += new IntVector2(12, 0); //offset when holding gun vertically
-            gun.carryPixelDownOffset += new IntVector2(0, 0); //offset when aiming down
-            gun.carryPixelUpOffset += new IntVector2(0, 0); //offset when aiming up
+            gun.carryPixelOffset += new IntVector2(12, -5); //offset when holding gun vertically
+            gun.carryPixelDownOffset += new IntVector2(-18, -10); //offset when aiming down
+            gun.carryPixelUpOffset += new IntVector2(-5, 20); //offset when aiming up
 
             gun.barrelOffset.transform.localPosition += new Vector3(64 / 16f, 52 / 16f);
 

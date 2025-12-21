@@ -26,7 +26,7 @@ namespace LOLItems.weapons
         private static int ammoStat = 750;
         private static float reloadDuration = 1.0f;
         private static float fireRateStat = 0.8f;
-        private static int spreadAngle = 5;
+        private static int spreadAngle = 0;
 
         private int zealStacks = 0;
         private int zealStackCap = 5;
@@ -34,6 +34,8 @@ namespace LOLItems.weapons
         private float zealIncPerStack = 0.12f;
         private float zealSpeedInc = 1.1f;
         private Coroutine zealDecayCoroutine;
+
+        private bool zealCapActivated = false;
 
         private float DivineAscentExpTracker = 0f;
         private float DivineAscentThreshold = 1000f;
@@ -44,7 +46,7 @@ namespace LOLItems.weapons
 
         private static float projectileDamageStat = 10f;
         private static float projectileSpeedStat = 20f;
-        private static float projectileRangeStat = 10f;
+        private static float projectileRangeStat = 25f;
         private static float projectileForceStat = 8f;
 
         private static List<string> VirtueFiringSFXList = new List<string>
@@ -57,7 +59,7 @@ namespace LOLItems.weapons
         public static void Add()
         {
             string FULLNAME = realName;
-            string SPRITENAME = "prayerbeads";
+            string SPRITENAME = "virtue_form2";
             internalName = $"LOLItems:{FULLNAME.ToID()}";
             Gun gun = ETGMod.Databases.Items.NewGun(FULLNAME, SPRITENAME);
             Game.Items.Rename($"outdated_gun_mods:{FULLNAME.ToID()}", internalName);
@@ -65,10 +67,12 @@ namespace LOLItems.weapons
             gun.SetShortDescription("idk");
             gun.SetLongDescription("idk");
 
-            gun.SetupSprite(null, "prayerbeads_idle_001", 8);
+            gun.SetupSprite(null, $"{SPRITENAME}_idle_001", 8);
 
             gun.SetAnimationFPS(gun.shootAnimation, 12);
-            gun.SetAnimationFPS(gun.reloadAnimation, 10);
+            gun.SetAnimationFPS(gun.alternateShootAnimation, 12);
+            gun.SetAnimationFPS(gun.criticalFireAnimation, 13);
+            gun.SetAnimationFPS(gun.finalShootAnimation, 13);
 
             gun.AddProjectileModuleFrom(PickupObjectDatabase.GetById((int)Items.MarineSidearm) as Gun, true, false);
             gun.muzzleFlashEffects = null; //(PickupObjectDatabase.GetById((int)Items.MarineSidearm) as Gun).muzzleFlashEffects;
@@ -79,7 +83,7 @@ namespace LOLItems.weapons
 
             gun.DefaultModule.angleVariance = spreadAngle;
             gun.DefaultModule.shootStyle = ProjectileModule.ShootStyle.Automatic;
-            gun.gunClass = GunClass.FULLAUTO;
+            gun.gunClass = GunClass.RIFLE;
             gun.DefaultModule.sequenceStyle = ProjectileModule.ProjectileSequenceStyle.Random;
             gun.DefaultModule.ammoCost = 1;
             gun.reloadTime = reloadDuration;
@@ -87,11 +91,13 @@ namespace LOLItems.weapons
             gun.DefaultModule.numberOfShotsInClip = ammoStat;
             gun.SetBaseMaxAmmo(ammoStat);
 
-            gun.gunHandedness = GunHandedness.OneHanded;
+            gun.gunHandedness = GunHandedness.TwoHanded;
 
-            gun.carryPixelOffset += new IntVector2(0, 0);
+            gun.carryPixelOffset += new IntVector2(12, -5); //offset when holding gun vertically
+            gun.carryPixelDownOffset += new IntVector2(-18, -10); //offset when aiming down
+            gun.carryPixelUpOffset += new IntVector2(-5, 20); //offset when aiming up
 
-            gun.barrelOffset.transform.localPosition += new Vector3(0 / 16f, 0 / 16f);
+            gun.barrelOffset.transform.localPosition += new Vector3(64 / 16f, 52 / 16f);
 
             gun.gunScreenShake.magnitude = 0f;
 
@@ -107,7 +113,106 @@ namespace LOLItems.weapons
             projectile.baseData.range = projectileRangeStat;
             projectile.baseData.force = projectileForceStat;
             projectile.transform.parent = gun.barrelOffset;
-            projectile.shouldRotate = true;
+            projectile.shouldRotate = false;
+
+            projectile.SetProjectileSpriteRight("virtue_yellow_projectile_001", 20, 6, true, tk2dBaseSprite.Anchor.MiddleCenter, 16, 5);
+
+            // A list of filenames in the sprites/ProjectileCollection folder for each frame in the animation, extension not required.
+            List<string> projectileSpriteNames = new List<string>
+            {
+                "virtue_yellow_projectile_001",
+                "virtue_yellow_projectile_002",
+                "virtue_yellow_projectile_003",
+                "virtue_yellow_projectile_004",
+            };
+            // Animation FPS.
+            int projectileFPS = 8;
+            // Visual sprite size for each frame.  Sprite images will stretch to match these sizes.
+            List<IntVector2> projectileSizes = new List<IntVector2>
+            {
+                new IntVector2(20, 6), //1
+                new IntVector2(20, 6), //2
+                new IntVector2(20, 6), //3
+                new IntVector2(20, 6), //4
+            };
+            // Whether each frame should have a bit of glow.
+            List<bool> projectileLighteneds = new List<bool>
+            {
+                true,
+                true,
+                true,
+                true,
+            };
+            // Sprite anchor list.
+            List<tk2dBaseSprite.Anchor> projectileAnchors = new List<tk2dBaseSprite.Anchor>
+            {
+                tk2dBaseSprite.Anchor.MiddleCenter,
+                tk2dBaseSprite.Anchor.MiddleCenter,
+                tk2dBaseSprite.Anchor.MiddleCenter,
+                tk2dBaseSprite.Anchor.MiddleCenter,
+            };
+            // Whether or not the anchors should affect the hitboxees.
+            List<bool> projectileAnchorsChangeColiders = new List<bool>
+            {
+                false,
+                false,
+                false,
+                false,
+            };
+            // Unknown, doesn't appear to matter so leave as false. 
+            List<bool> projectilefixesScales = new List<bool>
+            {
+                false,
+                false,
+                false,
+                false,
+            };
+            // Manual Offsets for each sprite if needed.
+            List<Vector3?> projectileManualOffsets = new List<Vector3?>
+            {
+                Vector2.zero,
+                Vector2.zero,
+                Vector2.zero,
+                Vector2.zero,
+            };
+            // Override the projectile hitboxes on each frame.  Either null (same as visuals) or slightly smaller than the visuals is most common.
+            List<IntVector2?> projectileOverrideColliderSizes = new List<IntVector2?>
+            {
+                new IntVector2(16, 5), //1
+                new IntVector2(16, 5), //2
+                new IntVector2(16, 5), //3
+                new IntVector2(16, 5), //4
+            };
+            // Manually assign the projectile offsets.
+            List<IntVector2?> projectileOverrideColliderOffsets = new List<IntVector2?>
+            {
+                null,
+                null,
+                null,
+                null,
+            };
+            // Copy another projectile each frame.
+            List<Projectile> projectileOverrideProjectilesToCopyFrom = new List<Projectile>
+            {
+                null,
+                null,
+                null,
+                null,
+            };
+            // Your animations wrap mode. If you just want it to do a looping animation, leave it as Loop. Only useful for when adding multiple differing animations.
+            tk2dSpriteAnimationClip.WrapMode ProjectileWrapMode = tk2dSpriteAnimationClip.WrapMode.Loop;
+            // Optionally, you can give your animations a clip name. Only useful for when adding multiple differing animations.
+            //string projectileClipName = "projectileName"; 
+            // Optionally, you can assign an animation as the default one that plays.  Only useful for when adding multiple differing animations.  If left as null then it will use the most recently added animation.
+            //string projectileDefaultClipName = "projectileName"; 
+
+            projectile.AddAnimationToProjectile(projectileSpriteNames, projectileFPS, projectileSizes, projectileLighteneds, projectileAnchors, projectileAnchorsChangeColiders, projectilefixesScales,
+                                                projectileManualOffsets, projectileOverrideColliderSizes, projectileOverrideColliderOffsets, projectileOverrideProjectilesToCopyFrom, ProjectileWrapMode);
+
+            gun.DefaultModule.ammoType = GameUIAmmoType.AmmoType.CUSTOM;
+            gun.DefaultModule.customAmmoType = CustomClipAmmoTypeToolbox.AddCustomAmmoType("virtue_form2_ammo",
+                "LOLItems/Resources/weapon_sprites/CustomGunAmmoTypes/virtue_form2_ammo_full", "LOLItems/Resources/weapon_sprites/CustomGunAmmoTypes/virtue_form1_ammo_empty");
+
 
             gun.Volley.ModulesAreTiers = true;
             ProjectileModule mod1 = gun.DefaultModule;
@@ -127,7 +232,7 @@ namespace LOLItems.weapons
             wave.baseData.range = projectileRangeStat;
             wave.baseData.force = 0;
             wave.transform.parent = gun.barrelOffset;
-            wave.shouldRotate = true;
+            wave.shouldRotate = false;
 
             wave.sprite.color = Color.cyan;
             wave.AdditionalScaleMultiplier = 5f;
@@ -138,11 +243,11 @@ namespace LOLItems.weapons
 
             //gun.CurrentStrengthTier = 0;
 
-            gun.quality = PickupObject.ItemQuality.B;
+            gun.quality = PickupObject.ItemQuality.EXCLUDED;
             ETGMod.Databases.Items.Add(gun, false, "ANY");
             ID = gun.PickupObjectId;
-            ItemBuilder.AddCurrentGunStatModifier(gun, PlayerStats.StatType.RateOfFire, 1.0f, StatModifier.ModifyMethod.MULTIPLICATIVE);
-            ItemBuilder.AddCurrentGunStatModifier(gun, PlayerStats.StatType.MovementSpeed, 1.0f, StatModifier.ModifyMethod.MULTIPLICATIVE);
+            //ItemBuilder.AddCurrentGunStatModifier(gun, PlayerStats.StatType.RateOfFire, 1.0f, StatModifier.ModifyMethod.MULTIPLICATIVE);
+            //ItemBuilder.AddCurrentGunStatModifier(gun, PlayerStats.StatType.MovementSpeed, 1.0f, StatModifier.ModifyMethod.MULTIPLICATIVE);
         }
 
         public override void OnPostFired(PlayerController player, Gun gun)
@@ -160,19 +265,33 @@ namespace LOLItems.weapons
 
                 gun.spriteAnimator.OverrideTimeScale = 1f + zealStacks * zealIncPerStack;
 
-                Plugin.Log($"zealStacks: {zealStacks}, fireratemult: {player.stats.GetBaseStatValue(PlayerStats.StatType.RateOfFire)}");
+                //Plugin.Log($"zealStacks: {zealStacks}");
                 zealStacks++;
 
                 if (zealStacks > zealStackCap)
                 {
-                    ItemBuilder.RemoveCurrentGunStatModifier(gun, PlayerStats.StatType.MovementSpeed);
-                    ItemBuilder.AddCurrentGunStatModifier(gun, PlayerStats.StatType.MovementSpeed, zealSpeedInc, StatModifier.ModifyMethod.MULTIPLICATIVE);
-                    //player.stats.RecalculateStats(player, true, false);
-                    player.stats.RecalculateStatsWithoutRebuildingGunVolleys(player);
-                }
+                    Plugin.Log($"{zealCapActivated}");
+                    if (!zealCapActivated)
+                    {
+                        Plugin.Log($"zeal max stack effects activated");
 
-                base.Update();
+                        BraveUtility.Swap(ref this.gun.shootAnimation, ref this.gun.criticalFireAnimation);
+                        BraveUtility.Swap(ref this.gun.alternateShootAnimation, ref this.gun.finalShootAnimation);
+                        BraveUtility.Swap(ref this.gun.idleAnimation, ref this.gun.alternateIdleAnimation);
+
+                        ItemBuilder.RemoveCurrentGunStatModifier(gun, PlayerStats.StatType.MovementSpeed);
+                        ItemBuilder.AddCurrentGunStatModifier(gun, PlayerStats.StatType.MovementSpeed, zealSpeedInc, StatModifier.ModifyMethod.MULTIPLICATIVE);
+                        player.stats.RecalculateStatsWithoutRebuildingGunVolleys(player);
+                        zealCapActivated = true;
+                    }
+                }
+                
+                //BraveUtility.Swap(ref this.gun.shootAnimation, ref this.gun.alternateShootAnimation);
+
+                this.Update();
             }
+
+            BraveUtility.Swap(ref this.gun.shootAnimation, ref this.gun.alternateShootAnimation);
 
             base.OnPostFired(player, gun);
         }
@@ -233,11 +352,17 @@ namespace LOLItems.weapons
             yield return new WaitForSeconds(3f);
             zealStacks = 0;
             ItemBuilder.RemoveCurrentGunStatModifier(gun, PlayerStats.StatType.RateOfFire);
-            ItemBuilder.AddCurrentGunStatModifier(gun, PlayerStats.StatType.RateOfFire, 1.0f + (zealStacks * zealIncPerStack), StatModifier.ModifyMethod.MULTIPLICATIVE);
-            //player.stats.RecalculateStats(player, true, false);
+            //ItemBuilder.AddCurrentGunStatModifier(gun, PlayerStats.StatType.RateOfFire, 1.0f + (zealStacks * zealIncPerStack), StatModifier.ModifyMethod.MULTIPLICATIVE);
+            ItemBuilder.RemoveCurrentGunStatModifier(gun, PlayerStats.StatType.MovementSpeed);
+            //ItemBuilder.AddCurrentGunStatModifier(gun, PlayerStats.StatType.MovementSpeed, zealSpeedInc, StatModifier.ModifyMethod.MULTIPLICATIVE);
             player.stats.RecalculateStatsWithoutRebuildingGunVolleys(player);
 
             gun.spriteAnimator.OverrideTimeScale = 1f + zealStacks * zealIncPerStack;
+
+            BraveUtility.Swap(ref this.gun.shootAnimation, ref this.gun.criticalFireAnimation);
+            BraveUtility.Swap(ref this.gun.alternateShootAnimation, ref this.gun.finalShootAnimation);
+            BraveUtility.Swap(ref this.gun.idleAnimation, ref this.gun.alternateIdleAnimation);
+            zealCapActivated = false;
         }
 
         public override void PostProcessProjectile(Projectile projectile)
@@ -246,7 +371,7 @@ namespace LOLItems.weapons
             {
                 if (projectile != null && projectile.Owner != null)
                 {
-                    Plugin.Log("doing something");
+                    //Plugin.Log("doing something");
 
                     currentOwner.StartCoroutine(FireWaveDelayed(projectile));
                 }

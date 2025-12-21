@@ -30,7 +30,7 @@ namespace LOLItems
     {
         public const string GUID = "Ricky2148.etg.LOLItems";
         public const string NAME = "League of legends Items";
-        public const string VERSION = "2.0.0";
+        public const string VERSION = "2.1.0";
         public const string TEXT_COLOR = "#F1C232";
 
         internal static Harmony _Harmony;
@@ -105,8 +105,8 @@ namespace LOLItems
             PrayerBeads.Add();
             Whisper.Add();
             Crossblade.Add();
-            //VirtueForm1.Add();
-            //VirtueForm2.Add();
+            VirtueForm1.Add();
+            VirtueForm2.Add();
             //VirtueForm3.Add();
             SoulSpear.Add();
 

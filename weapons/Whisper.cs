@@ -502,6 +502,17 @@ namespace LOLItems.weapons
             base.OnInitializedWithOwner(actor);
         }
 
+        public override void OnDropped()
+        {
+            if (idleAnimSwapped)
+            {
+                BraveUtility.Swap(ref gun.idleAnimation, ref gun.alternateIdleAnimation);
+                idleAnimSwapped = !idleAnimSwapped;
+            }
+
+            base.OnDropped();
+        }
+
         public override void OnSwitchedToThisGun()
         {
             PlayerController player = this.Owner as PlayerController;
@@ -510,6 +521,12 @@ namespace LOLItems.weapons
 
             shotCounter = 5 - this.gun.ClipShotsRemaining;
             //Plugin.Log($"switched to gun, shotCounter: {shotCounter}");
+
+            if (idleAnimSwapped)
+            {
+                BraveUtility.Swap(ref gun.idleAnimation, ref gun.alternateIdleAnimation);
+                idleAnimSwapped = !idleAnimSwapped;
+            }
 
             base.OnSwitchedToThisGun();
         }
