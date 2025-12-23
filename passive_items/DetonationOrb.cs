@@ -121,7 +121,9 @@ namespace LOLItems.passive_items
             {
                 proj.OnHitEnemy += (projHit, enemy, fatal) =>
                 {
-                    if (enemy != null || enemy.aiActor != null && enemy.healthHaver.IsAlive)
+                    //Plugin.Log($"enemy curhealth: {enemy.healthHaver.GetCurrentHealth()}, enemy isAlive: {enemy.healthHaver.IsAlive}");
+
+                    if ((enemy != null || enemy.aiActor != null) && enemy.healthHaver.IsAlive)
                     {
                         float dmgToStore = projHit.baseData.damage * TheBombDmgScale;
                         if (enemy.healthHaver.IsBoss || enemy.healthHaver.IsSubboss)
@@ -140,7 +142,6 @@ namespace LOLItems.passive_items
 
                         //Plugin.Log($"enemyTheBombDmgStored: {enemyTheBombDmgStored[enemy.aiActor]}, enemy hp: {enemy.aiActor.healthHaver.GetCurrentHealth()}");
                     
-                        // if the hit enemy's stack count is at max stacks, trigger charm effect and cooldown
                         if (enemyTheBombDmgStored[enemy.aiActor] >= enemy.aiActor.healthHaver.GetCurrentHealth() && enemy.aiActor.healthHaver.GetCurrentHealth() != 0)
                         {
                             DetonateTheBomb(enemy.aiActor);

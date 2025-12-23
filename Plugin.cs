@@ -90,7 +90,7 @@ namespace LOLItems
 
             //testing
             //CarefreeMelody.Init();
-            //debugItem.Init();
+            debugItem.Init();
 
             //guon stones
             BraumsShield.Init();
@@ -125,7 +125,9 @@ namespace LOLItems
             TearOfTheGoddess.Init();
 
             //next update items
-            //DetonationOrb.Init();
+            DetonationOrb.Init();
+            RefillablePotion.Init();
+            TalismanOfAscension.Init();
 
             //npcs?
             Bubbs.Init();

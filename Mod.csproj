@@ -61,6 +61,8 @@
   <ItemGroup>
     <Compile Include="active_items\debugItem.cs" />
     <Compile Include="active_items\Galeforce.cs" />
+    <Compile Include="active_items\RefillablePotion.cs" />
+    <Compile Include="active_items\TalismanOfAscension.cs" />
     <Compile Include="active_items\TeemoShrooms.cs" />
     <Compile Include="custom_class_data\AdvancedPlayerOrbitalItem.cs" />
     <Compile Include="custom_class_data\CustomLightningChainEnemiesModifierAOE.cs" />
@@ -788,6 +790,10 @@
     <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\virtue_form2_alternate_idle_001.jtk2d" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Resources\weapon_sprites\ProjectileCollection\virtue_green_projectile_straight_001.png" />
+    <EmbeddedResource Include="Resources\weapon_sprites\ProjectileCollection\virtue_yellow_large_projectile_001.png" />
+    <EmbeddedResource Include="Resources\weapon_sprites\ProjectileCollection\virtue_yellow_medium_projectile_001.png" />
+    <EmbeddedResource Include="Resources\weapon_sprites\ProjectileCollection\virtue_yellow_projectile_straight_001.png" />
     <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\virtue_form2_alternate_idle_001.png" />
     <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\virtue_form2_critical_fire_001.png" />
     <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\virtue_form2_critical_fire_002.png" />
@@ -1542,6 +1548,8 @@
     <EmbeddedResource Include="Resources\passive_item_sprites\detonation_orb_pixelart_sprite.png" />
     <EmbeddedResource Include="Resources\passive_item_sprites\detonation_orb_pixelart_sprite_nosparks.png" />
     <EmbeddedResource Include="Resources\passive_item_sprites\fated_ashes_pixelart_sprite.png" />
+    <EmbeddedResource Include="Resources\active_item_sprites\refillable_potion_item_sprite.png" />
+    <EmbeddedResource Include="Resources\active_item_sprites\talisman_of_ascension_item_sprite.png" />
     <Content Include="Resources\Sounds\gen-gungeon-audio-bank.py" />
     <EmbeddedResource Include="Resources\active_item_sprites\redemption_item_sprite.png" />
     <EmbeddedResource Include="Resources\active_item_sprites\stridebreaker_item_sprite.png" />

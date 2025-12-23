@@ -698,6 +698,41 @@ namespace LOLItems.custom_class_data
         ChamberGunRNG = 823, // was WoodBeamDupe1
     }
 
+    public enum StatTypeList
+    {
+        MovementSpeed = 0,
+        RateOfFire = 1,
+        Accuracy = 2,
+        Health = 3,
+        Coolness = 4,
+        Damage = 5,
+        ProjectileSpeed = 6,
+        AdditionalGunCapacity = 7,
+        AdditionalItemCapacity = 8,
+        AmmoCapacityMultiplier = 9,
+        ReloadSpeed = 10,
+        AdditionalShotPiercing = 11,
+        KnockbackMultiplier = 12,
+        GlobalPriceMultiplier = 13,
+        Curse = 14,
+        PlayerBulletScale = 15,
+        AdditionalClipCapacityMultiplier = 16,
+        AdditionalShotBounces = 17,
+        AdditionalBlanksPerFloor = 18,
+        ShadowBulletChance = 19,
+        ThrownGunDamage = 20,
+        DodgeRollDamage = 21,
+        DamageToBosses = 22,
+        EnemyProjectileSpeedMultiplier = 23,
+        ExtremeShadowBulletChance = 24,
+        ChargeAmountMultiplier = 25,
+        RangeMultiplier = 26,
+        DodgeRollDistanceMultiplier = 27,
+        DodgeRollSpeedMultiplier = 28,
+        TarnisherClipCapacityMultiplier = 29,
+        MoneyMultiplierFromEnemies = 30
+    }
+
     public static class ShaderBase
     {
         public static readonly string[] Shaders =
