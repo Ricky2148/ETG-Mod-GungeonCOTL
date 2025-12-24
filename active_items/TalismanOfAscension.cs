@@ -2,6 +2,7 @@
 using Alexandria.ItemAPI;
 using Alexandria.Misc;
 using Alexandria.VisualAPI;
+using HutongGames.Utility;
 using LOLItems.custom_class_data;
 using LOLItems.guon_stones;
 using LOLItems.passive_items;
@@ -24,6 +25,8 @@ namespace LOLItems.active_items
         public List<PlayerStats.StatType> StatTypeList = new List<PlayerStats.StatType>(
             (PlayerStats.StatType[])Enum.GetValues(typeof(PlayerStats.StatType))
             );
+
+        public Dictionary<PlayerStats.StatType, float> StatTypeWeights = new Dictionary<PlayerStats.StatType, float>();
 
         //public System.Array StatTypeList = Enum.GetValues(typeof(PlayerStats.StatType));
 
@@ -49,12 +52,51 @@ namespace LOLItems.active_items
             item.usableDuringDodgeRoll = true;
             item.quality = PickupObject.ItemQuality.A;
             ID = item.PickupObjectId;
+
+            ItemBuilder.AddPassiveStatModifier(item, PlayerStats.StatType.Damage, 1.5f, StatModifier.ModifyMethod.MULTIPLICATIVE);
+
+            item.StatTypeList.Remove(PlayerStats.StatType.Health);
+            item.StatTypeList.Remove(PlayerStats.StatType.Coolness);
+            item.StatTypeList.Remove(PlayerStats.StatType.AdditionalGunCapacity);
+            item.StatTypeList.Remove(PlayerStats.StatType.AdditionalItemCapacity);
+            item.StatTypeList.Remove(PlayerStats.StatType.GlobalPriceMultiplier);
+            item.StatTypeList.Remove(PlayerStats.StatType.Curse);
+            item.StatTypeList.Remove(PlayerStats.StatType.AdditionalBlanksPerFloor);
+            item.StatTypeList.Remove(PlayerStats.StatType.ShadowBulletChance);
+            item.StatTypeList.Remove(PlayerStats.StatType.ThrownGunDamage);
+            item.StatTypeList.Remove(PlayerStats.StatType.DodgeRollDamage);
+            item.StatTypeList.Remove(PlayerStats.StatType.ExtremeShadowBulletChance);
+            item.StatTypeList.Remove(PlayerStats.StatType.RangeMultiplier);
+            item.StatTypeList.Remove(PlayerStats.StatType.DodgeRollDistanceMultiplier);
+            item.StatTypeList.Remove(PlayerStats.StatType.DodgeRollSpeedMultiplier);
+            item.StatTypeList.Remove(PlayerStats.StatType.TarnisherClipCapacityMultiplier);
+
+            item.StatTypeWeights.Clear();
+            item.StatTypeWeights.Add(item.StatTypeList[0], 1.0f);
+            item.StatTypeWeights.Add(item.StatTypeList[1], 1.2f);
         }
 
         public override void Pickup(PlayerController player)
         {
             base.Pickup(player);
             Plugin.Log($"Player picked up {this.EncounterNameOrDisplayName}, {StatTypeList.GetType()}");
+            foreach (PlayerStats.StatType a in StatTypeList)
+            {
+                Plugin.Log($"{a}");
+            }
+
+            Plugin.Log("smth");
+
+            StatTypeWeights.Clear();
+            StatTypeWeights.Add(StatTypeList[0], 1.0f);
+            StatTypeWeights.Add(StatTypeList[1], 1.2f);
+
+            foreach (KeyValuePair<PlayerStats.StatType, float> b in StatTypeWeights)
+            {
+                Plugin.Log($"{b.Key} | {b.Value}");
+            }
+
+            Plugin.Log("fuck");
         }
 
         public DebrisObject Drop(PlayerController player)
@@ -78,7 +120,8 @@ namespace LOLItems.active_items
             {
                 //Enum.GetValues(typeof(PlayerStats.StatType))
 
-                list1.Add(UnityEngine.Random.Range(0, 30));
+                list1.Add(UnityEngine.Random.Range(0, StatTypeList.Count));
+                Plugin.Log($"{list1[a]}");
             }
 
             int i = 0,j = 0;

@@ -13,6 +13,8 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using UnityEngine;
 
+// make wave projectiles pierce all walls
+
 namespace LOLItems.weapons
 {
     internal class VirtueForm2 : AdvancedGunBehavior
@@ -218,6 +220,8 @@ namespace LOLItems.weapons
             wave.shouldRotate = true;
 
             wave.PenetratesInternalWalls = true;
+            wave.pierceMinorBreakables = true;
+            wave.damagesWalls = false;
 
             PierceProjModifier pierce = wave.gameObject.GetOrAddComponent<PierceProjModifier>();
             pierce.penetration = 999;

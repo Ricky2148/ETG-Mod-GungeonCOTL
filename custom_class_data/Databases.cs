@@ -698,7 +698,7 @@ namespace LOLItems.custom_class_data
         ChamberGunRNG = 823, // was WoodBeamDupe1
     }
 
-    public enum StatTypeList
+    public enum StatTypesEnum
     {
         MovementSpeed = 0,
         RateOfFire = 1,
