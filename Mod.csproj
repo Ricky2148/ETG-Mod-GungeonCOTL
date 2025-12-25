@@ -72,6 +72,7 @@
     <Compile Include="custom_class_data\LootTableTools.cs" />
     <Compile Include="custom_class_data\OnPreDamagedPassiveItem.cs" />
     <Compile Include="custom_class_data\RicochetProjectileModule.cs" />
+    <Compile Include="custom_class_data\TrueWallPiercingRounds.cs" />
     <Compile Include="guon_stones\BraumsShield.cs" />
     <Compile Include="npcs\Bubbs.cs" />
     <Compile Include="passive_items\CloakOfStarryNight.cs" />

@@ -143,6 +143,8 @@ namespace LOLItems.active_items
                 i++;
             }
 
+            user.stats.RecalculateStatsWithoutRebuildingGunVolleys(user);
+
             foreach (int a in list1)
             {
                 Plugin.Log($"{StatTypeList[a]}");

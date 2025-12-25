@@ -10,6 +10,7 @@ using MonoMod;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using UnityEngine;
 
@@ -47,8 +48,8 @@ namespace LOLItems.weapons
         private Projectile wave;
 
         private static float projectileDamageStat = 10f;
-        private static float projectileSpeedStat = 20f;
-        private static float projectileRangeStat = 25f;
+        private static float projectileSpeedStat = 50f; //50f
+        private static float projectileRangeStat = 15f;
         private static float projectileForceStat = 8f;
 
         private static List<string> VirtueFiringSFXList = new List<string>
@@ -118,6 +119,16 @@ namespace LOLItems.weapons
             projectile.shouldRotate = true;
 
             projectile.SetProjectileSpriteRight("virtue_yellow_projectile_straight_001", 19, 7, true, tk2dBaseSprite.Anchor.MiddleCenter, 17, 6);
+
+            EasyTrailBullet projTrail = projectile.gameObject.AddComponent<EasyTrailBullet>();
+            projTrail.TrailPos = projectile.transform.position;
+            projTrail.StartWidth = 0.25f;
+            projTrail.EndWidth = 0f;
+            projTrail.LifeTime = 0.15f; //How long the trail lingers
+            // BaseColor sets an overall color for the trail. Start and End Colors are subtractive to it. 
+            projTrail.BaseColor = ExtendedColours.orange; //Set to white if you don't want to interfere with Start/End Colors.
+            projTrail.StartColor = ExtendedColours.orange;
+            projTrail.EndColor = Color.white; //Custom Orange example using r/g/b values.
 
             /*List<string> projectileSpriteNames = new List<string>
             {
@@ -223,6 +234,11 @@ namespace LOLItems.weapons
             wave.pierceMinorBreakables = true;
             wave.damagesWalls = false;
 
+            TrueWallPiercingRounds wallPiercingRounds = wave.gameObject.GetOrAddComponent<TrueWallPiercingRounds>();
+
+            //wave.BulletScriptSettings.surviveRigidbodyCollisions = true;
+            //wave.BulletScriptSettings.surviveTileCollisions = true;
+
             PierceProjModifier pierce = wave.gameObject.GetOrAddComponent<PierceProjModifier>();
             pierce.penetration = 999;
             pierce.penetratesBreakables = true;
@@ -231,6 +247,76 @@ namespace LOLItems.weapons
             //wave.AdditionalScaleMultiplier = 5f;
 
             wave.SetProjectileSpriteRight("virtue_yellow_large_projectile_001", 46, 96, true, tk2dBaseSprite.Anchor.MiddleCenter, 36, 76);
+
+            var sprite = wave.sprite.gameObject.GetComponent<tk2dSprite>();
+
+            if (sprite != null)
+            {
+                Plugin.Log("sprite not null");
+                sprite.usesOverrideMaterial = true;
+                sprite.renderer.material.shader = ShaderCache.Acquire("Brave/Internal/SimpleAlphaFadeUnlit");
+                sprite.renderer.material.SetFloat("_Fade", 0.5f);
+            }
+            else
+            {
+                Plugin.Log("sprite is null");
+            }
+
+            /*var tro_1 = wave.gameObject.AddChild("trail object");
+            tro_1.transform.position = projectile.transform.position;
+            tro_1.transform.localPosition = projectile.transform.position;
+            TrailRenderer tr_1 = tro_1.AddComponent<TrailRenderer>();
+            tr_1.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
+            tr_1.receiveShadows = false;
+            var mat_1 = new Material(Shader.Find("Brave/Internal/SimpleAlphaFadeUnlit")); //replace the "Shader.Find("Sprites/Default")" with your shader reference
+            tr_1.material = mat_1;
+            tr_1.material.SetFloat("_Fade", 0.5f);
+            tr_1.minVertexDistance = 0.01f;
+            tr_1.numCapVertices = 640;
+
+            //======
+            mat_1.SetColor("_Color", ExtendedColours.orange);
+            tr_1.startColor = ExtendedColours.orange;
+            tr_1.endColor = Color.white;
+            //======
+            tr_1.time = 0.15f;
+            //======
+            tr_1.startWidth = 5.5f;
+            tr_1.endWidth = 4.0f;
+            tr_1.autodestruct = false;
+
+            var rend = wave.gameObject.AddComponent<ProjectileTrailRendererController>();
+            rend.trailRenderer = tr_1;
+            rend.desiredLength = 6;*/
+
+            //var waveTrailObject = wave.gameObject.AddChild("trail object");
+            //waveTrailObject.transform.position = wave.transform.position;
+            //waveTrailObject.transform.localPosition = wave.transform.position;
+
+            /*TrailRenderer waveTrail = waveTrailObject.GetOrAddComponent<TrailRenderer>();
+            waveTrail.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
+            waveTrail.receiveShadows = false;
+            waveTrail.material = new Material(Shader.Find("Sprites/Default"));
+
+            waveTrail.material.shader = ShaderCache.Acquire("Brave/LitTk2dCustomFalloffTiltedCutoutEmissive");
+            waveTrail.material.SetFloat("_Fade", 0.5f);
+            waveTrail.minVertexDistance = 0.1f;
+            waveTrail.material.SetColor("_Color", ExtendedColours.orange);
+            waveTrail.startColor = ExtendedColours.orange;
+            waveTrail.endColor = Color.white;
+            waveTrail.time = 0.15f;
+            waveTrail.startWidth = 6.0f;
+            waveTrail.endWidth = 4.0f;*/
+
+            /*EasyTrailBullet waveTrail = wave.gameObject.AddComponent<EasyTrailBullet>();
+            //waveTrail.TrailPos = wave.transform.position;
+            waveTrail.StartWidth = 5.5f;
+            waveTrail.EndWidth = 4.0f;
+            waveTrail.LifeTime = 0.15f; //How long the trail lingers
+            // BaseColor sets an overall color for the trail. Start and End Colors are subtractive to it. 
+            waveTrail.BaseColor = ExtendedColours.orange; //Set to white if you don't want to interfere with Start/End Colors.
+            waveTrail.StartColor = ExtendedColours.orange;
+            waveTrail.EndColor = Color.white; //Custom Orange example using r/g/b values*/
 
             gun.shellsToLaunchOnFire = 0;
             gun.shellsToLaunchOnReload = 0;
@@ -319,6 +405,9 @@ namespace LOLItems.weapons
 
                     gun.spriteAnimator.OverrideTimeScale = 1f;
                     zealStacks = 0;
+                    ItemBuilder.RemoveCurrentGunStatModifier(gun, PlayerStats.StatType.RateOfFire);
+                    ItemBuilder.RemoveCurrentGunStatModifier(gun, PlayerStats.StatType.MovementSpeed);
+                    currentOwner.stats.RecalculateStatsWithoutRebuildingGunVolleys(currentOwner);
                     Plugin.Log($"Reset {gun}'s fire rate to {currentOwner.stats.GetBaseStatValue(PlayerStats.StatType.RateOfFire)}, zealstacks: {zealStacks}");
                 }
             }
@@ -354,10 +443,14 @@ namespace LOLItems.weapons
 
             gun.spriteAnimator.OverrideTimeScale = 1f + zealStacks * zealIncPerStack;
 
-            BraveUtility.Swap(ref this.gun.shootAnimation, ref this.gun.criticalFireAnimation);
-            BraveUtility.Swap(ref this.gun.alternateShootAnimation, ref this.gun.finalShootAnimation);
-            BraveUtility.Swap(ref this.gun.idleAnimation, ref this.gun.alternateIdleAnimation);
-            zealCapActivated = false;
+            if (zealCapActivated)
+            {
+                BraveUtility.Swap(ref this.gun.shootAnimation, ref this.gun.criticalFireAnimation);
+                BraveUtility.Swap(ref this.gun.alternateShootAnimation, ref this.gun.finalShootAnimation);
+                BraveUtility.Swap(ref this.gun.idleAnimation, ref this.gun.alternateIdleAnimation);
+
+                zealCapActivated = false;
+            }
         }
 
         public override void PostProcessProjectile(Projectile projectile)
@@ -386,6 +479,8 @@ namespace LOLItems.weapons
             yield return new WaitForSeconds(0.001f);
 
             Vector2 direction = projectile.LastVelocity.normalized;
+
+            //projectile.gameObject.GetComponent<EasyTrailBullet>().TrailPos = projectile.transform.position;
 
             //Projectile wave = UnityEngine.Object.Instantiate(projectile.gameObject).GetComponent<Projectile>();
 

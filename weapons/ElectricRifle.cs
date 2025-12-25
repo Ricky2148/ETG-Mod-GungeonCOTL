@@ -19,7 +19,7 @@ namespace LOLItems.weapons
     {
         public static string internalName; //Internal name of the gun as used by console commands
         public static int ID; //The Gun ID stored by the game.  Can be used by other functions to call your custom gun.
-        public static string realName = "Electric Rifle"; //The name that shows up in the Ammonomicon and the mod console.
+        public static string realName = "Zaunite Rifle"; //The name that shows up in the Ammonomicon and the mod console.
 
         private static int ammoStat = 1000; // seems to be a limit of 1000 on ammo gun can have on pickup for some reason
         private static int clipStat = 70;
