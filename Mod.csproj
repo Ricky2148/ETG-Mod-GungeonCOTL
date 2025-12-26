@@ -791,6 +791,7 @@
     <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\virtue_form2_alternate_idle_001.jtk2d" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Resources\weapon_sprites\ProjectileCollection\virtue_yellow_large_projectile_thin_001.png" />
     <EmbeddedResource Include="Resources\weapon_sprites\ProjectileCollection\virtue_green_projectile_straight_001.png" />
     <EmbeddedResource Include="Resources\weapon_sprites\ProjectileCollection\virtue_yellow_large_projectile_001.png" />
     <EmbeddedResource Include="Resources\weapon_sprites\ProjectileCollection\virtue_yellow_medium_projectile_001.png" />

@@ -127,7 +127,7 @@ namespace LOLItems.weapons
             projTrail.LifeTime = 0.15f; //How long the trail lingers
             // BaseColor sets an overall color for the trail. Start and End Colors are subtractive to it. 
             projTrail.BaseColor = ExtendedColours.orange; //Set to white if you don't want to interfere with Start/End Colors.
-            projTrail.StartColor = ExtendedColours.orange;
+            projTrail.StartColor = ExtendedColours.paleYellow;
             projTrail.EndColor = Color.white; //Custom Orange example using r/g/b values.
 
             /*List<string> projectileSpriteNames = new List<string>
@@ -246,7 +246,7 @@ namespace LOLItems.weapons
             //wave.sprite.color = Color.cyan;
             //wave.AdditionalScaleMultiplier = 5f;
 
-            wave.SetProjectileSpriteRight("virtue_yellow_large_projectile_001", 46, 96, true, tk2dBaseSprite.Anchor.MiddleCenter, 36, 76);
+            wave.SetProjectileSpriteRight("virtue_yellow_large_projectile_thin_001", 23, 96, true, tk2dBaseSprite.Anchor.MiddleCenter, 20, 76);
 
             var sprite = wave.sprite.gameObject.GetComponent<tk2dSprite>();
 
@@ -255,7 +255,7 @@ namespace LOLItems.weapons
                 Plugin.Log("sprite not null");
                 sprite.usesOverrideMaterial = true;
                 sprite.renderer.material.shader = ShaderCache.Acquire("Brave/Internal/SimpleAlphaFadeUnlit");
-                sprite.renderer.material.SetFloat("_Fade", 0.5f);
+                sprite.renderer.material.SetFloat("_Fade", 0.8f);
             }
             else
             {

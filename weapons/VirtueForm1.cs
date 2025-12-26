@@ -107,10 +107,20 @@ namespace LOLItems.weapons
             projectile.transform.parent = gun.barrelOffset;
             projectile.shouldRotate = true;
 
-            projectile.SetProjectileSpriteRight("virtue_green_projectile_001", 20, 6, true, tk2dBaseSprite.Anchor.MiddleCenter, 16, 5);
+            projectile.SetProjectileSpriteRight("virtue_green_projectile_straight_001", 19, 7, true, tk2dBaseSprite.Anchor.MiddleCenter, 17, 6);
+
+            EasyTrailBullet projTrail = projectile.gameObject.AddComponent<EasyTrailBullet>();
+            projTrail.TrailPos = projectile.transform.position;
+            projTrail.StartWidth = 0.25f;
+            projTrail.EndWidth = 0f;
+            projTrail.LifeTime = 0.15f; //How long the trail lingers
+            // BaseColor sets an overall color for the trail. Start and End Colors are subtractive to it. 
+            projTrail.BaseColor = ExtendedColours.lime; //Set to white if you don't want to interfere with Start/End Colors.
+            projTrail.StartColor = Color.green;
+            projTrail.EndColor = Color.white; //Custom Orange example using r/g/b values.
 
             // A list of filenames in the sprites/ProjectileCollection folder for each frame in the animation, extension not required.
-            List<string> projectileSpriteNames = new List<string>
+            /*List<string> projectileSpriteNames = new List<string>
             {
                 "virtue_green_projectile_001",
                 "virtue_green_projectile_002",
@@ -200,7 +210,7 @@ namespace LOLItems.weapons
 
             projectile.AddAnimationToProjectile(projectileSpriteNames, projectileFPS, projectileSizes, projectileLighteneds, projectileAnchors, projectileAnchorsChangeColiders, projectilefixesScales,
                                                 projectileManualOffsets, projectileOverrideColliderSizes, projectileOverrideColliderOffsets, projectileOverrideProjectilesToCopyFrom, ProjectileWrapMode);
-
+            */
 
             gun.DefaultModule.ammoType = GameUIAmmoType.AmmoType.CUSTOM;
             gun.DefaultModule.customAmmoType = CustomClipAmmoTypeToolbox.AddCustomAmmoType("virtue_form1_ammo",
