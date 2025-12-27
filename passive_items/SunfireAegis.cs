@@ -147,6 +147,13 @@ namespace LOLItems
             }
         }
 
+        public override void Update()
+        {
+
+
+            base.Update();
+        }
+
         // updates the immolate stats based on the player's current health
         private void UpdateImmolateStats(float oldHealth, float newHealth)
         {
