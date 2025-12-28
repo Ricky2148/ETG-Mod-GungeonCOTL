@@ -91,6 +91,8 @@ namespace LOLItems
             base.Pickup(player);
             Plugin.Log($"Player picked up {this.EncounterNameOrDisplayName}");
 
+            player.OnNewFloorLoaded += OnLoadedNewFloor;
+
             //Plugin.Log($"health: {player.healthHaver.GetMaxHealth()}");
             //presets the dmg to default health values
             base.AuraRadius = ImmolateBaseRadius + 3 * ImmolateRadiusPerHeart;
@@ -139,19 +141,13 @@ namespace LOLItems
             base.DisableEffect(player);
             Plugin.Log($"Player dropped or got rid of {this.EncounterNameOrDisplayName}");
 
+            player.OnNewFloorLoaded -= OnLoadedNewFloor;
             player.healthHaver.OnHealthChanged -= UpdateImmolateStats;
 
             if (activeVFXObject != null)
             {
                 Destroy(activeVFXObject);
             }
-        }
-
-        public override void Update()
-        {
-
-
-            base.Update();
         }
 
         // updates the immolate stats based on the player's current health
@@ -161,6 +157,39 @@ namespace LOLItems
             this.DamagePerSecond = (newHealth) * ImmolateDamagePerHeart;
             this.AuraRadius = ImmolateBaseRadius + (newHealth) * ImmolateRadiusPerHeart;
             this.Update();
+        }
+
+        private void OnLoadedNewFloor(PlayerController player)
+        {
+            if (activeVFXObject != null)
+            {
+                Destroy(activeVFXObject);
+            }
+
+            activeVFXObject = player.PlayEffectOnActor(EffectVFX, new Vector3(21 / 16f, 10 / 16f, -2f), true, false, false);
+            var sprite = activeVFXObject.GetComponent<tk2dSprite>();
+
+            if (sprite != null)
+            {
+                sprite.HeightOffGround = -50f;
+
+                sprite.UpdateZDepth();
+
+                sprite.usesOverrideMaterial = true;
+
+                //Material mat = sprite.renderer.material;
+
+                //mat.shader = ShaderCache.Acquire("Brave/Internal/SimpleSpriteMask");
+
+                //mat.SetFloat("_EmissivePower", 10f);
+
+                //sprite.ForceUpdateMaterial();
+                //sprite.UpdateMaterial();
+
+                //Shader vfxShader = sprite.renderer.material.shader;
+                sprite.renderer.material.shader = ShaderCache.Acquire("Brave/Internal/SimpleAlphaFadeUnlit");
+                sprite.renderer.material.SetFloat("_Fade", 0.25f);
+            }
         }
     }
 }
