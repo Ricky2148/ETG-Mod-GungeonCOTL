@@ -62,7 +62,9 @@ namespace LOLItems.passive_items
 
         private void OnPostProcessProjectile(BeamController beam, SpeculativeRigidbody hitRigidbody, float tickrate)
         {
-            if (hitRigidbody != null && hitRigidbody.aiActor != null)
+            if (hitRigidbody == null) return;
+            if (hitRigidbody.aiActor == null && hitRigidbody.GetComponentInParent<AIActor>() == null) return;
+            if (hitRigidbody.healthHaver != null)
             {
                 PlayerController player = this.Owner;
                 
@@ -91,7 +93,9 @@ namespace LOLItems.passive_items
             {
                 proj.OnHitEnemy += (projHit, enemy, fatal) =>
                 {
-                    if (enemy != null || enemy.aiActor != null)
+                    if (enemy == null) return;
+                    if (enemy.aiActor == null && enemy.GetComponentInParent<AIActor>() == null) return;
+                    if (enemy.healthHaver != null)
                     {
                         PlayerController player = this.Owner;
                         if (!player.CurrentItem.IsCurrentlyActive)

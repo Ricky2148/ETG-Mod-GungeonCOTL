@@ -71,7 +71,9 @@ namespace LOLItems.passive_items
             {
                 proj.OnHitEnemy += (projHit, enemy, fatal) =>
                 {
-                    if (enemy != null && enemy.aiActor != null && !fatal)
+                    if (enemy == null) return;
+                    if (enemy.aiActor == null && enemy.GetComponentInParent<AIActor>() == null) return;
+                    if (enemy.healthHaver != null)
                     {
                         enemy.healthHaver.ApplyDamage(
                             spellbladeDmg,

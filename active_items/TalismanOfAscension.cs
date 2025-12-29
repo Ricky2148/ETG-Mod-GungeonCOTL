@@ -41,7 +41,7 @@ namespace LOLItems.active_items
         public static void Init()
         {
             string itemName = "Talisman of Ascension";
-            string resourceName = "LOLItems/Resources/active_item_sprites/talisman_of_ascension_pixelart_sprite";
+            string resourceName = "LOLItems/Resources/active_item_sprites/talisman_of_ascension_pixelart_sprite_sparks";
 
             GameObject obj = new GameObject(itemName);
 

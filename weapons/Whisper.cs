@@ -696,7 +696,9 @@ namespace LOLItems.weapons
             {
                 projectile.OnHitEnemy += (projHit, enemy, fatal) =>
                 {
-                    if (enemy != null && enemy.aiActor != null && enemy.aiActor.healthHaver != null && enemy.healthHaver != null)
+                    if (enemy == null) return;
+                    if (enemy.aiActor == null && enemy.GetComponentInParent<AIActor>() == null) return;
+                    if (enemy.healthHaver != null)
                     {
                         float damageToDeal = 0.25f * (enemy.healthHaver.GetMaxHealth() - enemy.healthHaver.GetCurrentHealth());
 

@@ -68,13 +68,27 @@ namespace LOLItems
         // executes enemies below 5% health
         private void OnPostProcessProjectile(BeamController beam, SpeculativeRigidbody hitRigidbody, float tickrate)
         {
-            if (hitRigidbody != null || hitRigidbody.aiActor != null)
+            if (hitRigidbody == null) return;
+            AIActor firstEnemy = null;
+            if (hitRigidbody.aiActor != null)
             {
-                float currentHealthPercentage = hitRigidbody.aiActor.healthHaver.GetCurrentHealthPercentage();
+                firstEnemy = hitRigidbody.aiActor;
+            }
+            else if (hitRigidbody.GetComponentInParent<AIActor>() != null)
+            {   
+                firstEnemy = hitRigidbody.GetComponentInParent<AIActor>();
+            }
+            else
+            {
+                return;
+            }
+            if (hitRigidbody.healthHaver != null)
+            {
+                float currentHealthPercentage = firstEnemy.healthHaver.GetCurrentHealthPercentage();
                 if (currentHealthPercentage <= ExecuteThreshold)
                 {
                     // applies additional damage instance equal to their max health value
-                    hitRigidbody.aiActor.healthHaver.ApplyDamage(
+                    firstEnemy.healthHaver.ApplyDamage(
                         hitRigidbody.aiActor.healthHaver.GetMaxHealth(),
                         Vector2.zero,
                         "the_collector_death_execute",
@@ -91,18 +105,23 @@ namespace LOLItems
         {
             proj.OnHitEnemy += (projHit, enemy, fatal) =>
             {
-                float currentHealthPercentage = enemy.healthHaver.GetCurrentHealthPercentage();
-                if (currentHealthPercentage <= ExecuteThreshold)
+                if (enemy == null) return;
+                if (enemy.aiActor == null || enemy.GetComponentInParent<AIActor>() == null) return;
+                if (enemy.healthHaver != null)
                 {
-                    // applies additional damage instance equal to their max health value
-                    enemy.healthHaver.ApplyDamage(
-                        enemy.healthHaver.GetMaxHealth(),
-                        Vector2.zero,
-                        "the_collector_death_execute",
-                        CoreDamageTypes.None,
-                        DamageCategory.Unstoppable,
-                        false
-                    );
+                    float currentHealthPercentage = enemy.healthHaver.GetCurrentHealthPercentage();
+                    if (currentHealthPercentage <= ExecuteThreshold)
+                    {
+                        // applies additional damage instance equal to their max health value
+                        enemy.healthHaver.ApplyDamage(
+                            enemy.healthHaver.GetMaxHealth(),
+                            Vector2.zero,
+                            "the_collector_death_execute",
+                            CoreDamageTypes.None,
+                            DamageCategory.Unstoppable,
+                            false
+                        );
+                    }
                 }
             };
         }

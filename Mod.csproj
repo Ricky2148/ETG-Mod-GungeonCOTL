@@ -1553,6 +1553,7 @@
     <EmbeddedResource Include="Resources\active_item_sprites\refillable_potion_item_sprite.png" />
     <EmbeddedResource Include="Resources\active_item_sprites\talisman_of_ascension_item_sprite.png" />
     <EmbeddedResource Include="Resources\active_item_sprites\talisman_of_ascension_pixelart_sprite.png" />
+    <EmbeddedResource Include="Resources\active_item_sprites\talisman_of_ascension_pixelart_sprite_sparks.png" />
     <Content Include="Resources\Sounds\gen-gungeon-audio-bank.py" />
     <EmbeddedResource Include="Resources\active_item_sprites\redemption_item_sprite.png" />
     <EmbeddedResource Include="Resources\active_item_sprites\stridebreaker_item_sprite.png" />

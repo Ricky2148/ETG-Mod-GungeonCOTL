@@ -71,18 +71,30 @@ namespace LOLItems.passive_items
         {
             proj.OnHitEnemy += (projHit, enemy, fatal) =>
             {
-                if (enemy != null && enemy.aiActor != null)
+                if (enemy == null) return;
+                if (enemy.healthHaver == null) return;
+                if (enemy.aiActor != null)
                 {
                     enemy.aiActor.ApplyEffect(InflameBurnEffect);
+                }
+                else if (enemy.GetComponentInParent<AIActor>() != null)
+                {
+                    enemy.GetComponentInParent<AIActor>().ApplyEffect(InflameBurnEffect);
                 }
             };
         }
 
         private void OnPostProcessProjectile(BeamController beam, SpeculativeRigidbody hitRigidbody, float tickrate)
         {
-            if (hitRigidbody != null && hitRigidbody.aiActor != null)
+            if (hitRigidbody == null) return;
+            if (hitRigidbody.healthHaver == null) return;
+            if (hitRigidbody.aiActor != null)
             {
                 hitRigidbody.aiActor.ApplyEffect(InflameBurnEffect);
+            }
+            else if (hitRigidbody.GetComponentInParent<AIActor>() != null)
+            {
+                hitRigidbody.GetComponentInParent<AIActor>().ApplyEffect(InflameBurnEffect);
             }
         }
     }

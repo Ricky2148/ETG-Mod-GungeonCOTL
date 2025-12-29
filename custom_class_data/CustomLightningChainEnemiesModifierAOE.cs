@@ -86,9 +86,23 @@ public class CustomLightningChainEnemiesModifierAOE : BraveBehaviour
     // starts the chain process when the projectile hits an enemy
     private void HandleHitEnemy(Projectile proj, SpeculativeRigidbody enemyRigidbody, bool fatal)
     {
-        if (enemyRigidbody == null || enemyRigidbody.aiActor == null) return;
-
-        AIActor firstEnemy = enemyRigidbody.aiActor;
+        if (enemyRigidbody == null) return;
+        AIActor firstEnemy = null;
+        if (enemyRigidbody.aiActor != null)
+        {
+            firstEnemy = enemyRigidbody.aiActor;
+            Plugin.Log($"enemy.aiActor: {firstEnemy}");
+        }
+        else if (enemyRigidbody.GetComponentInParent<AIActor>() != null)
+        {
+            firstEnemy = enemyRigidbody.GetComponentInParent<AIActor>();
+            Plugin.Log($"enemy.parentActor: {firstEnemy}");
+        }
+        else
+        {
+            Plugin.Log("firstEnemy = null");
+            return;
+        }
 
         // Build chain starting from the first hit enemy
         List<AIActor> chain = ChainEnemies(firstEnemy);

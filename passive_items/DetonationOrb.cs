@@ -66,29 +66,46 @@ namespace LOLItems.passive_items
 
         private void OnPostProcessProjectile(BeamController beam, SpeculativeRigidbody hitRigidbody, float tickrate)
         {
-            if (hitRigidbody != null || hitRigidbody.aiActor != null && hitRigidbody.healthHaver.IsAlive)
+            if (hitRigidbody == null) return;
+            AIActor target = null;
+            if (hitRigidbody.aiActor != null)
+            {
+                target = hitRigidbody.aiActor;
+                //Plugin.Log($"enemy.aiActor: {target}");
+            }
+            else if (hitRigidbody.GetComponentInParent<AIActor>() != null)
+            {
+                target = hitRigidbody.GetComponentInParent<AIActor>();
+                //Plugin.Log($"enemy.parentActor: {target}");
+            }
+            else
+            {
+                //Plugin.Log("target = null");
+                return;
+            }
+            if (hitRigidbody.healthHaver.IsAlive)
             {
                 float dmgToStore = beam.Gun.DefaultModule.projectiles[0].baseData.damage * TheBombDmgScale * tickrate;
                 if (hitRigidbody.healthHaver.IsBoss || hitRigidbody.healthHaver.IsSubboss)
                 {
                     dmgToStore *= 0.25f;
                 }
-                if (!enemyTheBombDmgStored.ContainsKey(hitRigidbody.aiActor))
+                if (!enemyTheBombDmgStored.ContainsKey(target))
                 {
-                    enemyTheBombDmgStored.Add(hitRigidbody.aiActor, dmgToStore);
-                    enemyTheBombCoroutine.Add(hitRigidbody.aiActor, null);
+                    enemyTheBombDmgStored.Add(target, dmgToStore);
+                    enemyTheBombCoroutine.Add(target, null);
                 }
                 else
                 {
-                    enemyTheBombDmgStored[hitRigidbody.aiActor] += dmgToStore;
+                    enemyTheBombDmgStored[target] += dmgToStore;
                 }
 
                 //Plugin.Log($"enemyTheBombDmgStored: {enemyTheBombDmgStored[hitRigidbody.aiActor]}, enemy hp: {hitRigidbody.aiActor.healthHaver.GetCurrentHealth()}");
 
                 // if the hit enemy's stack count is at max stacks, trigger charm effect and cooldown
-                if (enemyTheBombDmgStored[hitRigidbody.aiActor] >= hitRigidbody.aiActor.healthHaver.GetCurrentHealth() && hitRigidbody.aiActor.healthHaver.GetCurrentHealth() != 0)
+                if (enemyTheBombDmgStored[target] >= target.healthHaver.GetCurrentHealth() && target.healthHaver.GetCurrentHealth() != 0)
                 {
-                    DetonateTheBomb(hitRigidbody.aiActor);
+                    DetonateTheBomb(target);
 
                     /*enemy.aiActor.healthHaver.ApplyDamage(
                         enemyTheBombDmgStored[enemy.aiActor],
@@ -106,11 +123,11 @@ namespace LOLItems.passive_items
                 }
                 else
                 {
-                    if (enemyTheBombCoroutine[hitRigidbody.aiActor] != null)
+                    if (enemyTheBombCoroutine[target] != null)
                     {
-                        StopCoroutine(enemyTheBombCoroutine[hitRigidbody.aiActor]);
+                        StopCoroutine(enemyTheBombCoroutine[target]);
                     }
-                    enemyTheBombCoroutine[hitRigidbody.aiActor] = StartCoroutine(TheBombCooldown(hitRigidbody.aiActor));
+                    enemyTheBombCoroutine[target] = StartCoroutine(TheBombCooldown(target));
                 }
             }
         }
@@ -123,28 +140,45 @@ namespace LOLItems.passive_items
                 {
                     //Plugin.Log($"enemy curhealth: {enemy.healthHaver.GetCurrentHealth()}, enemy isAlive: {enemy.healthHaver.IsAlive}");
 
-                    if ((enemy != null || enemy.aiActor != null) && enemy.healthHaver.IsAlive)
+                    if (enemy == null) return;
+                    AIActor target = null;
+                    if (enemy.aiActor != null)
+                    {
+                        target = enemy.aiActor;
+                        //Plugin.Log($"enemy.aiActor: {target}");
+                    }
+                    else if (enemy.GetComponentInParent<AIActor>() != null)
+                    {
+                        target = enemy.GetComponentInParent<AIActor>();
+                        //Plugin.Log($"enemy.parentActor: {target}");
+                    }
+                    else
+                    {
+                        //Plugin.Log("target = null");
+                        return;
+                    }
+                    if (enemy.healthHaver.IsAlive)
                     {
                         float dmgToStore = projHit.baseData.damage * TheBombDmgScale;
                         if (enemy.healthHaver.IsBoss || enemy.healthHaver.IsSubboss)
                         {
                             dmgToStore *= 0.25f;
                         }
-                        if (!enemyTheBombDmgStored.ContainsKey(enemy.aiActor))
+                        if (!enemyTheBombDmgStored.ContainsKey(target))
                         {
-                            enemyTheBombDmgStored.Add(enemy.aiActor, dmgToStore);
-                            enemyTheBombCoroutine.Add(enemy.aiActor, null);
+                            enemyTheBombDmgStored.Add(target, dmgToStore);
+                            enemyTheBombCoroutine.Add(target, null);
                         }
                         else
                         {
-                            enemyTheBombDmgStored[enemy.aiActor] += dmgToStore;
+                            enemyTheBombDmgStored[target] += dmgToStore;
                         }
 
-                        //Plugin.Log($"enemyTheBombDmgStored: {enemyTheBombDmgStored[enemy.aiActor]}, enemy hp: {enemy.aiActor.healthHaver.GetCurrentHealth()}");
-                    
-                        if (enemyTheBombDmgStored[enemy.aiActor] >= enemy.aiActor.healthHaver.GetCurrentHealth() && enemy.aiActor.healthHaver.GetCurrentHealth() != 0)
+                        //Plugin.Log($"enemyTheBombDmgStored: {enemyTheBombDmgStored[target]}, enemy hp: {target.healthHaver.GetCurrentHealth()}");
+
+                        if (enemyTheBombDmgStored[target] >= target.healthHaver.GetCurrentHealth() && target.healthHaver.GetCurrentHealth() != 0)
                         {
-                            DetonateTheBomb(enemy.aiActor);
+                            DetonateTheBomb(target);
 
                             /*enemy.aiActor.healthHaver.ApplyDamage(
                                 enemyTheBombDmgStored[enemy.aiActor],
@@ -162,11 +196,11 @@ namespace LOLItems.passive_items
                         }
                         else
                         {
-                            if (enemyTheBombCoroutine[enemy.aiActor] != null)
+                            if (enemyTheBombCoroutine[target] != null)
                             {
-                                StopCoroutine(enemyTheBombCoroutine[enemy.aiActor]);
+                                StopCoroutine(enemyTheBombCoroutine[target]);
                             }
-                            enemyTheBombCoroutine[enemy.aiActor] = StartCoroutine(TheBombCooldown(enemy.aiActor));
+                            enemyTheBombCoroutine[target] = StartCoroutine(TheBombCooldown(target));
                         }
                     }
                 };

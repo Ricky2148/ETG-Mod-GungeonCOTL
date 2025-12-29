@@ -22,7 +22,9 @@ namespace LOLItems.custom_class_data
 
         public void HasntPierced(CollisionData data)
         {
-            if (data != null && data.MyRigidbody != null && data.MyRigidbody.projectile != null)
+            if (data == null) return;
+            if (data.MyRigidbody == null) return;
+            if (data.MyRigidbody.projectile != null)
             {
                 data.MyRigidbody.projectile.m_hasPierced = false;
             }
@@ -38,13 +40,28 @@ namespace LOLItems.custom_class_data
                 proj.UpdateSpeed();
             }
 
-            if (enemy != null && enemy.aiActor != null)
+            if (enemy == null) return;
+            AIActor targetEnemy = null;
+            if (enemy.aiActor != null)
+            {
+                targetEnemy = enemy.aiActor;
+            }
+            else if (enemy.GetComponentInParent<AIActor>() != null)
+            {
+                targetEnemy = enemy.GetComponentInParent<AIActor>();
+            }
+            else
+            {
+                return;
+            }
+
+            if (targetEnemy != null)
             {
                 var ricochetModule = proj.GetComponent<RicochetProjectileModule>();
-                if (proj.GetComponent<PierceProjModifier>() != null && proj.GetComponent<PierceProjModifier>().penetration > 0 && enemy != null && enemy.aiActor != null)
+                if (proj.GetComponent<PierceProjModifier>() != null && proj.GetComponent<PierceProjModifier>().penetration > 0)
                 {
                     //var dir = UnityEngine.Random.insideUnitCircle;
-                    if (enemy.aiActor.ParentRoom != null && enemy.aiActor.ParentRoom.GetActiveEnemies(RoomHandler.ActiveEnemyType.All) != null)
+                    if (targetEnemy.ParentRoom != null && targetEnemy.ParentRoom.GetActiveEnemies(RoomHandler.ActiveEnemyType.All) != null)
                     {
                         /*var t = enemy.aiActor.ParentRoom.GetActiveEnemies(RoomHandler.ActiveEnemyType.All).FindAll(x => x != null && x != enemy.aiActor && x.HasBeenEngaged && x.healthHaver != null && x.healthHaver.IsVulnerable);
                         if (t.Count > 0)
@@ -54,14 +71,14 @@ namespace LOLItems.custom_class_data
 
                         AIActor closest = null;
                         float closestDistSq = ricochetRange * ricochetRange;
-                        var t = enemy.aiActor.ParentRoom.GetActiveEnemies(RoomHandler.ActiveEnemyType.All).FindAll(x => x != null && x != enemy.aiActor && x.HasBeenEngaged && x.healthHaver != null && x.healthHaver.IsVulnerable);
+                        var t = targetEnemy.ParentRoom.GetActiveEnemies(RoomHandler.ActiveEnemyType.All).FindAll(x => x != null && x != targetEnemy && x.HasBeenEngaged && x.healthHaver != null && x.healthHaver.IsVulnerable);
 
                         foreach (AIActor target in t)
                         {
                             if (proj.GetComponent<RicochetProjectileModule>().visited.Contains(target) || !target.IsNormalEnemy)
                                 continue;
 
-                            float distSq = (target.CenterPosition - enemy.aiActor.CenterPosition).sqrMagnitude;
+                            float distSq = (target.CenterPosition - targetEnemy.CenterPosition).sqrMagnitude;
                             if (distSq < closestDistSq)
                             {
                                 closest = target;

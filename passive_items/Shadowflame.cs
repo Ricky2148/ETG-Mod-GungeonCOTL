@@ -59,15 +59,29 @@ namespace LOLItems
 
         private void OnPostProcessProjectile (BeamController beam, SpeculativeRigidbody hitRigidbody, float tickrate)
         {
-            if (hitRigidbody != null && hitRigidbody.aiActor != null)
+            if (hitRigidbody == null) return;
+            AIActor firstEnemy = null;
+            if (hitRigidbody.aiActor != null)
+            {
+                firstEnemy = hitRigidbody.aiActor;
+            }
+            else if (hitRigidbody.GetComponentInParent<AIActor>() != null)
+            {
+                firstEnemy = hitRigidbody.GetComponentInParent<AIActor>();
+            }
+            else
+            {
+                return;
+            }
+            if (hitRigidbody.healthHaver != null)
             {
                 // checks if enemy's current health percentage meets threshold for extra damage
-                float currentHealthPercent = hitRigidbody.aiActor.healthHaver.GetCurrentHealthPercentage();
+                float currentHealthPercent = firstEnemy.healthHaver.GetCurrentHealthPercentage();
                 if (currentHealthPercent <= CinderbloomThreshold)
                 {
                     // calculates additional extra damage to apply to enemy
                     float damageToDeal = beam.projectile.baseData.damage * CinderbloomDamageAmp * tickrate;
-                    hitRigidbody.aiActor.healthHaver.ApplyDamage(
+                    firstEnemy.healthHaver.ApplyDamage(
                         damageToDeal,
                         Vector2.zero,
                         "shadowflame_low_health_crit_damage",
@@ -83,7 +97,9 @@ namespace LOLItems
         {
             proj.OnHitEnemy += (projHit, enemy, fatal) =>
             {
-                if (enemy != null && enemy.aiActor != null)
+                if (enemy == null) return;
+                if (enemy.aiActor == null && enemy.GetComponentInParent<AIActor>() == null) return;
+                if (enemy.healthHaver != null)
                 {
                     // checks if enemy's current health percentage meets threshold for extra damage
                     float currentHealthPercent = enemy.healthHaver.GetCurrentHealthPercentage();

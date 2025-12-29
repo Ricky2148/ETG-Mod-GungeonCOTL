@@ -8,7 +8,7 @@ using Alexandria;
 
 // fire rate, on hit: apply stack to enemies hit. At max stacks, enemy is charmed. Effect goes on cooldown
 // while on cooldown, applying stacks is disabled
-// complete
+// look into balancing (lowering stack max, lowering tier)
 
 namespace LOLItems.passive_items
 {
@@ -72,7 +72,8 @@ namespace LOLItems.passive_items
         private void OnPostProcessProjectile(BeamController beam, SpeculativeRigidbody hitRigidbody, float tickrate)
         {
             if (isOnCooldown) return;
-            if (hitRigidbody != null && hitRigidbody.aiActor != null)
+            if (hitRigidbody == null) return;
+            if (hitRigidbody.aiActor != null)
             {
                 PlayerController player = this.Owner;
                 AIActor aiActor = hitRigidbody.aiActor;
@@ -110,7 +111,8 @@ namespace LOLItems.passive_items
             {
                 proj.OnHitEnemy += (proj, enemy, fatal) =>
                 {
-                    if (enemy != null || enemy.aiActor != null)
+                    if (enemy == null) return;
+                    if (enemy.aiActor != null)
                     {
                         PlayerController player = this.Owner;
                         AIActor aiActor = enemy.aiActor;
