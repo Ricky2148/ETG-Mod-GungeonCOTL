@@ -26,8 +26,8 @@ namespace LOLItems.weapons
 
         private PlayerController currentOwner;
 
-        private static int ammoStat = 750;
-        private static float reloadDuration = 1.0f;
+        private static int ammoStat = 500;
+        private static float reloadDuration = 0f;
         private static float fireRateStat = 0.8f;
         private static int spreadAngle = 0;
 
@@ -41,7 +41,7 @@ namespace LOLItems.weapons
         private bool zealCapActivated = false;
 
         private float DivineAscentExpTracker = 0f;
-        private float DivineAscentThreshold = 1000f;
+        private float DivineAscentThreshold = 6000f;
 
         private Gun NextFormWeapon;
 
@@ -85,7 +85,7 @@ namespace LOLItems.weapons
             SoundManager.AddCustomSwitchData("WPN_Guns", gun.gunSwitchGroup, "Play_WPN_Gun_Reload_01", null);
 
             gun.DefaultModule.angleVariance = spreadAngle;
-            gun.DefaultModule.shootStyle = ProjectileModule.ShootStyle.Automatic;
+            gun.DefaultModule.shootStyle = ProjectileModule.ShootStyle.SemiAutomatic;
             gun.gunClass = GunClass.RIFLE;
             gun.DefaultModule.sequenceStyle = ProjectileModule.ProjectileSequenceStyle.Random;
             gun.DefaultModule.ammoCost = 1;
@@ -97,8 +97,8 @@ namespace LOLItems.weapons
             gun.gunHandedness = GunHandedness.TwoHanded;
 
             gun.carryPixelOffset += new IntVector2(15, -1); //offset when holding gun vertically
-            gun.carryPixelDownOffset += new IntVector2(-13, -15); //offset when aiming down
-            gun.carryPixelUpOffset += new IntVector2(-11, 15); //offset when aiming up
+            gun.carryPixelDownOffset += new IntVector2(-16, -15); //offset when aiming down
+            gun.carryPixelUpOffset += new IntVector2(-12, 16); //offset when aiming up
 
             gun.barrelOffset.transform.localPosition += new Vector3(64 / 16f, 52 / 16f);
 
@@ -252,14 +252,14 @@ namespace LOLItems.weapons
 
             if (sprite != null)
             {
-                Plugin.Log("sprite not null");
+                //Plugin.Log("sprite not null");
                 sprite.usesOverrideMaterial = true;
                 sprite.renderer.material.shader = ShaderCache.Acquire("Brave/Internal/SimpleAlphaFadeUnlit");
                 sprite.renderer.material.SetFloat("_Fade", 0.8f);
             }
             else
             {
-                Plugin.Log("sprite is null");
+                //Plugin.Log("sprite is null");
             }
 
             /*var tro_1 = wave.gameObject.AddChild("trail object");
@@ -324,7 +324,7 @@ namespace LOLItems.weapons
 
             //gun.CurrentStrengthTier = 0;
 
-            gun.quality = PickupObject.ItemQuality.EXCLUDED;
+            gun.quality = PickupObject.ItemQuality.SPECIAL;
             ETGMod.Databases.Items.Add(gun, false, "ANY");
             ID = gun.PickupObjectId;
             //ItemBuilder.AddCurrentGunStatModifier(gun, PlayerStats.StatType.RateOfFire, 1.0f, StatModifier.ModifyMethod.MULTIPLICATIVE);
@@ -351,10 +351,10 @@ namespace LOLItems.weapons
 
                 if (zealStacks > zealStackCap)
                 {
-                    Plugin.Log($"{zealCapActivated}");
+                    //Plugin.Log($"{zealCapActivated}");
                     if (!zealCapActivated)
                     {
-                        Plugin.Log($"zeal max stack effects activated");
+                        //Plugin.Log($"zeal max stack effects activated");
 
                         BraveUtility.Swap(ref this.gun.shootAnimation, ref this.gun.criticalFireAnimation);
                         BraveUtility.Swap(ref this.gun.alternateShootAnimation, ref this.gun.finalShootAnimation);
@@ -379,7 +379,7 @@ namespace LOLItems.weapons
 
         public override void OnFinishAttack(PlayerController player, Gun gun)
         {
-            Plugin.Log($"Finished Attack - starting zeal decay coroutine: zealstacks {zealStacks}");
+            //Plugin.Log($"Finished Attack - starting zeal decay coroutine: zealstacks {zealStacks}");
 
             if (zealDecayCoroutine != null)
             {
@@ -547,8 +547,20 @@ namespace LOLItems.weapons
         {
             if (enemyHealth && fatal && enemyHealth.aiActor != null)
             {
-                DivineAscentExpTracker += enemyHealth.aiActor.healthHaver.GetMaxHealth();
-                Plugin.Log($"Gained {enemyHealth.aiActor.healthHaver.GetMaxHealth()} Divine Ascent EXP! Current EXP: {DivineAscentExpTracker}/{DivineAscentThreshold}");
+                Plugin.Log($"enemyHealth: {enemyHealth}");
+                float expToGain = 0;
+                if (enemyHealth.IsBoss || enemyHealth.IsSubboss)
+                {
+                    Plugin.Log("is bosss");
+                    expToGain = (enemyHealth.aiActor.healthHaver.GetMaxHealth() * 0.25f);
+                }
+                else
+                {
+                    expToGain = enemyHealth.aiActor.healthHaver.GetMaxHealth();
+                }
+
+                DivineAscentExpTracker += expToGain;
+                Plugin.Log($"Gained {expToGain} Divine Ascent EXP! Current EXP: {DivineAscentExpTracker}/{DivineAscentThreshold}");
                 if (DivineAscentExpTracker >= DivineAscentThreshold)
                 {
                     TriggerAscent();

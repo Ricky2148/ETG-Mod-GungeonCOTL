@@ -21,8 +21,8 @@ namespace LOLItems.weapons
 
         private PlayerController currentOwner;
 
-        private static int ammoStat = 750;
-        private static float reloadDuration = 1.0f;
+        private static int ammoStat = 250;
+        private static float reloadDuration = 0f;
         private static float fireRateStat = 0.8f;
         private static int spreadAngle = 0;
 
@@ -35,11 +35,11 @@ namespace LOLItems.weapons
             500f,
             1000f
         };*/
-        private float DivineAscentThreshold = 500f;
+        private float DivineAscentThreshold = 3000f;
 
-        private static float projectileDamageStat = 10f;
-        private static float projectileSpeedStat = 20f;
-        private static float projectileRangeStat = 25f;
+        private static float projectileDamageStat = 8f;
+        private static float projectileSpeedStat = 40f;
+        private static float projectileRangeStat = 15f;
         private static float projectileForceStat = 8f;
 
         private static List<string> VirtueFiringSFXList = new List<string>
@@ -85,9 +85,9 @@ namespace LOLItems.weapons
 
             gun.gunHandedness = GunHandedness.TwoHanded;
 
-            gun.carryPixelOffset += new IntVector2(12, -5); //offset when holding gun vertically
-            gun.carryPixelDownOffset += new IntVector2(-18, -10); //offset when aiming down
-            gun.carryPixelUpOffset += new IntVector2(-5, 20); //offset when aiming up
+            gun.carryPixelOffset += new IntVector2(15, -1); //offset when holding gun vertically
+            gun.carryPixelDownOffset += new IntVector2(-16, -15); //offset when aiming down
+            gun.carryPixelUpOffset += new IntVector2(-12, 16); //offset when aiming up
 
             gun.barrelOffset.transform.localPosition += new Vector3(64 / 16f, 52 / 16f);
 
@@ -255,8 +255,20 @@ namespace LOLItems.weapons
         {
             if (enemyHealth && fatal && enemyHealth.aiActor != null)
             {
-                DivineAscentExpTracker += enemyHealth.aiActor.healthHaver.GetMaxHealth();
-                Plugin.Log($"Gained {enemyHealth.aiActor.healthHaver.GetMaxHealth()} Divine Ascent EXP! Current EXP: {DivineAscentExpTracker}/{DivineAscentThreshold}");
+                Plugin.Log($"enemyHealth: {enemyHealth}");
+                float expToGain = 0;
+                if (enemyHealth.IsBoss || enemyHealth.IsSubboss)
+                {
+                    Plugin.Log("is bosss");
+                    expToGain = (enemyHealth.aiActor.healthHaver.GetMaxHealth() * 0.25f);
+                }
+                else
+                {
+                    expToGain = enemyHealth.aiActor.healthHaver.GetMaxHealth();
+                }
+
+                DivineAscentExpTracker += expToGain;
+                Plugin.Log($"Gained {expToGain} Divine Ascent EXP! Current EXP: {DivineAscentExpTracker}/{DivineAscentThreshold}");
                 /*if (DivineAscentExpTracker >= DivineAscentThreshold[DivineAscentFormTracker] && DivineAscentFormTracker < DivineAscentThreshold.Length)
                 {
                     TriggerAscent();

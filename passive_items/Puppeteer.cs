@@ -15,9 +15,9 @@ namespace LOLItems.passive_items
     internal class Puppeteer : PassiveItem
     {
         private static float RateOfFireStat = 1.15f;
-        private static float PullTheirStringsCharmDuration = 10f;
+        private static float PullTheirStringsCharmDuration = 999f;
         private static float PullTheirStringsCooldown = 25f;
-        private static float PullTheirStringsMaxStacks = 5f;
+        private static float PullTheirStringsMaxStacks = 4f;
         private bool isOnCooldown = false;
 
         private Dictionary<AIActor, int> enemyCharmStacks = new Dictionary<AIActor, int>();
@@ -47,7 +47,7 @@ namespace LOLItems.passive_items
             
             CharmEffect.duration = PullTheirStringsCharmDuration;
 
-            item.quality = PickupObject.ItemQuality.A;
+            item.quality = PickupObject.ItemQuality.B;
             ID = item.PickupObjectId;
         }
 

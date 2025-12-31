@@ -18,6 +18,7 @@ namespace LOLItems
         // stats pool for item
         private static float DamageStat = 1.15f;
         private static float HealthStat = 1f;
+        private static float TormentBaseDamage = 5f;
         private static float TormentPercentHealthDamage = 0.10f;
         private static float TormentDuration = 3f;
 
@@ -98,7 +99,7 @@ namespace LOLItems
             if (hitRigidbody.healthHaver != null)
             {
                 // sets burn effect's damage based on the enemy's max health
-                TormentBurnEffect.DamagePerSecondToEnemies = firstEnemy.healthHaver.GetMaxHealth() * TormentPercentHealthDamage;
+                TormentBurnEffect.DamagePerSecondToEnemies = (firstEnemy.healthHaver.GetMaxHealth() * TormentPercentHealthDamage) + TormentBaseDamage;
                 if (firstEnemy.healthHaver.IsBoss || firstEnemy.healthHaver.IsSubboss)
                 {
                     TormentBurnEffect.DamagePerSecondToEnemies *= 0.25f; // Reduce damage for bosses and minibosses
@@ -133,7 +134,7 @@ namespace LOLItems
                 {
 
                     // sets burn effect's damage based on the enemy's max health
-                    TormentBurnEffect.DamagePerSecondToEnemies = target.healthHaver.GetMaxHealth() * TormentPercentHealthDamage;
+                    TormentBurnEffect.DamagePerSecondToEnemies = (target.healthHaver.GetMaxHealth() * TormentPercentHealthDamage) + TormentBaseDamage;
                     if (target.healthHaver.IsBoss || target.healthHaver.IsSubboss)
                     {
                         TormentBurnEffect.DamagePerSecondToEnemies *= 0.25f; // Reduce damage for bosses and minibosses

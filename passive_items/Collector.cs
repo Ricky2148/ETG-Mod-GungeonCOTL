@@ -7,7 +7,7 @@ using Alexandria.ItemAPI;
 using Alexandria;
 
 // increase rarity, nerf execute gold amount with rng chance instead of guarantee
-// gold chance doesn't seem accurate
+// increase execute threshold maybe
 
 namespace LOLItems
 {
@@ -18,7 +18,7 @@ namespace LOLItems
         private static int DeathGoldStat = 1;
         private static float DeathGoldChance = 0.30f;
 
-        private static float ExecuteThreshold = 0.05f;
+        private static float ExecuteThreshold = 0.15f;
 
         public static int ID;
 
