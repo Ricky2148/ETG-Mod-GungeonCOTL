@@ -96,6 +96,17 @@ namespace LOLItems.weapons
             Projectile projectile = UnityEngine.Object.Instantiate<Projectile>((PickupObjectDatabase.GetById((int)Items.MarineSidearm) as Gun).DefaultModule.projectiles[0]);
             gun.DefaultModule.projectiles[0] = projectile;
 
+            projectile.hitEffects.HasProjectileDeathVFX = true;
+            projectile.hitEffects.overrideMidairDeathVFX = (PickupObjectDatabase.GetById((int)Items.RogueSpecial) as Gun).DefaultModule.projectiles[0].hitEffects.tileMapVertical.effects[0].effects[0].effect;
+            projectile.hitEffects.deathAny = (PickupObjectDatabase.GetById((int)Items.RogueSpecial) as Gun).DefaultModule.projectiles[0].hitEffects.deathAny;
+            projectile.hitEffects.deathEnemy = (PickupObjectDatabase.GetById((int)Items.RogueSpecial) as Gun).DefaultModule.projectiles[0].hitEffects.deathEnemy;
+            projectile.hitEffects.enemy = (PickupObjectDatabase.GetById((int)Items.MicrotransactionGun) as Gun).DefaultModule.projectiles[0].hitEffects.enemy;
+            projectile.hitEffects.tileMapHorizontal = (PickupObjectDatabase.GetById((int)Items.RogueSpecial) as Gun).DefaultModule.projectiles[0].hitEffects.tileMapHorizontal;
+            projectile.hitEffects.tileMapVertical = (PickupObjectDatabase.GetById((int)Items.RogueSpecial) as Gun).DefaultModule.projectiles[0].hitEffects.tileMapVertical;
+
+            //projectile.objectImpactEventName = ;
+            //projectile.enemyImpactEventName = ;
+
             projectile.gameObject.SetActive(false);
             FakePrefab.MarkAsFakePrefab(projectile.gameObject);
             UnityEngine.Object.DontDestroyOnLoad(projectile);
@@ -220,7 +231,7 @@ namespace LOLItems.weapons
             gun.shellsToLaunchOnReload = 0;
             gun.clipsToLaunchOnReload = 0;
 
-            gun.quality = PickupObject.ItemQuality.B;
+            gun.quality = PickupObject.ItemQuality.C;
             ETGMod.Databases.Items.Add(gun, false, "ANY");
             ID = gun.PickupObjectId;
         }

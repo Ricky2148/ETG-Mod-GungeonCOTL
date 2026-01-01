@@ -107,6 +107,17 @@ namespace LOLItems.weapons
             Projectile projectile = UnityEngine.Object.Instantiate<Projectile>((PickupObjectDatabase.GetById((int)Items.MarineSidearm) as Gun).DefaultModule.projectiles[0]);
             gun.DefaultModule.projectiles[0] = projectile;
 
+            projectile.hitEffects.HasProjectileDeathVFX = true;
+            projectile.hitEffects.overrideMidairDeathVFX = (PickupObjectDatabase.GetById((int)Items.HyperLightBlaster) as Gun).DefaultModule.projectiles[0].hitEffects.enemy.effects[0].effects[0].effect;
+            projectile.hitEffects.deathAny = (PickupObjectDatabase.GetById((int)Items.HyperLightBlaster) as Gun).DefaultModule.projectiles[0].hitEffects.deathAny;
+            projectile.hitEffects.deathEnemy = (PickupObjectDatabase.GetById((int)Items.HyperLightBlaster) as Gun).DefaultModule.projectiles[0].hitEffects.deathEnemy;
+            projectile.hitEffects.enemy = (PickupObjectDatabase.GetById((int)Items.HyperLightBlaster) as Gun).DefaultModule.projectiles[0].hitEffects.enemy;
+            projectile.hitEffects.tileMapHorizontal = (PickupObjectDatabase.GetById((int)Items.Phoenix) as Gun).DefaultModule.projectiles[0].hitEffects.tileMapHorizontal;
+            projectile.hitEffects.tileMapVertical = (PickupObjectDatabase.GetById((int)Items.Phoenix) as Gun).DefaultModule.projectiles[0].hitEffects.tileMapVertical;
+
+            //projectile.objectImpactEventName = ;
+            //projectile.enemyImpactEventName = ;
+
             projectile.gameObject.SetActive(false);
             FakePrefab.MarkAsFakePrefab(projectile.gameObject);
             UnityEngine.Object.DontDestroyOnLoad(projectile);
@@ -219,6 +230,16 @@ namespace LOLItems.weapons
             //gun.DefaultModule.projectiles.Add(wave);
             gun.Volley.projectiles[1].projectiles[0] = wave;
 
+            wave.hitEffects.HasProjectileDeathVFX = true;
+            wave.hitEffects.deathAny = null;
+            wave.hitEffects.deathEnemy = null;
+            wave.hitEffects.enemy = null;
+            wave.hitEffects.tileMapHorizontal = null;
+            wave.hitEffects.tileMapVertical = null;
+
+            //wave.objectImpactEventName = ;
+            //wave.enemyImpactEventName = ;
+
             wave.gameObject.SetActive(false);
             FakePrefab.MarkAsFakePrefab(wave.gameObject);
             UnityEngine.Object.DontDestroyOnLoad(wave);
@@ -324,7 +345,9 @@ namespace LOLItems.weapons
 
             //gun.CurrentStrengthTier = 0;
 
-            gun.quality = PickupObject.ItemQuality.SPECIAL;
+            gun.ShouldBeExcludedFromShops = true;
+
+            gun.quality = PickupObject.ItemQuality.EXCLUDED;
             ETGMod.Databases.Items.Add(gun, false, "ANY");
             ID = gun.PickupObjectId;
             //ItemBuilder.AddCurrentGunStatModifier(gun, PlayerStats.StatType.RateOfFire, 1.0f, StatModifier.ModifyMethod.MULTIPLICATIVE);
@@ -409,6 +432,14 @@ namespace LOLItems.weapons
                     ItemBuilder.RemoveCurrentGunStatModifier(gun, PlayerStats.StatType.MovementSpeed);
                     currentOwner.stats.RecalculateStatsWithoutRebuildingGunVolleys(currentOwner);
                     Plugin.Log($"Reset {gun}'s fire rate to {currentOwner.stats.GetBaseStatValue(PlayerStats.StatType.RateOfFire)}, zealstacks: {zealStacks}");
+                    if (zealCapActivated)
+                    {
+                        BraveUtility.Swap(ref this.gun.shootAnimation, ref this.gun.criticalFireAnimation);
+                        BraveUtility.Swap(ref this.gun.alternateShootAnimation, ref this.gun.finalShootAnimation);
+                        BraveUtility.Swap(ref this.gun.idleAnimation, ref this.gun.alternateIdleAnimation);
+
+                        zealCapActivated = false;
+                    }
                 }
             }
 

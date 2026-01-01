@@ -198,8 +198,8 @@ namespace LOLItems.weapons
             projectile.hitEffects.deathAny = (PickupObjectDatabase.GetById((int)Items.MarineSidearm) as Gun).DefaultModule.projectiles[0].hitEffects.deathAny;
             projectile.hitEffects.deathEnemy = (PickupObjectDatabase.GetById((int)Items.MarineSidearm) as Gun).DefaultModule.projectiles[0].hitEffects.deathEnemy;
             projectile.hitEffects.enemy = (PickupObjectDatabase.GetById((int)Items.MarineSidearm) as Gun).DefaultModule.projectiles[0].hitEffects.enemy;
-            projectile.hitEffects.tileMapHorizontal = (PickupObjectDatabase.GetById((int)Items.MarineSidearm) as Gun).DefaultModule.projectiles[0].hitEffects.tileMapHorizontal;
-            projectile.hitEffects.tileMapVertical = (PickupObjectDatabase.GetById((int)Items.MarineSidearm) as Gun).DefaultModule.projectiles[0].hitEffects.tileMapVertical;
+            projectile.hitEffects.tileMapHorizontal = (PickupObjectDatabase.GetById((int)Items.Mailbox) as Gun).DefaultModule.projectiles[0].hitEffects.tileMapHorizontal;
+            projectile.hitEffects.tileMapVertical = (PickupObjectDatabase.GetById((int)Items.Mailbox) as Gun).DefaultModule.projectiles[0].hitEffects.tileMapVertical;
 
             //projectile.objectImpactEventName = "plasmarifle"; //starlet, zapper, plasmarifle, energy
             //projectile.enemyImpactEventName = "plasmarifle";
@@ -246,11 +246,12 @@ namespace LOLItems.weapons
             fourthShot.SetProjectileSpriteRight("whisper_projectile_pink_001", 9, 5, true, tk2dBaseSprite.Anchor.MiddleCenter, 7, 3);
             fourthShot.AdditionalScaleMultiplier = 2f;
 
+            //fourthShot.hitEffects.overrideMidairDeathVFX = (PickupObjectDatabase.GetById((int)Items.TheJudge) as Gun).DefaultModule.projectiles[0].hitEffects.deathAny.effects[0].effects[0].effect;
             fourthShot.hitEffects.deathAny = (PickupObjectDatabase.GetById((int)Items.TheJudge) as Gun).DefaultModule.projectiles[0].hitEffects.deathAny;
-            fourthShot.hitEffects.deathEnemy = (PickupObjectDatabase.GetById((int)Items.TheJudge) as Gun).DefaultModule.projectiles[0].hitEffects.deathEnemy;
-            fourthShot.hitEffects.enemy = (PickupObjectDatabase.GetById((int)Items.TheJudge) as Gun).DefaultModule.projectiles[0].hitEffects.enemy;
-            fourthShot.hitEffects.tileMapHorizontal = (PickupObjectDatabase.GetById((int)Items.Mailbox) as Gun).DefaultModule.projectiles[0].hitEffects.tileMapHorizontal;
-            fourthShot.hitEffects.tileMapVertical = (PickupObjectDatabase.GetById((int)Items.Mailbox) as Gun).DefaultModule.projectiles[0].hitEffects.tileMapVertical;
+            fourthShot.hitEffects.deathEnemy = (PickupObjectDatabase.GetById((int)Items.CombinedRifle) as Gun).DefaultModule.projectiles[0].hitEffects.tileMapVertical;
+            fourthShot.hitEffects.enemy = (PickupObjectDatabase.GetById((int)Items.CombinedRifle) as Gun).DefaultModule.projectiles[0].hitEffects.tileMapVertical;
+            fourthShot.hitEffects.tileMapHorizontal = (PickupObjectDatabase.GetById((int)Items.MarineSidearm) as Gun).DefaultModule.projectiles[0].hitEffects.tileMapHorizontal;
+            fourthShot.hitEffects.tileMapVertical = (PickupObjectDatabase.GetById((int)Items.MarineSidearm) as Gun).DefaultModule.projectiles[0].hitEffects.tileMapVertical;
 
             fourthShot.ignoreDamageCaps = true;
 

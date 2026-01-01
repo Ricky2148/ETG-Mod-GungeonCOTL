@@ -40,7 +40,7 @@ namespace LOLItems
             ItemBuilder.AddPassiveStatModifier(item, PlayerStats.StatType.AdditionalClipCapacityMultiplier, ClipAndAmmoIncrease, StatModifier.ModifyMethod.MULTIPLICATIVE);
             ItemBuilder.AddPassiveStatModifier(item, PlayerStats.StatType.AmmoCapacityMultiplier, ClipAndAmmoIncrease, StatModifier.ModifyMethod.MULTIPLICATIVE);
 
-            item.quality = PickupObject.ItemQuality.SPECIAL;
+            item.quality = PickupObject.ItemQuality.EXCLUDED;
             item.ShouldBeExcludedFromShops = true;
 
             ID = item.PickupObjectId;

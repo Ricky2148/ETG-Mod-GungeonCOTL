@@ -806,6 +806,7 @@
     <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\virtue_form3_idle_001.jtk2d" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Resources\weapon_sprites\Ammonomicon Encounter Icon Collection\virtue_form3_idle_001.png" />
     <EmbeddedResource Include="Resources\weapon_sprites\CustomGunAmmoTypes\virtue_form3_ammo_empty.png" />
     <EmbeddedResource Include="Resources\weapon_sprites\CustomGunAmmoTypes\virtue_form3_ammo_full.png" />
     <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\virtue_form3_alternate_shoot_001.png" />

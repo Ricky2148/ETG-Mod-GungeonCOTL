@@ -83,9 +83,9 @@ namespace LOLItems.weapons
 
             gun.gunHandedness = GunHandedness.TwoHanded;
 
-            gun.carryPixelOffset += new IntVector2(15, -1); //offset when holding gun vertically
-            gun.carryPixelDownOffset += new IntVector2(-16, -15); //offset when aiming down
-            gun.carryPixelUpOffset += new IntVector2(-12, 16); //offset when aiming up
+            gun.carryPixelOffset += new IntVector2(13, 2); //offset when holding gun vertically
+            gun.carryPixelDownOffset += new IntVector2(-11, -16); //offset when aiming down
+            gun.carryPixelUpOffset += new IntVector2(-13, 11); //offset when aiming up
 
             gun.barrelOffset.transform.localPosition += new Vector3(64 / 16f, 52 / 16f);
 
@@ -93,6 +93,17 @@ namespace LOLItems.weapons
 
             Projectile projectile = UnityEngine.Object.Instantiate<Projectile>((PickupObjectDatabase.GetById((int)Items.MarineSidearm) as Gun).DefaultModule.projectiles[0]);
             gun.DefaultModule.projectiles[0] = projectile;
+
+            projectile.hitEffects.HasProjectileDeathVFX = true;
+            projectile.hitEffects.overrideMidairDeathVFX = (PickupObjectDatabase.GetById((int)Items.Bow) as Gun).DefaultModule.chargeProjectiles[1].Projectile.hitEffects.enemy.effects[0].effects[0].effect;
+            projectile.hitEffects.deathAny = (PickupObjectDatabase.GetById((int)Items.Bow) as Gun).DefaultModule.chargeProjectiles[1].Projectile.hitEffects.enemy;
+            projectile.hitEffects.deathEnemy = (PickupObjectDatabase.GetById((int)Items.Bow) as Gun).DefaultModule.chargeProjectiles[1].Projectile.hitEffects.enemy;
+            projectile.hitEffects.enemy = (PickupObjectDatabase.GetById((int)Items.Bow) as Gun).DefaultModule.chargeProjectiles[1].Projectile.hitEffects.enemy;
+            projectile.hitEffects.tileMapHorizontal = null;
+            projectile.hitEffects.tileMapVertical = null;
+
+            //projectile.objectImpactEventName = ;
+            //projectile.enemyImpactEventName = ;
 
             projectile.gameObject.SetActive(false);
             FakePrefab.MarkAsFakePrefab(projectile.gameObject);
@@ -206,6 +217,16 @@ namespace LOLItems.weapons
             //gun.DefaultModule.projectiles.Add(wave);
             gun.Volley.projectiles[1].projectiles[0] = wave;
 
+            wave.hitEffects.HasProjectileDeathVFX = true;
+            wave.hitEffects.deathAny = null;
+            wave.hitEffects.deathEnemy = null;
+            wave.hitEffects.enemy = null;
+            wave.hitEffects.tileMapHorizontal = null;
+            wave.hitEffects.tileMapVertical = null;
+
+            //wave.objectImpactEventName = ;
+            //wave.enemyImpactEventName = ;
+
             wave.gameObject.SetActive(false);
             FakePrefab.MarkAsFakePrefab(wave.gameObject);
             UnityEngine.Object.DontDestroyOnLoad(wave);
@@ -253,9 +274,11 @@ namespace LOLItems.weapons
             gun.shellsToLaunchOnReload = 0;
             gun.clipsToLaunchOnReload = 0;
 
-            gun.quality = PickupObject.ItemQuality.SPECIAL;
+            gun.quality = PickupObject.ItemQuality.EXCLUDED;
             ETGMod.Databases.Items.Add(gun, false, "ANY");
             ID = gun.PickupObjectId;
+
+            gun.ShouldBeExcludedFromShops = true;
 
             ItemBuilder.AddCurrentGunStatModifier(gun, PlayerStats.StatType.MovementSpeed, zealSpeedInc, StatModifier.ModifyMethod.MULTIPLICATIVE);
         }
@@ -326,11 +349,11 @@ namespace LOLItems.weapons
         {
             currentOwner.OnIsRolling -= OnRollFrame;
 
-            currentOwner = null;
-
             StopFlight();
 
-            Plugin.Log($"dropped up {realName}");
+            currentOwner = null;
+
+            Plugin.Log($"dropped {realName}");
 
             base.OnDropped();
         }
@@ -340,7 +363,7 @@ namespace LOLItems.weapons
             Plugin.Log("trigger flight");
             if (!Dungeon.IsGenerating && currentOwner && currentOwner.sprite && currentOwner.sprite.GetComponent<tk2dSpriteAttachPoint>())
             {
-                Plugin.Log("flight work");
+                //Plugin.Log("flight work");
 
                 m_isCurrentlyActive = true;
                 currentOwner.AdditionalCanDodgeRollWhileFlying.SetOverride("Feather", true);
@@ -362,14 +385,18 @@ namespace LOLItems.weapons
 
         private void StopFlight()
         {
-            Plugin.Log("Stop flight");
+            //Plugin.Log("Stop flight");
 
             m_isCurrentlyActive = false;
             currentOwner.AdditionalCanDodgeRollWhileFlying.SetOverride("Feather", false);
 
+            //Plugin.Log("Stop flight 2");
+
             currentOwner.SetIsFlying(value: false, "DivineAscent");
             currentOwner.DeregisterAttachedObject(instanceWings);
             instanceWingsSprite = null;
+
+            //Plugin.Log("Stop flight 3");
         }
 
         protected override void Update()
