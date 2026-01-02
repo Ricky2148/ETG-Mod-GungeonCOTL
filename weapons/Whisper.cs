@@ -32,12 +32,12 @@ namespace LOLItems.weapons
         private static float fireRateStat = 1.3f;
         private static int spreadAngle = 0;
 
-        private static float projectileDamageStat = 25f;
+        private static float projectileDamageStat = 40f;
         private static float projectileSpeedStat = 70f;
         private static float projectileRangeStat = 20f;
         private static float projectileForceStat = 40f;
 
-        private static float fourthShotDamageScale = 1.75f;
+        private static float fourthShotDamageScale = 2f;
         private static float fourthShotMissingHealthScale = 0.25f;
 
         private static float clipSizeToDamageScale = 0.25f;

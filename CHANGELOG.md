@@ -44,3 +44,12 @@ added new shopkeeper:
 - bubbs
 
 a whole lot of vfx updates and optimizations
+
+#2.0.1
+added new items: 
+- talisman of ascension
+- refillable potion
+
+fixed bugs with various items that caused them to break the game when used on the high dragun
+some items may become more buggy, im not sure
+talisman will likely be updated with better vfx and sfx in the future in a more content update
