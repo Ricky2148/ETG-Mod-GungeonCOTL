@@ -59,27 +59,44 @@ namespace LOLItems
         // scales damage based on distance to target
         private void OnPostProcessProjectile(BeamController beam, SpeculativeRigidbody hitRigidbody, float tickrate)
         {
-            if (beam && beam.Owner is PlayerController player)
+            if (hitRigidbody == null) return;
+            AIActor firstEnemy = null;
+            if (hitRigidbody.aiActor != null)
             {
-                float distanceToTarget = Vector2.Distance(player.transform.position, hitRigidbody.aiActor.transform.position);
-                if (distanceToTarget <= HyperShotMinDistance)
+                firstEnemy = hitRigidbody.aiActor;
+            }
+            else if (hitRigidbody.GetComponentInParent<AIActor>() != null)
+            {
+                firstEnemy = hitRigidbody.GetComponentInParent<AIActor>();
+            }
+            else
+            {
+                return;
+            }
+            if (hitRigidbody.healthHaver != null)
+            {
+                if (beam && beam.Owner is PlayerController player)
                 {
-                    return;
+                    float distanceToTarget = Vector2.Distance(player.transform.position, firstEnemy.transform.position);
+                    if (distanceToTarget <= HyperShotMinDistance)
+                    {
+                        return;
+                    }
+                    // checks if distance to target is higher than max distance to limit damage multiplier
+                    float damageMultiplier = (Mathf.Min(distanceToTarget, HyperShotMaxDistance) / HyperShotMaxDistance) * HyperShotMaxDamageInc;
+                    // calculates additional extra damage to apply to enemy
+                    float damageToDeal = beam.projectile.baseData.damage * damageMultiplier * tickrate;
+                    firstEnemy.healthHaver.ApplyDamage(
+                        damageToDeal,
+                        Vector2.zero,
+                        "horizon_focus_hypershot_amp",
+                        CoreDamageTypes.None,
+                        DamageCategory.Normal,
+                        false,
+                        null,
+                        false
+                    );
                 }
-                // checks if distance to target is higher than max distance to limit damage multiplier
-                float damageMultiplier = (Mathf.Min(distanceToTarget, HyperShotMaxDistance) / HyperShotMaxDistance) * HyperShotMaxDamageInc;
-                // calculates additional extra damage to apply to enemy
-                float damageToDeal = beam.projectile.baseData.damage * damageMultiplier * tickrate;
-                hitRigidbody.aiActor.healthHaver.ApplyDamage(
-                    damageToDeal,
-                    Vector2.zero,
-                    "horizon_focus_hypershot_amp",
-                    CoreDamageTypes.None,
-                    DamageCategory.Normal,
-                    false,
-                    null,
-                    false
-                );
             }
         }
 
@@ -90,25 +107,31 @@ namespace LOLItems
             {
                 proj.OnHitEnemy += (projHit, enemy, fatal) =>
                 {
-                    float distanceToTarget = Vector2.Distance(player.transform.position, projHit.transform.position);
-                    if (distanceToTarget <= HyperShotMinDistance)
+                    if (enemy == null) return;
+                    if (enemy.aiActor == null && enemy.GetComponentInParent<AIActor>() == null) return;
+                    if (enemy.healthHaver != null)
                     {
-                        return;
+                        float distanceToTarget = Vector2.Distance(player.transform.position, projHit.transform.position);
+                        if (distanceToTarget <= HyperShotMinDistance)
+                        {
+                            return;
+                        }
+                        // checks if distance to target is higher than max distance to limit damage multiplier
+                        float damageMultiplier = (Mathf.Min(distanceToTarget, HyperShotMaxDistance) / HyperShotMaxDistance) * HyperShotMaxDamageInc;
+                        // calculates additional extra damage to apply to enemy
+                        float damageToDeal = projHit.baseData.damage * damageMultiplier;
+                        Plugin.Log($"{damageToDeal}");
+                        enemy.healthHaver.ApplyDamage(
+                            damageToDeal,
+                            Vector2.zero,
+                            "horizon_focus_hypershot_amp",
+                            CoreDamageTypes.None,
+                            DamageCategory.Normal,
+                            false,
+                            null,
+                            false
+                        );
                     }
-                    // checks if distance to target is higher than max distance to limit damage multiplier
-                    float damageMultiplier = (Mathf.Min(distanceToTarget, HyperShotMaxDistance) / HyperShotMaxDistance) * HyperShotMaxDamageInc;
-                    // calculates additional extra damage to apply to enemy
-                    float damageToDeal = projHit.baseData.damage * damageMultiplier;
-                    enemy.healthHaver.ApplyDamage(
-                        damageToDeal,
-                        Vector2.zero,
-                        "horizon_focus_hypershot_amp",
-                        CoreDamageTypes.None,
-                        DamageCategory.Normal,
-                        false,
-                        null,
-                        false
-                    );
                 };
             }
         }

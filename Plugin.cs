@@ -30,7 +30,7 @@ namespace LOLItems
     {
         public const string GUID = "Ricky2148.etg.LOLItems";
         public const string NAME = "League of legends Items";
-        public const string VERSION = "2.0.0";
+        public const string VERSION = "2.0.1";
         public const string TEXT_COLOR = "#F1C232";
 
         internal static Harmony _Harmony;
@@ -126,6 +126,8 @@ namespace LOLItems
 
             //next update items
             //DetonationOrb.Init();
+            RefillablePotion.Init();
+            TalismanOfAscension.Init();
 
             //npcs?
             Bubbs.Init();

@@ -8,16 +8,16 @@ using Alexandria;
 
 // fire rate, on hit: apply stack to enemies hit. At max stacks, enemy is charmed. Effect goes on cooldown
 // while on cooldown, applying stacks is disabled
-// complete
+// look into balancing (lowering stack max, lowering tier)
 
 namespace LOLItems.passive_items
 {
     internal class Puppeteer : PassiveItem
     {
         private static float RateOfFireStat = 1.15f;
-        private static float PullTheirStringsCharmDuration = 10f;
+        private static float PullTheirStringsCharmDuration = 999f;
         private static float PullTheirStringsCooldown = 25f;
-        private static float PullTheirStringsMaxStacks = 5f;
+        private static float PullTheirStringsMaxStacks = 4f;
         private bool isOnCooldown = false;
 
         private Dictionary<AIActor, int> enemyCharmStacks = new Dictionary<AIActor, int>();
@@ -47,7 +47,7 @@ namespace LOLItems.passive_items
             
             CharmEffect.duration = PullTheirStringsCharmDuration;
 
-            item.quality = PickupObject.ItemQuality.A;
+            item.quality = PickupObject.ItemQuality.B;
             ID = item.PickupObjectId;
         }
 
@@ -72,7 +72,8 @@ namespace LOLItems.passive_items
         private void OnPostProcessProjectile(BeamController beam, SpeculativeRigidbody hitRigidbody, float tickrate)
         {
             if (isOnCooldown) return;
-            if (hitRigidbody != null && hitRigidbody.aiActor != null)
+            if (hitRigidbody == null) return;
+            if (hitRigidbody.aiActor != null)
             {
                 PlayerController player = this.Owner;
                 AIActor aiActor = hitRigidbody.aiActor;
@@ -110,7 +111,8 @@ namespace LOLItems.passive_items
             {
                 proj.OnHitEnemy += (proj, enemy, fatal) =>
                 {
-                    if (enemy != null || enemy.aiActor != null)
+                    if (enemy == null) return;
+                    if (enemy.aiActor != null)
                     {
                         PlayerController player = this.Owner;
                         AIActor aiActor = enemy.aiActor;

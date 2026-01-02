@@ -108,19 +108,33 @@ namespace LOLItems
                     beam.sprite.color = Color.Lerp(beam.sprite.color, Color.cyan, 0.7f);
                 }
                 HelpfulMethods.PlayRandomSFX(beam.gameObject, sfxList);
-                if (hitRigidbody != null && hitRigidbody.aiActor != null && hitRigidbody.aiActor.healthHaver != null && hitRigidbody.healthHaver != null)
+                if (hitRigidbody == null) return;
+                AIActor firstEnemy = null;
+                if (hitRigidbody.aiActor != null)
+                {
+                    firstEnemy = hitRigidbody.aiActor;
+                }
+                else if (hitRigidbody.GetComponentInParent<AIActor>() != null)
+                {
+                    firstEnemy = hitRigidbody.GetComponentInParent<AIActor>();
+                }
+                else
+                {
+                    return;
+                }
+                if (hitRigidbody.healthHaver != null)
                 {
                     // scales damage based on enemy's missing health percentage
-                    float percentDamageIncrease = 0.75f * (1.0f - hitRigidbody.aiActor.healthHaver.GetCurrentHealthPercentage());
+                    float percentDamageIncrease = 0.75f * (1.0f - firstEnemy.healthHaver.GetCurrentHealthPercentage());
                     // scale damage down by tickrate
                     float damageToDeal = bringItDownDamage * (1.0f + percentDamageIncrease) * HelpfulMethods.GetFloorDamageScale() * tickrate;
                     // damage is 1/4 against bosses and sub-bosses
-                    if (hitRigidbody.aiActor.healthHaver.IsBoss || hitRigidbody.aiActor.healthHaver.IsSubboss)
+                    if (firstEnemy.healthHaver.IsBoss || firstEnemy.healthHaver.IsSubboss)
                     {
                         //damageToDeal *= 0.25f;
                     }
                     // calculates additional extra damage to apply to enemy
-                    hitRigidbody.aiActor.healthHaver.ApplyDamage(
+                    firstEnemy.healthHaver.ApplyDamage(
                         damageToDeal,
                         Vector2.zero,
                         "kraken_slayer_bring_it_down_damage",
@@ -147,7 +161,9 @@ namespace LOLItems
                     HelpfulMethods.PlayRandomSFX(proj.gameObject, sfxList);
                     proj.OnHitEnemy += (projHit, enemy, fatal) =>
                     {
-                        if (enemy != null && enemy.aiActor != null && enemy.aiActor.healthHaver != null && enemy.healthHaver != null)
+                        if (enemy == null) return;
+                        if (enemy.aiActor == null && enemy.GetComponentInParent<AIActor>() == null) return;
+                        if (enemy.healthHaver != null)
                         {
                             // scales damage based on enemy's missing health percentage
                             float percentDamageIncrease = 0.75f * (1.0f - enemy.healthHaver.GetCurrentHealthPercentage());

@@ -301,7 +301,24 @@ namespace LOLItems.weapons
         {
             projectile.OnHitEnemy += (projHit, enemy, fatal) =>
             {
-                if (enemy != null && enemy.aiActor != null && enemy.aiActor.healthHaver != null && enemy.healthHaver != null)
+                if (enemy == null) return;
+                AIActor firstEnemy = null;
+                if (enemy.aiActor != null) 
+                {
+                    firstEnemy = enemy.aiActor;
+                    Plugin.Log($"enemy.aiactor: {firstEnemy}");
+                }
+                else if (enemy.GetComponentInParent<AIActor>() != null)
+                {
+                    firstEnemy = enemy.GetComponentInParent<AIActor>();
+                    Plugin.Log($"enemy.parentAiactor: {firstEnemy}");
+                }
+                else
+                {
+                    Plugin.Log($"no aiactor");
+                    return;
+                }
+                if (enemy.healthHaver != null)
                 {
                     /*if (fatal && enemyRendStacks.ContainsKey(enemy.aiActor))
                     {
@@ -319,9 +336,9 @@ namespace LOLItems.weapons
                         enemyRendStacks[enemy.aiActor] += 1;
                     }*/
 
-                    if (fatal && activeVFXObjectList.ContainsKey(enemy.aiActor))
+                    if (fatal && activeVFXObjectList.ContainsKey(firstEnemy))
                     {
-                        foreach (GameObject vfxObj in activeVFXObjectList[enemy.aiActor])
+                        foreach (GameObject vfxObj in activeVFXObjectList[firstEnemy])
                         {
                             if (vfxObj != null)
                             {
@@ -329,7 +346,8 @@ namespace LOLItems.weapons
                             }
                         }
 
-                        activeVFXObjectList.Remove(enemy.aiActor);
+                        activeVFXObjectList.Remove(firstEnemy);
+                        return;
                     }
 
                     Vector3 idk = (enemy as SpeculativeRigidbody).UnitDimensions;
@@ -343,7 +361,7 @@ namespace LOLItems.weapons
                     //Plugin.Log($"offset (randomized): {offset}");
 
                     //var smth = enemy.aiActor.PlayEffectOnActor(EffectVFX, new Vector3(26 / 16f, 0 / 16f), true, false, true);
-                    var smth = enemy.aiActor.PlayEffectOnActor(EffectVFX, offset, true, false, true);
+                    var smth = firstEnemy.PlayEffectOnActor(EffectVFX, offset, true, false, true);
                     var sprite = smth.GetComponent<tk2dSprite>();
 
                     if (sprite != null)
@@ -351,18 +369,18 @@ namespace LOLItems.weapons
                         sprite.transform.rotation = projectile.transform.rotation;
                     }
 
-                    if (!activeVFXObjectList.ContainsKey(enemy.aiActor))
+                    if (!activeVFXObjectList.ContainsKey(firstEnemy))
                     {
                         //var smth = enemy.aiActor.PlayEffectOnActor(EffectVFX, new Vector3(0 / 16f, 0 / 16f), true, false, false);
-                        
-                        activeVFXObjectList.Add(enemy.aiActor, new List<GameObject> {smth});
+
+                        activeVFXObjectList.Add(firstEnemy, new List<GameObject> { smth });
                         //enemy.aiActor.PlayEffectOnActor(EffectVFX, new Vector3(0 / 16f, 0 / 16f), true, false, false);
                     }
                     else
                     {
                         //var smth = enemy.aiActor.PlayEffectOnActor(EffectVFX, new Vector3(0 / 16f, 0 / 16f), true, false, false);
 
-                        activeVFXObjectList[enemy.aiActor].Add(smth);
+                        activeVFXObjectList[firstEnemy].Add(smth);
                     }
                 }
             };

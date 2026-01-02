@@ -39,7 +39,7 @@ namespace LOLItems
             // maybe add effect explanation?
             string longDesc = "This strange piece of armor appears to be mechanically equipped to help the user " +
                 "enhance their physical abilities. There's an extra mechanism on the armor, but you can't figure " +
-                "out what the trigger is.\n\n It never passed testing phase for a reason.\n";
+                "out what the trigger is.\n\nIt never passed testing phase for a reason.\n\n\ntry activing an item";
 
             ItemBuilder.SetupItem(item, shortDesc, longDesc, "LOLItems");
 

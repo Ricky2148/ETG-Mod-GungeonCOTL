@@ -19,7 +19,7 @@ namespace LOLItems.weapons
     {
         public static string internalName; //Internal name of the gun as used by console commands
         public static int ID; //The Gun ID stored by the game.  Can be used by other functions to call your custom gun.
-        public static string realName = "Electric Rifle"; //The name that shows up in the Ammonomicon and the mod console.
+        public static string realName = "Zaunite Rifle"; //The name that shows up in the Ammonomicon and the mod console.
 
         private static int ammoStat = 1000; // seems to be a limit of 1000 on ammo gun can have on pickup for some reason
         private static int clipStat = 70;
@@ -61,7 +61,7 @@ namespace LOLItems.weapons
              * Rename(a,b) works where "a" is what the game names your gun internally which uses lower case and underscores.  Here it would be "outdated_gun_mods:template_gun".
              * "b" is how you're renaming the gun to show up in the mod console.
              * The default here is to use your mod's prefix then shortname so in this example it would come out as "twp:template_gun". */
-            string FULLNAME = "Electric Rifle"; //Full name of your gun 
+            string FULLNAME = "Zaunite Rifle"; //Full name of your gun 
             string SPRITENAME = "shockSMG"; //The name that prefixes your sprite files
             internalName = $"LOLItems:{FULLNAME.ToID()}";
             Gun gun = ETGMod.Databases.Items.NewGun(FULLNAME, SPRITENAME);

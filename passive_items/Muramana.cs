@@ -83,7 +83,21 @@ namespace LOLItems
         {
             if (beam.Owner is not PlayerController player) return;
             if (player.CurrentGun is not Gun gun) return;
-            if (hitRigidbody!= null && hitRigidbody.aiActor != null)
+            if (hitRigidbody == null) return;
+            AIActor firstEnemy = null;
+            if (hitRigidbody.aiActor != null)
+            {
+                firstEnemy = hitRigidbody.aiActor;
+            }
+            else if (hitRigidbody.GetComponentInParent<AIActor>() != null)
+            {
+                firstEnemy = hitRigidbody.GetComponentInParent<AIActor>();
+            }
+            else
+            {
+                return;
+            }
+            if (hitRigidbody.healthHaver != null)
             {
                 //scales the damage based on player's clip size and ammo size 
                 float clipSizeStat = Mathf.Max(0f, (player.stats.GetStatValue(PlayerStats.StatType.AdditionalClipCapacityMultiplier) - 1f) / 5);
@@ -92,7 +106,7 @@ namespace LOLItems
                 // scale damage down by tickrate
                 float damageToDeal = Mathf.Max(1f, MuramanaShockBaseDamage * MuramanaShockDamageMultiplier) * tickrate;
                 // calculates additional extra damage to apply to enemy
-                hitRigidbody.aiActor.healthHaver.ApplyDamage(
+                firstEnemy.healthHaver.ApplyDamage(
                     damageToDeal,
                     Vector2.zero,
                     "muramana_shock_damage",
@@ -111,7 +125,9 @@ namespace LOLItems
                 if (player.CurrentGun is not Gun gun) return;
                 proj.OnHitEnemy += (projHit, enemy, fatal) =>
                 {
-                    if (enemy != null && enemy.healthHaver != null)
+                    if (enemy == null) return;
+                    if (enemy.aiActor == null && enemy.GetComponentInParent<AIActor>() == null) return;
+                    if (enemy.healthHaver != null)
                     {
                         //scales the damage based on player's clip size and ammo size stats
                         float clipSizeStat = Mathf.Max(0f, (player.stats.GetStatValue(PlayerStats.StatType.AdditionalClipCapacityMultiplier) - 1f) / 5);

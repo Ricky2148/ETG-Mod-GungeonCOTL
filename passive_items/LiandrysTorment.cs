@@ -18,6 +18,7 @@ namespace LOLItems
         // stats pool for item
         private static float DamageStat = 1.15f;
         private static float HealthStat = 1f;
+        private static float TormentBaseDamage = 5f;
         private static float TormentPercentHealthDamage = 0.10f;
         private static float TormentDuration = 3f;
 
@@ -81,18 +82,30 @@ namespace LOLItems
 
         private void OnPostProcessProjectile(BeamController beam, SpeculativeRigidbody hitRigidbody, float tickrate)
         {
-            if (hitRigidbody != null && hitRigidbody.aiActor != null)
+            if (hitRigidbody == null) return;
+            AIActor firstEnemy = null;
+            if (hitRigidbody.aiActor != null)
             {
-                AIActor aiActor = hitRigidbody.aiActor;
-
+                firstEnemy = hitRigidbody.aiActor;
+            }
+            else if (hitRigidbody.GetComponentInParent<AIActor>() != null)
+            {
+                firstEnemy = hitRigidbody.GetComponentInParent<AIActor>();
+            }
+            else
+            {
+                return;
+            }
+            if (hitRigidbody.healthHaver != null)
+            {
                 // sets burn effect's damage based on the enemy's max health
-                TormentBurnEffect.DamagePerSecondToEnemies = aiActor.healthHaver.GetMaxHealth() * TormentPercentHealthDamage;
-                if (aiActor.healthHaver.IsBoss || aiActor.healthHaver.IsSubboss)
+                TormentBurnEffect.DamagePerSecondToEnemies = (firstEnemy.healthHaver.GetMaxHealth() * TormentPercentHealthDamage) + TormentBaseDamage;
+                if (firstEnemy.healthHaver.IsBoss || firstEnemy.healthHaver.IsSubboss)
                 {
                     TormentBurnEffect.DamagePerSecondToEnemies *= 0.25f; // Reduce damage for bosses and minibosses
                 }
 
-                aiActor.ApplyEffect(TormentBurnEffect);
+                firstEnemy.ApplyEffect(TormentBurnEffect);
             }
         }
 
@@ -100,18 +113,34 @@ namespace LOLItems
         {
             proj.OnHitEnemy += (projHit, enemy, fatal) =>
             {
-                if (enemy != null && enemy.aiActor != null)
+                if (enemy == null) return;
+                AIActor target = null;
+                if (enemy.aiActor != null)
                 {
-                    AIActor aiActor = enemy.aiActor;
+                    target = enemy.aiActor;
+                    //Plugin.Log($"enemy.aiActor: {target}");
+                }
+                else if (enemy.GetComponentInParent<AIActor>() != null)
+                {
+                    target = enemy.GetComponentInParent<AIActor>();
+                    //Plugin.Log($"enemy.parentActor: {target}");
+                }
+                else
+                {
+                    //Plugin.Log("target = null");
+                    return;
+                }
+                if (enemy.healthHaver != null)
+                {
 
                     // sets burn effect's damage based on the enemy's max health
-                    TormentBurnEffect.DamagePerSecondToEnemies = aiActor.healthHaver.GetMaxHealth() * TormentPercentHealthDamage;
-                    if (aiActor.healthHaver.IsBoss || aiActor.healthHaver.IsSubboss)
+                    TormentBurnEffect.DamagePerSecondToEnemies = (target.healthHaver.GetMaxHealth() * TormentPercentHealthDamage) + TormentBaseDamage;
+                    if (target.healthHaver.IsBoss || target.healthHaver.IsSubboss)
                     {
                         TormentBurnEffect.DamagePerSecondToEnemies *= 0.25f; // Reduce damage for bosses and minibosses
                     }
 
-                    aiActor.ApplyEffect(TormentBurnEffect);
+                    target.ApplyEffect(TormentBurnEffect);
 
                     /*
                     if (!TormentAffectedEnemies.ContainsKey(aiActor))

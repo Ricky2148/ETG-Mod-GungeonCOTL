@@ -32,12 +32,12 @@ namespace LOLItems.weapons
         private static float fireRateStat = 1.3f;
         private static int spreadAngle = 0;
 
-        private static float projectileDamageStat = 25f;
+        private static float projectileDamageStat = 40f;
         private static float projectileSpeedStat = 70f;
         private static float projectileRangeStat = 20f;
         private static float projectileForceStat = 40f;
 
-        private static float fourthShotDamageScale = 1.75f;
+        private static float fourthShotDamageScale = 2f;
         private static float fourthShotMissingHealthScale = 0.25f;
 
         private static float clipSizeToDamageScale = 0.25f;
@@ -198,8 +198,8 @@ namespace LOLItems.weapons
             projectile.hitEffects.deathAny = (PickupObjectDatabase.GetById((int)Items.MarineSidearm) as Gun).DefaultModule.projectiles[0].hitEffects.deathAny;
             projectile.hitEffects.deathEnemy = (PickupObjectDatabase.GetById((int)Items.MarineSidearm) as Gun).DefaultModule.projectiles[0].hitEffects.deathEnemy;
             projectile.hitEffects.enemy = (PickupObjectDatabase.GetById((int)Items.MarineSidearm) as Gun).DefaultModule.projectiles[0].hitEffects.enemy;
-            projectile.hitEffects.tileMapHorizontal = (PickupObjectDatabase.GetById((int)Items.MarineSidearm) as Gun).DefaultModule.projectiles[0].hitEffects.tileMapHorizontal;
-            projectile.hitEffects.tileMapVertical = (PickupObjectDatabase.GetById((int)Items.MarineSidearm) as Gun).DefaultModule.projectiles[0].hitEffects.tileMapVertical;
+            projectile.hitEffects.tileMapHorizontal = (PickupObjectDatabase.GetById((int)Items.Mailbox) as Gun).DefaultModule.projectiles[0].hitEffects.tileMapHorizontal;
+            projectile.hitEffects.tileMapVertical = (PickupObjectDatabase.GetById((int)Items.Mailbox) as Gun).DefaultModule.projectiles[0].hitEffects.tileMapVertical;
 
             //projectile.objectImpactEventName = "plasmarifle"; //starlet, zapper, plasmarifle, energy
             //projectile.enemyImpactEventName = "plasmarifle";
@@ -246,11 +246,12 @@ namespace LOLItems.weapons
             fourthShot.SetProjectileSpriteRight("whisper_projectile_pink_001", 9, 5, true, tk2dBaseSprite.Anchor.MiddleCenter, 7, 3);
             fourthShot.AdditionalScaleMultiplier = 2f;
 
+            //fourthShot.hitEffects.overrideMidairDeathVFX = (PickupObjectDatabase.GetById((int)Items.TheJudge) as Gun).DefaultModule.projectiles[0].hitEffects.deathAny.effects[0].effects[0].effect;
             fourthShot.hitEffects.deathAny = (PickupObjectDatabase.GetById((int)Items.TheJudge) as Gun).DefaultModule.projectiles[0].hitEffects.deathAny;
-            fourthShot.hitEffects.deathEnemy = (PickupObjectDatabase.GetById((int)Items.TheJudge) as Gun).DefaultModule.projectiles[0].hitEffects.deathEnemy;
-            fourthShot.hitEffects.enemy = (PickupObjectDatabase.GetById((int)Items.TheJudge) as Gun).DefaultModule.projectiles[0].hitEffects.enemy;
-            fourthShot.hitEffects.tileMapHorizontal = (PickupObjectDatabase.GetById((int)Items.Mailbox) as Gun).DefaultModule.projectiles[0].hitEffects.tileMapHorizontal;
-            fourthShot.hitEffects.tileMapVertical = (PickupObjectDatabase.GetById((int)Items.Mailbox) as Gun).DefaultModule.projectiles[0].hitEffects.tileMapVertical;
+            fourthShot.hitEffects.deathEnemy = (PickupObjectDatabase.GetById((int)Items.CombinedRifle) as Gun).DefaultModule.projectiles[0].hitEffects.tileMapVertical;
+            fourthShot.hitEffects.enemy = (PickupObjectDatabase.GetById((int)Items.CombinedRifle) as Gun).DefaultModule.projectiles[0].hitEffects.tileMapVertical;
+            fourthShot.hitEffects.tileMapHorizontal = (PickupObjectDatabase.GetById((int)Items.MarineSidearm) as Gun).DefaultModule.projectiles[0].hitEffects.tileMapHorizontal;
+            fourthShot.hitEffects.tileMapVertical = (PickupObjectDatabase.GetById((int)Items.MarineSidearm) as Gun).DefaultModule.projectiles[0].hitEffects.tileMapVertical;
 
             fourthShot.ignoreDamageCaps = true;
 
@@ -502,6 +503,17 @@ namespace LOLItems.weapons
             base.OnInitializedWithOwner(actor);
         }
 
+        public override void OnDropped()
+        {
+            if (idleAnimSwapped)
+            {
+                BraveUtility.Swap(ref gun.idleAnimation, ref gun.alternateIdleAnimation);
+                idleAnimSwapped = !idleAnimSwapped;
+            }
+
+            base.OnDropped();
+        }
+
         public override void OnSwitchedToThisGun()
         {
             PlayerController player = this.Owner as PlayerController;
@@ -510,6 +522,12 @@ namespace LOLItems.weapons
 
             shotCounter = 5 - this.gun.ClipShotsRemaining;
             //Plugin.Log($"switched to gun, shotCounter: {shotCounter}");
+
+            if (idleAnimSwapped)
+            {
+                BraveUtility.Swap(ref gun.idleAnimation, ref gun.alternateIdleAnimation);
+                idleAnimSwapped = !idleAnimSwapped;
+            }
 
             base.OnSwitchedToThisGun();
         }
@@ -679,7 +697,9 @@ namespace LOLItems.weapons
             {
                 projectile.OnHitEnemy += (projHit, enemy, fatal) =>
                 {
-                    if (enemy != null && enemy.aiActor != null && enemy.aiActor.healthHaver != null && enemy.healthHaver != null)
+                    if (enemy == null) return;
+                    if (enemy.aiActor == null && enemy.GetComponentInParent<AIActor>() == null) return;
+                    if (enemy.healthHaver != null)
                     {
                         float damageToDeal = 0.25f * (enemy.healthHaver.GetMaxHealth() - enemy.healthHaver.GetCurrentHealth());
 

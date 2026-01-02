@@ -21,8 +21,8 @@ namespace LOLItems.weapons
 
         private PlayerController currentOwner;
 
-        private static int ammoStat = 750;
-        private static float reloadDuration = 1.0f;
+        private static int ammoStat = 250;
+        private static float reloadDuration = 0f;
         private static float fireRateStat = 0.8f;
         private static int spreadAngle = 0;
 
@@ -35,11 +35,11 @@ namespace LOLItems.weapons
             500f,
             1000f
         };*/
-        private float DivineAscentThreshold = 500f;
+        private float DivineAscentThreshold = 3000f;
 
-        private static float projectileDamageStat = 10f;
-        private static float projectileSpeedStat = 20f;
-        private static float projectileRangeStat = 25f;
+        private static float projectileDamageStat = 8f;
+        private static float projectileSpeedStat = 40f;
+        private static float projectileRangeStat = 15f;
         private static float projectileForceStat = 8f;
 
         private static List<string> VirtueFiringSFXList = new List<string>
@@ -62,8 +62,8 @@ namespace LOLItems.weapons
 
             gun.SetupSprite(null, $"{SPRITENAME}_idle_001", 8);
 
-            gun.SetAnimationFPS(gun.shootAnimation, 10);
-            gun.SetAnimationFPS(gun.alternateShootAnimation, 10);
+            gun.SetAnimationFPS(gun.shootAnimation, 12);
+            gun.SetAnimationFPS(gun.alternateShootAnimation, 12);
             //gun.SetAnimationFPS(gun.reloadAnimation, 10);
 
             gun.AddProjectileModuleFrom(PickupObjectDatabase.GetById((int)Items.MarineSidearm) as Gun, true, false);
@@ -85,9 +85,9 @@ namespace LOLItems.weapons
 
             gun.gunHandedness = GunHandedness.TwoHanded;
 
-            gun.carryPixelOffset += new IntVector2(12, 0); //offset when holding gun vertically
-            gun.carryPixelDownOffset += new IntVector2(0, 0); //offset when aiming down
-            gun.carryPixelUpOffset += new IntVector2(0, 0); //offset when aiming up
+            gun.carryPixelOffset += new IntVector2(15, -1); //offset when holding gun vertically
+            gun.carryPixelDownOffset += new IntVector2(-16, -15); //offset when aiming down
+            gun.carryPixelUpOffset += new IntVector2(-12, 16); //offset when aiming up
 
             gun.barrelOffset.transform.localPosition += new Vector3(64 / 16f, 52 / 16f);
 
@@ -95,6 +95,17 @@ namespace LOLItems.weapons
 
             Projectile projectile = UnityEngine.Object.Instantiate<Projectile>((PickupObjectDatabase.GetById((int)Items.MarineSidearm) as Gun).DefaultModule.projectiles[0]);
             gun.DefaultModule.projectiles[0] = projectile;
+
+            projectile.hitEffects.HasProjectileDeathVFX = true;
+            projectile.hitEffects.overrideMidairDeathVFX = (PickupObjectDatabase.GetById((int)Items.RogueSpecial) as Gun).DefaultModule.projectiles[0].hitEffects.tileMapVertical.effects[0].effects[0].effect;
+            projectile.hitEffects.deathAny = (PickupObjectDatabase.GetById((int)Items.RogueSpecial) as Gun).DefaultModule.projectiles[0].hitEffects.deathAny;
+            projectile.hitEffects.deathEnemy = (PickupObjectDatabase.GetById((int)Items.RogueSpecial) as Gun).DefaultModule.projectiles[0].hitEffects.deathEnemy;
+            projectile.hitEffects.enemy = (PickupObjectDatabase.GetById((int)Items.MicrotransactionGun) as Gun).DefaultModule.projectiles[0].hitEffects.enemy;
+            projectile.hitEffects.tileMapHorizontal = (PickupObjectDatabase.GetById((int)Items.RogueSpecial) as Gun).DefaultModule.projectiles[0].hitEffects.tileMapHorizontal;
+            projectile.hitEffects.tileMapVertical = (PickupObjectDatabase.GetById((int)Items.RogueSpecial) as Gun).DefaultModule.projectiles[0].hitEffects.tileMapVertical;
+
+            //projectile.objectImpactEventName = ;
+            //projectile.enemyImpactEventName = ;
 
             projectile.gameObject.SetActive(false);
             FakePrefab.MarkAsFakePrefab(projectile.gameObject);
@@ -107,10 +118,20 @@ namespace LOLItems.weapons
             projectile.transform.parent = gun.barrelOffset;
             projectile.shouldRotate = true;
 
-            projectile.SetProjectileSpriteRight("virtue_green_projectile_001", 20, 6, true, tk2dBaseSprite.Anchor.MiddleCenter, 16, 5);
+            projectile.SetProjectileSpriteRight("virtue_green_projectile_straight_001", 19, 7, true, tk2dBaseSprite.Anchor.MiddleCenter, 17, 6);
+
+            EasyTrailBullet projTrail = projectile.gameObject.AddComponent<EasyTrailBullet>();
+            projTrail.TrailPos = projectile.transform.position;
+            projTrail.StartWidth = 0.25f;
+            projTrail.EndWidth = 0f;
+            projTrail.LifeTime = 0.15f; //How long the trail lingers
+            // BaseColor sets an overall color for the trail. Start and End Colors are subtractive to it. 
+            projTrail.BaseColor = ExtendedColours.lime; //Set to white if you don't want to interfere with Start/End Colors.
+            projTrail.StartColor = Color.green;
+            projTrail.EndColor = Color.white; //Custom Orange example using r/g/b values.
 
             // A list of filenames in the sprites/ProjectileCollection folder for each frame in the animation, extension not required.
-            List<string> projectileSpriteNames = new List<string>
+            /*List<string> projectileSpriteNames = new List<string>
             {
                 "virtue_green_projectile_001",
                 "virtue_green_projectile_002",
@@ -200,7 +221,7 @@ namespace LOLItems.weapons
 
             projectile.AddAnimationToProjectile(projectileSpriteNames, projectileFPS, projectileSizes, projectileLighteneds, projectileAnchors, projectileAnchorsChangeColiders, projectilefixesScales,
                                                 projectileManualOffsets, projectileOverrideColliderSizes, projectileOverrideColliderOffsets, projectileOverrideProjectilesToCopyFrom, ProjectileWrapMode);
-
+            */
 
             gun.DefaultModule.ammoType = GameUIAmmoType.AmmoType.CUSTOM;
             gun.DefaultModule.customAmmoType = CustomClipAmmoTypeToolbox.AddCustomAmmoType("virtue_form1_ammo",
@@ -210,7 +231,7 @@ namespace LOLItems.weapons
             gun.shellsToLaunchOnReload = 0;
             gun.clipsToLaunchOnReload = 0;
 
-            gun.quality = PickupObject.ItemQuality.B;
+            gun.quality = PickupObject.ItemQuality.C;
             ETGMod.Databases.Items.Add(gun, false, "ANY");
             ID = gun.PickupObjectId;
         }
@@ -245,8 +266,20 @@ namespace LOLItems.weapons
         {
             if (enemyHealth && fatal && enemyHealth.aiActor != null)
             {
-                DivineAscentExpTracker += enemyHealth.aiActor.healthHaver.GetMaxHealth();
-                Plugin.Log($"Gained {enemyHealth.aiActor.healthHaver.GetMaxHealth()} Divine Ascent EXP! Current EXP: {DivineAscentExpTracker}/{DivineAscentThreshold}");
+                Plugin.Log($"enemyHealth: {enemyHealth}");
+                float expToGain = 0;
+                if (enemyHealth.IsBoss || enemyHealth.IsSubboss)
+                {
+                    Plugin.Log("is bosss");
+                    expToGain = (enemyHealth.aiActor.healthHaver.GetMaxHealth() * 0.25f);
+                }
+                else
+                {
+                    expToGain = enemyHealth.aiActor.healthHaver.GetMaxHealth();
+                }
+
+                DivineAscentExpTracker += expToGain;
+                Plugin.Log($"Gained {expToGain} Divine Ascent EXP! Current EXP: {DivineAscentExpTracker}/{DivineAscentThreshold}");
                 /*if (DivineAscentExpTracker >= DivineAscentThreshold[DivineAscentFormTracker] && DivineAscentFormTracker < DivineAscentThreshold.Length)
                 {
                     TriggerAscent();

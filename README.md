@@ -25,7 +25,7 @@ Shield of Molten Stone (B):
 ![](https://i.ibb.co/Wv5Ln26w/the-collector-pixelart-sprite.png)
 The Collector (A):
 - Stats: 1.1x DMG
-- Effect: All bullets execute enemies below 5% max health. 30% chance to drop 1 extra casing on kill.
+- Effect: All bullets execute enemies below 15% max health. 30% chance to drop 1 extra casing on kill.
 
 ![](https://i.ibb.co/Ds44Y5F/cull-pixelart-sprite.png)
 Cull (D):
@@ -72,7 +72,7 @@ Kraken Slayer (S):
 ![](https://i.ibb.co/3yzMtSjx/liandrys-torment-pixelart-sprite-small.png)
 Liandry's Torment (B):
 - Stats: 1.15x DMG, 1 Heart
-- Effect: Dealing damage applies a burn to enemies that deal 10% max health damage per second for 3 seconds. (25% effective against bosses)
+- Effect: Dealing damage applies a burn to enemies that deal 5 + 10% max health damage per second for 3 seconds. (25% effective against bosses)
 
 ![](https://i.ibb.co/QvFJ5yz6/manamune-pixelart-sprite-small.png)
 Manamune (B):
@@ -90,9 +90,9 @@ Navori Quickblades (B):
 - Effect: Every bullet reduces player's item cooldowns by 3% current cooldown.
 
 ![](https://i.ibb.co/tpQ6p8gv/puppeteer-pixelart-sprite.png)
-Puppeteer (A):
+Puppeteer (B):
 - Stats: 1.15x ROF
-- Effect: Every bullet applies a stack of Pull Their Strings to enemies hit. When an enemy reaches 5 stacks, they are charmed for 10 seconds. Goes on a 25s cooldown.
+- Effect: Every bullet applies a stack of Pull Their Strings to enemies hit. When an enemy reaches 4 stacks, they are charmed for 999 seconds. Goes on a 25s cooldown.
 
 ![](https://i.ibb.co/gLXQC0Xw/rod-of-ages-pixelart-sprite-outline.png)
 Rod of Ages (B):
@@ -147,10 +147,21 @@ Redemption (A):
 - Stats: 1 Heart
 - Effect: Activate to call down a circle of healing that heals players for half a heart and damages enemies for 10% max health damage. Goes on a 10 room cooldown.
 
+Refillable Potion (C):
+- Effect: Activate to heal a half heart. Stacks up to two times. Refills upon entering a new floor.
+
 ![](https://i.ibb.co/ZR5sZTJ5/stridebreaker-pixelart-sprite-small.png)
 Stridebreaker (A):
 - Stats: 1.1x DMG, 1.1x ROF, 1 Heart
 - Effect: Activate to damage all enemies for 10 dmg in a radius around the player. Damage scales with player's damage modifiers. Hit enemies are slowed by 30% for 3s. Goes on a 15s cooldown.
+
+![](https://i.ibb.co/XrYKDrXv/Talismanof-Ascension9.png)
+Talisman of Ascension (A):
+- Effect: Activate to provide the player with a random assortment of buffs with random buff amounts. Goes on a 5 room cooldown.
+- Num of buffs: 2 + 1 per 4 uses
+- Buff value range minimum: 0.2 + 0.1 per use
+- Buff value range maximum: 1.0 + 0.25 per use
+- Each stat the item can buff has a specific ratio set for balancing reasons. I am not writing all that out lol.
 
 ![](https://i.ibb.co/KjLxCdnz/zhonyas-hourglass-pixelart-sprite-small.png)
 Zhonya's Hourglass (A):
@@ -200,8 +211,8 @@ Soul Spear (A):
 
 ![](https://i.ibb.co/4wf9Gh9x/whisper-idle-001.png)
 Whisper (A):
-- Stats: Fire rate: 1.3s, 25 dmg, 144 ammo, reload: 2.5s
-- Fires from a 4 shot clip. Fourth shot deals 175% damage and deals 25% additional missing health damage.
+- Stats: Fire rate: 1.3s, 40 dmg, 144 ammo, reload: 2.5s
+- Fires from a 4 shot clip. Fourth shot deals 200% damage and deals 25% additional missing health damage.
 - Fire rate cannot be increased and instead equally increases damage multiplier.
 - Clip size cannot be increased and instead increases damage multiplier by 25% of clip size modifier.
 

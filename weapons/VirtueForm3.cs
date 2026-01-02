@@ -23,7 +23,7 @@ namespace LOLItems.weapons
         private PlayerController currentOwner;
 
         private static int ammoStat = 750;
-        private static float reloadDuration = 1.0f;
+        private static float reloadDuration = 0f;
         private static float fireRateStat = 0.35f;
         private static int spreadAngle = 0;
 
@@ -36,9 +36,9 @@ namespace LOLItems.weapons
         private bool m_isCurrentlyActive;
         private bool m_hiddenForAll;
 
-        private static float projectileDamageStat = 10f;
-        private static float projectileSpeedStat = 20f;
-        private static float projectileRangeStat = 25f;
+        private static float projectileDamageStat = 15f;
+        private static float projectileSpeedStat = 65f;
+        private static float projectileRangeStat = 20f;
         private static float projectileForceStat = 8f;
 
         private static List<string> VirtueFiringSFXList = new List<string>
@@ -51,7 +51,7 @@ namespace LOLItems.weapons
         public static void Add()
         {
             string FULLNAME = realName;
-            string SPRITENAME = "hextech";
+            string SPRITENAME = "virtue_form3";
             internalName = $"LOLItems:{FULLNAME.ToID()}";
             Gun gun = ETGMod.Databases.Items.NewGun(FULLNAME, SPRITENAME);
             Game.Items.Rename($"outdated_gun_mods:{FULLNAME.ToID()}", internalName);
@@ -59,10 +59,10 @@ namespace LOLItems.weapons
             gun.SetShortDescription("idk");
             gun.SetLongDescription("idk");
 
-            gun.SetupSprite(null, "hextech_idle_001", 8);
+            gun.SetupSprite(null, $"{SPRITENAME}_idle_001", 8);
 
-            gun.SetAnimationFPS(gun.shootAnimation, 12);
-            gun.SetAnimationFPS(gun.reloadAnimation, 10);
+            gun.SetAnimationFPS(gun.shootAnimation, 30);
+            gun.SetAnimationFPS(gun.alternateShootAnimation, 30);
 
             gun.AddProjectileModuleFrom(PickupObjectDatabase.GetById((int)Items.MarineSidearm) as Gun, true, false);
             gun.muzzleFlashEffects = null; //(PickupObjectDatabase.GetById((int)Items.MarineSidearm) as Gun).muzzleFlashEffects;
@@ -72,8 +72,8 @@ namespace LOLItems.weapons
             SoundManager.AddCustomSwitchData("WPN_Guns", gun.gunSwitchGroup, "Play_WPN_Gun_Reload_01", null);
 
             gun.DefaultModule.angleVariance = spreadAngle;
-            gun.DefaultModule.shootStyle = ProjectileModule.ShootStyle.Automatic;
-            gun.gunClass = GunClass.FULLAUTO;
+            gun.DefaultModule.shootStyle = ProjectileModule.ShootStyle.SemiAutomatic;
+            gun.gunClass = GunClass.RIFLE;
             gun.DefaultModule.sequenceStyle = ProjectileModule.ProjectileSequenceStyle.Random;
             gun.DefaultModule.ammoCost = 1;
             gun.reloadTime = reloadDuration;
@@ -81,16 +81,29 @@ namespace LOLItems.weapons
             gun.DefaultModule.numberOfShotsInClip = ammoStat;
             gun.SetBaseMaxAmmo(ammoStat);
 
-            gun.gunHandedness = GunHandedness.OneHanded;
+            gun.gunHandedness = GunHandedness.TwoHanded;
 
-            gun.carryPixelOffset += new IntVector2(0, 0);
+            gun.carryPixelOffset += new IntVector2(13, 2); //offset when holding gun vertically
+            gun.carryPixelDownOffset += new IntVector2(-11, -16); //offset when aiming down
+            gun.carryPixelUpOffset += new IntVector2(-13, 11); //offset when aiming up
 
-            gun.barrelOffset.transform.localPosition += new Vector3(0 / 16f, 0 / 16f);
+            gun.barrelOffset.transform.localPosition += new Vector3(64 / 16f, 52 / 16f);
 
             gun.gunScreenShake.magnitude = 0f;
 
             Projectile projectile = UnityEngine.Object.Instantiate<Projectile>((PickupObjectDatabase.GetById((int)Items.MarineSidearm) as Gun).DefaultModule.projectiles[0]);
             gun.DefaultModule.projectiles[0] = projectile;
+
+            projectile.hitEffects.HasProjectileDeathVFX = true;
+            projectile.hitEffects.overrideMidairDeathVFX = (PickupObjectDatabase.GetById((int)Items.Bow) as Gun).DefaultModule.chargeProjectiles[1].Projectile.hitEffects.enemy.effects[0].effects[0].effect;
+            projectile.hitEffects.deathAny = (PickupObjectDatabase.GetById((int)Items.Bow) as Gun).DefaultModule.chargeProjectiles[1].Projectile.hitEffects.enemy;
+            projectile.hitEffects.deathEnemy = (PickupObjectDatabase.GetById((int)Items.Bow) as Gun).DefaultModule.chargeProjectiles[1].Projectile.hitEffects.enemy;
+            projectile.hitEffects.enemy = (PickupObjectDatabase.GetById((int)Items.Bow) as Gun).DefaultModule.chargeProjectiles[1].Projectile.hitEffects.enemy;
+            projectile.hitEffects.tileMapHorizontal = null;
+            projectile.hitEffects.tileMapVertical = null;
+
+            //projectile.objectImpactEventName = ;
+            //projectile.enemyImpactEventName = ;
 
             projectile.gameObject.SetActive(false);
             FakePrefab.MarkAsFakePrefab(projectile.gameObject);
@@ -103,6 +116,98 @@ namespace LOLItems.weapons
             projectile.transform.parent = gun.barrelOffset;
             projectile.shouldRotate = true;
 
+            projectile.SetProjectileSpriteRight("virtue_yellow_projectile_straight_001", 19, 7, true, tk2dBaseSprite.Anchor.MiddleCenter, 17, 6);
+
+            EasyTrailBullet projTrail = projectile.gameObject.AddComponent<EasyTrailBullet>();
+            projTrail.TrailPos = projectile.transform.position;
+            projTrail.StartWidth = 0.25f;
+            projTrail.EndWidth = 0f;
+            projTrail.LifeTime = 0.15f; //How long the trail lingers
+            // BaseColor sets an overall color for the trail. Start and End Colors are subtractive to it. 
+            projTrail.BaseColor = ExtendedColours.orange; //Set to white if you don't want to interfere with Start/End Colors.
+            projTrail.StartColor = ExtendedColours.paleYellow;
+            projTrail.EndColor = Color.white; //Custom Orange example using r/g/b values.
+
+            /*List<string> projectileSpriteNames = new List<string>
+            {
+                "virtue_yellow_projectile_001",
+                "virtue_yellow_projectile_002",
+                "virtue_yellow_projectile_003",
+                "virtue_yellow_projectile_004",
+            };
+            int projectileFPS = 8;
+            List<IntVector2> projectileSizes = new List<IntVector2>
+            {
+                new IntVector2(20, 6), //1
+                new IntVector2(20, 6), //2
+                new IntVector2(20, 6), //3
+                new IntVector2(20, 6), //4
+            };
+            List<bool> projectileLighteneds = new List<bool>
+            {
+                true,
+                true,
+                true,
+                true,
+            };
+            List<tk2dBaseSprite.Anchor> projectileAnchors = new List<tk2dBaseSprite.Anchor>
+            {
+                tk2dBaseSprite.Anchor.MiddleCenter,
+                tk2dBaseSprite.Anchor.MiddleCenter,
+                tk2dBaseSprite.Anchor.MiddleCenter,
+                tk2dBaseSprite.Anchor.MiddleCenter,
+            };
+            List<bool> projectileAnchorsChangeColiders = new List<bool>
+            {
+                false,
+                false,
+                false,
+                false,
+            };
+            List<bool> projectilefixesScales = new List<bool>
+            {
+                false,
+                false,
+                false,
+                false,
+            };
+            List<Vector3?> projectileManualOffsets = new List<Vector3?>
+            {
+                Vector2.zero,
+                Vector2.zero,
+                Vector2.zero,
+                Vector2.zero,
+            };
+            List<IntVector2?> projectileOverrideColliderSizes = new List<IntVector2?>
+            {
+                new IntVector2(16, 5), //1
+                new IntVector2(16, 5), //2
+                new IntVector2(16, 5), //3
+                new IntVector2(16, 5), //4
+            };
+            List<IntVector2?> projectileOverrideColliderOffsets = new List<IntVector2?>
+            {
+                null,
+                null,
+                null,
+                null,
+            };
+            List<Projectile> projectileOverrideProjectilesToCopyFrom = new List<Projectile>
+            {
+                null,
+                null,
+                null,
+                null,
+            };
+            tk2dSpriteAnimationClip.WrapMode ProjectileWrapMode = tk2dSpriteAnimationClip.WrapMode.Loop;
+            projectile.AddAnimationToProjectile(projectileSpriteNames, projectileFPS, projectileSizes, projectileLighteneds, projectileAnchors, projectileAnchorsChangeColiders, projectilefixesScales,
+                                                projectileManualOffsets, projectileOverrideColliderSizes, projectileOverrideColliderOffsets, projectileOverrideProjectilesToCopyFrom, ProjectileWrapMode);
+            */
+            gun.DefaultModule.ammoType = GameUIAmmoType.AmmoType.CUSTOM;
+            gun.DefaultModule.customAmmoType = CustomClipAmmoTypeToolbox.AddCustomAmmoType("virtue_form3_ammo",
+                "LOLItems/Resources/weapon_sprites/CustomGunAmmoTypes/virtue_form3_ammo_full", "LOLItems/Resources/weapon_sprites/CustomGunAmmoTypes/virtue_form3_ammo_empty");
+
+
             gun.Volley.ModulesAreTiers = true;
             ProjectileModule mod1 = gun.DefaultModule;
             ProjectileModule mod2 = ProjectileModule.CreateClone(mod1, false);
@@ -111,6 +216,16 @@ namespace LOLItems.weapons
             Projectile wave = UnityEngine.Object.Instantiate<Projectile>((PickupObjectDatabase.GetById((int)Items.MarineSidearm) as Gun).DefaultModule.projectiles[0]);
             //gun.DefaultModule.projectiles.Add(wave);
             gun.Volley.projectiles[1].projectiles[0] = wave;
+
+            wave.hitEffects.HasProjectileDeathVFX = true;
+            wave.hitEffects.deathAny = null;
+            wave.hitEffects.deathEnemy = null;
+            wave.hitEffects.enemy = null;
+            wave.hitEffects.tileMapHorizontal = null;
+            wave.hitEffects.tileMapVertical = null;
+
+            //wave.objectImpactEventName = ;
+            //wave.enemyImpactEventName = ;
 
             wave.gameObject.SetActive(false);
             FakePrefab.MarkAsFakePrefab(wave.gameObject);
@@ -123,22 +238,56 @@ namespace LOLItems.weapons
             wave.transform.parent = gun.barrelOffset;
             wave.shouldRotate = true;
 
-            wave.sprite.color = Color.cyan;
-            wave.AdditionalScaleMultiplier = 5f;
+            wave.PenetratesInternalWalls = true;
+            wave.pierceMinorBreakables = true;
+            wave.damagesWalls = false;
+
+            TrueWallPiercingRounds wallPiercingRounds = wave.gameObject.GetOrAddComponent<TrueWallPiercingRounds>();
+
+            //wave.BulletScriptSettings.surviveRigidbodyCollisions = true;
+            //wave.BulletScriptSettings.surviveTileCollisions = true;
+
+            PierceProjModifier pierce = wave.gameObject.GetOrAddComponent<PierceProjModifier>();
+            pierce.penetration = 999;
+            pierce.penetratesBreakables = true;
+
+            //wave.sprite.color = Color.cyan;
+            //wave.AdditionalScaleMultiplier = 5f;
+
+            wave.SetProjectileSpriteRight("virtue_yellow_large_projectile_thin_001", 23, 96, true, tk2dBaseSprite.Anchor.MiddleCenter, 20, 76);
+
+            var sprite = wave.sprite.gameObject.GetComponent<tk2dSprite>();
+
+            if (sprite != null)
+            {
+                //Plugin.Log("sprite not null");
+                sprite.usesOverrideMaterial = true;
+                sprite.renderer.material.shader = ShaderCache.Acquire("Brave/Internal/SimpleAlphaFadeUnlit");
+                sprite.renderer.material.SetFloat("_Fade", 0.8f);
+            }
+            else
+            {
+                //Plugin.Log("sprite is null");
+            }
 
             gun.shellsToLaunchOnFire = 0;
             gun.shellsToLaunchOnReload = 0;
             gun.clipsToLaunchOnReload = 0;
 
-            //gun.CurrentStrengthTier = 0;
-
-            gun.spriteAnimator.OverrideTimeScale = (0.8f / 0.35f);
-
-            gun.quality = PickupObject.ItemQuality.B;
+            gun.quality = PickupObject.ItemQuality.EXCLUDED;
             ETGMod.Databases.Items.Add(gun, false, "ANY");
             ID = gun.PickupObjectId;
 
+            gun.ShouldBeExcludedFromShops = true;
+
             ItemBuilder.AddCurrentGunStatModifier(gun, PlayerStats.StatType.MovementSpeed, zealSpeedInc, StatModifier.ModifyMethod.MULTIPLICATIVE);
+        }
+
+        public override void OnPostFired(PlayerController player, Gun gun)
+        {
+            BraveUtility.Swap(ref this.gun.shootAnimation, ref this.gun.alternateShootAnimation);
+
+            base.OnPostFired(player, gun);
         }
 
         public override void PostProcessProjectile(Projectile projectile)
@@ -200,11 +349,11 @@ namespace LOLItems.weapons
         {
             currentOwner.OnIsRolling -= OnRollFrame;
 
-            currentOwner = null;
-
             StopFlight();
 
-            Plugin.Log($"dropped up {realName}");
+            currentOwner = null;
+
+            Plugin.Log($"dropped {realName}");
 
             base.OnDropped();
         }
@@ -214,7 +363,7 @@ namespace LOLItems.weapons
             Plugin.Log("trigger flight");
             if (!Dungeon.IsGenerating && currentOwner && currentOwner.sprite && currentOwner.sprite.GetComponent<tk2dSpriteAttachPoint>())
             {
-                Plugin.Log("flight work");
+                //Plugin.Log("flight work");
 
                 m_isCurrentlyActive = true;
                 currentOwner.AdditionalCanDodgeRollWhileFlying.SetOverride("Feather", true);
@@ -236,14 +385,18 @@ namespace LOLItems.weapons
 
         private void StopFlight()
         {
-            Plugin.Log("Stop flight");
+            //Plugin.Log("Stop flight");
 
             m_isCurrentlyActive = false;
             currentOwner.AdditionalCanDodgeRollWhileFlying.SetOverride("Feather", false);
 
+            //Plugin.Log("Stop flight 2");
+
             currentOwner.SetIsFlying(value: false, "DivineAscent");
             currentOwner.DeregisterAttachedObject(instanceWings);
             instanceWingsSprite = null;
+
+            //Plugin.Log("Stop flight 3");
         }
 
         protected override void Update()

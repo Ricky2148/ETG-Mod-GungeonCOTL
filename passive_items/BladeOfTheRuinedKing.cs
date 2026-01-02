@@ -91,7 +91,9 @@ namespace LOLItems
 
         private void OnPostProcessProjectile(BeamController beam, SpeculativeRigidbody hitRigidbody, float tickrate)
         {
-            if (hitRigidbody != null && hitRigidbody.aiActor != null)
+            if (hitRigidbody == null) return;
+            if (hitRigidbody.aiActor == null && hitRigidbody.GetComponentInParent<AIActor>() == null) return;
+            if (hitRigidbody.healthHaver != null)
             {
                 float currentHealth = hitRigidbody.aiActor.healthHaver.GetCurrentHealth();
                 // calculates additional extra damage to apply to enemy
@@ -126,7 +128,11 @@ namespace LOLItems
                 //Seems to be an interaction with bosses where they only take the bonus damage every few frames
                 proj.OnHitEnemy += (projHit, enemy, fatal) =>
                 {
-                    if (enemy != null && enemy.aiActor != null)
+                    //Plugin.Log($"enemy: {enemy}, enemy.aiActor: {enemy.aiActor}, enemy.parentAiActor: {enemy.GetComponentInParent<AIActor>()}, enemy.healthHaver: {enemy.healthHaver}");
+
+                    if (enemy == null) return;
+                    if (enemy.aiActor == null && enemy.GetComponentInParent<AIActor>() == null) return;
+                    if (enemy.healthHaver != null)
                     {
                         float currentHealth = enemy.healthHaver.GetCurrentHealth();
                         // calculates additional extra damage to apply to enemy
@@ -144,6 +150,8 @@ namespace LOLItems
                             DamageCategory.Normal,
                             false
                         );
+
+                        Plugin.Log($"damage dealt: {damageToDeal}");
                     }
                 };
             }
@@ -154,9 +162,14 @@ namespace LOLItems
         {
             projectile.OnHitEnemy += (projHit, enemy, fatal) =>
             {
-                if (enemy != null && enemy.aiActor != null)
+                if (enemy == null) return;
+                if (enemy.aiActor != null)
                 {
                     enemy.aiActor.ApplyEffect(slowEffect);
+                }
+                else if (enemy.GetComponentInParent<AIActor>() != null)
+                {
+                    enemy.GetComponentInParent<AIActor>().ApplyEffect(slowEffect);
                 }
             };
         }

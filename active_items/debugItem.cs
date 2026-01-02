@@ -89,9 +89,11 @@ namespace LOLItems
 
         public override void DoEffect(PlayerController player)
         {
-            StartCoroutine(EffectCoroutine(player));
+            //StartCoroutine(EffectCoroutine(player));
 
             //HelpfulMethods.CustomNotification("smth1", "smth2", this.sprite);
+
+            //LootEngine.SpawnItem(PickupObjectDatabase.GetByName("Muramana").gameObject, player.CenterPosition, Vector2.down, 0);
 
             Plugin.Log("debug item finished");
         }
