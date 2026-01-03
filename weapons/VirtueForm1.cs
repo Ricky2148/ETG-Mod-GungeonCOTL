@@ -27,6 +27,7 @@ namespace LOLItems.weapons
         private static int spreadAngle = 0;
 
         private Gun NextFormWeapon;
+        private static GameObject AscensionIcon;
 
         private float DivineAscentExpTracker = 0f;
         //private int DivineAscentFormTracker = 0;
@@ -244,6 +245,10 @@ namespace LOLItems.weapons
             gun.quality = PickupObject.ItemQuality.C;
             ETGMod.Databases.Items.Add(gun, false, "ANY");
             ID = gun.PickupObjectId;
+
+            AscensionIcon = SpriteBuilder.SpriteFromResource("LOLItems/Resources/black_dot", AscensionIcon);
+            FakePrefab.MarkAsFakePrefab(AscensionIcon);
+            AscensionIcon.SetActive(false);
         }
 
         public override void OnInitializedWithOwner(GameActor actor)
@@ -319,7 +324,7 @@ namespace LOLItems.weapons
 
             if (NextFormWeapon != null || currentOwner != null)
             {
-                HelpfulMethods.CustomNotification("Taste of Celestial Justice", "The unrighteous will burn!", (PickupObjectDatabase.GetById((int)debugItem.ID) as PlayerItem).sprite, UINotificationController.NotificationColor.GOLD);
+                HelpfulMethods.CustomNotification("Taste of Celestial Justice", "The unrighteous will burn!", AscensionIcon.GetComponent<tk2dBaseSprite>(), UINotificationController.NotificationColor.GOLD);
                 //Plugin.Log("Upgrading Virtue1 to Virtue2");
                 HelpfulMethods.PlayRandomSFX(this.gun.gameObject, VirtueAscensionSFXList);
                 currentOwner.inventory.RemoveGunFromInventory(this.gun);

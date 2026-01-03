@@ -44,6 +44,7 @@ namespace LOLItems.weapons
         private float DivineAscentThreshold = 6000f;
 
         private Gun NextFormWeapon;
+        private static GameObject AscensionIcon;
 
         private Projectile wave;
 
@@ -371,6 +372,10 @@ namespace LOLItems.weapons
             ID = gun.PickupObjectId;
             //ItemBuilder.AddCurrentGunStatModifier(gun, PlayerStats.StatType.RateOfFire, 1.0f, StatModifier.ModifyMethod.MULTIPLICATIVE);
             //ItemBuilder.AddCurrentGunStatModifier(gun, PlayerStats.StatType.MovementSpeed, 1.0f, StatModifier.ModifyMethod.MULTIPLICATIVE);
+
+            AscensionIcon = SpriteBuilder.SpriteFromResource("LOLItems/Resources/black_dot", AscensionIcon);
+            FakePrefab.MarkAsFakePrefab(AscensionIcon);
+            AscensionIcon.SetActive(false);
         }
 
         public override void OnPostFired(PlayerController player, Gun gun)
@@ -637,7 +642,7 @@ namespace LOLItems.weapons
 
             if (NextFormWeapon != null || currentOwner != null)
             {
-                HelpfulMethods.CustomNotification("Usurped the Aspect of Justice", "The unrighteous will burn!", (PickupObjectDatabase.GetById((int)debugItem.ID) as PlayerItem).sprite, UINotificationController.NotificationColor.PURPLE);
+                HelpfulMethods.CustomNotification("Usurped the Aspect of Justice", "Behold, the righteous flame!", AscensionIcon.GetComponent<tk2dBaseSprite>(), UINotificationController.NotificationColor.PURPLE);
                 //Plugin.Log("Upgrading Virtue2 to Virtue3");
                 HelpfulMethods.PlayRandomSFX(this.gun.gameObject, VirtueAscensionSFXList);
                 currentOwner.inventory.RemoveGunFromInventory(this.gun);

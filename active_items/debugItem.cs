@@ -10,6 +10,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using UnityEngine;
 
@@ -18,6 +19,8 @@ namespace LOLItems
     internal class debugItem : PlayerItem
     {
         public static int ID;
+
+        public static GameObject AscensionIcon;
 
         private static List<string> VFXSpritePath = new List<string>
             {
@@ -94,6 +97,32 @@ namespace LOLItems
             //HelpfulMethods.CustomNotification("smth1", "smth2", this.sprite);
 
             //LootEngine.SpawnItem(PickupObjectDatabase.GetByName("Muramana").gameObject, player.CenterPosition, Vector2.down, 0);
+
+            AscensionIcon = SpriteBuilder.SpriteFromResource("LOLItems/Resources/carefree_melody_sprite", AscensionIcon);
+            FakePrefab.MarkAsFakePrefab(AscensionIcon);
+            AscensionIcon.SetActive(false);
+
+            tk2dSprite thing = AscensionIcon.GetComponent<tk2dSprite>();
+            if (thing != null)
+            {
+                Plugin.Log($"{thing}");
+                HelpfulMethods.CustomNotification("thing 1", "thing 1", thing, UINotificationController.NotificationColor.SILVER);
+            }
+            else
+            {
+                Plugin.Log("thing1 null");
+            }
+
+            tk2dBaseSprite thing2 = AscensionIcon.GetComponent<tk2dBaseSprite>();
+            if (thing2 != null)
+            {
+                Plugin.Log($"{thing2}");
+                HelpfulMethods.CustomNotification("thing 2", "thing 2", thing2, UINotificationController.NotificationColor.SILVER);
+            }
+            else
+            {
+                Plugin.Log("thing2 null");
+            }
 
             Plugin.Log("debug item finished");
         }
