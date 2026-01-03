@@ -105,9 +105,9 @@ namespace LOLItems
             PrayerBeads.Add();
             Whisper.Add();
             Crossblade.Add();
-            //VirtueForm1.Add();
-            //VirtueForm2.Add();
-            //VirtueForm3.Add();
+            VirtueForm1.Add();
+            VirtueForm2.Add();
+            VirtueForm3.Add();
             SoulSpear.Add();
 
 
@@ -125,7 +125,7 @@ namespace LOLItems
             TearOfTheGoddess.Init();
 
             //next update items
-            //DetonationOrb.Init();
+            DetonationOrb.Init();
             RefillablePotion.Init();
             TalismanOfAscension.Init();
 

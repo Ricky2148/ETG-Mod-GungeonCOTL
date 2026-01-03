@@ -182,11 +182,12 @@ namespace LOLItems.weapons
             //projectile.hitEffects.midairInheritsFlip = true; //Should impact be directional facing?
             //projectile.hitEffects.midairInheritsRotation = true; //Should the visual rotate with the gun's orientation?
             /* You can also copy individual properties using a format like this: */
+            projectile.hitEffects.HasProjectileDeathVFX = false;
             projectile.hitEffects.deathAny = null;
             projectile.hitEffects.deathEnemy = null;
-            projectile.hitEffects.enemy = null;
-            projectile.hitEffects.tileMapHorizontal = (PickupObjectDatabase.GetById((int)Items.MarineSidearm) as Gun).DefaultModule.projectiles[0].hitEffects.tileMapHorizontal;
-            projectile.hitEffects.tileMapVertical = (PickupObjectDatabase.GetById((int)Items.MarineSidearm) as Gun).DefaultModule.projectiles[0].hitEffects.tileMapVertical;
+            projectile.hitEffects.enemy = (PickupObjectDatabase.GetById((int)Items.LuxinCannon) as Gun).DefaultModule.finalProjectile.hitEffects.enemy;
+            projectile.hitEffects.tileMapHorizontal = (PickupObjectDatabase.GetById((int)Items.LuxinCannon) as Gun).DefaultModule.finalProjectile.hitEffects.tileMapHorizontal;
+            projectile.hitEffects.tileMapVertical = (PickupObjectDatabase.GetById((int)Items.LuxinCannon) as Gun).DefaultModule.finalProjectile.hitEffects.tileMapVertical;
 
             //projectile.objectImpactEventName = "plasmarifle"; //starlet, zapper, plasmarifle, energy
             //projectile.enemyImpactEventName = "plasmarifle";

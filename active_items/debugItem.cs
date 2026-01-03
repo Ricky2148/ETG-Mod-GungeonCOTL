@@ -52,7 +52,7 @@ namespace LOLItems
         public static void Init()
         {
             string itemName = "Debug Item";
-            string resourceName = "LOLItems/Resources/example_item_sprite";
+            string resourceName = "LOLItems/Resources/black_dot";
 
             GameObject obj = new GameObject(itemName);
 
@@ -69,7 +69,7 @@ namespace LOLItems
             item.consumable = false;
 
             item.usableDuringDodgeRoll = true;
-            item.quality = PickupObject.ItemQuality.A;
+            item.quality = PickupObject.ItemQuality.EXCLUDED;
             ID = item.PickupObjectId;
         }
 

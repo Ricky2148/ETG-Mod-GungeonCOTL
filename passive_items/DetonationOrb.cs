@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 
-// some vfx and sfx work
+// needs vfx and sfx work
 // tune the damage scale on enemies and bosses
 
 namespace LOLItems.passive_items

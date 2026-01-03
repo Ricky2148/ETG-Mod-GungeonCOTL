@@ -24,7 +24,7 @@ namespace LOLItems.active_items
         public static void Init()
         {
             string itemName = "Refillable Potion";
-            string resourceName = "LOLItems/Resources/active_item_sprites/refillable_potion_item_sprite";
+            string resourceName = "LOLItems/Resources/active_item_sprites/refillable_potion_pixelart_sprite";
 
             GameObject obj = new GameObject(itemName);
 

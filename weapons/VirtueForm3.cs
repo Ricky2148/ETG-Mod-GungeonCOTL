@@ -16,9 +16,9 @@ namespace LOLItems.weapons
 {
     internal class VirtueForm3 : AdvancedGunBehavior
     {
-        public static string internalName;
+        public static string internalName = "VirtueForm3";
         public static int ID;
-        public static string realName = "VirtueForm3";
+        public static string realName = "Virtue";
 
         private PlayerController currentOwner;
 
@@ -43,21 +43,34 @@ namespace LOLItems.weapons
 
         private static List<string> VirtueFiringSFXList = new List<string>
         {
-            "FishbonesFireSFX1",
-            "FishbonesFireSFX2",
-            "FishbonesFireSFX3"
+            "virtue_atk_sfx1",
+            "virtue_atk_sfx2",
+            "virtue_atk_sfx3",
+            "virtue_atk_sfx4",
+        };
+
+        private static List<string> VirtueWaveSFXList = new List<string>
+        {
+            "virtue_wave_sfx1",
+            "virtue_wave_sfx2",
+            "virtue_wave_sfx3",
+            "virtue_wave_sfx4",
+            "virtue_wave_sfx5",
         };
 
         public static void Add()
         {
             string FULLNAME = realName;
             string SPRITENAME = "virtue_form3";
-            internalName = $"LOLItems:{FULLNAME.ToID()}";
+            internalName = $"LOLItems:{internalName.ToID()}";
             Gun gun = ETGMod.Databases.Items.NewGun(FULLNAME, SPRITENAME);
             Game.Items.Rename($"outdated_gun_mods:{FULLNAME.ToID()}", internalName);
             gun.gameObject.AddComponent<VirtueForm3>();
-            gun.SetShortDescription("idk");
-            gun.SetLongDescription("idk");
+            gun.SetShortDescription("\"Drown in holy fire!\"");
+            gun.SetLongDescription("Virtue. \nDefinition: a quality considered morally good.\n\nA blade of celestial creation that are capable of burning evil. " +
+                "The original wielder of this weapon was said to have tested whether one was virtuous by slashing at their neck. If they were truly virtuous, then the blade would cause them no harm. " +
+                "\n\nI have absolved myself of all mortal sin in order to serve judgement to the unworthy. " +
+                "\n\n\"To be human is to be imperfect, but I am not human.\"\n");
 
             gun.SetupSprite(null, $"{SPRITENAME}_idle_001", 8);
 
@@ -68,7 +81,7 @@ namespace LOLItems.weapons
             gun.muzzleFlashEffects = null; //(PickupObjectDatabase.GetById((int)Items.MarineSidearm) as Gun).muzzleFlashEffects;
 
             gun.gunSwitchGroup = $"LOLItems_{FULLNAME.ToID()}";
-            SoundManager.AddCustomSwitchData("WPN_Guns", gun.gunSwitchGroup, "Play_WPN_Gun_Shot_01", "Play_WPN_minigun_shot_01");
+            SoundManager.AddCustomSwitchData("WPN_Guns", gun.gunSwitchGroup, "Play_WPN_Gun_Shot_01", null);
             SoundManager.AddCustomSwitchData("WPN_Guns", gun.gunSwitchGroup, "Play_WPN_Gun_Reload_01", null);
 
             gun.DefaultModule.angleVariance = spreadAngle;
@@ -87,7 +100,7 @@ namespace LOLItems.weapons
             gun.carryPixelDownOffset += new IntVector2(-11, -16); //offset when aiming down
             gun.carryPixelUpOffset += new IntVector2(-13, 11); //offset when aiming up
 
-            gun.barrelOffset.transform.localPosition += new Vector3(64 / 16f, 52 / 16f);
+            gun.barrelOffset.transform.localPosition += new Vector3(56 / 16f, 52 / 16f);
 
             gun.gunScreenShake.magnitude = 0f;
 
@@ -102,8 +115,8 @@ namespace LOLItems.weapons
             projectile.hitEffects.tileMapHorizontal = null;
             projectile.hitEffects.tileMapVertical = null;
 
-            //projectile.objectImpactEventName = ;
-            //projectile.enemyImpactEventName = ;
+            projectile.objectImpactEventName = "virtue2";
+            projectile.enemyImpactEventName = "virtue5";
 
             projectile.gameObject.SetActive(false);
             FakePrefab.MarkAsFakePrefab(projectile.gameObject);
@@ -116,7 +129,7 @@ namespace LOLItems.weapons
             projectile.transform.parent = gun.barrelOffset;
             projectile.shouldRotate = true;
 
-            projectile.SetProjectileSpriteRight("virtue_yellow_projectile_straight_001", 19, 7, true, tk2dBaseSprite.Anchor.MiddleCenter, 17, 6);
+            projectile.SetProjectileSpriteRight("virtue_yellow_small_projectile_001", 19, 7, true, tk2dBaseSprite.Anchor.MiddleCenter, 17, 6);
 
             EasyTrailBullet projTrail = projectile.gameObject.AddComponent<EasyTrailBullet>();
             projTrail.TrailPos = projectile.transform.position;
@@ -124,7 +137,7 @@ namespace LOLItems.weapons
             projTrail.EndWidth = 0f;
             projTrail.LifeTime = 0.15f; //How long the trail lingers
             // BaseColor sets an overall color for the trail. Start and End Colors are subtractive to it. 
-            projTrail.BaseColor = ExtendedColours.orange; //Set to white if you don't want to interfere with Start/End Colors.
+            projTrail.BaseColor = ExtendedColours.paleYellow; //Set to white if you don't want to interfere with Start/End Colors.
             projTrail.StartColor = ExtendedColours.paleYellow;
             projTrail.EndColor = Color.white; //Custom Orange example using r/g/b values.
 
@@ -254,7 +267,7 @@ namespace LOLItems.weapons
             //wave.sprite.color = Color.cyan;
             //wave.AdditionalScaleMultiplier = 5f;
 
-            wave.SetProjectileSpriteRight("virtue_yellow_large_projectile_thin_001", 23, 96, true, tk2dBaseSprite.Anchor.MiddleCenter, 20, 76);
+            wave.SetProjectileSpriteRight("virtue_yellow_medium_projectile_001", 14, 64, true, tk2dBaseSprite.Anchor.MiddleCenter, 12, 52);
 
             var sprite = wave.sprite.gameObject.GetComponent<tk2dSprite>();
 
@@ -287,6 +300,8 @@ namespace LOLItems.weapons
         {
             BraveUtility.Swap(ref this.gun.shootAnimation, ref this.gun.alternateShootAnimation);
 
+            //HelpfulMethods.PlayRandomSFX(gun.gameObject, VirtueFiringSFXList);
+
             base.OnPostFired(player, gun);
         }
 
@@ -294,6 +309,8 @@ namespace LOLItems.weapons
         {
             if (projectile != null && projectile.Owner != null)
             {
+                HelpfulMethods.PlayRandomSFX(this.gun.gameObject, VirtueWaveSFXList);
+
                 currentOwner.StartCoroutine(FireWaveDelayed(projectile));
             }
 
@@ -325,7 +342,7 @@ namespace LOLItems.weapons
             wave.Owner = projectile.Owner;
             wave.Shooter = projectile.Shooter;
 
-            wave.transform.position = currentOwner.CurrentGun.barrelOffset.position;
+            wave.transform.position = currentOwner.CurrentGun.barrelOffset.position + new Vector3(direction.x, direction.y);
             float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
             wave.transform.rotation = Quaternion.Euler(0f, 0f, angle);
 
