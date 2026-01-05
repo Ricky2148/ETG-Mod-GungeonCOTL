@@ -36,6 +36,12 @@ namespace LOLItems.active_items
 
         public Dictionary<PlayerStats.StatType, float> StatTypeWeights = new Dictionary<PlayerStats.StatType, float>();
 
+        private static List<string> effectSFXList = new List<string>
+        {
+            "chrTrg_gainHp_SFX",
+            "chrTrg_gainMp_SFX",
+        };
+
         //public System.Array StatTypeList = Enum.GetValues(typeof(PlayerStats.StatType));
 
         public static void Init()
@@ -49,8 +55,11 @@ namespace LOLItems.active_items
 
             ItemBuilder.AddSpriteToObject(itemName, resourceName, obj);
 
-            string shortDesc = "idk";
-            string longDesc = "idk";
+            string shortDesc = "*aw dang it*";
+            string longDesc = "This ancient talisman is said to have been bathed in the intense heat of the shuriman desert atop its highest peak. " +
+                "The gods answered this showing of reverence by imbuing it with a spirit of fortune. It then became presitigous as every emperor who bore this talisman would " +
+                "exhibit unreasonable feats of luck. However, after millennia of constant use, the talisman's effects have dwindled and have become unreliable.\n\n" +
+                "https://www.youtube.com/watch?v=IPFiKEm-oNI\n";
 
             ItemBuilder.SetupItem(item, shortDesc, longDesc, "LOLItems");
             //ItemBuilder.SetCooldownType(item, ItemBuilder.CooldownType.Timed, 1f);
@@ -133,10 +142,10 @@ namespace LOLItems.active_items
             StatTypeWeights.Add(StatTypeList[14], 0.3f); //RangeMultiplier
             StatTypeWeights.Add(StatTypeList[15], 0.2f); //MoneyMultiplierFromEnemies
 
-            foreach (KeyValuePair<PlayerStats.StatType, float> b in StatTypeWeights)
+            /*foreach (KeyValuePair<PlayerStats.StatType, float> b in StatTypeWeights)
             {
                 Plugin.Log($"{b.Key} | {b.Value}");
-            }
+            }*/
         }
 
         public DebrisObject Drop(PlayerController player)
@@ -148,11 +157,29 @@ namespace LOLItems.active_items
 
         public override void DoEffect(PlayerController user)
         {
-            AkSoundEngine.PostEvent("Play_OBJ_power_up_01", base.gameObject);
+            //AkSoundEngine.PostEvent("Play_OBJ_power_up_01", base.gameObject);
+
+            HelpfulMethods.PlayRandomSFX(base.gameObject, effectSFXList);
+
+            /*Vector2 vector = user.specRigidbody.HitboxPixelCollider.UnitBottomLeft;
+            Vector2 vector2 = user.specRigidbody.HitboxPixelCollider.UnitTopRight;
+            PixelCollider pixelCollider = user.specRigidbody.GetPixelCollider(ColliderType.Ground);
+            if (pixelCollider != null && pixelCollider.ColliderGenerationMode == PixelCollider.PixelColliderGeneration.Manual)
+            {
+                vector = Vector2.Min(vector, pixelCollider.UnitBottomLeft);
+                vector2 = Vector2.Max(vector2, pixelCollider.UnitTopRight);
+            }
+            Vector2 playerDimensions = (user.specRigidbody.HitboxPixelCollider.UnitDimensions) / 2f;
+
+            vector += Vector2.Min(playerDimensions * 0.15f, new Vector2(0.25f, 0.25f));
+            vector2 -= Vector2.Min(playerDimensions * 0.15f, new Vector2(0.25f, 0.25f));
+            vector2.y -= Mathf.Min(playerDimensions.y * 0.1f, 0.1f);
+
+            GlobalSparksDoer.DoRadialParticleBurst((timesUsed + 5), vector, vector2, 15f, 5f, 5f, 0.3f, 1f, ExtendedColours.vibrantOrange, GlobalSparksDoer.SparksType.SOLID_SPARKLES);*/
 
             //int numOfBuffs = (int)Math.Ceiling(UnityEngine.Random.value * 5);
             int numOfBuffs = baseNumBuffs + Mathf.FloorToInt(numBuffsIncPerStack * timesUsed);
-            Plugin.Log($"{numOfBuffs} = {baseNumBuffs} + ({numBuffsIncPerStack} * {timesUsed})");
+            //Plugin.Log($"{numOfBuffs} = {baseNumBuffs} + ({numBuffsIncPerStack} * {timesUsed})");
             //List<PlayerStats.StatType> listOfBuffs = new List<PlayerStats.StatType>();
 
             List<int> list1 = new List<int>();
@@ -163,7 +190,7 @@ namespace LOLItems.active_items
 
                 list1.Add(UnityEngine.Random.Range(0, StatTypeList.Count));
                 //list1.Add(a);
-                Plugin.Log($"{list1[a]}");
+                //Plugin.Log($"{list1[a]}");
             }
 
             //int i = 0,j = 0;
@@ -197,11 +224,11 @@ namespace LOLItems.active_items
                 //float statIncValue = UnityEngine.Random.Range((baseBuffValueMin + (buffValueMinIncPerStack * timesUsed)), (baseBuffValueMax + (buffValueMaxIncPerStack * timesUsed)));
                 float statIncValue = UnityEngine.Random.Range(buffValueMin, buffValueMax);
 
-                Plugin.Log($"{buffValueMin}, {buffValueMax} | {statIncValue}");
+                //Plugin.Log($"{buffValueMin}, {buffValueMax} | {statIncValue}");
                 //special cased stattypes to be additive and not include the +1f
                 if (StatTypeList[a] == PlayerStats.StatType.MovementSpeed | StatTypeList[a] == PlayerStats.StatType.AdditionalShotPiercing | StatTypeList[a] == PlayerStats.StatType.AdditionalShotBounces)
                 {
-                    Plugin.Log("additive");
+                    //Plugin.Log("additive");
 
                     if (StatTypeList[a] == PlayerStats.StatType.AdditionalShotPiercing | StatTypeList[a] == PlayerStats.StatType.AdditionalShotBounces)
                     {
@@ -211,7 +238,7 @@ namespace LOLItems.active_items
                     {
                         statIncValue = statIncValue * StatTypeWeights[StatTypeList[a]];
                     }
-                    Plugin.Log($"statToMod: {StatTypeList[a]}, statIncValue: {statIncValue}, statWeightValue: {StatTypeWeights[StatTypeList[a]]}");
+                    //Plugin.Log($"statToMod: {StatTypeList[a]}, statIncValue: {statIncValue}, statWeightValue: {StatTypeWeights[StatTypeList[a]]}");
                     
                     //itemDescriptionAppendix += $"{StatTypeList[a]}: +{statIncValue}\n";
                     itemDescriptionAppendix.Add($"{StatTypeList[a]}: +{(Mathf.Round(statIncValue * 100f)) / 100f}\n");
@@ -220,9 +247,9 @@ namespace LOLItems.active_items
                 //special cased stattypes to be inversely scaling
                 else if (StatTypeList[a] == PlayerStats.StatType.ReloadSpeed | StatTypeList[a] == PlayerStats.StatType.Accuracy)
                 {
-                    Plugin.Log("inversely multiplicative");
+                    //Plugin.Log("inversely multiplicative");
                     statIncValue = 1.0f / (1.0f + (statIncValue * StatTypeWeights[StatTypeList[a]]));
-                    Plugin.Log($"statToMod: {StatTypeList[a]}, statIncValue: {statIncValue}, statWeightValue: {StatTypeWeights[StatTypeList[a]]}");
+                    //Plugin.Log($"statToMod: {StatTypeList[a]}, statIncValue: {statIncValue}, statWeightValue: {StatTypeWeights[StatTypeList[a]]}");
                     
                     //itemDescriptionAppendix += $"{StatTypeList[a]}: *{statIncValue}\n";
                     itemDescriptionAppendix.Add($"{StatTypeList[a]}: x{(Mathf.Round(statIncValue * 100f)) / 100f}\n");
@@ -231,9 +258,9 @@ namespace LOLItems.active_items
                 //assumed normal interaction with mulitplicative stat increase with a +1f to ensure net positive effect
                 else
                 {
-                    Plugin.Log("regular multiplicative");
+                    //Plugin.Log("regular multiplicative");
                     statIncValue = 1.0f + (statIncValue * StatTypeWeights[StatTypeList[a]]);
-                    Plugin.Log($"statToMod: {StatTypeList[a]}, statIncValue: {statIncValue}, statWeightValue: {StatTypeWeights[StatTypeList[a]]}");
+                    //Plugin.Log($"statToMod: {StatTypeList[a]}, statIncValue: {statIncValue}, statWeightValue: {StatTypeWeights[StatTypeList[a]]}");
                     
                     //itemDescriptionAppendix += $"{StatTypeList[a]}: *{statIncValue}\n";
                     itemDescriptionAppendix.Add($"{StatTypeList[a]}: x{(Mathf.Round(statIncValue * 100f)) / 100f}\n");

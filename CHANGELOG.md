@@ -53,3 +53,9 @@ added new items:
 fixed bugs with various items that caused them to break the game when used on the high dragun
 some items may become more buggy, im not sure
 talisman will likely be updated with better vfx and sfx in the future in a more content update
+
+#2.1.0
+added new items:
+- virtue forms 1,2,3
+
+added some synergies to some weapons, balance changes, some other stuff i likely forgot lol

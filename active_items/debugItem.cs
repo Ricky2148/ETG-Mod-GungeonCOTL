@@ -98,16 +98,65 @@ namespace LOLItems
 
             //LootEngine.SpawnItem(PickupObjectDatabase.GetByName("Muramana").gameObject, player.CenterPosition, Vector2.down, 0);
 
-            Plugin.Log("debug item finished");
+            //Plugin.Log("debug item finished");
         }
 
         private System.Collections.IEnumerator EffectCoroutine(PlayerController player)
         {
             //HelpfulMethods.DoRandomParticleBurst(num3, vector, vector2, 1f, 1f, 0.3f, 1, Color.cyan, GlobalSparksDoer.SparksType.FLOATY_CHAFF);
 
-            GlobalSparksDoer.DoSingleParticle(player.CenterPosition, Vector3.forward, 0.3f, 1, Color.white, GlobalSparksDoer.SparksType.EMBERS_SWIRLING);
+            //GlobalSparksDoer.DoSingleParticle(player.CenterPosition, Vector3.forward, 0.3f, 1, Color.white, GlobalSparksDoer.SparksType.EMBERS_SWIRLING);
+
+            ParticleSystem particleSystem = GlobalSparksDoer.InitializeParticles(GlobalSparksDoer.SparksType.FLOATY_CHAFF);
+
+            Vector3 direction = BraveUtility.RandomAngle().DegreeToVector2();
+
+            ParticleSystem.EmitParams emitParams = new ParticleSystem.EmitParams
+            {
+                position = player.CenterPosition + new Vector2(4,0),
+                velocity = direction,
+                startSize = 1f,
+                startLifetime = 2.5f,
+                startColor = Color.white,
+                randomSeed = (uint)UnityEngine.Random.Range(1, 100)
+            };
+
+            particleSystem.Emit(emitParams, 1);
 
             yield return new WaitForSeconds(3f);
+
+            //=================================================================================
+
+            emitParams = new ParticleSystem.EmitParams
+            {
+                position = player.CenterPosition + new Vector2(4, 0),
+                velocity = direction,
+                startSize = 1f,
+                startLifetime = 2.5f,
+                startColor = Color.white,
+                rotation = 10f,
+                randomSeed = (uint)UnityEngine.Random.Range(1, 100)
+            };
+
+            particleSystem.Emit(emitParams, 1);
+
+            yield return new WaitForSeconds(3f);
+
+            //=================================================================================
+
+            emitParams = new ParticleSystem.EmitParams
+            {
+                position = player.CenterPosition + new Vector2(4, 0),
+                velocity = direction,
+                startSize = 1f,
+                startLifetime = 2.5f,
+                startColor = Color.white,
+                rotation = 0f,
+                angularVelocity = 10f,
+                randomSeed = (uint)UnityEngine.Random.Range(1, 100)
+            };
+
+            particleSystem.Emit(emitParams, 1);
         }
 
         /*private System.Collections.IEnumerator StasisCoroutine(PlayerController player)

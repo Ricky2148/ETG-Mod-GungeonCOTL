@@ -91,16 +91,16 @@ public class CustomLightningChainEnemiesModifierAOE : BraveBehaviour
         if (enemyRigidbody.aiActor != null)
         {
             firstEnemy = enemyRigidbody.aiActor;
-            Plugin.Log($"enemy.aiActor: {firstEnemy}");
+            //Plugin.Log($"enemy.aiActor: {firstEnemy}");
         }
         else if (enemyRigidbody.GetComponentInParent<AIActor>() != null)
         {
             firstEnemy = enemyRigidbody.GetComponentInParent<AIActor>();
-            Plugin.Log($"enemy.parentActor: {firstEnemy}");
+            //Plugin.Log($"enemy.parentActor: {firstEnemy}");
         }
         else
         {
-            Plugin.Log("firstEnemy = null");
+            //Plugin.Log("firstEnemy = null");
             return;
         }
 

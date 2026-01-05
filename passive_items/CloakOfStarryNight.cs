@@ -18,7 +18,7 @@ namespace LOLItems.passive_items
         private static int ArmorStat = 0;
 
         private static float preDamageProcChance = 0.1f;
-        private static float synergyProcChance = 0.3f;
+        private static float synergyProcChance = 0.2f;
 
         public static int ID;
 

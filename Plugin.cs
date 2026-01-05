@@ -7,6 +7,10 @@ using LOLItems.active_items;
 using LOLItems.guon_stones;
 using LOLItems.passive_items;
 using LOLItems.weapons;
+using Mono.Cecil.Cil;
+using MonoMod.Cil;
+using MonoMod.RuntimeDetour;
+using SGUI;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,9 +18,6 @@ using System.Reflection;
 using System.Text;
 using System.Threading;
 using UnityEngine;
-using MonoMod.RuntimeDetour;
-using MonoMod.Cil;
-using Mono.Cecil.Cil;
 
 //bother balancing these items later
 // update bubbs with item list
@@ -30,7 +31,7 @@ namespace LOLItems
     {
         public const string GUID = "Ricky2148.etg.LOLItems";
         public const string NAME = "League of legends Items";
-        public const string VERSION = "2.0.1";
+        public const string VERSION = "2.1.0";
         public const string TEXT_COLOR = "#F1C232";
 
         internal static Harmony _Harmony;
@@ -90,7 +91,7 @@ namespace LOLItems
 
             //testing
             //CarefreeMelody.Init();
-            debugItem.Init();
+            //debugItem.Init();
 
             //guon stones
             BraumsShield.Init();
@@ -125,13 +126,14 @@ namespace LOLItems
             TearOfTheGoddess.Init();
 
             //next update items
-            DetonationOrb.Init();
+            //DetonationOrb.Init();
             RefillablePotion.Init();
             TalismanOfAscension.Init();
 
             //npcs?
             Bubbs.Init();
             Log($"{NAME} v{VERSION} started successfully.", TEXT_COLOR);
+            Log("Thirty seconds until minions spawn!", "#155DFC");
 
             /*var myOriginalMethods = _Harmony.GetPatchedMethods();
             foreach (var method in myOriginalMethods) 

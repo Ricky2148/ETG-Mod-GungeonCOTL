@@ -109,3 +109,6 @@ Play_WPN_virtue3_impact_01, 0, 1, sound, 0
 Play_WPN_virtue4_impact_01, 0, 1, sound, 0
 Play_WPN_virtue5_impact_01, 3, 1, sound, 0
 Play_WPN_virtue6_impact_01, 0, 1, sound, 0
+Health_Potion_active_SFX, 0, 1, sound, 0
+chrTrg_gainMp_SFX, 5, 1, sound, 0
+chrTrg_gainHp_SFX, 5, 1, sound, 0

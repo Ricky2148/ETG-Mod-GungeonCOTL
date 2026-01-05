@@ -287,13 +287,26 @@ namespace LOLItems.weapons
             gun.shellsToLaunchOnReload = 0;
             gun.clipsToLaunchOnReload = 0;
 
+            gun.ShouldBeExcludedFromShops = true;
+
             gun.quality = PickupObject.ItemQuality.EXCLUDED;
             ETGMod.Databases.Items.Add(gun, false, "ANY");
             ID = gun.PickupObjectId;
 
-            gun.ShouldBeExcludedFromShops = true;
-
             ItemBuilder.AddCurrentGunStatModifier(gun, PlayerStats.StatType.MovementSpeed, zealSpeedInc, StatModifier.ModifyMethod.MULTIPLICATIVE);
+
+            List<string> mandatoryConsoleIDs = new List<string>
+            {
+                "LOLItems:virtueform3",
+            };
+            List<string> optionalConsoleIDs = new List<string>
+            {
+                "macho_brace",
+                "scouter",
+                "broccoli",
+                "life_orb"
+            };
+            AdvancedSynergyEntry ase = CustomSynergies.Add("Exp. Share", mandatoryConsoleIDs, optionalConsoleIDs, true);
         }
 
         public override void OnPostFired(PlayerController player, Gun gun)
@@ -450,7 +463,7 @@ namespace LOLItems.weapons
             }
             else if (GameManager.Instance.CurrentLevelOverrideState != GameManager.LevelOverrideState.END_TIMES)
             {
-                Plugin.Log("update trigger flight");
+                //Plugin.Log("update trigger flight");
                 TriggerFlight();
             }
         }

@@ -249,6 +249,19 @@ namespace LOLItems.weapons
             AscensionIcon = SpriteBuilder.SpriteFromResource("LOLItems/Resources/one_off_sprites/virtue_ascension_icons/export_02", AscensionIcon);
             FakePrefab.MarkAsFakePrefab(AscensionIcon);
             AscensionIcon.SetActive(false);
+
+            List<string> mandatoryConsoleIDs = new List<string>
+            {
+                "LOLItems:virtueform1",
+            };
+            List<string> optionalConsoleIDs = new List<string>
+            {
+                "macho_brace",
+                "scouter",
+                "broccoli",
+                "life_orb"
+            };
+            AdvancedSynergyEntry ase = CustomSynergies.Add("Exp. Share", mandatoryConsoleIDs, optionalConsoleIDs, true);
         }
 
         public override void OnInitializedWithOwner(GameActor actor)
@@ -283,11 +296,11 @@ namespace LOLItems.weapons
         {
             if (enemyHealth && fatal && enemyHealth.aiActor != null)
             {
-                Plugin.Log($"enemyHealth: {enemyHealth}");
+                //Plugin.Log($"enemyHealth: {enemyHealth}");
                 float expToGain = 0;
                 if (enemyHealth.IsBoss || enemyHealth.IsSubboss)
                 {
-                    Plugin.Log("is bosss");
+                    //Plugin.Log("is bosss");
                     expToGain = (enemyHealth.aiActor.healthHaver.GetMaxHealth() * 0.25f);
                 }
                 else
@@ -295,8 +308,13 @@ namespace LOLItems.weapons
                     expToGain = enemyHealth.aiActor.healthHaver.GetMaxHealth();
                 }
 
+                if (Player.PlayerHasActiveSynergy("Exp. Share"))
+                {
+                    expToGain *= 2;
+                }
+
                 DivineAscentExpTracker += expToGain;
-                Plugin.Log($"Gained {expToGain} Divine Ascent EXP! Current EXP: {DivineAscentExpTracker}/{DivineAscentThreshold}");
+                //Plugin.Log($"Gained {expToGain} Divine Ascent EXP! Current EXP: {DivineAscentExpTracker}/{DivineAscentThreshold}");
                 /*if (DivineAscentExpTracker >= DivineAscentThreshold[DivineAscentFormTracker] && DivineAscentFormTracker < DivineAscentThreshold.Length)
                 {
                     TriggerAscent();
