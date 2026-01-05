@@ -246,7 +246,7 @@ namespace LOLItems.weapons
             ETGMod.Databases.Items.Add(gun, false, "ANY");
             ID = gun.PickupObjectId;
 
-            AscensionIcon = SpriteBuilder.SpriteFromResource("LOLItems/Resources/black_dot", AscensionIcon);
+            AscensionIcon = SpriteBuilder.SpriteFromResource("LOLItems/Resources/one_off_sprites/virtue_ascension_icons/export_02", AscensionIcon);
             FakePrefab.MarkAsFakePrefab(AscensionIcon);
             AscensionIcon.SetActive(false);
         }

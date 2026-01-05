@@ -92,64 +92,22 @@ namespace LOLItems
 
         public override void DoEffect(PlayerController player)
         {
-            //StartCoroutine(EffectCoroutine(player));
+            StartCoroutine(EffectCoroutine(player));
 
             //HelpfulMethods.CustomNotification("smth1", "smth2", this.sprite);
 
             //LootEngine.SpawnItem(PickupObjectDatabase.GetByName("Muramana").gameObject, player.CenterPosition, Vector2.down, 0);
-
-            AscensionIcon = SpriteBuilder.SpriteFromResource("LOLItems/Resources/carefree_melody_sprite", AscensionIcon);
-            FakePrefab.MarkAsFakePrefab(AscensionIcon);
-            AscensionIcon.SetActive(false);
-
-            tk2dSprite thing = AscensionIcon.GetComponent<tk2dSprite>();
-            if (thing != null)
-            {
-                Plugin.Log($"{thing}");
-                HelpfulMethods.CustomNotification("thing 1", "thing 1", thing, UINotificationController.NotificationColor.SILVER);
-            }
-            else
-            {
-                Plugin.Log("thing1 null");
-            }
-
-            tk2dBaseSprite thing2 = AscensionIcon.GetComponent<tk2dBaseSprite>();
-            if (thing2 != null)
-            {
-                Plugin.Log($"{thing2}");
-                HelpfulMethods.CustomNotification("thing 2", "thing 2", thing2, UINotificationController.NotificationColor.SILVER);
-            }
-            else
-            {
-                Plugin.Log("thing2 null");
-            }
 
             Plugin.Log("debug item finished");
         }
 
         private System.Collections.IEnumerator EffectCoroutine(PlayerController player)
         {
-            /*Material mat = SpriteOutlineManager.GetOutlineMaterial(player.sprite);
-            if (mat)
-            {
-                mat.SetColor("_OverrideColor", new Color(255f * 0.3f, 180f * 0.3f, 18f * 0.3f));
-            }
-            yield return new WaitForSeconds(1f);
-            if (mat)
-            {
-                mat.SetColor("_OverrideColor", new Color(0f, 0f, 0f));
-            }*/
+            //HelpfulMethods.DoRandomParticleBurst(num3, vector, vector2, 1f, 1f, 0.3f, 1, Color.cyan, GlobalSparksDoer.SparksType.FLOATY_CHAFF);
 
-            tk2dBaseSprite s = this.sprite;
+            GlobalSparksDoer.DoSingleParticle(player.CenterPosition, Vector3.forward, 0.3f, 1, Color.white, GlobalSparksDoer.SparksType.EMBERS_SWIRLING);
 
-            //GameUIRoot.Instance.RegisterDefaultLabel(s.transform, new Vector3(s.GetBounds().max.x + 0f, s.GetBounds().min.y + 0f, 0f), "something message here");
-
-            GameUIRoot.Instance.RegisterDefaultLabel(s.transform, new Vector3(s.GetBounds().max.x - 1f, s.GetBounds().min.y - 2f, 0f), "something message here");
-
-
-            yield return new WaitForSeconds(5f);
-
-            GameUIRoot.Instance.DeregisterDefaultLabel(s.transform);
+            yield return new WaitForSeconds(3f);
         }
 
         /*private System.Collections.IEnumerator StasisCoroutine(PlayerController player)

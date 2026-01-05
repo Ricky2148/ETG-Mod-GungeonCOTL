@@ -147,6 +147,7 @@ Redemption (A):
 - Stats: 1 Heart
 - Effect: Activate to call down a circle of healing that heals players for half a heart and damages enemies for 10% max health damage. Goes on a 10 room cooldown.
 
+![](https://i.ibb.co/8g7bBtLt/refillable-potion.png)
 Refillable Potion (C):
 - Effect: Activate to heal a half heart. Stacks up to two times. Refills upon entering a new floor.
 
@@ -208,6 +209,22 @@ Soul Spear (A):
 - Fires spears that lodge themselves in the enemy
 - Pressing reload will damage targets with spears lodged in their body. Damage = ((# of spears) + 1) * original projectile damage * 0.4
 - When attacking, does an invincible dash in the direction player is inputting. If player is not inputting a direction, does not perform dash.
+
+![](https://i.ibb.co/wFM4hVj4/virtue-form1-idle-001.png)
+Virtue [Form 1] (C):
+- Stats: Fire rate: 0.8s, 8 dmg, 250 ammo
+- Fires projectiles
+
+![](https://i.ibb.co/zz36nrx/virtue-form2-idle-001.png)
+Virtue [Form 2] (EX):
+- Stats: Fire rate: 0.8s, 10 dmg, 500 ammo
+- Fires projectiles, each shot fired gives a stack of Zealous. Each stack of zealous provides a 12% fire rate increase and caps out at 5 stacks. At max stacks, each attack fires an additional wave that deals 50% damage and pierces all walls and enemies. Also gains 10% movespeed at max stacks.
+- Zealous lasts 3 seconds and the duration resets with each stack increase/refresh
+
+![](https://i.ibb.co/8n9YYp9r/virtue-form3-idle-001.png)
+Virtue [Form 3] (EX):
+- Stats: Fire rate: 0.35s, 15 dmg, 750 ammo
+- Fires projectiles. No Zealous stacking mechanic. Every attack fires the additional wave. Permanently gains the 10% movement speed and flight.
 
 ![](https://i.ibb.co/4wf9Gh9x/whisper-idle-001.png)
 Whisper (A):

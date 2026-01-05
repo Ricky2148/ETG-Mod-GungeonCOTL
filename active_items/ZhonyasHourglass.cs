@@ -126,11 +126,11 @@ namespace LOLItems
             player.ForceBlank();
             player.CurrentInputState = PlayerInputState.AllInput;
 
+            AkSoundEngine.PostEvent("zhonyas_hourglass_ending_SFX", GameManager.Instance.gameObject);
+            
             // wait an extra 0.25 seconds to prevent player from immediate collision damage
             yield return new WaitForSeconds(0.25f);
             player.healthHaver.PreventAllDamage = false;
-
-            AkSoundEngine.PostEvent("zhonyas_hourglass_ending_SFX", GameManager.Instance.gameObject);
         }
     }
 }

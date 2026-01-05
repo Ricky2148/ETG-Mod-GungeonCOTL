@@ -9,6 +9,8 @@ using UnityEngine;
 
 // needs vfx and sfx work
 // tune the damage scale on enemies and bosses
+// vfx should be a white spark ball looking thing, on effect application, the vfx is thrown above the enemies head, it starts small, then grows larger with more damage
+// maybe start changing colors, would want it to instantly change to red when it would detonate to execute the target. Every time you refresh the duration, it just increases the duration without refreshing the vfx or vfx's loop
 
 namespace LOLItems.passive_items
 {
