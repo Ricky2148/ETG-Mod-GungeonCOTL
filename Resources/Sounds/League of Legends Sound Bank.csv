@@ -1,5 +1,4 @@
 name,volume,loops,channel,limit
-
 kraken_slayer_passive_SFX_1, -7, 1, sound, 0
 kraken_slayer_passive_SFX_2, -7, 1, sound, 0
 kraken_slayer_passive_SFX_3, -7, 1, sound, 0
@@ -92,3 +91,24 @@ Play_WPN_vengencespear1_impact_01, 0, 1, sound, 0
 Play_WPN_vengencespear2_impact_01, 0, 1, sound, 0
 Play_WPN_vengencespear4_impact_01, 0, 1, sound, 0
 Play_WPN_vengencespear5_impact_01, 0, 1, sound, 0
+virtue_ascension_sfx1, 5, 1, sound, 0
+virtue_ascension_sfx2, 5, 1, sound, 0
+virtue_ascension_sfx3, 5, 1, sound, 0
+virtue_atk_sfx1, 2, 1, sound, 0
+virtue_atk_sfx2, 2, 1, sound, 0
+virtue_atk_sfx3, 2, 1, sound, 0
+virtue_atk_sfx4, 2, 1, sound, 0
+virtue_wave_sfx1, 0, 1, sound, 0
+virtue_wave_sfx2, 0, 1, sound, 0
+virtue_wave_sfx3, 0, 1, sound, 0
+virtue_wave_sfx4, 0, 1, sound, 0
+virtue_wave_sfx5, 0, 1, sound, 0
+Play_WPN_virtue1_impact_01, 0, 1, sound, 0
+Play_WPN_virtue2_impact_01, 1, 1, sound, 0
+Play_WPN_virtue3_impact_01, 0, 1, sound, 0
+Play_WPN_virtue4_impact_01, 0, 1, sound, 0
+Play_WPN_virtue5_impact_01, 3, 1, sound, 0
+Play_WPN_virtue6_impact_01, 0, 1, sound, 0
+Health_Potion_active_SFX, 0, 1, sound, 0
+chrTrg_gainMp_SFX, 5, 1, sound, 0
+chrTrg_gainHp_SFX, 5, 1, sound, 0

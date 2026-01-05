@@ -12,12 +12,13 @@ using LOLItems.custom_class_data;
 
 // might want to change the headshot mechanic to be stacking on hit instead of being a final projectile. any clip size modifiers make it not 5 shots then 1 headshot
 // balance this: what rarity dps etc.
+// new synergy of shock rifle recharging
 
 namespace LOLItems.weapons
 {
     internal class ElectricRifle : AdvancedGunBehavior
     {
-        public static string internalName; //Internal name of the gun as used by console commands
+        public static string internalName = "Electric Rifle"; //Internal name of the gun as used by console commands
         public static int ID; //The Gun ID stored by the game.  Can be used by other functions to call your custom gun.
         public static string realName = "Zaunite Rifle"; //The name that shows up in the Ammonomicon and the mod console.
 
@@ -63,7 +64,7 @@ namespace LOLItems.weapons
              * The default here is to use your mod's prefix then shortname so in this example it would come out as "twp:template_gun". */
             string FULLNAME = "Zaunite Rifle"; //Full name of your gun 
             string SPRITENAME = "shockSMG"; //The name that prefixes your sprite files
-            internalName = $"LOLItems:{FULLNAME.ToID()}";
+            internalName = $"LOLItems:{internalName.ToID()}";
             Gun gun = ETGMod.Databases.Items.NewGun(FULLNAME, SPRITENAME);
             Game.Items.Rename($"outdated_gun_mods:{FULLNAME.ToID()}", internalName); //Renames the default internal name to your custom internal name
             gun.gameObject.AddComponent<ElectricRifle>(); //AddComponent<[ClassName]>
@@ -554,6 +555,30 @@ namespace LOLItems.weapons
             //gun.AddToSubShop(ItemBuilder.ShopType.Trorc); //Select which sub shops during a run can carry the gun
             //gun.AddToSubShop(ItemBuilder.ShopType.Flynt);
             ID = gun.PickupObjectId; //Sets the Gun ID. 
+
+
+            List<string> mandatoryConsoleIDs = new List<string>
+            {
+                "LOLItems:electric_rifle",
+            };
+            List<string> optionalConsoleIDs = new List<string>
+            {
+                "battery_bullets",
+                "shock_rounds",
+                "thunderclap",
+                "shock_rifle",
+                "laser_lotus",
+            };
+            AdvancedSynergyEntry ase = CustomSynergies.Add("Passive Charge", mandatoryConsoleIDs, optionalConsoleIDs, true);
+
+            CustomSynergyType customSynergy = ETGModCompatibility.ExtendEnum<CustomSynergyType>("LOLItems", "Passive Charge");
+
+            ase.bonusSynergies = [customSynergy];
+
+            AmmoRegenSynergyProcessor arsp = gun.gameObject.AddComponent<AmmoRegenSynergyProcessor>();
+            arsp.RequiredSynergy = customSynergy;
+            arsp.AmmoPerSecond = 2f;
+            arsp.PreventGainWhileFiring = true;
         }
 
         public override void OnPostFired(PlayerController player, Gun gun)

@@ -10,6 +10,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using UnityEngine;
 
@@ -18,6 +19,8 @@ namespace LOLItems
     internal class debugItem : PlayerItem
     {
         public static int ID;
+
+        public static GameObject AscensionIcon;
 
         private static List<string> VFXSpritePath = new List<string>
             {
@@ -52,7 +55,7 @@ namespace LOLItems
         public static void Init()
         {
             string itemName = "Debug Item";
-            string resourceName = "LOLItems/Resources/example_item_sprite";
+            string resourceName = "LOLItems/Resources/black_dot";
 
             GameObject obj = new GameObject(itemName);
 
@@ -69,7 +72,7 @@ namespace LOLItems
             item.consumable = false;
 
             item.usableDuringDodgeRoll = true;
-            item.quality = PickupObject.ItemQuality.A;
+            item.quality = PickupObject.ItemQuality.EXCLUDED;
             ID = item.PickupObjectId;
         }
 
@@ -89,38 +92,71 @@ namespace LOLItems
 
         public override void DoEffect(PlayerController player)
         {
-            //StartCoroutine(EffectCoroutine(player));
+            StartCoroutine(EffectCoroutine(player));
 
             //HelpfulMethods.CustomNotification("smth1", "smth2", this.sprite);
 
             //LootEngine.SpawnItem(PickupObjectDatabase.GetByName("Muramana").gameObject, player.CenterPosition, Vector2.down, 0);
 
-            Plugin.Log("debug item finished");
+            //Plugin.Log("debug item finished");
         }
 
         private System.Collections.IEnumerator EffectCoroutine(PlayerController player)
         {
-            /*Material mat = SpriteOutlineManager.GetOutlineMaterial(player.sprite);
-            if (mat)
+            //HelpfulMethods.DoRandomParticleBurst(num3, vector, vector2, 1f, 1f, 0.3f, 1, Color.cyan, GlobalSparksDoer.SparksType.FLOATY_CHAFF);
+
+            //GlobalSparksDoer.DoSingleParticle(player.CenterPosition, Vector3.forward, 0.3f, 1, Color.white, GlobalSparksDoer.SparksType.EMBERS_SWIRLING);
+
+            ParticleSystem particleSystem = GlobalSparksDoer.InitializeParticles(GlobalSparksDoer.SparksType.FLOATY_CHAFF);
+
+            Vector3 direction = BraveUtility.RandomAngle().DegreeToVector2();
+
+            ParticleSystem.EmitParams emitParams = new ParticleSystem.EmitParams
             {
-                mat.SetColor("_OverrideColor", new Color(255f * 0.3f, 180f * 0.3f, 18f * 0.3f));
-            }
-            yield return new WaitForSeconds(1f);
-            if (mat)
+                position = player.CenterPosition + new Vector2(4,0),
+                velocity = direction,
+                startSize = 1f,
+                startLifetime = 2.5f,
+                startColor = Color.white,
+                randomSeed = (uint)UnityEngine.Random.Range(1, 100)
+            };
+
+            particleSystem.Emit(emitParams, 1);
+
+            yield return new WaitForSeconds(3f);
+
+            //=================================================================================
+
+            emitParams = new ParticleSystem.EmitParams
             {
-                mat.SetColor("_OverrideColor", new Color(0f, 0f, 0f));
-            }*/
+                position = player.CenterPosition + new Vector2(4, 0),
+                velocity = direction,
+                startSize = 1f,
+                startLifetime = 2.5f,
+                startColor = Color.white,
+                rotation = 10f,
+                randomSeed = (uint)UnityEngine.Random.Range(1, 100)
+            };
 
-            tk2dBaseSprite s = this.sprite;
+            particleSystem.Emit(emitParams, 1);
 
-            //GameUIRoot.Instance.RegisterDefaultLabel(s.transform, new Vector3(s.GetBounds().max.x + 0f, s.GetBounds().min.y + 0f, 0f), "something message here");
+            yield return new WaitForSeconds(3f);
 
-            GameUIRoot.Instance.RegisterDefaultLabel(s.transform, new Vector3(s.GetBounds().max.x - 1f, s.GetBounds().min.y - 2f, 0f), "something message here");
+            //=================================================================================
 
+            emitParams = new ParticleSystem.EmitParams
+            {
+                position = player.CenterPosition + new Vector2(4, 0),
+                velocity = direction,
+                startSize = 1f,
+                startLifetime = 2.5f,
+                startColor = Color.white,
+                rotation = 0f,
+                angularVelocity = 10f,
+                randomSeed = (uint)UnityEngine.Random.Range(1, 100)
+            };
 
-            yield return new WaitForSeconds(5f);
-
-            GameUIRoot.Instance.DeregisterDefaultLabel(s.transform);
+            particleSystem.Emit(emitParams, 1);
         }
 
         /*private System.Collections.IEnumerator StasisCoroutine(PlayerController player)

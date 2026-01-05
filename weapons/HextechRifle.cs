@@ -203,6 +203,7 @@ namespace LOLItems.weapons
             headshot.baseData.force = projectileForceStat * headshotDamageScale; //Knockback strength
             headshot.transform.parent = gun.barrelOffset;
             headshot.shouldRotate = true;
+            headshot.ignoreDamageCaps = true;
 
             headshot.SetProjectileSpriteRight("hextech_peacemaker_projectile_glow", 11, 7, true, tk2dBaseSprite.Anchor.MiddleCenter, 9, 5);
             headshot.AdditionalScaleMultiplier = 2f;
@@ -436,6 +437,17 @@ namespace LOLItems.weapons
             //gun.AddToSubShop(ItemBuilder.ShopType.Trorc); //Select which sub shops during a run can carry the gun
             //gun.AddToSubShop(ItemBuilder.ShopType.Flynt);
             ID = gun.PickupObjectId; //Sets the Gun ID. 
+
+            List<string> mandatoryConsoleIDs = new List<string>
+            {
+                "LOLItems:hextech_rifle",
+            };
+            List<string> optionalConsoleIDs = new List<string>
+            {
+                "scope",
+                "laser_sight",
+            };
+            AdvancedSynergyEntry ase = CustomSynergies.Add("\"Me, miss? Not by a long shot.\"", mandatoryConsoleIDs, optionalConsoleIDs, true);
         }
 
         public override void PostProcessProjectile(Projectile projectile)
@@ -450,6 +462,10 @@ namespace LOLItems.weapons
             {
                 //Plugin.Log("headshot sound");
                 HelpfulMethods.PlayRandomSFX(player.CurrentGun.gameObject, headshotSFXList);
+                if (Player.PlayerHasActiveSynergy("\"Me, miss? Not by a long shot.\""))
+                {
+                    projectile.baseData.damage *= 2f;
+                }
             }
             else
             {

@@ -120,7 +120,7 @@ namespace LOLItems
                         float damageMultiplier = (Mathf.Min(distanceToTarget, HyperShotMaxDistance) / HyperShotMaxDistance) * HyperShotMaxDamageInc;
                         // calculates additional extra damage to apply to enemy
                         float damageToDeal = projHit.baseData.damage * damageMultiplier;
-                        Plugin.Log($"{damageToDeal}");
+                        //Plugin.Log($"{damageToDeal}");
                         enemy.healthHaver.ApplyDamage(
                             damageToDeal,
                             Vector2.zero,

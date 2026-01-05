@@ -37,6 +37,8 @@ namespace LOLItems.custom_class_data
                 isRicocheting = true;
                 proj.baseData.damage *= ricochetDamageScale;
                 proj.baseData.speed *= ricochetSpeedScale;
+                proj.baseData.force = 0f;
+                proj.baseData.range = 999f;
                 proj.UpdateSpeed();
             }
 

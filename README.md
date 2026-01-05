@@ -13,14 +13,14 @@ Cloak of Starry Night (B):
 - Stats: 1 Heart
 - Effect: 10% chance to deny taking damage.
 - Synergy: 
-	+ Shield of Molten Stone: Proc chance increases to 30% for both items
+	+ Shield of Molten Stone: Proc chance increases to 20% for both items
 
 ![](https://i.ibb.co/nxcr93X/shield-of-molten-stone-pixelart-sprite-outline.png)
 Shield of Molten Stone (B):
 - Stats: 1 Heart
 - Effect: 10% chance to deny taking damage.
 - Synergy: 
-	+ Cloak of Starry Night: Proc chance increases to 30% for both items
+	+ Cloak of Starry Night: Proc chance increases to 20% for both items
 
 ![](https://i.ibb.co/Wv5Ln26w/the-collector-pixelart-sprite.png)
 The Collector (A):
@@ -147,6 +147,7 @@ Redemption (A):
 - Stats: 1 Heart
 - Effect: Activate to call down a circle of healing that heals players for half a heart and damages enemies for 10% max health damage. Goes on a 10 room cooldown.
 
+![](https://i.ibb.co/8g7bBtLt/refillable-potion.png)
 Refillable Potion (C):
 - Effect: Activate to heal a half heart. Stacks up to two times. Refills upon entering a new floor.
 
@@ -177,17 +178,20 @@ Braum's Shield (C):
 ![](https://i.ibb.co/W48HKDMB/boomerangblade-idle-001.png)
 Crossblade (C):
 - Stats: Fire rate: 0.6s, 10 dmg, 250 ammo
-- Fires boomerangs that chain to other nearby enemies on hit. Boomerang deals 40% damage after 1st enemy hit.
+- Fires boomerangs that chain to other nearby enemies on hit. Boomerang deals 40% damage after 1st enemy hit and bounce 8 times.
+- Synergy: Bouncemaxxing [Bouncy Bullets, Boomerang]: boomerangs bounce 3 more times.
 
 ![](https://i.ibb.co/ZzY5mZgJ/shock-SMG-idle-001.png)
-Electric Rifle (B):
+Zaunite Rifle (B):
 - Stats: Fire rate: 0.67s, 3.5 dmg, 7 bullets per burst, 1000 ammo, reload: 1.0s
 - Fires a burst of 7 bullets per shot.
+- Synergy: Passive Charge [Battery Bullets, Shock Rounds, Thunderclap, Shock Rifle, Laser Lotus]: regains 2 ammo per second while not in use.
 
 ![](https://i.ibb.co/bgGzMTHr/hextech-idle-001.png)
 Hextech Rifle (C):
 - Stats: Fire rate: 0.8s, 20 dmg, 3 pierce, 120 ammo, reload: 1.6s
-- Fires fast traveling piercing sniper shots. The last bullet of the clip deals 2.5x damage.
+- Fires fast traveling piercing sniper shots. The last bullet of the clip headshots for 2.5x damage.
+- Synergy: "Me, miss? Not by a long shot." [Scope, Laser Sight]: headshots deal double damage.
 
 ![](https://i.ibb.co/GfkvPyTg/powpow-idle-001.png)/
 ![](https://i.ibb.co/BK7c9K6h/fishbones-idle-001.png)
@@ -208,6 +212,25 @@ Soul Spear (A):
 - Fires spears that lodge themselves in the enemy
 - Pressing reload will damage targets with spears lodged in their body. Damage = ((# of spears) + 1) * original projectile damage * 0.4
 - When attacking, does an invincible dash in the direction player is inputting. If player is not inputting a direction, does not perform dash.
+
+![](https://i.ibb.co/wFM4hVj4/virtue-form1-idle-001.png)
+Virtue [Form 1] (C):
+- Stats: Fire rate: 0.8s, 8 dmg, 250 ammo
+- Fires projectiles
+- Gains exp from killing enemies equal to their HP, evolves into next form once enough exp has been acquired.
+- All forms share the same synergies
+- Synergy: Exp. Share [Macho Brace, Scouter, Broccoli, Life Orb]: doubles exp gained.
+
+![](https://i.ibb.co/zz36nrx/virtue-form2-idle-001.png)
+Virtue [Form 2] (EX):
+- Stats: Fire rate: 0.8s, 10 dmg, 500 ammo, EXP Requirement: 3000
+- Fires projectiles, each shot fired gives a stack of Zealous. Each stack of zealous provides a 12% fire rate increase and caps out at 5 stacks. At max stacks, each attack fires an additional wave that deals 50% damage and pierces all walls and enemies. Also gains 10% movespeed at max stacks.
+- Zealous lasts 3 seconds and the duration resets with each stack increase/refresh
+
+![](https://i.ibb.co/8n9YYp9r/virtue-form3-idle-001.png)
+Virtue [Form 3] (EX):
+- Stats: Fire rate: 0.35s, 15 dmg, 750 ammo, EXP Requirement: 9000
+- Fires projectiles. No Zealous stacking mechanic. Every attack fires the additional wave. Permanently gains the 10% movement speed and flight.
 
 ![](https://i.ibb.co/4wf9Gh9x/whisper-idle-001.png)
 Whisper (A):

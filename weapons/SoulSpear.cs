@@ -306,16 +306,16 @@ namespace LOLItems.weapons
                 if (enemy.aiActor != null) 
                 {
                     firstEnemy = enemy.aiActor;
-                    Plugin.Log($"enemy.aiactor: {firstEnemy}");
+                    //Plugin.Log($"enemy.aiactor: {firstEnemy}");
                 }
                 else if (enemy.GetComponentInParent<AIActor>() != null)
                 {
                     firstEnemy = enemy.GetComponentInParent<AIActor>();
-                    Plugin.Log($"enemy.parentAiactor: {firstEnemy}");
+                    //Plugin.Log($"enemy.parentAiactor: {firstEnemy}");
                 }
                 else
                 {
-                    Plugin.Log($"no aiactor");
+                    //Plugin.Log($"no aiactor");
                     return;
                 }
                 if (enemy.healthHaver != null)

@@ -20,9 +20,9 @@ namespace LOLItems.weapons
 {
     internal class VirtueForm2 : AdvancedGunBehavior
     {
-        public static string internalName;
+        public static string internalName = "VirtueForm2";
         public static int ID;
-        public static string realName = "VirtueForm2";
+        public static string realName = "Virtue";
 
         private PlayerController currentOwner;
 
@@ -44,6 +44,7 @@ namespace LOLItems.weapons
         private float DivineAscentThreshold = 6000f;
 
         private Gun NextFormWeapon;
+        private static GameObject AscensionIcon;
 
         private Projectile wave;
 
@@ -54,21 +55,40 @@ namespace LOLItems.weapons
 
         private static List<string> VirtueFiringSFXList = new List<string>
         {
-            "FishbonesFireSFX1",
-            "FishbonesFireSFX2",
-            "FishbonesFireSFX3"
+            "virtue_atk_sfx1",
+            "virtue_atk_sfx2",
+            "virtue_atk_sfx3",
+            "virtue_atk_sfx4",
+        };
+
+        private static List<string> VirtueWaveSFXList = new List<string>
+        {
+            "virtue_wave_sfx1",
+            "virtue_wave_sfx2",
+            "virtue_wave_sfx3",
+            "virtue_wave_sfx4",
+            "virtue_wave_sfx5",
+        };
+
+        private static List<string> VirtueAscensionSFXList = new List<string>
+        {
+            "virtue_ascension_sfx1",
+            "virtue_ascension_sfx2",
+            "virtue_ascension_sfx3",
         };
 
         public static void Add()
         {
             string FULLNAME = realName;
             string SPRITENAME = "virtue_form2";
-            internalName = $"LOLItems:{FULLNAME.ToID()}";
+            internalName = $"LOLItems:{internalName.ToID()}";
             Gun gun = ETGMod.Databases.Items.NewGun(FULLNAME, SPRITENAME);
             Game.Items.Rename($"outdated_gun_mods:{FULLNAME.ToID()}", internalName);
             gun.gameObject.AddComponent<VirtueForm2>();
-            gun.SetShortDescription("idk");
-            gun.SetLongDescription("idk");
+            gun.SetShortDescription("\"Burn all deceivers!\"");
+            gun.SetLongDescription("Virtue. \nDefinition: a quality considered morally good.\n\nA blade of celestial creation that are capable of burning evil. " +
+                "The original wielder of this weapon was said to have tested whether one was virtuous by slashing at their neck. If they were truly virtuous, then the blade would cause them no harm. " +
+                "\n\nYou've learned how to ignite the holy fire but cannot fully control its strength. You clearly yet lack something.\n");
 
             gun.SetupSprite(null, $"{SPRITENAME}_idle_001", 8);
 
@@ -81,7 +101,7 @@ namespace LOLItems.weapons
             gun.muzzleFlashEffects = null; //(PickupObjectDatabase.GetById((int)Items.MarineSidearm) as Gun).muzzleFlashEffects;
 
             gun.gunSwitchGroup = $"LOLItems_{FULLNAME.ToID()}";
-            SoundManager.AddCustomSwitchData("WPN_Guns", gun.gunSwitchGroup, "Play_WPN_Gun_Shot_01", "Play_WPN_minigun_shot_01");
+            SoundManager.AddCustomSwitchData("WPN_Guns", gun.gunSwitchGroup, "Play_WPN_Gun_Shot_01", null);
             SoundManager.AddCustomSwitchData("WPN_Guns", gun.gunSwitchGroup, "Play_WPN_Gun_Reload_01", null);
 
             gun.DefaultModule.angleVariance = spreadAngle;
@@ -100,7 +120,7 @@ namespace LOLItems.weapons
             gun.carryPixelDownOffset += new IntVector2(-16, -15); //offset when aiming down
             gun.carryPixelUpOffset += new IntVector2(-12, 16); //offset when aiming up
 
-            gun.barrelOffset.transform.localPosition += new Vector3(64 / 16f, 52 / 16f);
+            gun.barrelOffset.transform.localPosition += new Vector3(56 / 16f, 52 / 16f);
 
             gun.gunScreenShake.magnitude = 0f;
 
@@ -115,8 +135,8 @@ namespace LOLItems.weapons
             projectile.hitEffects.tileMapHorizontal = (PickupObjectDatabase.GetById((int)Items.Phoenix) as Gun).DefaultModule.projectiles[0].hitEffects.tileMapHorizontal;
             projectile.hitEffects.tileMapVertical = (PickupObjectDatabase.GetById((int)Items.Phoenix) as Gun).DefaultModule.projectiles[0].hitEffects.tileMapVertical;
 
-            //projectile.objectImpactEventName = ;
-            //projectile.enemyImpactEventName = ;
+            projectile.objectImpactEventName = "virtue2";
+            projectile.enemyImpactEventName = "virtue5";
 
             projectile.gameObject.SetActive(false);
             FakePrefab.MarkAsFakePrefab(projectile.gameObject);
@@ -129,7 +149,7 @@ namespace LOLItems.weapons
             projectile.transform.parent = gun.barrelOffset;
             projectile.shouldRotate = true;
 
-            projectile.SetProjectileSpriteRight("virtue_yellow_projectile_straight_001", 19, 7, true, tk2dBaseSprite.Anchor.MiddleCenter, 17, 6);
+            projectile.SetProjectileSpriteRight("virtue_orange_projectile_straight_001", 19, 7, true, tk2dBaseSprite.Anchor.MiddleCenter, 17, 6);
 
             EasyTrailBullet projTrail = projectile.gameObject.AddComponent<EasyTrailBullet>();
             projTrail.TrailPos = projectile.transform.position;
@@ -267,7 +287,7 @@ namespace LOLItems.weapons
             //wave.sprite.color = Color.cyan;
             //wave.AdditionalScaleMultiplier = 5f;
 
-            wave.SetProjectileSpriteRight("virtue_yellow_large_projectile_thin_001", 23, 96, true, tk2dBaseSprite.Anchor.MiddleCenter, 20, 76);
+            wave.SetProjectileSpriteRight("virtue_orange_medium_projectile_001", 14, 64, true, tk2dBaseSprite.Anchor.MiddleCenter, 12, 52);
 
             var sprite = wave.sprite.gameObject.GetComponent<tk2dSprite>();
 
@@ -352,10 +372,29 @@ namespace LOLItems.weapons
             ID = gun.PickupObjectId;
             //ItemBuilder.AddCurrentGunStatModifier(gun, PlayerStats.StatType.RateOfFire, 1.0f, StatModifier.ModifyMethod.MULTIPLICATIVE);
             //ItemBuilder.AddCurrentGunStatModifier(gun, PlayerStats.StatType.MovementSpeed, 1.0f, StatModifier.ModifyMethod.MULTIPLICATIVE);
+
+            AscensionIcon = SpriteBuilder.SpriteFromResource("LOLItems/Resources/one_off_sprites/virtue_ascension_icons/export_25", AscensionIcon);
+            FakePrefab.MarkAsFakePrefab(AscensionIcon);
+            AscensionIcon.SetActive(false);
+
+            List<string> mandatoryConsoleIDs = new List<string>
+            {
+                "LOLItems:virtueform2",
+            };
+            List<string> optionalConsoleIDs = new List<string>
+            {
+                "macho_brace",
+                "scouter",
+                "broccoli",
+                "life_orb"
+            };
+            AdvancedSynergyEntry ase = CustomSynergies.Add("Exp. Share", mandatoryConsoleIDs, optionalConsoleIDs, true);
         }
 
         public override void OnPostFired(PlayerController player, Gun gun)
         {
+            //HelpfulMethods.PlayRandomSFX(gun.gameObject, VirtueFiringSFXList);
+
             if (zealDecayCoroutine != null)
             {
                 StopCoroutine(zealDecayCoroutine);
@@ -431,7 +470,7 @@ namespace LOLItems.weapons
                     ItemBuilder.RemoveCurrentGunStatModifier(gun, PlayerStats.StatType.RateOfFire);
                     ItemBuilder.RemoveCurrentGunStatModifier(gun, PlayerStats.StatType.MovementSpeed);
                     currentOwner.stats.RecalculateStatsWithoutRebuildingGunVolleys(currentOwner);
-                    Plugin.Log($"Reset {gun}'s fire rate to {currentOwner.stats.GetBaseStatValue(PlayerStats.StatType.RateOfFire)}, zealstacks: {zealStacks}");
+                    //Plugin.Log($"Reset {gun}'s fire rate to {currentOwner.stats.GetBaseStatValue(PlayerStats.StatType.RateOfFire)}, zealstacks: {zealStacks}");
                     if (zealCapActivated)
                     {
                         BraveUtility.Swap(ref this.gun.shootAnimation, ref this.gun.criticalFireAnimation);
@@ -491,9 +530,14 @@ namespace LOLItems.weapons
                 if (projectile != null && projectile.Owner != null)
                 {
                     //Plugin.Log("doing something");
+                    HelpfulMethods.PlayRandomSFX(this.gun.gameObject, VirtueWaveSFXList);
 
                     currentOwner.StartCoroutine(FireWaveDelayed(projectile));
                 }
+            }
+            else
+            {
+                HelpfulMethods.PlayRandomSFX(this.gun.gameObject, VirtueFiringSFXList);
             }
 
             base.PostProcessProjectile(projectile);
@@ -526,7 +570,7 @@ namespace LOLItems.weapons
             wave.Owner = projectile.Owner;
             wave.Shooter = projectile.Shooter;
 
-            wave.transform.position = currentOwner.CurrentGun.barrelOffset.position;
+            wave.transform.position = currentOwner.CurrentGun.barrelOffset.position + new Vector3(direction.x, direction.y);
             float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
             wave.transform.rotation = Quaternion.Euler(0f, 0f, angle);
 
@@ -578,7 +622,7 @@ namespace LOLItems.weapons
         {
             if (enemyHealth && fatal && enemyHealth.aiActor != null)
             {
-                Plugin.Log($"enemyHealth: {enemyHealth}");
+                //Plugin.Log($"enemyHealth: {enemyHealth}");
                 float expToGain = 0;
                 if (enemyHealth.IsBoss || enemyHealth.IsSubboss)
                 {
@@ -590,8 +634,13 @@ namespace LOLItems.weapons
                     expToGain = enemyHealth.aiActor.healthHaver.GetMaxHealth();
                 }
 
+                if (Player.PlayerHasActiveSynergy("Exp. Share"))
+                {
+                    expToGain *= 2;
+                }
+
                 DivineAscentExpTracker += expToGain;
-                Plugin.Log($"Gained {expToGain} Divine Ascent EXP! Current EXP: {DivineAscentExpTracker}/{DivineAscentThreshold}");
+                //Plugin.Log($"Gained {expToGain} Divine Ascent EXP! Current EXP: {DivineAscentExpTracker}/{DivineAscentThreshold}");
                 if (DivineAscentExpTracker >= DivineAscentThreshold)
                 {
                     TriggerAscent();
@@ -611,7 +660,9 @@ namespace LOLItems.weapons
 
             if (NextFormWeapon != null || currentOwner != null)
             {
-                Plugin.Log("Upgrading Virtue2 to Virtue3");
+                HelpfulMethods.CustomNotification("Usurped the Aspect of Justice", "Behold, the righteous flame!", AscensionIcon.GetComponent<tk2dBaseSprite>(), UINotificationController.NotificationColor.PURPLE);
+                //Plugin.Log("Upgrading Virtue2 to Virtue3");
+                HelpfulMethods.PlayRandomSFX(this.gun.gameObject, VirtueAscensionSFXList);
                 currentOwner.inventory.RemoveGunFromInventory(this.gun);
                 //currentOwner.inventory.AddGunToInventory(NextFormWeapon, true);
                 currentOwner.GiveItem("LOLItems:virtueform3");

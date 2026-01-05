@@ -151,7 +151,7 @@ namespace LOLItems
                             false
                         );
 
-                        Plugin.Log($"damage dealt: {damageToDeal}");
+                        //Plugin.Log($"damage dealt: {damageToDeal}");
                     }
                 };
             }

@@ -266,6 +266,33 @@ namespace LOLItems.weapons
             gun.quality = PickupObject.ItemQuality.C;
             ETGMod.Databases.Items.Add(gun, false, "ANY");
             ID = gun.PickupObjectId;
+
+            List<string> mandatoryConsoleIDs = new List<string>
+            {
+                "LOLItems:crossblade",
+            };
+            List<string> optionalConsoleIDs = new List<string>
+            {
+                "bouncy_bullets",
+                "boomerang"
+            };
+            AdvancedSynergyEntry ase = CustomSynergies.Add("Bouncemaxxing", mandatoryConsoleIDs, optionalConsoleIDs, true);
+        }
+
+        public override void OnInitializedWithOwner(GameActor actor)
+        {
+            base.OnInitializedWithOwner(actor);
+            Plugin.Log($"Player picked up {internalName}");
+
+            if (Player.PlayerHasActiveSynergy("Bouncemaxxing"))
+            {
+                gun.DefaultModule.projectiles[0].gameObject.GetComponent<PierceProjModifier>().penetration = ricochetCount + 2;
+            }
+        }
+
+        public override void OnDropped()
+        {
+            base.OnDropped();
         }
 
         public override void PostProcessProjectile(Projectile projectile)

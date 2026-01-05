@@ -806,6 +806,9 @@
     <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\virtue_form3_idle_001.jtk2d" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Resources\weapon_sprites\ProjectileCollection\virtue_orange_medium_projectile_001.png" />
+    <EmbeddedResource Include="Resources\weapon_sprites\ProjectileCollection\virtue_orange_projectile_straight_001.png" />
+    <EmbeddedResource Include="Resources\weapon_sprites\ProjectileCollection\virtue_yellow_small_projectile_001.png" />
     <EmbeddedResource Include="Resources\weapon_sprites\Ammonomicon Encounter Icon Collection\virtue_form3_idle_001.png" />
     <EmbeddedResource Include="Resources\weapon_sprites\CustomGunAmmoTypes\virtue_form3_ammo_empty.png" />
     <EmbeddedResource Include="Resources\weapon_sprites\CustomGunAmmoTypes\virtue_form3_ammo_full.png" />
@@ -824,11 +827,8 @@
     <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\virtue_form3_fire_006.png" />
     <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\virtue_form3_fire_007.png" />
     <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\virtue_form3_idle_001.png" />
-    <EmbeddedResource Include="Resources\weapon_sprites\ProjectileCollection\virtue_yellow_large_projectile_thin_001.png" />
     <EmbeddedResource Include="Resources\weapon_sprites\ProjectileCollection\virtue_green_projectile_straight_001.png" />
-    <EmbeddedResource Include="Resources\weapon_sprites\ProjectileCollection\virtue_yellow_large_projectile_001.png" />
     <EmbeddedResource Include="Resources\weapon_sprites\ProjectileCollection\virtue_yellow_medium_projectile_001.png" />
-    <EmbeddedResource Include="Resources\weapon_sprites\ProjectileCollection\virtue_yellow_projectile_straight_001.png" />
     <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\virtue_form2_alternate_idle_001.png" />
     <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\virtue_form2_critical_fire_001.png" />
     <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\virtue_form2_critical_fire_002.png" />
@@ -847,10 +847,6 @@
     <EmbeddedResource Include="Resources\weapon_sprites\Ammonomicon Encounter Icon Collection\virtue_form1_idle_001.png" />
     <EmbeddedResource Include="Resources\weapon_sprites\Ammonomicon Encounter Icon Collection\virtue_form2_idle_001.png" />
     <EmbeddedResource Include="Resources\weapon_sprites\CustomGunAmmoTypes\virtue_form2_ammo_full.png" />
-    <EmbeddedResource Include="Resources\weapon_sprites\ProjectileCollection\virtue_yellow_projectile_001.png" />
-    <EmbeddedResource Include="Resources\weapon_sprites\ProjectileCollection\virtue_yellow_projectile_002.png" />
-    <EmbeddedResource Include="Resources\weapon_sprites\ProjectileCollection\virtue_yellow_projectile_003.png" />
-    <EmbeddedResource Include="Resources\weapon_sprites\ProjectileCollection\virtue_yellow_projectile_004.png" />
     <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\virtue_form2_alternate_shoot_001.png" />
     <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\virtue_form2_alternate_shoot_002.png" />
     <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\virtue_form2_alternate_shoot_003.png" />
@@ -868,10 +864,6 @@
     <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\virtue_form2_idle_001.png" />
     <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\virtue_form1_fire_007.png" />
     <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\virtue_form1_alternate_shoot_007.png" />
-    <EmbeddedResource Include="Resources\weapon_sprites\ProjectileCollection\virtue_green_projectile_001.png" />
-    <EmbeddedResource Include="Resources\weapon_sprites\ProjectileCollection\virtue_green_projectile_002.png" />
-    <EmbeddedResource Include="Resources\weapon_sprites\ProjectileCollection\virtue_green_projectile_003.png" />
-    <EmbeddedResource Include="Resources\weapon_sprites\ProjectileCollection\virtue_green_projectile_004.png" />
     <EmbeddedResource Include="Resources\weapon_sprites\CustomGunAmmoTypes\virtue_form1_ammo_empty.png" />
     <EmbeddedResource Include="Resources\weapon_sprites\CustomGunAmmoTypes\virtue_form1_ammo_full.png" />
     <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\virtue_form1_alternate_shoot_001.png" />
@@ -907,9 +899,6 @@
     <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\vengencespear_fire_006.png" />
     <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\vengencespear_fire_007.png" />
     <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\vengencespear_idle_001.png" />
-    <EmbeddedResource Include="Resources\weapon_sprites\ProjectileCollection\vengencespear_projectile_001.png" />
-    <EmbeddedResource Include="Resources\weapon_sprites\ProjectileCollection\vengencespear_projectile_002.png" />
-    <EmbeddedResource Include="Resources\weapon_sprites\ProjectileCollection\vengencespear_projectile_003.png" />
     <EmbeddedResource Include="Resources\weapon_sprites\CustomGunAmmoTypes\vengencespear_ammo_empty_001.png" />
     <EmbeddedResource Include="Resources\weapon_sprites\CustomGunAmmoTypes\vengencespear_ammo_full_001.png" />
     <EmbeddedResource Include="Resources\weapon_sprites\CustomGunAmmoTypes\vengencespear_ammo_vert_empty_001.png" />
@@ -1587,6 +1576,33 @@
     <EmbeddedResource Include="Resources\active_item_sprites\talisman_of_ascension_item_sprite.png" />
     <EmbeddedResource Include="Resources\active_item_sprites\talisman_of_ascension_pixelart_sprite.png" />
     <EmbeddedResource Include="Resources\active_item_sprites\talisman_of_ascension_pixelart_sprite_sparks.png" />
+    <EmbeddedResource Include="Resources\active_item_sprites\refillable_potion_pixelart_sprite.png" />
+    <EmbeddedResource Include="Resources\one_off_sprites\virtue_ascension_icons\export_01.png" />
+    <EmbeddedResource Include="Resources\one_off_sprites\virtue_ascension_icons\export_02.png" />
+    <EmbeddedResource Include="Resources\one_off_sprites\virtue_ascension_icons\export_03.png" />
+    <EmbeddedResource Include="Resources\one_off_sprites\virtue_ascension_icons\export_04.png" />
+    <EmbeddedResource Include="Resources\one_off_sprites\virtue_ascension_icons\export_05.png" />
+    <EmbeddedResource Include="Resources\one_off_sprites\virtue_ascension_icons\export_06.png" />
+    <EmbeddedResource Include="Resources\one_off_sprites\virtue_ascension_icons\export_07.png" />
+    <EmbeddedResource Include="Resources\one_off_sprites\virtue_ascension_icons\export_08.png" />
+    <EmbeddedResource Include="Resources\one_off_sprites\virtue_ascension_icons\export_09.png" />
+    <EmbeddedResource Include="Resources\one_off_sprites\virtue_ascension_icons\export_10.png" />
+    <EmbeddedResource Include="Resources\one_off_sprites\virtue_ascension_icons\export_11.png" />
+    <EmbeddedResource Include="Resources\one_off_sprites\virtue_ascension_icons\export_12.png" />
+    <EmbeddedResource Include="Resources\one_off_sprites\virtue_ascension_icons\export_13.png" />
+    <EmbeddedResource Include="Resources\one_off_sprites\virtue_ascension_icons\export_14.png" />
+    <EmbeddedResource Include="Resources\one_off_sprites\virtue_ascension_icons\export_15.png" />
+    <EmbeddedResource Include="Resources\one_off_sprites\virtue_ascension_icons\export_16.png" />
+    <EmbeddedResource Include="Resources\one_off_sprites\virtue_ascension_icons\export_17.png" />
+    <EmbeddedResource Include="Resources\one_off_sprites\virtue_ascension_icons\export_18.png" />
+    <EmbeddedResource Include="Resources\one_off_sprites\virtue_ascension_icons\export_19.png" />
+    <EmbeddedResource Include="Resources\one_off_sprites\virtue_ascension_icons\export_20.png" />
+    <EmbeddedResource Include="Resources\one_off_sprites\virtue_ascension_icons\export_21.png" />
+    <EmbeddedResource Include="Resources\one_off_sprites\virtue_ascension_icons\export_22.png" />
+    <EmbeddedResource Include="Resources\one_off_sprites\virtue_ascension_icons\export_23.png" />
+    <EmbeddedResource Include="Resources\one_off_sprites\virtue_ascension_icons\export_24.png" />
+    <EmbeddedResource Include="Resources\one_off_sprites\virtue_ascension_icons\export_25.png" />
+    <EmbeddedResource Include="Resources\one_off_sprites\virtue_ascension_icons\export_26.png" />
     <Content Include="Resources\Sounds\gen-gungeon-audio-bank.py" />
     <EmbeddedResource Include="Resources\active_item_sprites\redemption_item_sprite.png" />
     <EmbeddedResource Include="Resources\active_item_sprites\stridebreaker_item_sprite.png" />
