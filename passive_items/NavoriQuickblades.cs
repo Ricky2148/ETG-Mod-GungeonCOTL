@@ -80,7 +80,7 @@ namespace LOLItems.passive_items
                     else if (player.CurrentItem.CurrentTimeCooldown > 0)
                     {
                         float currentCooldownValue = player.CurrentItem.CurrentTimeCooldown;
-                        float reducedCooldownValue = currentCooldownValue * (1f - TranscendenceCooldownReductionRatio);
+                        float reducedCooldownValue = currentCooldownValue * (1f - (TranscendenceCooldownReductionRatio * tickrate));
                         player.CurrentItem.CurrentTimeCooldown = reducedCooldownValue;
                     }
                 }

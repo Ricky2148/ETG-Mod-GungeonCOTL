@@ -129,6 +129,7 @@ namespace LOLItems
             //DetonationOrb.Init();
             RefillablePotion.Init();
             TalismanOfAscension.Init();
+            SilverBolts.Init();
 
             //npcs?
             Bubbs.Init();

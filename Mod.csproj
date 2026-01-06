@@ -94,6 +94,7 @@
     <Compile Include="passive_items\RodOfAges.cs" />
     <Compile Include="passive_items\RylaisCrystalScepter.cs" />
     <Compile Include="passive_items\Shadowflame.cs" />
+    <Compile Include="passive_items\SilverBolts.cs" />
     <Compile Include="passive_items\SunfireAegis.cs" />
     <Compile Include="passive_items\BladeOfTheRuinedKing.cs" />
     <Compile Include="passive_items\ExperimentalHexplate.cs" />
@@ -1603,6 +1604,7 @@
     <EmbeddedResource Include="Resources\one_off_sprites\virtue_ascension_icons\export_24.png" />
     <EmbeddedResource Include="Resources\one_off_sprites\virtue_ascension_icons\export_25.png" />
     <EmbeddedResource Include="Resources\one_off_sprites\virtue_ascension_icons\export_26.png" />
+    <EmbeddedResource Include="Resources\passive_item_sprites\silver_bolts_item_sprite.png" />
     <Content Include="Resources\Sounds\gen-gungeon-audio-bank.py" />
     <EmbeddedResource Include="Resources\active_item_sprites\redemption_item_sprite.png" />
     <EmbeddedResource Include="Resources\active_item_sprites\stridebreaker_item_sprite.png" />

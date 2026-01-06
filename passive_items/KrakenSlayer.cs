@@ -16,7 +16,7 @@ namespace LOLItems
     {
         // stats pool for item
         private int bringItDownCount = 0;
-        private float bringItDownDamage = 20f;
+        private static float bringItDownDamage = 20f;
         private static float bringItDownDamageScale = 0.25f;
         private static float DamageStat = 1.25f;
         private static float RateOfFireStat = 1.25f;
@@ -100,14 +100,20 @@ namespace LOLItems
 
         private void OnPostProcessProjectile(BeamController beam, SpeculativeRigidbody hitRigidbody, float tickrate)
         {
-            bringItDownCount++;
+            float randomVal = UnityEngine.Random.value;
+            if (randomVal <= 0.04f)
+            {
+                bringItDownCount++;
+                //Plugin.Log($"randomVal: {randomVal}, bringitdowncount: {bringItDownCount}");
+            }
+
             if (bringItDownCount >= 3)
             {
-                if (beam.sprite != null)
+                /*if (beam.sprite != null)
                 {
                     beam.sprite.color = Color.Lerp(beam.sprite.color, Color.cyan, 0.7f);
-                }
-                HelpfulMethods.PlayRandomSFX(beam.gameObject, sfxList);
+                }*/
+                //HelpfulMethods.PlayRandomSFX(beam.gameObject, sfxList);
                 if (hitRigidbody == null) return;
                 AIActor firstEnemy = null;
                 if (hitRigidbody.aiActor != null)
@@ -127,7 +133,7 @@ namespace LOLItems
                     // scales damage based on enemy's missing health percentage
                     float percentDamageIncrease = 0.75f * (1.0f - firstEnemy.healthHaver.GetCurrentHealthPercentage());
                     // scale damage down by tickrate
-                    float damageToDeal = bringItDownDamage * (1.0f + percentDamageIncrease) * HelpfulMethods.GetFloorDamageScale() * tickrate;
+                    float damageToDeal = bringItDownDamage * (1.0f + percentDamageIncrease) * HelpfulMethods.GetFloorDamageScale();
                     // damage is 1/4 against bosses and sub-bosses
                     if (firstEnemy.healthHaver.IsBoss || firstEnemy.healthHaver.IsSubboss)
                     {
@@ -142,7 +148,8 @@ namespace LOLItems
                         DamageCategory.Normal,
                         false
                     );
-                };
+                    Plugin.Log($"damage dealt: {damageToDeal}");
+                }
                 bringItDownCount = 0;
             }
         }

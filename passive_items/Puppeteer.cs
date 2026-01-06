@@ -77,10 +77,11 @@ namespace LOLItems.passive_items
             {
                 PlayerController player = this.Owner;
                 AIActor aiActor = hitRigidbody.aiActor;
+                //Plugin.Log($"aiActor: {aiActor}, hitRigidBody: {hitRigidbody}, aiActor.aiActor: {aiActor.aiActor}");
                 // simulate random chance to apply a stack upon hit
                 //var rand = new System.Random();
                 //int randomPool = 100;
-                if (UnityEngine.Random.value >= 0.05f)
+                if (UnityEngine.Random.value <= 0.05f)
                 {
                     // increase stack count if enemy is already in dictionary
                     if (!enemyCharmStacks.ContainsKey(aiActor))
@@ -92,14 +93,13 @@ namespace LOLItems.passive_items
                     {
                         enemyCharmStacks[aiActor] += 1;
                     }
-                }
-
-                // if the hit enemy's stack count is at max stacks, trigger charm effect and cooldown
-                if (enemyCharmStacks[aiActor] >= PullTheirStringsMaxStacks)
-                {
-                    enemyCharmStacks.Clear();
-                    aiActor.ApplyEffect(CharmEffect);
-                    StartCoroutine(StartPullTheirStringsCooldown(player));
+                    // if the hit enemy's stack count is at max stacks, trigger charm effect and cooldown
+                    if (enemyCharmStacks[aiActor] >= PullTheirStringsMaxStacks)
+                    {
+                        enemyCharmStacks.Clear();
+                        aiActor.ApplyEffect(CharmEffect);
+                        StartCoroutine(StartPullTheirStringsCooldown(player));
+                    }            
                 }
             }
         }
@@ -116,6 +116,7 @@ namespace LOLItems.passive_items
                     {
                         PlayerController player = this.Owner;
                         AIActor aiActor = enemy.aiActor;
+                        //Plugin.Log($"aiActor: {aiActor}, enemy: {enemy}, aiActor.aiActor: {aiActor.aiActor}");
                         // increase stack count if enemy is already in dictionary
                         if (!enemyCharmStacks.ContainsKey(aiActor))
                         {
