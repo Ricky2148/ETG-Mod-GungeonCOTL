@@ -30,7 +30,8 @@ namespace LOLItems.passive_items
             ItemBuilder.AddSpriteToObject(itemName, resourceName, obj);
 
             string shortDesc = "\"full clearing\"";
-            string longDesc = "A simple worn-out scythe used by many to farm crops. Farming enemies seems more efficient now.\n";
+            string longDesc = "Drops an extra casing every few kills. After enough kills, drops a lump sum of casings and stop getting extra casings.\n\n" +
+                "A simple worn-out scythe used by many to farm crops. Farming enemies seems more efficient now.\n";
 
             ItemBuilder.SetupItem(item, shortDesc, longDesc, "LOLItems");
 

@@ -56,7 +56,8 @@ namespace LOLItems.active_items
             ItemBuilder.AddSpriteToObject(itemName, resourceName, obj);
 
             string shortDesc = "*aw dang it*";
-            string longDesc = "This ancient talisman is said to have been bathed in the intense heat of the shuriman desert atop its highest peak. " +
+            string longDesc = "Each use rerolls this item's stat buffs, randomizing which stats are buffed and how much they're buffed. Strength and num of buffs increase with each use.\n\n" +
+                "This ancient talisman is said to have been bathed in the intense heat of the shuriman desert atop its highest peak. " +
                 "The gods answered this showing of reverence by imbuing it with a spirit of fortune. It then became presitigous as every emperor who bore this talisman would " +
                 "exhibit unreasonable feats of luck. However, after millennia of constant use, the talisman's effects have dwindled and have become unreliable.\n\n" +
                 "https://www.youtube.com/watch?v=IPFiKEm-oNI\n";

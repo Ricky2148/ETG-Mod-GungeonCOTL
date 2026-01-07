@@ -33,7 +33,8 @@ namespace LOLItems.active_items
             ItemBuilder.AddSpriteToObject(itemName, resourceName, obj);
 
             string shortDesc = "\"this healed me\"";
-            string longDesc = "A potion that heals you. Used to be a commercial product sold with the slogan \"It's so refreshing, you'll want to drink it twice! Thankfully, you can never finish it in one go!\"\n" +
+            string longDesc = "A potion that heals you.\n\n" +
+                "Used to be a commercial product sold with the slogan \"It's so refreshing, you'll want to drink it twice! Thankfully, you can never finish it in one go!\"\n" +
                 "The product also sold with a lifetime warranty of infinite refills anytime anywhere, which completely bankrupted the company.\n\n" +
                 "Somehow, the refill service is still active but only between floors.\n";
 

@@ -67,7 +67,8 @@ namespace LOLItems.weapons
             Game.Items.Rename($"outdated_gun_mods:{FULLNAME.ToID()}", internalName);
             gun.gameObject.AddComponent<VirtueForm1>();
             gun.SetShortDescription("\"Truth, guide my sword!\"");
-            gun.SetLongDescription("Virtue. \nDefinition: a quality considered morally good.\n\nA blade of celestial creation that are capable of burning evil. " +
+            gun.SetLongDescription("Gain EXP per kill. Evolves after enough EXP.\n\n" +
+                "Virtue. Definition: a quality considered morally good.\n\nA blade of celestial creation that are capable of burning evil. " +
                 "The original wielder of this weapon was said to have tested whether one was virtuous by slashing at their neck. If they were truly virtuous, then the blade would cause them no harm. " +
                 "\n\nShe was capable of igniting the blade with holy fire but it appears to require something deep within.\n");
 

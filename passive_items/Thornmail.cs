@@ -34,7 +34,8 @@ namespace LOLItems
             ItemBuilder.AddSpriteToObject(itemName, resourceName, obj);
 
             string shortDesc = "*social distancing*";
-            string longDesc = "Armor with spikes. Spikes hurt. Don't touch wearer, spikes will hurt. " +
+            string longDesc = "Taking damage activates a blank and deals damage to nearby enemies.\n\n" +
+                "Armor with spikes. Spikes hurt. Don't touch wearer, spikes will hurt. " +
                 "Spikes on armor. Armor under spikes. Armor hurts. Because spikes hurt. Don't touch armor. " +
                 "Armor hurts.\n";
 

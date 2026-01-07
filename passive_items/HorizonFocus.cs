@@ -30,7 +30,8 @@ namespace LOLItems
             ItemBuilder.AddSpriteToObject(itemName, resourceName, obj);
             
             string shortDesc = "*not camping btw*";
-            string longDesc = "A futuristic gauntlet that seems to improve your aim at far ranges, allowing " +
+            string longDesc = "Bullets deal increased damage the farther away you are from the target.\n\n" +
+                "A futuristic gauntlet that seems to improve your aim at far ranges, allowing " +
                 "your long range attacks to deal increased damage. There seems to be a signature: Ja-c- -nd Vi--or\n";
             
             ItemBuilder.SetupItem(item, shortDesc, longDesc, "LOLItems");

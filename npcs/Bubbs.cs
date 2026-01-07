@@ -160,9 +160,9 @@ namespace LOLItems
                 PrayerBeads.ID,
                 Whisper.ID,
                 Crossblade.ID,
-                //VirtueForm1.Add();
-                //VirtueForm2.Add();
-                //VirtueForm3.Add();
+                VirtueForm1.ID,
+                VirtueForm2.ID,
+                VirtueForm3.ID,
                 SoulSpear.ID,
 
 
@@ -172,9 +172,6 @@ namespace LOLItems
                 ZekesConvergence.ID,
                 Redemption.ID,
 
-                DetonationOrb.ID,
-
-
                 //low tier items
                 Sheen.ID,
                 FatedAshes.ID,
@@ -182,6 +179,11 @@ namespace LOLItems
                 PerfectlyTimedStopwatch.ID,
                 TearOfTheGoddess.ID,
 
+                //next update items
+                //DetonationOrb.Init();
+                RefillablePotion.ID,
+                TalismanOfAscension.ID,
+                SilverBolts.ID,
             };
 
             ShopKeeperLootTable = LootTableTools.CreateLootTable();

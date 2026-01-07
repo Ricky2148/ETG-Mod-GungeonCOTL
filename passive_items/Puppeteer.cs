@@ -38,7 +38,8 @@ namespace LOLItems.passive_items
             ItemBuilder.AddSpriteToObject(itemName, resourceName, obj);
             
             string shortDesc = "dance, boy, dance!";
-            string longDesc = "A marionette glove without its marionette. It allows you to control enemies but fills you with " +
+            string longDesc = "Every bullet applies a stack to enemies hit. Once any enemy reaches max stacks, charms them. Goes on a cooldown.\n\n" +
+                "A marionette glove without its marionette. It allows you to control enemies but fills you with " +
                 "an uneasy feeling. You could swear there's a creepy laugh in the gungeon's corridors now.\n";
             
             ItemBuilder.SetupItem(item, shortDesc, longDesc, "LOLItems");

@@ -33,7 +33,8 @@ namespace LOLItems.passive_items
             ItemBuilder.AddSpriteToObject(itemName, resourceName, obj);
 
             string shortDesc = "*NOT REAL A TEAR*";
-            string longDesc = "\"Few are fortunate enough to come across the tears of the very goddess who created our world... " +
+            string longDesc = "Increases max ammo multiplier and clip size multiplier every few kills. After enough kills, stops increasing stats. Stacks carry over to Manamune.\n\n" +
+                "\"Few are fortunate enough to come across the tears of the very goddess who created our world... " +
                 "but those who are lucky enough to acquire a Tear of the Goddess may take pleasure in a significant boost of ammo capacity and clip capacity.\"";
 
             ItemBuilder.SetupItem(item, shortDesc, longDesc, "LOLItems");

@@ -37,7 +37,8 @@ namespace LOLItems
             ItemBuilder.AddSpriteToObject(itemName, resourceName, obj);
 
             string shortDesc = "*shocks you*";
-            string longDesc = "Supposed to be a replica of Zeus's Lightning Bolt." +
+            string longDesc = "First 3 bullets of clip applies a chain lightning to enemies hit.\n\n" +
+                "Supposed to be a replica of Zeus's Lightning Bolt." +
                 "\njust a shiv with a taser\n";
 
             ItemBuilder.SetupItem(item, shortDesc, longDesc, "LOLItems");

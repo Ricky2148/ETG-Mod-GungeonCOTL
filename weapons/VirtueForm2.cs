@@ -86,7 +86,9 @@ namespace LOLItems.weapons
             Game.Items.Rename($"outdated_gun_mods:{FULLNAME.ToID()}", internalName);
             gun.gameObject.AddComponent<VirtueForm2>();
             gun.SetShortDescription("\"Burn all deceivers!\"");
-            gun.SetLongDescription("Virtue. \nDefinition: a quality considered morally good.\n\nA blade of celestial creation that are capable of burning evil. " +
+            gun.SetLongDescription("Gains a stack of zealous every attack. Each stack of zealous increases fire rate. At max zealous stacks, fires an additional wave projectile and gain increased movespeed.\n" +
+                "Gain EXP per kill. Evolves after enough EXP.\n\n" +
+                "Virtue. Definition: a quality considered morally good.\n\nA blade of celestial creation that are capable of burning evil. " +
                 "The original wielder of this weapon was said to have tested whether one was virtuous by slashing at their neck. If they were truly virtuous, then the blade would cause them no harm. " +
                 "\n\nYou've learned how to ignite the holy fire but cannot fully control its strength. You clearly yet lack something.\n");
 

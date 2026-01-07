@@ -35,7 +35,8 @@ namespace LOLItems
             ItemBuilder.AddSpriteToObject(itemName, resourceName, obj);
 
             string shortDesc = "\"Heroes never die!\"";
-            string longDesc = "A blade imbued with the hope of a cult who believed in rebirth. You almost feel " +
+            string longDesc = "Revives you once on death.\n\n" +
+                "A blade imbued with the hope of a cult who believed in rebirth. You almost feel " +
                 "like you could defy even death with it in hand.\n";
 
             ItemBuilder.SetupItem(item, shortDesc, longDesc, "LOLItems");

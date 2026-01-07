@@ -50,7 +50,8 @@ namespace LOLItems
 
             string shortDesc = "from the Greatest Swordsmith";
             // maybe add effect explanation?
-            string longDesc = "Created by the Greatest Swordsmith, Masamune, this sword increases the wielder's" +
+            string longDesc = "Increases max ammo multiplier and clip size multiplier every few kills. Evolves after enough kills.\n\n" +
+                "Created by the Greatest Swordsmith, Masamune, this sword increases the wielder's" +
                 " capacity for battle.\n\nLegends hint at the blade's true strength being sealed away.\n";
 
             ItemBuilder.SetupItem(item, shortDesc, longDesc, "LOLItems");

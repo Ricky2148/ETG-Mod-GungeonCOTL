@@ -41,7 +41,8 @@ namespace LOLItems
             ItemBuilder.AddSpriteToObject(itemName, resourceName, obj);
 
             string shortDesc = "The Ultimate fishing tool";
-            string longDesc = "A fishing tool passed down through generations. It's said that the original user " +
+            string longDesc = "Every 3rd bullet deals additional damage. This damage increases based on the floor and the target's missing health.\n\n" +
+                "A fishing tool passed down through generations. It's said that the original user " +
                 "felled a kraken with it and freed the seas from its terror.\n";
 
             ItemBuilder.SetupItem(item, shortDesc, longDesc, "LOLItems");

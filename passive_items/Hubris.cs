@@ -31,7 +31,8 @@ namespace LOLItems
             ItemBuilder.AddSpriteToObject(itemName, resourceName, obj);
 
             string shortDesc = "A symbol of victory";
-            string longDesc = "A congratulatory laurel wreath gifted to the victor. With each triumph, one's strength increases. " +
+            string longDesc = "Every kill permanently increases your damage a little bit.\n\n" +
+                "A congratulatory laurel wreath gifted to the victor. With each triumph, one's strength increases. " +
                 "Legends speak of a statue that manifests once you reach the pinnacle of victory.\n";
 
             ItemBuilder.SetupItem(item, shortDesc, longDesc, "LOLItems");

@@ -34,7 +34,8 @@ namespace LOLItems.passive_items
             ItemBuilder.AddSpriteToObject(itemName, resourceName, obj);
 
             string shortDesc = "Limitless as the Stars";
-            string longDesc = "This magical cloak imbues your body with great toughness and durability like that of a star. Sometimes prevents the player from taking damage.\n";
+            string longDesc = " Sometimes prevents the player from taking damage.\n\n" +
+                "This magical cloak imbues your body with great toughness and durability like that of a star.\n";
 
             ItemBuilder.SetupItem(item, shortDesc, longDesc, "LOLItems");
 

@@ -807,6 +807,9 @@
     <EmbeddedResource Include="Resources\weapon_sprites\WeaponCollection\virtue_form3_idle_001.jtk2d" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Resources\vfxs\silver_bolts_vfx\ring_double_001.png" />
+    <EmbeddedResource Include="Resources\vfxs\silver_bolts_vfx\ring_inner_001.png" />
+    <EmbeddedResource Include="Resources\vfxs\silver_bolts_vfx\ring_outer_001.png" />
     <EmbeddedResource Include="Resources\weapon_sprites\ProjectileCollection\virtue_orange_medium_projectile_001.png" />
     <EmbeddedResource Include="Resources\weapon_sprites\ProjectileCollection\virtue_orange_projectile_straight_001.png" />
     <EmbeddedResource Include="Resources\weapon_sprites\ProjectileCollection\virtue_yellow_small_projectile_001.png" />
@@ -1605,6 +1608,8 @@
     <EmbeddedResource Include="Resources\one_off_sprites\virtue_ascension_icons\export_25.png" />
     <EmbeddedResource Include="Resources\one_off_sprites\virtue_ascension_icons\export_26.png" />
     <EmbeddedResource Include="Resources\passive_item_sprites\silver_bolts_item_sprite.png" />
+    <EmbeddedResource Include="Resources\passive_item_sprites\silver_bolts_pixelart_sprite.png" />
+    <EmbeddedResource Include="Resources\passive_item_sprites\silver_bolts_pixelart_sprite_outline.png" />
     <Content Include="Resources\Sounds\gen-gungeon-audio-bank.py" />
     <EmbeddedResource Include="Resources\active_item_sprites\redemption_item_sprite.png" />
     <EmbeddedResource Include="Resources\active_item_sprites\stridebreaker_item_sprite.png" />

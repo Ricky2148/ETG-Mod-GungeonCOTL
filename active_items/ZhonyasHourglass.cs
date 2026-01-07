@@ -34,7 +34,8 @@ namespace LOLItems
             ItemBuilder.AddSpriteToObject(itemName, resourceName, obj);
 
             string shortDesc = "Borrowed Time";
-            string longDesc = "A sand stopwatch that allows the user to suspend their life for a few moments. " +
+            string longDesc = "Enter stasis, where you're invulnerable but also can't do anything for a duration, then activates a blank.\n\n" +
+                "A sand stopwatch that allows the user to suspend their life for a few moments. " +
                 "It's believed that a pharaoh used it to reminisce his last moments during his empire's fall.\n";
 
             ItemBuilder.SetupItem(item, shortDesc, longDesc, "LOLItems");

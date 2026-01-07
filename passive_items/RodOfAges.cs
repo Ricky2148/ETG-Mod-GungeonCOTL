@@ -37,7 +37,9 @@ namespace LOLItems
             
             string shortDesc = "Power through wisdom";
             // maybe add effect explanation?
-            string longDesc = "A staff once wielded by a legendary sorcerer, said to have achieved immortality " +
+            string longDesc = $"Gains a stack every {TimelessIncrementTimeInterval} seconds. Each stack increases max ammo, clip size, and damage a little. " +
+                $"At max stacks, gain an extra heart and taking damage restores some ammo.\n\n" +
+                "A staff once wielded by a legendary sorcerer, said to have achieved immortality " +
                 "and still lives on to this day. The vast knowledge within this tool takes ages to fully grasp.\n";
             
             ItemBuilder.SetupItem(item, shortDesc, longDesc, "LOLItems");

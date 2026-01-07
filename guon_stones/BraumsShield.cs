@@ -27,7 +27,8 @@ namespace LOLItems.guon_stones
             ItemBuilder.AddSpriteToObject(itemName, resourceName, obj);
 
             string shortDesc = "Stand behind me!";
-            string longDesc = "A repurposed vault door used as a shield in a far away land. The original wielder was said to have such a kind soul that " +
+            string longDesc = "It's just a guon stone lol.\n\n" +
+                "A repurposed vault door used as a shield in a far away land. The original wielder was said to have such a kind soul that " +
                 "his own protective instincts were instilled within the magic shield. Now it floats around to protect the user as best it can.\n";
 
             ItemBuilder.SetupItem(item, shortDesc, longDesc, "LOLItems");

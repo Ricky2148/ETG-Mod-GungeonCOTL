@@ -67,7 +67,8 @@ namespace LOLItems
             ItemBuilder.AddSpriteToObject(itemName, resourceName, obj);
             
             string shortDesc = "\"No more cages!\"";
-            string longDesc = "A set of chains that appears to have been used as a weapon. The chains feel cold to the touch " +
+            string longDesc = "Slashes around you, deals damage, enemies hit are slowed.\n\n" +
+                "A set of chains that appears to have been used as a weapon. The chains feel cold to the touch " +
                 "and seem to instill a feeling of rebellion within you.\n";
             
             ItemBuilder.SetupItem(item, shortDesc, longDesc, "LOLItems");
