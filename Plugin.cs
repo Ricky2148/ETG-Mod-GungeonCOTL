@@ -126,7 +126,7 @@ namespace LOLItems
             TearOfTheGoddess.Init();
 
             //next update items
-            //DetonationOrb.Init();
+            DetonationOrb.Init();
             RefillablePotion.Init();
             TalismanOfAscension.Init();
             SilverBolts.Init();

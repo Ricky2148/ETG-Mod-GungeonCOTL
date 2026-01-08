@@ -42,6 +42,8 @@ namespace LOLItems.passive_items
 
         private GameObject activeVFXObject;
 
+        public static Vector3 vfxOffset = new Vector3(0 / 16f, 2 / 16f, 0);
+
         public static int ID;
 
         public static void Init()
@@ -87,6 +89,8 @@ namespace LOLItems.passive_items
                 sprite.UpdateZDepth();
             }
 
+            VFXAnchorModule anchor1 = EffectVFX.GetOrAddComponent<VFXAnchorModule>();
+
             SecondEffectVFX = VFXBuilder.CreateVFX
             (
                 "silver_bolts_ring_double",
@@ -109,6 +113,8 @@ namespace LOLItems.passive_items
                 sprite.HeightOffGround = -50f;
                 sprite.UpdateZDepth();
             }
+
+            VFXAnchorModule anchor2 = SecondEffectVFX.GetOrAddComponent<VFXAnchorModule>();
         }
 
         public override void Pickup(PlayerController player)
@@ -326,7 +332,7 @@ namespace LOLItems.passive_items
                         }
 
                         // TESTING TESTING TESTING TESTING TESTING TESTING TESTING TESTING TESTING TESTING TESTING TESTING TESTING TESTING TESTING TESTING TESTING TESTING TESTING TESTING 
-                        targetEnemy.ApplyEffect(slowEffect);
+                        //targetEnemy.ApplyEffect(slowEffect);
 
                         silverBoltsCount++;
 
@@ -335,17 +341,24 @@ namespace LOLItems.passive_items
                             case 1:
                                 //Plugin.Log($"{silverBoltsCount}");
 
-                                /*activeVFXObject = targetEnemy.PlayEffectOnActor(EffectVFX, new Vector3(0 / 16f, 0 / 16f, 0f), true, false, true);
+                                //activeVFXObject = targetEnemy.PlayEffectOnActor(EffectVFX, new Vector3(-500 / 16f, 4 / 16f, 0f), true, false, false);
+                                activeVFXObject = UnityEngine.Object.Instantiate(EffectVFX, targetEnemy.specRigidbody.UnitBottomCenter.ToVector3ZUp() + vfxOffset, Quaternion.identity);
 
                                 var sprite = activeVFXObject.GetComponent<tk2dSprite>();
 
                                 if (sprite != null)
                                 {
-                                    sprite.HeightOffGround = -10f;
+                                    sprite.HeightOffGround = -1f;
                                     sprite.UpdateZDepth();
-                                }*/
+                                }
 
-                                GameObject gameObject = SpawnManager.SpawnVFX(EffectVFX);
+                                activeVFXObject.GetComponent<VFXAnchorModule>().anchorAIActor = targetEnemy;
+                                activeVFXObject.GetComponent<VFXAnchorModule>().offset = vfxOffset;
+
+                                Plugin.Log($"specRigidbody.UnitCenter: {targetEnemy.specRigidbody.UnitCenter.ToVector3ZUp()}, specRigidbody.UnitDimensions: {targetEnemy.specRigidbody.UnitDimensions}, " +
+                                    $"specRigidbody.UnitBottomCenter: {targetEnemy.specRigidbody.UnitBottomCenter.ToVector3ZUp()}");
+
+                                /*GameObject gameObject = SpawnManager.SpawnVFX(EffectVFX);
                                 tk2dBaseSprite component = gameObject.GetComponent<tk2dBaseSprite>();
                                 component.transform.position = targetEnemy.sprite.WorldCenter.ToVector3ZUp() + new Vector3(0, -2f);
                                 //Plugin.Log($"sprite.worldCenter: {targetEnemy.sprite.WorldCenter.ToVector3ZUp()}, specRigidBody.HitBoxPicelCollider.unitCenter: {targetEnemy.specRigidbody.HitboxPixelCollider.UnitCenter.ToVector3ZUp()}, specRigidBody.UnitCenter: {targetEnemy.specRigidbody.UnitCenter}");
@@ -353,22 +366,29 @@ namespace LOLItems.passive_items
                                 component.HeightOffGround = -10f;
                                 targetEnemy.sprite.AttachRenderer(component);
 
-                                activeVFXObject = gameObject;
+                                //component.attachParent = targetEnemy.sprite;
+                                //component.attachedRenderers.Add(component);
+
+                                activeVFXObject = gameObject;*/
 
                                 break;
                             case 2:
                                 //Plugin.Log($"{silverBoltsCount}");
-                                /*activeVFXObject = targetEnemy.PlayEffectOnActor(SecondEffectVFX, new Vector3(0 / 16f, 0 / 16f, 0f), true, false, true);
+                                //activeVFXObject = targetEnemy.PlayEffectOnActor(SecondEffectVFX, new Vector3(-500 / 16f, 4 / 16f, 0f), true, false, false);
+                                activeVFXObject = UnityEngine.Object.Instantiate(EffectVFX, targetEnemy.specRigidbody.UnitBottomCenter.ToVector3ZUp() + vfxOffset, Quaternion.identity);
 
                                 sprite = activeVFXObject.GetComponent<tk2dSprite>();
 
                                 if (sprite != null)
                                 {
-                                    sprite.HeightOffGround = -10f;
+                                    sprite.HeightOffGround = -2f;
                                     sprite.UpdateZDepth();
-                                }*/
+                                }
 
-                                gameObject = SpawnManager.SpawnVFX(SecondEffectVFX);
+                                activeVFXObject.GetComponent<VFXAnchorModule>().anchorAIActor = targetEnemy;
+                                activeVFXObject.GetComponent<VFXAnchorModule>().offset = vfxOffset;
+
+                                /*gameObject = SpawnManager.SpawnVFX(SecondEffectVFX);
                                 component = gameObject.GetComponent<tk2dBaseSprite>();
                                 component.transform.position = targetEnemy.sprite.WorldCenter.ToVector3ZUp() + new Vector3(0, -2f);
                                 //Plugin.Log($"sprite.worldCenter: {targetEnemy.sprite.WorldCenter.ToVector3ZUp()}, specRigidBody.HitBoxPicelCollider.unitCenter: {targetEnemy.specRigidbody.HitboxPixelCollider.UnitCenter.ToVector3ZUp()}, specRigidBody.UnitCenter: {targetEnemy.specRigidbody.UnitCenter}");
@@ -376,7 +396,7 @@ namespace LOLItems.passive_items
                                 component.HeightOffGround = -10f;
                                 targetEnemy.sprite.AttachRenderer(component);
 
-                                activeVFXObject = gameObject;
+                                activeVFXObject = gameObject;*/
 
                                 break;
                             case 3:
