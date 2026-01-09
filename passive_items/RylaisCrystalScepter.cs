@@ -62,8 +62,12 @@ namespace LOLItems.passive_items
         {
             base.DisableEffect(player);
             Plugin.Log($"Player dropped or got rid of {this.EncounterNameOrDisplayName}");
-            player.PostProcessProjectile -= ApplyRimefrostEffect;
-            player.PostProcessBeamTick -= ApplyRimefrostEffect;
+
+            if (player != null)
+            {
+                player.PostProcessProjectile -= ApplyRimefrostEffect;
+                player.PostProcessBeamTick -= ApplyRimefrostEffect;
+            }
         }
 
         private void ApplyRimefrostEffect(BeamController beam, SpeculativeRigidbody hitRigidbody, float tickrate)

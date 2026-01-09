@@ -76,8 +76,11 @@ namespace LOLItems
             base.DisableEffect(player);
             Plugin.Log($"Player dropped or got rid of {this.EncounterNameOrDisplayName}");
 
-            player.PostProcessProjectile -= MuramanaShock;
-            player.PostProcessBeamTick -= MuramanaShock;
+            if (player != null)
+            {
+                player.PostProcessProjectile -= MuramanaShock;
+                player.PostProcessBeamTick -= MuramanaShock;
+            }
         }
 
         private void MuramanaShock(BeamController beam, SpeculativeRigidbody hitRigidbody, float tickrate)

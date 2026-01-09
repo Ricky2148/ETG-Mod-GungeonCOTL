@@ -102,9 +102,12 @@ namespace LOLItems
             base.DisableEffect(player);
             Plugin.Log($"Player dropped or got rid of {this.EncounterNameOrDisplayName}");
 
-            //player.OnKilledEnemy -= ManaflowStack;
-            player.OnAnyEnemyReceivedDamage -= ManaflowStack;
-            //player.PostProcessProjectile -= MuramanaShock;
+            if (player != null)
+            {
+                //player.OnKilledEnemy -= ManaflowStack;
+                player.OnAnyEnemyReceivedDamage -= ManaflowStack;
+                //player.PostProcessProjectile -= MuramanaShock;
+            }
         }
 
         private void ManaflowStack(float damage, bool fatal, HealthHaver enemyHealth)

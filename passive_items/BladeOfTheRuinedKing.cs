@@ -78,9 +78,12 @@ namespace LOLItems
             Plugin.Log($"Player dropped or got rid of {this.EncounterNameOrDisplayName}");
 
             // unsubscribe from events
-            player.OnReloadedGun -= OnGunReloaded;
-            player.PostProcessProjectile -= OnPostProcessProjectile;
-            player.PostProcessBeamTick -= OnPostProcessProjectile;
+            if (player != null)
+            {
+                player.OnReloadedGun -= OnGunReloaded;
+                player.PostProcessProjectile -= OnPostProcessProjectile;
+                player.PostProcessBeamTick -= OnPostProcessProjectile;
+            }
             shouldApplySlow = false;
         }
 

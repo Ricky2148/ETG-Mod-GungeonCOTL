@@ -98,11 +98,14 @@ namespace LOLItems.passive_items
             Plugin.Log($"Player dropped or got rid of {this.EncounterNameOrDisplayName}");
 
             this.procChance = preDamageProcChance;
-            foreach (PassiveItem item in player.passiveItems)
+            if (player != null)
             {
-                if (item.PickupObjectId == ShieldOfMoltenStone.ID && item != null)
+                foreach (PassiveItem item in player.passiveItems)
                 {
-                    item.GetComponent<ShieldOfMoltenStone>().setProcChance(preDamageProcChance);
+                    if (item.PickupObjectId == ShieldOfMoltenStone.ID && item != null)
+                    {
+                        item.GetComponent<ShieldOfMoltenStone>().setProcChance(preDamageProcChance);
+                    }
                 }
             }
         }

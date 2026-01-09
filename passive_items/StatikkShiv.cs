@@ -66,8 +66,11 @@ namespace LOLItems
             base.DisableEffect(player);
             Plugin.Log($"Player dropped or got rid of {this.EncounterNameOrDisplayName}");
 
-            player.PostProcessProjectile -= OnPostProcessProjectile;
-            player.OnReloadedGun -= ResetElectroSpark;
+            if (player != null)
+            {
+                player.PostProcessProjectile -= OnPostProcessProjectile;
+                player.OnReloadedGun -= ResetElectroSpark;
+            }
         }
 
         private void OnPostProcessProjectile(Projectile proj, float f)

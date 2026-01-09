@@ -84,11 +84,15 @@ namespace LOLItems.passive_items
             Plugin.Log($"Player dropped or got rid of {this.EncounterNameOrDisplayName}");
 
             this.procChance = preDamageProcChance;
-            foreach (PassiveItem item in player.passiveItems)
+
+            if (player != null)
             {
-                if (item.PickupObjectId == CloakOfStarryNight.ID && item != null)
+                foreach (PassiveItem item in player.passiveItems)
                 {
-                    item.GetComponent<CloakOfStarryNight>().setProcChance(preDamageProcChance);
+                    if (item.PickupObjectId == CloakOfStarryNight.ID && item != null)
+                    {
+                        item.GetComponent<CloakOfStarryNight>().setProcChance(preDamageProcChance);
+                    }
                 }
             }
         }

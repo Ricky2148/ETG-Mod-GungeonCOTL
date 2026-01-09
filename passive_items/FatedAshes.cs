@@ -64,8 +64,11 @@ namespace LOLItems.passive_items
             base.DisableEffect(player);
             Plugin.Log($"Player dropped or got rid of {this.EncounterNameOrDisplayName}");
 
-            player.PostProcessProjectile -= OnPostProcessProjectile;
-            player.PostProcessBeamTick -= OnPostProcessProjectile;
+            if (player != null)
+            {
+                player.PostProcessProjectile -= OnPostProcessProjectile;
+                player.PostProcessBeamTick -= OnPostProcessProjectile;
+            }
         }
 
         private void OnPostProcessProjectile(Projectile proj, float f)

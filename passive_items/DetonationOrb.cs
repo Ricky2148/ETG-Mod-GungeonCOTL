@@ -60,11 +60,20 @@ namespace LOLItems.passive_items
         {
             base.DisableEffect(player);
             Plugin.Log($"Player dropped or got rid of {this.EncounterNameOrDisplayName}");
-            player.PostProcessProjectile -= OnPostProcessProjectile;
-            player.PostProcessBeamTick -= OnPostProcessProjectile;
+            if (player != null)
+            {
+                player.PostProcessProjectile -= OnPostProcessProjectile;
+                player.PostProcessBeamTick -= OnPostProcessProjectile;
+            }
 
-            enemyTheBombDmgStored.Clear();
-            enemyTheBombCoroutine.Clear();
+            if (enemyTheBombDmgStored != null)
+            {
+                enemyTheBombDmgStored.Clear();
+            }
+            if (enemyTheBombCoroutine != null)
+            {
+                enemyTheBombCoroutine.Clear();
+            }
         }
 
         private void OnPostProcessProjectile(BeamController beam, SpeculativeRigidbody hitRigidbody, float tickrate)
@@ -86,7 +95,7 @@ namespace LOLItems.passive_items
                 //Plugin.Log("target = null");
                 return;
             }
-            if (hitRigidbody.healthHaver.IsAlive)
+            if (hitRigidbody.healthHaver != null && hitRigidbody.healthHaver.IsAlive)
             {
                 float dmgToStore = beam.Gun.DefaultModule.projectiles[0].baseData.damage * TheBombDmgScale * tickrate;
                 if (hitRigidbody.healthHaver.IsBoss || hitRigidbody.healthHaver.IsSubboss)
@@ -160,7 +169,7 @@ namespace LOLItems.passive_items
                         //Plugin.Log("target = null");
                         return;
                     }
-                    if (enemy.healthHaver.IsAlive)
+                    if (enemy.healthHaver != null && enemy.healthHaver.IsAlive)
                     {
                         float dmgToStore = projHit.baseData.damage * TheBombDmgScale;
                         if (enemy.healthHaver.IsBoss || enemy.healthHaver.IsSubboss)

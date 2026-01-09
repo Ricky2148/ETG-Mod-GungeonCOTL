@@ -142,8 +142,11 @@ namespace LOLItems
             base.DisableEffect(player);
             Plugin.Log($"Player dropped or got rid of {this.EncounterNameOrDisplayName}");
 
-            player.OnNewFloorLoaded -= OnLoadedNewFloor;
-            player.healthHaver.OnHealthChanged -= UpdateImmolateStats;
+            if (player != null)
+            {
+                player.OnNewFloorLoaded -= OnLoadedNewFloor;
+                player.healthHaver.OnHealthChanged -= UpdateImmolateStats;
+            }
 
             if (activeVFXObject != null)
             {

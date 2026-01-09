@@ -61,7 +61,10 @@ namespace LOLItems
             base.DisableEffect(player);
             Plugin.Log($"Player dropped or got rid of {this.EncounterNameOrDisplayName}");
 
-            player.healthHaver.OnDamaged -= OnPlayerDamaged;
+            if (player != null)
+            {
+                player.healthHaver.OnDamaged -= OnPlayerDamaged;
+            }
         }
 
         // checks for seperate radius around player to deal damage to enemies

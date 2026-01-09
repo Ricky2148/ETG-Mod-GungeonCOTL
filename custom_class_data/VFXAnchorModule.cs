@@ -14,7 +14,16 @@ namespace LOLItems.custom_class_data
 
         private void Update()
         {
-            base.gameObject.transform.position = anchorAIActor.specRigidbody.UnitBottomCenter.ToVector3ZUp() + offset;
+            if (anchorAIActor != null)
+            {
+                base.gameObject.transform.position = anchorAIActor.specRigidbody.UnitBottomCenter.ToVector3ZUp() + offset;
+                base.gameObject.GetComponent<tk2dSprite>().UpdateZDepth();
+
+                if (!anchorAIActor.healthHaver.IsAlive)
+                {
+                    Destroy(base.gameObject);
+                }
+            }
         }
     }
 }

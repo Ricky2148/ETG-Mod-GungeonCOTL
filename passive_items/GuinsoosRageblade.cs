@@ -73,7 +73,10 @@ namespace LOLItems
             base.DisableEffect(player);
             Plugin.Log($"Player dropped or got rid of {this.EncounterNameOrDisplayName}");
 
-            player.PostProcessProjectile -= OnPostProcessProjectile;
+            if (player != null)
+            {
+                player.PostProcessProjectile -= OnPostProcessProjectile;
+            }
             phantomHitCount = 0; // Reset the count when the item is dropped
             //player.OnReloadedGun -= OnGunReloaded;
         }

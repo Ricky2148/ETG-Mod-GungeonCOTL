@@ -72,10 +72,13 @@ namespace LOLItems
             base.DisableEffect(player);
             Plugin.Log($"Player dropped or got rid of {this.EncounterNameOrDisplayName}");
 
-            player.PostProcessProjectile -= OnPostProcessProjectile;
-            player.PostProcessBeamTick -= OnPostProcessProjectile;
-            //player.OnReloadedGun -= OnGunReloaded;
-            bringItDownCount = 0; // Reset the count when the item is dropped
+            if (player != null)
+            {
+                player.PostProcessProjectile -= OnPostProcessProjectile;
+                player.PostProcessBeamTick -= OnPostProcessProjectile;
+                //player.OnReloadedGun -= OnGunReloaded;
+                bringItDownCount = 0; // Reset the count when the item is dropped
+            }
         }
 
         // returns a float value representing the damage scale for the current floor

@@ -61,7 +61,11 @@ namespace LOLItems
             base.DisableEffect(player);
             Plugin.Log($"Player dropped or got rid of {this.EncounterNameOrDisplayName}");
             // Stop all coroutines when the item is dropped
-            player.StopAllCoroutines();
+            
+            if (player != null)
+            {
+                player.StopAllCoroutines();
+            }
         }
 
         // coroutine starts as soon as item is picked up

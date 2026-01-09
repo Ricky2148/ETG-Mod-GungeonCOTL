@@ -59,7 +59,10 @@ namespace LOLItems.passive_items
             base.DisableEffect(player);
             Plugin.Log($"Player dropped or got rid of {this.EncounterNameOrDisplayName}");
 
-            player.OnAnyEnemyReceivedDamage -= KillEnemyCount;
+            if (player != null)
+            {
+                player.OnAnyEnemyReceivedDamage -= KillEnemyCount;
+            }
         }
 
         private void KillEnemyCount(float damage, bool fatal, HealthHaver enemy)

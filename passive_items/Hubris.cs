@@ -55,8 +55,11 @@ namespace LOLItems
             base.DisableEffect(player);
             Plugin.Log($"Player dropped or got rid of {this.EncounterNameOrDisplayName}");
 
-            //player.OnKilledEnemy -= KillEnemyCount;
-            player.OnAnyEnemyReceivedDamage -= KillEnemyCount;
+            if (player != null)
+            {
+                //player.OnKilledEnemy -= KillEnemyCount;
+                player.OnAnyEnemyReceivedDamage -= KillEnemyCount;
+            }
         }
 
         // removes current damage modifier, increments damage increase count, and adds new damage modifier

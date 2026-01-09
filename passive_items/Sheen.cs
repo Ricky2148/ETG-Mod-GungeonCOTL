@@ -55,8 +55,12 @@ namespace LOLItems.passive_items
             base.DisableEffect(player);
             Plugin.Log($"Player dropped or got rid of {this.EncounterNameOrDisplayName}");
 
-            player.OnReloadedGun -= OnGunReloaded;
-            player.PostProcessProjectile -= OnPostProcessProjectile;
+            if (player != null)
+            {
+                player.OnReloadedGun -= OnGunReloaded;
+                player.PostProcessProjectile -= OnPostProcessProjectile;
+            }
+            
             shouldApplySpellblade = false;
         }
 

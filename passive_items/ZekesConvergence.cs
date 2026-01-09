@@ -132,12 +132,15 @@ namespace LOLItems.passive_items
             base.DisableEffect(player);
             Plugin.Log($"Player dropped or got rid of {this.EncounterNameOrDisplayName}");
 
-            if (activeVFXObject != null )
+            if (activeVFXObject != null)
             {
                 Destroy(activeVFXObject);
             }
 
-            player.OnUsedPlayerItem -= ActivateFrostFireTempest;
+            if (player != null)
+            {
+                player.OnUsedPlayerItem -= ActivateFrostFireTempest;
+            }
         }
 
         // updates the immolate stats based on the player's current health

@@ -129,10 +129,13 @@ namespace LOLItems.passive_items
         public override void DisableEffect(PlayerController player)
         {
             base.DisableEffect(player);
-            Plugin.Log($"Player dropped or got rid of {this.EncounterNameOrDisplayName}");
+            Plugin.Log($"Player dropped or got rid of {base.EncounterNameOrDisplayName}");
 
-            player.PostProcessProjectile -= OnPostProcessProjectile;
-            player.PostProcessBeamTick -= OnPostProcessProjectile;
+            if (player != null)
+            {
+                player.PostProcessProjectile -= OnPostProcessProjectile;
+                player.PostProcessBeamTick -= OnPostProcessProjectile;
+            }
         }
 
         private void OnPostProcessProjectile(BeamController beam, SpeculativeRigidbody hitRigidbody, float tickrate)
@@ -318,7 +321,7 @@ namespace LOLItems.passive_items
                     {
                         return;
                     }
-                    if (enemy.healthHaver != null)
+                    if (enemy.healthHaver != null && enemy.healthHaver.IsAlive)
                     {
                         if (targetEnemy != lastHitEnemy)
                         {
@@ -348,15 +351,17 @@ namespace LOLItems.passive_items
 
                                 if (sprite != null)
                                 {
-                                    sprite.HeightOffGround = -1f;
+                                    sprite.HeightOffGround = -10f;
                                     sprite.UpdateZDepth();
+
+                                    sprite.scale *= Mathf.Max(1f, 1f + ((targetEnemy.specRigidbody.UnitDimensions.x - 1f) / 2f));
+                                    Plugin.Log($"UnitDimensions.x: {targetEnemy.specRigidbody.UnitDimensions.x}, scale mult: {sprite.scale}");
                                 }
 
                                 activeVFXObject.GetComponent<VFXAnchorModule>().anchorAIActor = targetEnemy;
                                 activeVFXObject.GetComponent<VFXAnchorModule>().offset = vfxOffset;
 
-                                Plugin.Log($"specRigidbody.UnitCenter: {targetEnemy.specRigidbody.UnitCenter.ToVector3ZUp()}, specRigidbody.UnitDimensions: {targetEnemy.specRigidbody.UnitDimensions}, " +
-                                    $"specRigidbody.UnitBottomCenter: {targetEnemy.specRigidbody.UnitBottomCenter.ToVector3ZUp()}");
+                                //Plugin.Log($"specRigidbody.UnitCenter: {targetEnemy.specRigidbody.UnitCenter.ToVector3ZUp()}, specRigidbody.UnitDimensions: {targetEnemy.specRigidbody.UnitDimensions}, specRigidbody.UnitBottomCenter: {targetEnemy.specRigidbody.UnitBottomCenter.ToVector3ZUp()}");
 
                                 /*GameObject gameObject = SpawnManager.SpawnVFX(EffectVFX);
                                 tk2dBaseSprite component = gameObject.GetComponent<tk2dBaseSprite>();
@@ -375,14 +380,17 @@ namespace LOLItems.passive_items
                             case 2:
                                 //Plugin.Log($"{silverBoltsCount}");
                                 //activeVFXObject = targetEnemy.PlayEffectOnActor(SecondEffectVFX, new Vector3(-500 / 16f, 4 / 16f, 0f), true, false, false);
-                                activeVFXObject = UnityEngine.Object.Instantiate(EffectVFX, targetEnemy.specRigidbody.UnitBottomCenter.ToVector3ZUp() + vfxOffset, Quaternion.identity);
+                                activeVFXObject = UnityEngine.Object.Instantiate(SecondEffectVFX, targetEnemy.specRigidbody.UnitBottomCenter.ToVector3ZUp() + vfxOffset, Quaternion.identity);
 
                                 sprite = activeVFXObject.GetComponent<tk2dSprite>();
 
                                 if (sprite != null)
                                 {
-                                    sprite.HeightOffGround = -2f;
+                                    sprite.HeightOffGround = -10f;
                                     sprite.UpdateZDepth();
+
+                                    sprite.scale *= Mathf.Max(1f, 1f + ((targetEnemy.specRigidbody.UnitDimensions.x - 1f) / 2f));
+                                    Plugin.Log($"UnitDimensions.x: {targetEnemy.specRigidbody.UnitDimensions.x}, scale mult: {sprite.scale}");
                                 }
 
                                 activeVFXObject.GetComponent<VFXAnchorModule>().anchorAIActor = targetEnemy;
@@ -409,7 +417,7 @@ namespace LOLItems.passive_items
                                     damageToDeal *= 0.25f;
                                 }
 
-                                damageToDeal = 0;
+                                //damageToDeal = 0;
 
                                 // calculates additional extra damage to apply to enemy
                                 enemy.healthHaver.ApplyDamage(
@@ -418,7 +426,8 @@ namespace LOLItems.passive_items
                                     "silver_bolts_damage",
                                     CoreDamageTypes.None,
                                     DamageCategory.Normal,
-                                    false
+                                    ignoreDamageCaps: true,
+                                    ignoreInvulnerabilityFrames: false
                                 );
                                 //Plugin.Log($"damage dealt: {damageToDeal}");
                                 silverBoltsCount = 0;

@@ -66,7 +66,10 @@ namespace LOLItems
             base.DisableEffect(player);
             Plugin.Log($"Player dropped or got rid of {this.EncounterNameOrDisplayName}");
 
-            player.OnUsedPlayerItem -= OnPlayerItemUsed;
+            if (player != null)
+            {
+                player.OnUsedPlayerItem -= OnPlayerItemUsed;
+            }
         }
 
         private void OnPlayerItemUsed(PlayerController player, PlayerItem item)

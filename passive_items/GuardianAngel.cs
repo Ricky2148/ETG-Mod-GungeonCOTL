@@ -63,7 +63,10 @@ namespace LOLItems
             base.DisableEffect(player);
             Plugin.Log($"Player dropped or got rid of {this.EncounterNameOrDisplayName}");
 
-            player.healthHaver.OnPreDeath -= Rebirth;
+            if (player != null)
+            {
+                player.healthHaver.OnPreDeath -= Rebirth;
+            }
         }
 
         private void Rebirth(Vector2 DeathPositon)
