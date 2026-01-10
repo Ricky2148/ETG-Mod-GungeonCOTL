@@ -7,6 +7,7 @@ using Alexandria;
 using Alexandria.ItemAPI;
 using Alexandria.Misc;
 using LOLItems.custom_class_data;
+using JetBrains.Annotations;
 
 // missles wont have missing health scaling (too fucking annoying)
 
@@ -19,6 +20,8 @@ namespace LOLItems.active_items
         private static float RateOfFireStat = 1.2f;
         private static float CloudburstBaseDamage = 10f;
         private static float CloudburstCooldown = 90f;
+
+        private bool playerHasFlight = false;
 
         public Projectile CloudburstProjectile = (PickupObjectDatabase.GetById((int)Items.YariLauncher) as Gun)
             .DefaultModule.projectiles[0].InstantiateAndFakeprefab();
@@ -62,6 +65,7 @@ namespace LOLItems.active_items
         {
             base.Pickup(player);
             Plugin.Log($"Player picked up {this.EncounterNameOrDisplayName}");
+            //Plugin.Log($"isFlying: {player.IsFlying}");
         }
 
         public DebrisObject Drop(PlayerController player)
@@ -157,7 +161,24 @@ namespace LOLItems.active_items
             // dash in last input player direction
             Vector2 angle = player.m_lastNonzeroCommandedDirection.normalized;
             //float angle = player.CurrentGun.CurrentAngle;
-            
+
+            player.healthHaver.TriggerInvulnerabilityPeriod(duration);
+
+            Material mat = SpriteOutlineManager.GetOutlineMaterial(player.sprite);
+            if (!player.IsFlying)
+            {
+                player.FallingProhibited = true;
+                if (mat)
+                {
+                    mat.SetColor("_OverrideColor", new Color(102f * 0.3f, 255f * 0.3f, 255f * 0.3f));
+                }
+                playerHasFlight = false;
+                //Plugin.Log($"isFlying: {player.IsFlying}");
+            }
+            else
+            {
+                playerHasFlight = true;
+            }
             //for duration of dash, set player velocity to dash speed and angle to last input angle
             while (elapsed < duration)
             {
@@ -165,6 +186,16 @@ namespace LOLItems.active_items
                 player.specRigidbody.Velocity = angle * adjSpeed;
                 //this.LastOwner.specRigidbody.Velocity = BraveMathCollege.DegreesToVector(angle).normalized * adjSpeed;
                 yield return null;
+            }
+
+            if (!playerHasFlight)
+            {
+                player.FallingProhibited = false;
+                if (mat)
+                {
+                    mat.SetColor("_OverrideColor", new Color(0f, 0f, 0f));
+                }
+                //Plugin.Log($"isFlying: {player.IsFlying}");
             }
 
             // make the projectiles spawn in a spread pattern

@@ -9,9 +9,9 @@ namespace LOLItems.passive_items
 {
     internal class Cull : PassiveItem
     {
-        private static int ReapKillThreshold = 4;
-        private static int ReapCountMax = 100;
-        private static int ReapCountMaxMoney = 25;
+        private static int ReapKillThreshold = 5;
+        private static int ReapCountMax = 200;
+        private static int ReapCountMaxMoney = 15;
         private bool ReapCountMaxReached = false;
 
         private int ReapCount = 0;
@@ -30,14 +30,14 @@ namespace LOLItems.passive_items
             ItemBuilder.AddSpriteToObject(itemName, resourceName, obj);
 
             string shortDesc = "\"full clearing\"";
-            string longDesc = "Drops an extra casing every few kills. After enough kills, drops a lump sum of casings and stop getting extra casings.\n\n" +
+            string longDesc = "Drops an extra casing every few kills. After enough kills, drops a one time lump sum of casings.\n\n" +
                 "A simple worn-out scythe used by many to farm crops. Farming enemies seems more efficient now.\n";
 
             ItemBuilder.SetupItem(item, shortDesc, longDesc, "LOLItems");
 
             item.quality = PickupObject.ItemQuality.D;
 
-            item.UsesCustomCost = true;
+            item.UsesCustomCost = false;
             item.CustomCost = 20;
 
             ID = item.PickupObjectId;
@@ -48,10 +48,11 @@ namespace LOLItems.passive_items
             base.Pickup(player);
             Plugin.Log($"Player picked up {this.EncounterNameOrDisplayName}");
 
-            if (!ReapCountMaxReached)
+            /*if (!ReapCountMaxReached)
             {
                 player.OnAnyEnemyReceivedDamage += KillEnemyCount;
-            }
+            }*/
+            player.OnAnyEnemyReceivedDamage += KillEnemyCount;
         }
 
         public override void DisableEffect(PlayerController player)
@@ -78,10 +79,10 @@ namespace LOLItems.passive_items
                     LootEngine.SpawnCurrency(enemy.specRigidbody.UnitCenter, 1, false);
                 }
 
-                if (ReapCount >= ReapCountMax)
+                if (ReapCount >= ReapCountMax && !ReapCountMaxReached)
                 {
                     LootEngine.SpawnCurrency(enemy.specRigidbody.UnitCenter, ReapCountMaxMoney, false);
-                    Owner.OnAnyEnemyReceivedDamage -= KillEnemyCount;
+                    //Owner.OnAnyEnemyReceivedDamage -= KillEnemyCount;
                     ReapCountMaxReached = true;
                 }
             }
