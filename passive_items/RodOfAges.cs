@@ -22,6 +22,8 @@ namespace LOLItems
 
         private static float EternityAmmoRestorePercent = 0.25f;
 
+        public bool secondSynergyActivated = false;
+
         public static int ID;
 
         public static void Init()
@@ -46,6 +48,25 @@ namespace LOLItems
 
             item.quality = PickupObject.ItemQuality.B;
             ID = item.PickupObjectId;
+
+            List<string> mandatoryConsoleIDs = new List<string>
+            {
+                "LOLItems:rod_of_ages",
+                "macho_brace"
+            };
+            CustomSynergies.Add("Training Up!", mandatoryConsoleIDs, null, true);
+
+            List<string> mandatoryConsoleIDs2 = new List<string>
+            {
+                "LOLItems:rod_of_ages"
+            };
+            List<string> optionalConsoleIDs2 = new List<string>
+            {
+                "old_knights_shield",
+                "old_knights_helm",
+                "old_knights_flask",
+            };
+            CustomSynergies.Add("Age Old Wisdom", mandatoryConsoleIDs2, optionalConsoleIDs2, true);
         }
 
         public override void Pickup(PlayerController player)
@@ -68,6 +89,29 @@ namespace LOLItems
             }
         }
 
+        public override void Update()
+        {
+            if (Owner != null)
+            {
+                if (Owner.PlayerHasActiveSynergy("Age Old Wisdom") && !secondSynergyActivated)
+                {
+                    ItemBuilder.AddPassiveStatModifier(this, PlayerStats.StatType.Damage, TimelessDamageIncreaseMax, StatModifier.ModifyMethod.MULTIPLICATIVE);
+                    //Plugin.Log($"postprocessproj on");
+
+                    secondSynergyActivated = true;
+                }
+                else if (!Owner.PlayerHasActiveSynergy("Age Old Wisdom") && secondSynergyActivated)
+                {
+                    ItemBuilder.RemovePassiveStatModifier(this, PlayerStats.StatType.Damage);
+                    //Plugin.Log($"postprocessproj off");
+
+                    secondSynergyActivated = false;
+                }
+            }
+
+            base.Update();
+        }
+
         // coroutine starts as soon as item is picked up
         private System.Collections.IEnumerator TimelessStackingTracker(PlayerController player)
         {
@@ -75,7 +119,14 @@ namespace LOLItems
             while (TimelessStackCount * TimelessIncrementValue < TimelessIncreaseMax)
             {
                 // wait timer
-                yield return new WaitForSeconds(TimelessIncrementTimeInterval);
+                if (player.PlayerHasActiveSynergy("Training Up!"))
+                {
+                    yield return new WaitForSeconds(TimelessIncrementTimeInterval / 2f);
+                }
+                else
+                {
+                    yield return new WaitForSeconds(TimelessIncrementTimeInterval);
+                }
 
                 // reset current stat mods
                 ItemBuilder.RemovePassiveStatModifier(this, PlayerStats.StatType.Damage);
@@ -112,6 +163,10 @@ namespace LOLItems
                 if (!gun.InfiniteAmmo && gun.CanGainAmmo)
                 {
                     int ammoToGain = Mathf.CeilToInt((float)gun.AdjustedMaxAmmo * EternityAmmoRestorePercent);
+                    if (source.PlayerHasActiveSynergy("Age Old Wisdom"))
+                    {
+                        ammoToGain *= 2;
+                    }
                     gun.GainAmmo(ammoToGain);
                 }
             }

@@ -1,10 +1,13 @@
-﻿using System;
+﻿using Alexandria;
+using Alexandria.ItemAPI;
+using LOLItems.custom_class_data;
+using LOLItems.passive_items;
+using Steamworks;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using UnityEngine;
-using Alexandria.ItemAPI;
-using Alexandria;
 
 // increase rarity, nerf execute gold amount with rng chance instead of guarantee
 // increase execute threshold maybe
@@ -19,6 +22,11 @@ namespace LOLItems
         private static float DeathGoldChance = 0.30f;
 
         private static float ExecuteThreshold = 0.15f;
+
+        public bool firstSynergyActivated = false;
+        public bool secondSynergyActivated = false;
+        public bool thirdSynergyActivated = false;
+        public bool fourthSynergyActivated = false;
 
         public static int ID;
 
@@ -44,6 +52,38 @@ namespace LOLItems
 
             item.quality = PickupObject.ItemQuality.A;
             ID = item.PickupObjectId;
+
+            List<string> mandatoryConsoleIDs = new List<string>
+            {
+                "LOLItems:the_collector"
+            };
+            List<string> optionalConsoleIDs = new List<string>
+            {
+                "loot_bag",
+                "briefcase_of_cash"
+            };
+            CustomSynergies.Add("Return on Investment", mandatoryConsoleIDs, optionalConsoleIDs, true);
+
+            List<string> mandatoryConsoleIDs2 = new List<string>
+            {
+                "LOLItems:the_collector",
+                "fortunes_favor"
+            };
+            CustomSynergies.Add("Stroke of Luck", mandatoryConsoleIDs2, null, true);
+
+            List<string> mandatoryConsoleIDs3 = new List<string>
+            {
+                "LOLItems:the_collector",
+                "daruma"
+            };
+            CustomSynergies.Add("An offering", mandatoryConsoleIDs3, null, true);
+
+            List<string> mandatoryConsoleIDs4 = new List<string>
+            {
+                "LOLItems:the_collector",
+                "chance_bullets"
+            };
+            CustomSynergies.Add("Better RNG", mandatoryConsoleIDs4, null, true);
         }
 
         public override void Pickup(PlayerController player)
@@ -54,6 +94,7 @@ namespace LOLItems
             player.PostProcessProjectile += OnPostProcessProjectile;
             player.PostProcessBeamTick += OnPostProcessProjectile;
             player.OnKilledEnemyContext += DeathGoldDrop;
+            player.OnUsedPlayerItem += DarumaGoldDrop;
         }
 
         public override void DisableEffect(PlayerController player)
@@ -66,7 +107,43 @@ namespace LOLItems
                 player.PostProcessProjectile -= OnPostProcessProjectile;
                 player.PostProcessBeamTick -= OnPostProcessProjectile;
                 player.OnKilledEnemyContext -= DeathGoldDrop;
+                player.OnUsedPlayerItem -= DarumaGoldDrop;
             }
+        }
+
+        public override void Update()
+        {
+            if (Owner != null)
+            {
+                if (Owner.PlayerHasActiveSynergy("Return on Investment") && !firstSynergyActivated)
+                {
+                    DeathGoldStat++;
+
+                    firstSynergyActivated = true;
+                }
+                else if (!Owner.PlayerHasActiveSynergy("Return on Investment") && firstSynergyActivated)
+                {
+                    DeathGoldStat = 1;
+
+                    firstSynergyActivated = false;
+                }
+
+                if (Owner.PlayerHasActiveSynergy("Better RNG") && !fourthSynergyActivated)
+                {
+                    DeathGoldChance = 0.75f;
+                    //Plugin.Log("synergy 4 activate");
+
+                    fourthSynergyActivated = true;
+                }
+                else if (!Owner.PlayerHasActiveSynergy("Better RNG") && fourthSynergyActivated)
+                {
+                    DeathGoldChance = 0.3f;
+
+                    fourthSynergyActivated = false;
+                }
+            }
+
+            base.Update();
         }
 
         // executes enemies below 5% health
@@ -135,8 +212,29 @@ namespace LOLItems
         {
             enemy.healthHaver.OnDeath += (obj) =>
             {
+                if (player.PlayerHasActiveSynergy("Stroke of Luck"))
+                {
+                    foreach (PlayerItem item in player.activeItems)
+                    {
+                        if (item.PickupObjectId == (int)Items.FortunesFavor && item != null && item.IsCurrentlyActive)
+                        {
+                            //Plugin.Log($"synergy 2 fortunes favor work");
+                            if (enemy.healthHaver.IsBoss || enemy.healthHaver.IsSubboss)
+                            {
+                                LootEngine.SpawnCurrency(enemy.specRigidbody.UnitCenter, DeathGoldStat * 20);
+                            }
+                            else
+                            {
+                                LootEngine.SpawnCurrency(enemy.specRigidbody.UnitCenter, DeathGoldStat * 2);
+                            }
+                            return;
+                        }
+                    }
+                }
+
                 if (UnityEngine.Random.value < DeathGoldChance)
                 {
+                    //Plugin.Log($"randVal: {randVal}, goldChance: {DeathGoldChance}");
                     if (enemy.healthHaver.IsBoss || enemy.healthHaver.IsSubboss)
                     {
                         LootEngine.SpawnCurrency(enemy.specRigidbody.UnitCenter, DeathGoldStat * 10);
@@ -147,6 +245,25 @@ namespace LOLItems
                     }
                 }
             };
+        }
+
+        private void DarumaGoldDrop(PlayerController player, PlayerItem item)
+        {
+            //Plugin.Log("daruma attempt");
+            if (player != null && item != null)
+            {
+                if (Owner.PlayerHasActiveSynergy("An offering"))
+                {
+                    if (item.PickupObjectId == (int)Items.Daruma)
+                    {
+                        //Plugin.Log($"synergy 3 daruma work");
+                        if (UnityEngine.Random.value < DeathGoldChance)
+                        {
+                            LootEngine.SpawnCurrency(Owner.specRigidbody.UnitCenter, DeathGoldStat * 3);
+                        }
+                    }
+                }
+            }
         }
     }
 }

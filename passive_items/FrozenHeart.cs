@@ -21,6 +21,9 @@ namespace LOLItems
         private static float WintersCaressCrippleRatio = 0.7f;
         private static float WintersCaressRange = 8f;
 
+        public bool firstSynergyActivated = false;
+        public bool secondSynergyActivated = false;
+
         public static int ID;
 
         private static GameActorCrippleEffect WintersCaressCrippleEffect = new GameActorCrippleEffect
@@ -35,7 +38,7 @@ namespace LOLItems
 
         public static void Init()
         {
-            string itemName = "Frozen Heart-LOLItems";
+            string itemName = "Frozen Heart LOLItems";
             string resourceName = "LOLItems/Resources/passive_item_sprites/frozen_heart_pixelart_sprite";
 
             GameObject obj = new GameObject(itemName);
@@ -59,18 +62,105 @@ namespace LOLItems
 
             item.SetName("Frozen Heart");
             ID = item.PickupObjectId;
+
+            List<string> mandatoryConsoleIDs = new List<string>
+            {
+                "LOLItems:frozen_heart_lolitems"
+            };
+            List<string> optionalConsoleIDs = new List<string>
+            {
+                "frost_bullets",
+                "snowballets",
+                "heart_of_ice"
+            };
+            CustomSynergies.Add("Ice to the core", mandatoryConsoleIDs, optionalConsoleIDs, true);
+
+            List<string> mandatoryConsoleIDs2 = new List<string>
+            {
+                "LOLItems:frozen_heart_lolitems"
+            };
+            List<string> optionalConsoleIDs2 = new List<string>
+            {
+                "cold_45",
+                "frost_giant",
+                "freeze_ray",
+                "glacier",
+                "snowballer"
+            };
+            CustomSynergies.Add("Frozen Bullets", mandatoryConsoleIDs2, optionalConsoleIDs2, true);
         }
 
         public override void Pickup(PlayerController player)
         {
             base.Pickup(player);
             Plugin.Log($"Player picked up {this.EncounterNameOrDisplayName}");
+
+            /*if (player != null)
+            {
+                if (player.PlayerHasActiveSynergy("bullets apply cripple"))
+                {
+                    player.PostProcessProjectile += OnPostProcessProjectile;
+                    secondSynergyActivated = true;
+                }
+            }*/
+
+            //firstSynergyActivated = false;
+            //secondSynergyActivated = false;
         }
 
         public override void DisableEffect(PlayerController player)
         {
             base.DisableEffect(player);
             Plugin.Log($"Player dropped or got rid of {this.EncounterNameOrDisplayName}");
+
+            /*if (player != null)
+            {
+                if (secondSynergyActivated)
+                {
+                    player.PostProcessProjectile -= OnPostProcessProjectile;
+                }
+            }*/
+
+            //firstSynergyActivated = false;
+            //secondSynergyActivated = false;
+        }
+
+        public override void Update()
+        {
+            if (Owner != null)
+            {
+                if (Owner.PlayerHasActiveSynergy("Ice to the core") && !firstSynergyActivated)
+                {
+                    WintersCaressCrippleEffect.CrippleAmount = 1f - ((1f - WintersCaressCrippleRatio) * 1.5f);
+                    //Plugin.Log($"{WintersCaressCrippleEffect.CrippleAmount}");
+
+                    firstSynergyActivated = true;
+                }
+                else if (!Owner.PlayerHasActiveSynergy("Ice to the core") && firstSynergyActivated)
+                {
+                    WintersCaressCrippleEffect.CrippleAmount = WintersCaressCrippleRatio;
+                    //Plugin.Log($"{WintersCaressCrippleEffect.CrippleAmount}");
+
+                    firstSynergyActivated = false;
+                }
+
+                if (Owner.PlayerHasActiveSynergy("Frozen Bullets") && !secondSynergyActivated)
+                {
+                    Owner.PostProcessProjectile += OnPostProcessProjectile;
+                    //Plugin.Log($"postprocessproj on");
+
+                    secondSynergyActivated = true;
+                }
+                else if (!Owner.PlayerHasActiveSynergy("Frozen Bullets") && secondSynergyActivated)
+                {
+                    Owner.PostProcessProjectile -= OnPostProcessProjectile;
+                    //Plugin.Log($"postprocessproj off");
+
+                    secondSynergyActivated = false;
+                }
+            }
+
+            base.Update();
         }
 
         public override void DoAura()
@@ -85,6 +175,20 @@ namespace LOLItems
                 {
                     //WintersCaressCrippleEffect.CrippleAmount = WintersCaressCrippleRatio;
                     //WintersCaressCrippleEffect.CrippleDuration = 0.5f;
+                    /*if (Owner.PlayerHasActiveSynergy("cripple amount increased") && !firstSynergyActivated)
+                    {
+                        WintersCaressCrippleEffect.CrippleAmount = 1f - ((1f - WintersCaressCrippleRatio) * 2f);
+                        Plugin.Log($"{WintersCaressCrippleEffect.CrippleAmount}");
+
+                        firstSynergyActivated = true;
+                    }
+                    else if (!Owner.PlayerHasActiveSynergy("cripple amount increased") && firstSynergyActivated)
+                    {
+                        WintersCaressCrippleEffect.CrippleAmount = WintersCaressCrippleRatio;
+                        Plugin.Log($"{WintersCaressCrippleEffect.CrippleAmount}");
+
+                        firstSynergyActivated = false;
+                    }*/
                     actor.ApplyEffect(WintersCaressCrippleEffect);
                 };
             }
@@ -95,6 +199,26 @@ namespace LOLItems
             if (didDamageEnemies)
             {
                 m_owner.DidUnstealthyAction();
+            }
+        }
+
+        private void OnPostProcessProjectile (Projectile proj, float f)
+        {
+            //if (!Owner.PlayerHasActiveSynergy("bullets apply cripple")) return;
+            if (proj.Shooter == proj.Owner.specRigidbody)
+            {
+                proj.OnHitEnemy += (projHit, enemy, fatal) =>
+                {
+                    if (enemy == null) return;
+                    if (enemy.aiActor != null)
+                    {
+                        enemy.aiActor.ApplyEffect(WintersCaressCrippleEffect);
+                    }
+                    else if (enemy.GetComponentInParent<AIActor>() != null)
+                    {
+                        enemy.GetComponentInParent<AIActor>().ApplyEffect(WintersCaressCrippleEffect);
+                    }
+                };
             }
         }
     }

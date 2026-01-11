@@ -48,7 +48,7 @@ namespace LOLItems
 
             _Harmony = new Harmony(GUID);
             //_Harmony.PatchAll(Assembly.GetExecutingAssembly());
-            
+
             /*
             if (_Harmony == null)
             {
@@ -61,6 +61,8 @@ namespace LOLItems
                 //_Harmony.PatchAll(Assembly.GetExecutingAssembly());
             }
             */
+
+            Whisper.Add();
 
             BladeOfTheRuinedKing.Init();
             ExperimentalHexplate.Init();
@@ -104,7 +106,7 @@ namespace LOLItems
             HextechRifle.Add();
             ElectricRifle.Add();
             PrayerBeads.Add();
-            Whisper.Add();
+            //Whisper.Add();
             Crossblade.Add();
             VirtueForm1.Add();
             VirtueForm2.Add();

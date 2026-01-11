@@ -26,6 +26,11 @@ Shield of Molten Stone (B):
 The Collector (A):
 - Stats: 1.1x DMG
 - Effect: All bullets execute enemies below 15% max health. 30% chance to drop 1 extra casing on kill.
+- Synergies:
+	+ Loot Bag/Briefcase of Cash: Increase casing drop by 1
+	+ Fortune's Favor: Guaranteed casing drop and doubled casing amount while fortune's favor's effect is active
+	+ Daruma: Triggers chance to gain tripled casing amount on daruma use
+	+ Chance Bullets: Increase casing drop chance to 75%
 
 ![](https://i.ibb.co/Ds44Y5F/cull-pixelart-sprite.png)
 Cull (D):
@@ -44,6 +49,9 @@ Fated Ashes (D):
 Frozen Heart (B):
 - Stats: 1 Armor
 - Effect: Applies a 30% cripple to nearby enemies. Cripple: slows target's ROF by certain amount.
+- Synergies:
+	+ Frost Bullets/Snowballets/Heart of Ice: Cripple increases to 45%
+	+ Cold 45/Frost Giant/Freeze Ray/Glacier/Snowballer: Bullets also apply cripple
 
 ![](https://i.ibb.co/XrCRPYWp/guardian-angel-pixelart-sprite-small.png)
 Guardian Angel (S):
@@ -97,6 +105,9 @@ Puppeteer (B):
 ![](https://i.ibb.co/gLXQC0Xw/rod-of-ages-pixelart-sprite-outline.png)
 Rod of Ages (B):
 - Effect: Every 120s, gain a stack of Timeless. Each Timeless stack provides 2% inc DMG, 5% inc Max Ammo Capacity, and 5% inc Max Clip Size. Stacks up to 15 times. When reaching max stacks, provides an extra heart and the Eternity effect. Eternity: when damaged, restores 25% ammo to player's all weapons.
+- Synergies:
+	+ Macho Brace: Halved stack gain delay
+	+ Old Knight's Shield/Helm/Flask: 30% damage increase and double Eternity effect
 
 ![](https://i.ibb.co/LXv3XQrM/rylais-crystal-scepter-pixelart-sprite-outline.png)
 Rylai's Crystal Scepter (C):
@@ -136,7 +147,10 @@ Zeke's Convergence (B):
 ![](https://i.ibb.co/nNnjs75f/galeforce-pixelart-sprite.png)
 Galeforce (A):
 - Stats: 1.25x DMG, 1.2x ROF
-- Effect: Dash in the aimed direction, firing 3 homing missiles at the end. Each missile deals 10 damage and is affected by player damage modifiers. Goes on a 90s cooldown.
+- Effect: Dash (invincible and floating during the dash: dodgeroll properties) in the aimed direction, firing 3 homing missiles at the end. Each missile deals 10 damage and is affected by player damage modifiers. Goes on a 90s cooldown.
+- Synergies:
+	+ Whisper: Missiles deal 2.5x damage
+	+ Bow/Charmed Bow/Gunbow: Halved cooldown
 
 ![](https://i.ibb.co/xtgHCPqf/perfectly-timed-stopwatch-pixelart-sprite.png)
 Perfectly Timed Stopwatch (D):
