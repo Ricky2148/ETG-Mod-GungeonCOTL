@@ -15,6 +15,8 @@ namespace LOLItems
 {
     internal class FrozenHeart : AuraItem
     {
+        public static string ItemName = "Frozen Heart LOLItems";
+
         // stats pool for item
         private static int ArmorStat = 1;
 
@@ -38,7 +40,7 @@ namespace LOLItems
 
         public static void Init()
         {
-            string itemName = "Frozen Heart LOLItems";
+            string itemName = ItemName;
             string resourceName = "LOLItems/Resources/passive_item_sprites/frozen_heart_pixelart_sprite";
 
             GameObject obj = new GameObject(itemName);
@@ -63,7 +65,7 @@ namespace LOLItems
             item.SetName("Frozen Heart");
             ID = item.PickupObjectId;
 
-            List<string> mandatoryConsoleIDs = new List<string>
+            /*List<string> mandatoryConsoleIDs = new List<string>
             {
                 "LOLItems:frozen_heart_lolitems"
             };
@@ -87,7 +89,7 @@ namespace LOLItems
                 "glacier",
                 "snowballer"
             };
-            CustomSynergies.Add("Frozen Bullets", mandatoryConsoleIDs2, optionalConsoleIDs2, true);
+            CustomSynergies.Add("Frozen Bullets", mandatoryConsoleIDs2, optionalConsoleIDs2, true);*/
         }
 
         public override void Pickup(PlayerController player)
@@ -129,14 +131,14 @@ namespace LOLItems
         {
             if (Owner != null)
             {
-                if (Owner.PlayerHasActiveSynergy("Ice to the core") && !firstSynergyActivated)
+                if (Owner.HasSynergy(Synergy.ICE_TO_THE_CORE) && !firstSynergyActivated)
                 {
                     WintersCaressCrippleEffect.CrippleAmount = 1f - ((1f - WintersCaressCrippleRatio) * 1.5f);
                     //Plugin.Log($"{WintersCaressCrippleEffect.CrippleAmount}");
 
                     firstSynergyActivated = true;
                 }
-                else if (!Owner.PlayerHasActiveSynergy("Ice to the core") && firstSynergyActivated)
+                else if (!Owner.HasSynergy(Synergy.ICE_TO_THE_CORE) && firstSynergyActivated)
                 {
                     WintersCaressCrippleEffect.CrippleAmount = WintersCaressCrippleRatio;
                     //Plugin.Log($"{WintersCaressCrippleEffect.CrippleAmount}");
@@ -144,14 +146,14 @@ namespace LOLItems
                     firstSynergyActivated = false;
                 }
 
-                if (Owner.PlayerHasActiveSynergy("Frozen Bullets") && !secondSynergyActivated)
+                if (Owner.HasSynergy(Synergy.FROZEN_BULLETS) && !secondSynergyActivated)
                 {
                     Owner.PostProcessProjectile += OnPostProcessProjectile;
                     //Plugin.Log($"postprocessproj on");
 
                     secondSynergyActivated = true;
                 }
-                else if (!Owner.PlayerHasActiveSynergy("Frozen Bullets") && secondSynergyActivated)
+                else if (!Owner.HasSynergy(Synergy.FROZEN_BULLETS) && secondSynergyActivated)
                 {
                     Owner.PostProcessProjectile -= OnPostProcessProjectile;
                     //Plugin.Log($"postprocessproj off");

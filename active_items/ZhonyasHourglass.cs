@@ -14,6 +14,8 @@ namespace LOLItems
 {
     internal class ZhonyasHourglass : PlayerItem
     {
+        public static string ItemName = "Zhonya's Hourglass";
+
         // stats pool for item
         private static float ArmorStat = 2.0f;
         private bool hasGainedArmor = false;
@@ -24,7 +26,7 @@ namespace LOLItems
 
         public static void Init()
         {
-            string itemName = "Zhonya's Hourglass";
+            string itemName = ItemName;
             string resourceName = "LOLItems/Resources/active_item_sprites/zhonyas_hourglass_pixelart_sprite_small";
 
             GameObject obj = new GameObject(itemName);

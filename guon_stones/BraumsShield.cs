@@ -12,6 +12,8 @@ namespace LOLItems.guon_stones
 {
     internal class BraumsShield : AdvancedPlayerOrbitalItem
     {
+        public static string ItemName = "Braum's Shield"; //The name of the item
+
         public static PlayerOrbital orbitalPrefab;
         public static PlayerOrbital upgradeOrbitalPrefab;
 
@@ -19,7 +21,7 @@ namespace LOLItems.guon_stones
 
         public static void Init()
         {
-            string itemName = "Braum's Shield"; //The name of the item
+            string itemName = ItemName;
             string resourceName = "LOLItems/Resources/guon_sprites/braum_shield_sprites/braumshield_icon_001"; //(inventory sprite) MAKE SURE TO CHANGE THE SPRITE PATH TO YOUR MOD'S RESOURCES.
 
             GameObject obj = new GameObject();

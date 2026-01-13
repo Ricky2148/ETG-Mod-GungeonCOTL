@@ -296,7 +296,7 @@ namespace LOLItems.weapons
 
             ItemBuilder.AddCurrentGunStatModifier(gun, PlayerStats.StatType.MovementSpeed, zealSpeedInc, StatModifier.ModifyMethod.MULTIPLICATIVE);
 
-            List<string> mandatoryConsoleIDs = new List<string>
+            /*List<string> mandatoryConsoleIDs = new List<string>
             {
                 "LOLItems:virtueform3",
             };
@@ -307,7 +307,7 @@ namespace LOLItems.weapons
                 "broccoli",
                 "life_orb"
             };
-            AdvancedSynergyEntry ase = CustomSynergies.Add("Exp. Share", mandatoryConsoleIDs, optionalConsoleIDs, true);
+            AdvancedSynergyEntry ase = CustomSynergies.Add("Exp. Share", mandatoryConsoleIDs, optionalConsoleIDs, true);*/
         }
 
         public override void OnPostFired(PlayerController player, Gun gun)

@@ -13,6 +13,8 @@ namespace LOLItems
 {
     internal class Hubris : PassiveItem
     {
+        public static string ItemName = "Hubris";
+
         // stats pool for item
         private int eminenceCount = 0;
         private float eminenceDamageIncrease = 0.005f;
@@ -21,7 +23,7 @@ namespace LOLItems
 
         public static void Init()
         {
-            string itemName = "Hubris";
+            string itemName = ItemName;
             string resourceName = "LOLItems/Resources/passive_item_sprites/hubris_pixelart_sprite_small";
 
             GameObject obj = new GameObject(itemName);

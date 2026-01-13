@@ -13,6 +13,8 @@ namespace LOLItems.passive_items
 {
     internal class ShieldOfMoltenStone : OnPreDamagedPassiveItem
     {
+        public static string ItemName = "Shield of Molten Stone";
+
         private static float HealthStat = 1f;
         private static int ArmorStat = 0;
 
@@ -23,7 +25,7 @@ namespace LOLItems.passive_items
 
         public static void Init()
         {
-            string itemName = "Shield of Molten Stone";
+            string itemName = ItemName;
             string resourceName = "LOLItems/Resources/passive_item_sprites/shield_of_molten_stone_pixelart_sprite_outline";
 
             GameObject obj = new GameObject(itemName);
@@ -62,7 +64,12 @@ namespace LOLItems.passive_items
             base.Pickup(player);
             Plugin.Log($"Player picked up {this.EncounterNameOrDisplayName}");
 
-            if (player.PlayerHasActiveSynergy("Heaven and Earth Combined"))
+            if (!player.HasSynergy(Synergy.HEAVEN_AND_EARTH_COMBINED))
+            {
+                procChance = preDamageProcChance;
+            }
+
+            /*if (player.PlayerHasActiveSynergy("Heaven and Earth Combined"))
             {
                 this.procChance = synergyProcChance;
                 Plugin.Log("Shield of Molten Stone's Synergy activated");
@@ -74,7 +81,7 @@ namespace LOLItems.passive_items
                         item.GetComponent<CloakOfStarryNight>().setProcChance(synergyProcChance);
                     }
                 }
-            }
+            }*/
         }
 
         // updates stats for both items if synergy is active on drop
@@ -83,7 +90,7 @@ namespace LOLItems.passive_items
             base.DisableEffect(player);
             Plugin.Log($"Player dropped or got rid of {this.EncounterNameOrDisplayName}");
 
-            this.procChance = preDamageProcChance;
+            /*this.procChance = preDamageProcChance;
 
             if (player != null)
             {
@@ -94,7 +101,7 @@ namespace LOLItems.passive_items
                         item.GetComponent<CloakOfStarryNight>().setProcChance(preDamageProcChance);
                     }
                 }
-            }
+            }*/
         }
     }
 }

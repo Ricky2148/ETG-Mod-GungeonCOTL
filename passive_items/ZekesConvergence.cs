@@ -16,6 +16,8 @@ namespace LOLItems.passive_items
 {
     internal class ZekesConvergence : AuraItem
     {
+        public static string ItemName = "Zeke's Convergence";
+
         // stats pool for item
         private static float HealthStat = 1f;
         //private static int ArmorStat = 1;
@@ -76,7 +78,7 @@ namespace LOLItems.passive_items
 
         public static void Init()
         {
-            string itemName = "Zeke's Convergence";
+            string itemName = ItemName;
             string resourceName = "LOLItems/Resources/passive_item_sprites/zekes_convergence_pixelart_sprite_outline";
 
             GameObject obj = new GameObject(itemName);

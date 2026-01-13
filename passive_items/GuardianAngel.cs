@@ -16,6 +16,8 @@ namespace LOLItems
 {
     internal class GuardianAngel : PassiveItem
     {
+        public static string ItemName = "Guardian Angel";
+
         // stats pool for item
         private static float DamageStat = 1.25f;
         private static int ArmorStat = 2;
@@ -25,7 +27,7 @@ namespace LOLItems
 
         public static void Init()
         {
-            string itemName = "Guardian Angel";
+            string itemName = ItemName;
             string resourceName = "LOLItems/Resources/passive_item_sprites/guardian_angel_pixelart_sprite_small";
 
             GameObject obj = new GameObject(itemName);

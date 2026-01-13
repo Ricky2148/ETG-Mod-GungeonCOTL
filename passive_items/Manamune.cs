@@ -18,6 +18,8 @@ namespace LOLItems
 {
     public class Manamune : PassiveItem
     {
+        public static string ItemName = "Manamune";
+
         // stats pool for item
         private static float DamageStat = 1.05f;
         private static float ManaflowIncreaseMax = 0.5f;
@@ -33,7 +35,7 @@ namespace LOLItems
 
         public static void Init()
         {
-            string itemName = "Manamune";
+            string itemName = ItemName;
             string resourceName = "LOLItems/Resources/passive_item_sprites/manamune_pixelart_sprite_small";
             //string upgradeResourceName = "LOLItems/Resources/passive_item_sprites/muramana_pixelart_sprite";
 

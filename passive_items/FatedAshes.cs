@@ -10,6 +10,8 @@ namespace LOLItems.passive_items
 {
     internal class FatedAshes : PassiveItem
     {
+        public static string ItemName = "Fated Ashes";
+
         private static float InflameDamagePerSecond = 3f;
         private static float InflameDuration = 3f;
 
@@ -27,7 +29,7 @@ namespace LOLItems.passive_items
 
         public static void Init()
         {
-            string itemName = "Fated Ashes";
+            string itemName = ItemName;
             string resourceName = "LOLItems/Resources/passive_item_sprites/fated_ashes_pixelart_sprite";
 
             GameObject obj = new GameObject(itemName);

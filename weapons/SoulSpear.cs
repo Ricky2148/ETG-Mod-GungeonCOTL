@@ -18,7 +18,7 @@ namespace LOLItems.weapons
 {
     internal class SoulSpear : AdvancedGunBehavior
     {
-        public static string internalName; //Internal name of the gun as used by console commands
+        public static string internalName = "Soul Spear"; //Internal name of the gun as used by console commands
         public static int ID; //The Gun ID stored by the game.  Can be used by other functions to call your custom gun.
         public static string realName = "Soul Spear"; //The name that shows up in the Ammonomicon and the mod console.
 
@@ -81,7 +81,7 @@ namespace LOLItems.weapons
         {
             string FULLNAME = "Soul Spear";
             string SPRITENAME = "vengencespear";
-            internalName = $"LOLItems:{FULLNAME.ToID()}";
+            internalName = $"LOLItems:{internalName.ToID()}";
             Gun gun = ETGMod.Databases.Items.NewGun(FULLNAME, SPRITENAME);
             Game.Items.Rename($"outdated_gun_mods:{FULLNAME.ToID()}", internalName);
             gun.gameObject.AddComponent<SoulSpear>();

@@ -15,6 +15,8 @@ namespace LOLItems
 {
     internal class SunfireAegis : AuraItem
     {
+        public static string ItemName = "Sunfire Aegis";
+
         // stats pool for item
         private static float HealthStat = 1f;
         private static int ArmorStat = 1;
@@ -44,7 +46,7 @@ namespace LOLItems
 
         public static void Init()
         {
-            string itemName = "Sunfire Aegis";
+            string itemName = ItemName;
             string resourceName = "LOLItems/Resources/passive_item_sprites/sunfire_aegis_pixelart_sprite_small";
 
             GameObject obj = new GameObject(itemName);

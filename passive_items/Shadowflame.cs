@@ -10,6 +10,8 @@ namespace LOLItems
 {
     internal class Shadowflame : PassiveItem
     {
+        public static string ItemName = "Shadowflame";
+
         private static float DamageStat = 1.15f;
         private static float CinderbloomThreshold = 0.4f;
         private static float CinderbloomDamageAmp = 0.4f;
@@ -18,7 +20,7 @@ namespace LOLItems
 
         public static void Init()
         {
-            string itemName = "Shadowflame";
+            string itemName = ItemName;
             string resourceName = "LOLItems/Resources/passive_item_sprites/shadowflame_pixelart_sprite_outline";
 
             GameObject obj = new GameObject(itemName);

@@ -251,7 +251,7 @@ namespace LOLItems.weapons
             FakePrefab.MarkAsFakePrefab(AscensionIcon);
             AscensionIcon.SetActive(false);
 
-            List<string> mandatoryConsoleIDs = new List<string>
+            /*List<string> mandatoryConsoleIDs = new List<string>
             {
                 "LOLItems:virtueform1",
             };
@@ -262,7 +262,7 @@ namespace LOLItems.weapons
                 "broccoli",
                 "life_orb"
             };
-            AdvancedSynergyEntry ase = CustomSynergies.Add("Exp. Share", mandatoryConsoleIDs, optionalConsoleIDs, true);
+            AdvancedSynergyEntry ase = CustomSynergies.Add("Exp. Share", mandatoryConsoleIDs, optionalConsoleIDs, true);*/
         }
 
         public override void OnInitializedWithOwner(GameActor actor)
@@ -309,7 +309,7 @@ namespace LOLItems.weapons
                     expToGain = enemyHealth.aiActor.healthHaver.GetMaxHealth();
                 }
 
-                if (Player.PlayerHasActiveSynergy("Exp. Share"))
+                if (Player.HasSynergy(Synergy.EXP_SHARE_FORM_1))
                 {
                     expToGain *= 2;
                 }

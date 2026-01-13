@@ -10,6 +10,8 @@ namespace LOLItems
 {
     internal class HorizonFocus : PassiveItem
     {
+        public static string ItemName = "Horizon Focus";
+
         // stats pool for item
         private static float DamageStat = 1.1f;
         private static float HyperShotMaxDistance = 15f;
@@ -20,7 +22,7 @@ namespace LOLItems
 
         public static void Init()
         {
-            string itemName = "Horizon Focus";
+            string itemName = ItemName;
             string resourceName = "LOLItems/Resources/passive_item_sprites/horizon_focus_pixelart_sprite";
 
             GameObject obj = new GameObject(itemName);

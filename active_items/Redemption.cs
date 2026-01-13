@@ -16,6 +16,8 @@ namespace LOLItems
 {
     internal class Redemption : TargetedAttackPlayerItem
     {
+        public static string ItemName = "Redemption";
+
         private static float HealthStat = 1f;
 
         private static float InterventionHealAmount = 0.5f;
@@ -103,7 +105,7 @@ namespace LOLItems
 
         public static void Init()
         {
-            string itemName = "Redemption";
+            string itemName = ItemName;
             string resourceName = "LOLItems/Resources/active_item_sprites/redemption_pixelart_sprite";
 
             GameObject obj = new GameObject(itemName);

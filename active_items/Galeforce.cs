@@ -16,11 +16,13 @@ namespace LOLItems.active_items
 {
     internal class Galeforce : PlayerItem
     {
+        public static string ItemName = "Galeforce";
+
         // stats pool for item
         private static float DamageStat = 1.25f;
         private static float RateOfFireStat = 1.2f;
         private static float CloudburstBaseDamage = 10f;
-        private static float CloudburstCooldown = 90f;
+        private static float CloudburstCooldown = 40f;
 
         //private bool playerHasFlight = false;
         private bool secondSynergyActivated = false;
@@ -33,7 +35,7 @@ namespace LOLItems.active_items
 
         public static void Init()
         {
-            string itemName = "Galeforce";
+            string itemName = ItemName;
             string resourceName = "LOLItems/Resources/active_item_sprites/galeforce_pixelart_sprite";
             
             GameObject obj = new GameObject(itemName);
@@ -62,15 +64,11 @@ namespace LOLItems.active_items
             item.quality = PickupObject.ItemQuality.A;
             ID = item.PickupObjectId;
 
-            List<string> mandatoryConsoleIDs = new List<string>
+            /*List<string> mandatoryConsoleIDs = new List<string>
             {
                 "LOLItems:galeforce",
                 "LOLItems:whisper"
             };
-            /*List<string> optionalConsoleIDs = new List<string>
-            {
-                "LOLItems:whisper"
-            };*/
             CustomSynergies.Add("FOUR!", mandatoryConsoleIDs, null, true);
 
             List<string> mandatoryConsoleIDs2 = new List<string>
@@ -83,7 +81,7 @@ namespace LOLItems.active_items
                 "charmed_bow",
                 "gunbow"
             };
-            CustomSynergies.Add("Bow Mastery", mandatoryConsoleIDs2, optionalConsoleIDs2, true);
+            CustomSynergies.Add("Bow Mastery", mandatoryConsoleIDs2, optionalConsoleIDs2, true);*/
         }
 
         public override void Pickup(PlayerController player)
@@ -109,13 +107,13 @@ namespace LOLItems.active_items
         {
             if (LastOwner != null)
             {
-                if (LastOwner.PlayerHasActiveSynergy("Bow Mastery") && !secondSynergyActivated)
+                if (LastOwner.HasSynergy(Synergy.BOW_MASTERY) && !secondSynergyActivated)
                 {
                     this.timeCooldown = CloudburstCooldown / 2f;
 
                     secondSynergyActivated = true;
                 }
-                else if (!LastOwner.PlayerHasActiveSynergy("Bow Mastery") && secondSynergyActivated)
+                else if (!LastOwner.HasSynergy(Synergy.BOW_MASTERY) && secondSynergyActivated)
                 {
                     this.timeCooldown = CloudburstCooldown;
                     //Plugin.Log($"{WintersCaressCrippleEffect.CrippleAmount}");
@@ -171,7 +169,7 @@ namespace LOLItems.active_items
             float currentCloudburstDamage = CloudburstBaseDamage * HelpfulMethods.GetFloorPriceMod();
             CloudburstProjectile.baseData.damage = currentCloudburstDamage * player.stats.GetStatValue(PlayerStats.StatType.Damage);
 
-            if (player.PlayerHasActiveSynergy("FOUR!"))
+            if (player.HasSynergy(Synergy.GALEFORCE_FOUR))
             {
                 CloudburstProjectile.baseData.damage *= 2.5f;
             }

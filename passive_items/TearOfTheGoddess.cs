@@ -11,6 +11,8 @@ namespace LOLItems.passive_items
 {
     internal class TearOfTheGoddess : PassiveItem
     {
+        public static string ItemName = "Tear of the Goddess";
+
         private static float ManaflowIncreaseMax = 0.5f;
         private static float ManaflowIncrementValue = 0.05f;
         private static float ManaflowIncrementKillReq = 25f;
@@ -23,7 +25,7 @@ namespace LOLItems.passive_items
 
         public static void Init()
         {
-            string itemName = "Tear of the Goddess";
+            string itemName = ItemName;
             string resourceName = "LOLItems/Resources/passive_item_sprites/tear_of_the_goddess_pixelart_sprite";
 
             GameObject obj = new GameObject(itemName);

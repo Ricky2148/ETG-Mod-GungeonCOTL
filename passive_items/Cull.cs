@@ -9,6 +9,8 @@ namespace LOLItems.passive_items
 {
     internal class Cull : PassiveItem
     {
+        public static string ItemName = "Cull";
+
         private static int ReapKillThreshold = 5;
         private static int ReapCountMax = 200;
         private static int ReapCountMaxMoney = 15;
@@ -20,7 +22,7 @@ namespace LOLItems.passive_items
 
         public static void Init()
         {
-            string itemName = "Cull";
+            string itemName = ItemName;
             string resourceName = "LOLItems/Resources/passive_item_sprites/cull_pixelart_sprite";
 
             GameObject obj = new GameObject(itemName);

@@ -13,6 +13,8 @@ namespace LOLItems
 {
     internal class ExperimentalHexplate : PassiveItem
     {
+        public static string ItemName = "Experimental Hexplate";
+
         // stats pool for item
         private static float DamageStat = 1.1f;
         private static float RateOfFireStat = 1.1f;
@@ -26,7 +28,7 @@ namespace LOLItems
         public static int ID;
         public static void Init()
         {
-            string itemName = "Experimental Hexplate";
+            string itemName = ItemName;
             string resourceName = "LOLItems/Resources/passive_item_sprites/experimental_hexplate_pixelart_sprite";
             
             GameObject obj = new GameObject(itemName);

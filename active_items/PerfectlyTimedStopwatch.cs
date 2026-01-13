@@ -12,13 +12,15 @@ namespace LOLItems.active_items
 {
     internal class PerfectlyTimedStopwatch : PlayerItem
     {
+        public static string ItemName = "Perfectly Timed Stopwatch";
+
         private static float StasisDuration = 2.5f;
 
         public static int ID;
 
         public static void Init()
         {
-            string itemName = "Perfectly Timed Stopwatch";
+            string itemName = ItemName;
             string resourceName = "LOLItems/Resources/active_item_sprites/perfectly_timed_stopwatch_pixelart_sprite";
 
             GameObject obj = new GameObject(itemName);

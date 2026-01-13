@@ -19,6 +19,8 @@ namespace LOLItems.active_items
 {
     internal class TalismanOfAscension : PlayerItem
     {
+        public static string ItemName = "Talisman of Ascension";
+
         public static int ID;
         public float duration = 5f;
 
@@ -46,7 +48,7 @@ namespace LOLItems.active_items
 
         public static void Init()
         {
-            string itemName = "Talisman of Ascension";
+            string itemName = ItemName;
             string resourceName = "LOLItems/Resources/active_item_sprites/talisman_of_ascension_pixelart_sprite_sparks";
 
             GameObject obj = new GameObject(itemName);

@@ -13,6 +13,8 @@ namespace LOLItems.passive_items
 {
     internal class SilverBolts : PassiveItem
     {
+        public static string ItemName =  "Silver Bolts";
+
         private int silverBoltsCount = 0;
         private static float silverBoltsPercentHealthDamage = 0.15f;
         private static float silverBoltsBaseDamage = 5f;
@@ -48,7 +50,7 @@ namespace LOLItems.passive_items
 
         public static void Init()
         {
-            string itemName = "Silver Bolts";
+            string itemName = ItemName;
             string resourceName = "LOLItems/Resources/passive_item_sprites/silver_bolts_pixelart_sprite";
 
             GameObject obj = new GameObject(itemName);

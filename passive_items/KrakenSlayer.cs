@@ -14,6 +14,8 @@ namespace LOLItems
 {
     internal class KrakenSlayer : PassiveItem
     {
+        public static string ItemName = "Kraken Slayer";
+
         // stats pool for item
         private int bringItDownCount = 0;
         private static float bringItDownDamage = 20f;
@@ -31,7 +33,7 @@ namespace LOLItems
 
         public static void Init()
         {
-            string itemName = "Kraken Slayer";
+            string itemName = ItemName;
             string resourceName = "LOLItems/Resources/passive_item_sprites/kraken_slayer_pixelart_sprite_outline";
 
             GameObject obj = new GameObject(itemName);

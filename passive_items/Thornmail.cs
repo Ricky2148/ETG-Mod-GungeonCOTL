@@ -13,6 +13,8 @@ namespace LOLItems
 {
     internal class Thornmail : OnDamagedPassiveItem
     {
+        public static string ItemName = "Thornmail";
+
         // stats pool for item
         private static float HealthStat = 1f;
         private static int ArmorStat = 1;
@@ -24,7 +26,7 @@ namespace LOLItems
 
         public static void Init()
         {
-            string itemName = "Thornmail";
+            string itemName = ItemName;
             string resourceName = "LOLItems/Resources/passive_item_sprites/thornmail_pixelart_sprite_outline";
 
             GameObject obj = new GameObject(itemName);

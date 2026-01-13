@@ -10,6 +10,8 @@ namespace LOLItems.passive_items
 {
     internal class NavoriQuickblades : PassiveItem
     {
+        public static string ItemName = "Navori Quickblades";
+
         private static float RateOfFireStat = 1.1f;
         private static float TranscendenceCooldownReductionRatio = 0.03f;
 
@@ -17,7 +19,7 @@ namespace LOLItems.passive_items
 
         public static void Init()
         {
-            string itemName = "Navori Quickblades";
+            string itemName = ItemName;
             string resourceName = "LOLItems/Resources/passive_item_sprites/navori_quickblades_pixelart_sprite_outline";
 
             GameObject obj = new GameObject(itemName);

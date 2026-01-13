@@ -14,6 +14,8 @@ namespace LOLItems
 {
     internal class StatikkShiv : PassiveItem
     {
+        public static string ItemName = "Statikk Shiv";
+
         // stats pool for item
         private static float DamageStat = 1.2f;
         private static float RateOfFireStat = 1.1f;
@@ -27,7 +29,7 @@ namespace LOLItems
 
         public static void Init()
         {
-            string itemName = "Statikk Shiv";
+            string itemName = ItemName;
             string resourceName = "LOLItems/Resources/passive_item_sprites/statikk_shiv_pixelart_sprite";
 
             GameObject obj = new GameObject(itemName);

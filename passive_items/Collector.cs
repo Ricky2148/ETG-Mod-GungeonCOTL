@@ -16,6 +16,8 @@ namespace LOLItems
 {
     internal class Collector : PassiveItem
     {
+        public static string ItemName = "The Collector";
+
         // stats pool for item
         private static float DamageStat = 1.1f;
         private static int DeathGoldStat = 1;
@@ -32,7 +34,7 @@ namespace LOLItems
 
         public static void Init()
         {
-            string itemName = "The Collector";
+            string itemName = ItemName;
             string resourceName = "LOLItems/Resources/passive_item_sprites/the_collector_pixelart_sprite";
 
             GameObject obj = new GameObject(itemName);
@@ -53,7 +55,7 @@ namespace LOLItems
             item.quality = PickupObject.ItemQuality.A;
             ID = item.PickupObjectId;
 
-            List<string> mandatoryConsoleIDs = new List<string>
+            /*List<string> mandatoryConsoleIDs = new List<string>
             {
                 "LOLItems:the_collector"
             };
@@ -83,7 +85,7 @@ namespace LOLItems
                 "LOLItems:the_collector",
                 "chance_bullets"
             };
-            CustomSynergies.Add("Better RNG", mandatoryConsoleIDs4, null, true);
+            CustomSynergies.Add("Better RNG", mandatoryConsoleIDs4, null, true);*/
         }
 
         public override void Pickup(PlayerController player)
@@ -115,27 +117,29 @@ namespace LOLItems
         {
             if (Owner != null)
             {
-                if (Owner.PlayerHasActiveSynergy("Return on Investment") && !firstSynergyActivated)
+                if (Owner.HasSynergy(Synergy.RETURN_ON_INVESTMENT) && !firstSynergyActivated)
                 {
-                    DeathGoldStat++;
+                    DeathGoldStat = 2;
+                    //Plugin.Log($"{DeathGoldStat}");
 
                     firstSynergyActivated = true;
                 }
-                else if (!Owner.PlayerHasActiveSynergy("Return on Investment") && firstSynergyActivated)
+                else if (!Owner.HasSynergy(Synergy.RETURN_ON_INVESTMENT) && firstSynergyActivated)
                 {
                     DeathGoldStat = 1;
+                    //Plugin.Log($"{DeathGoldStat}");
 
                     firstSynergyActivated = false;
                 }
 
-                if (Owner.PlayerHasActiveSynergy("Better RNG") && !fourthSynergyActivated)
+                if (Owner.HasSynergy(Synergy.BETTER_RNG) && !fourthSynergyActivated)
                 {
                     DeathGoldChance = 0.75f;
                     //Plugin.Log("synergy 4 activate");
 
                     fourthSynergyActivated = true;
                 }
-                else if (!Owner.PlayerHasActiveSynergy("Better RNG") && fourthSynergyActivated)
+                else if (!Owner.HasSynergy(Synergy.BETTER_RNG)&& fourthSynergyActivated)
                 {
                     DeathGoldChance = 0.3f;
 
@@ -212,7 +216,7 @@ namespace LOLItems
         {
             enemy.healthHaver.OnDeath += (obj) =>
             {
-                if (player.PlayerHasActiveSynergy("Stroke of Luck"))
+                if (player.HasSynergy(Synergy.STROKE_OF_LUCK))
                 {
                     foreach (PlayerItem item in player.activeItems)
                     {
@@ -252,7 +256,7 @@ namespace LOLItems
             //Plugin.Log("daruma attempt");
             if (player != null && item != null)
             {
-                if (Owner.PlayerHasActiveSynergy("An offering"))
+                if (Owner.HasSynergy(Synergy.AN_OFFERING))
                 {
                     if (item.PickupObjectId == (int)Items.Daruma)
                     {

@@ -12,6 +12,8 @@ namespace LOLItems
 {
     public class Muramana : PassiveItem
     {
+        public static string ItemName = "Muramana";
+
         // stats pool for item
         private static float DamageStat = 1.2f;
         private static float ClipAndAmmoIncrease = 1.5f;
@@ -21,7 +23,7 @@ namespace LOLItems
 
         public static void Init()
         {
-            string itemName = "Muramana";
+            string itemName = ItemName;
             string resourceName = "LOLItems/Resources/passive_item_sprites/muramana_pixelart_sprite_outline";
 
             GameObject obj = new GameObject(itemName);

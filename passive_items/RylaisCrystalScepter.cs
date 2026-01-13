@@ -10,6 +10,8 @@ namespace LOLItems.passive_items
 {
     internal class RylaisCrystalScepter : PassiveItem
     {
+        public static string ItemName = "Rylai's Crystal Scepter";
+
         private static float HealthStat = 1f;
         private static float RimefrostSlowPercent = 0.7f;
         private static float RimefrostSlowDuration = 1f;
@@ -28,7 +30,7 @@ namespace LOLItems.passive_items
 
         public static void Init()
         {
-            string itemName = "Rylai's Crystal Scepter";
+            string itemName = ItemName;
             string resourceName = "LOLItems/Resources/passive_item_sprites/rylais_crystal_scepter_pixelart_sprite_outline";
 
             GameObject obj = new GameObject(itemName);

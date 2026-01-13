@@ -17,6 +17,8 @@ namespace LOLItems
 {
     public class GuinsoosRageblade : PassiveItem
     {
+        public static string ItemName = "Guinsoo's Rageblade";
+
         // stats pool for item
         private int phantomHitCount = 0; // Counter for the number of phantom hits
 
@@ -30,7 +32,7 @@ namespace LOLItems
 
         public static void Init()
         {
-            string itemName = "Guinsoo's Rageblade";
+            string itemName = ItemName;
             string resourceName = "LOLItems/Resources/passive_item_sprites/guinsoos_rageblade_pixelart_sprite_small";
             GameObject obj = new GameObject(itemName);
 

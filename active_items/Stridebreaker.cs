@@ -18,6 +18,8 @@ namespace LOLItems
 {
     internal class Stridebreaker : PlayerItem
     {
+        public static string ItemName = "Stridebreaker";
+
         // stats pool for item
         private static float DamageStat = 1.1f;
         private static float RateOfFireStat = 1.1f;
@@ -57,7 +59,7 @@ namespace LOLItems
 
         public static void Init()
         {
-            string itemName = "Stridebreaker";
+            string itemName = ItemName;
             string resourceName = "LOLItems/Resources/active_item_sprites/stridebreaker_pixelart_sprite_small";
             
             GameObject obj = new GameObject(itemName);

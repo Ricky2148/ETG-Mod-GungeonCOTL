@@ -133,8 +133,14 @@ namespace LOLItems
             TalismanOfAscension.Init();
             SilverBolts.Init();
 
-            //npcs?
+            #region NPCs
             Bubbs.Init();
+            #endregion
+
+            #region Synergies
+            LOLItemsSynergies.Init();
+            #endregion
+
             Log($"{NAME} v{VERSION} started successfully.", TEXT_COLOR);
             Log("Thirty seconds until minions spawn!", "#155DFC");
 

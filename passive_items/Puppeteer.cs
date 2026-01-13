@@ -14,6 +14,8 @@ namespace LOLItems.passive_items
 {
     internal class Puppeteer : PassiveItem
     {
+        public static string ItemName = "Puppeteer";
+
         private static float RateOfFireStat = 1.15f;
         private static float PullTheirStringsCharmDuration = 999f;
         private static float PullTheirStringsCooldown = 25f;
@@ -28,7 +30,7 @@ namespace LOLItems.passive_items
 
         public static void Init()
         {
-            string itemName = "Puppeteer";
+            string itemName = ItemName;
             string resourceName = "LOLItems/Resources/passive_item_sprites/puppeteer_pixelart_sprite";
 
             GameObject obj = new GameObject(itemName);

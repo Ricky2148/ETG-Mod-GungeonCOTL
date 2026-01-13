@@ -17,7 +17,7 @@ namespace LOLItems.weapons
 {
     internal class PowPowAltForm : AdvancedGunBehavior
     {
-        public static string internalName; //Internal name of the gun as used by console commands
+        public static string internalName = "Pow-Pow_AltForm"; //Internal name of the gun as used by console commands
         public static int ID; //The Gun ID stored by the game.  Can be used by other functions to call your custom gun.
         public static string realName = "Fishbones"; //The actual name of the gun that shows up ingame.
 
@@ -53,7 +53,7 @@ namespace LOLItems.weapons
              * The default here is to use your mod's prefix then shortname so in this example it would come out as "twp:template_gun". */
             string FULLNAME = realName; //Full name of your gun 
             string SPRITENAME = "fishbones"; //The name that prefixes your sprite files
-            internalName = $"LOLItems:powpow_altform";
+            internalName = $"LOLItems:{internalName.ToID()}";
             Gun gun = ETGMod.Databases.Items.NewGun(FULLNAME, SPRITENAME);
             Game.Items.Rename($"outdated_gun_mods:{FULLNAME.ToID()}", internalName); //Renames the default internal name to your custom internal name
             gun.gameObject.AddComponent<PowPowAltForm>(); //AddComponent<[ClassName]>

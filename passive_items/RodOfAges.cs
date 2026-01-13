@@ -12,6 +12,8 @@ namespace LOLItems
 {
     internal class RodOfAges : PassiveItem
     {
+        public static string ItemName = "Rod of Ages";
+
         private static float TimelessDamageIncreaseMax = 0.3f;
         private static float TimelessDamageIncrementValue = 0.02f;
         private static float TimelessIncreaseMax = 0.75f;
@@ -28,7 +30,7 @@ namespace LOLItems
 
         public static void Init()
         {
-            string itemName = "Rod of Ages";
+            string itemName = ItemName;
             string resourceName = "LOLItems/Resources/passive_item_sprites/rod_of_ages_pixelart_sprite_outline";
 
             GameObject obj = new GameObject(itemName);
@@ -49,7 +51,7 @@ namespace LOLItems
             item.quality = PickupObject.ItemQuality.B;
             ID = item.PickupObjectId;
 
-            List<string> mandatoryConsoleIDs = new List<string>
+            /*List<string> mandatoryConsoleIDs = new List<string>
             {
                 "LOLItems:rod_of_ages",
                 "macho_brace"
@@ -66,7 +68,7 @@ namespace LOLItems
                 "old_knights_helm",
                 "old_knights_flask",
             };
-            CustomSynergies.Add("Age Old Wisdom", mandatoryConsoleIDs2, optionalConsoleIDs2, true);
+            CustomSynergies.Add("Age Old Wisdom", mandatoryConsoleIDs2, optionalConsoleIDs2, true);*/
         }
 
         public override void Pickup(PlayerController player)
@@ -93,14 +95,14 @@ namespace LOLItems
         {
             if (Owner != null)
             {
-                if (Owner.PlayerHasActiveSynergy("Age Old Wisdom") && !secondSynergyActivated)
+                if (Owner.HasSynergy(Synergy.AGE_OLD_WISDOM) && !secondSynergyActivated)
                 {
-                    ItemBuilder.AddPassiveStatModifier(this, PlayerStats.StatType.Damage, TimelessDamageIncreaseMax, StatModifier.ModifyMethod.MULTIPLICATIVE);
+                    ItemBuilder.AddPassiveStatModifier(this, PlayerStats.StatType.Damage, 1f + TimelessDamageIncreaseMax, StatModifier.ModifyMethod.MULTIPLICATIVE);
                     //Plugin.Log($"postprocessproj on");
 
                     secondSynergyActivated = true;
                 }
-                else if (!Owner.PlayerHasActiveSynergy("Age Old Wisdom") && secondSynergyActivated)
+                else if (!Owner.HasSynergy(Synergy.AGE_OLD_WISDOM) && secondSynergyActivated)
                 {
                     ItemBuilder.RemovePassiveStatModifier(this, PlayerStats.StatType.Damage);
                     //Plugin.Log($"postprocessproj off");
@@ -119,7 +121,7 @@ namespace LOLItems
             while (TimelessStackCount * TimelessIncrementValue < TimelessIncreaseMax)
             {
                 // wait timer
-                if (player.PlayerHasActiveSynergy("Training Up!"))
+                if (player.HasSynergy(Synergy.TRAINING_UP))
                 {
                     yield return new WaitForSeconds(TimelessIncrementTimeInterval / 2f);
                 }
@@ -163,7 +165,7 @@ namespace LOLItems
                 if (!gun.InfiniteAmmo && gun.CanGainAmmo)
                 {
                     int ammoToGain = Mathf.CeilToInt((float)gun.AdjustedMaxAmmo * EternityAmmoRestorePercent);
-                    if (source.PlayerHasActiveSynergy("Age Old Wisdom"))
+                    if (source.HasSynergy(Synergy.AGE_OLD_WISDOM))
                     {
                         ammoToGain *= 2;
                     }

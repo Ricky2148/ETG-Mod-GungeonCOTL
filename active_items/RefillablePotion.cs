@@ -17,13 +17,15 @@ namespace LOLItems.active_items
 {
     internal class RefillablePotion : EstusFlaskItem
     {
+        public static string ItemName = "Refillable Potion";
+
         public static int ID;
 
         public float duration = 12f;
 
         public static void Init()
         {
-            string itemName = "Refillable Potion";
+            string itemName = ItemName;
             string resourceName = "LOLItems/Resources/active_item_sprites/refillable_potion_pixelart_sprite";
 
             GameObject obj = new GameObject(itemName);

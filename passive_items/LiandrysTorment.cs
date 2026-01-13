@@ -15,6 +15,8 @@ namespace LOLItems
 {
     internal class LiandrysTorment : PassiveItem
     {
+        public static string ItemName = "Liandry's Torment";
+
         // stats pool for item
         private static float DamageStat = 1.15f;
         private static float HealthStat = 1f;
@@ -38,7 +40,7 @@ namespace LOLItems
 
         public static void Init()
         {
-            string itemName = "Liandry's Torment";
+            string itemName = ItemName;
             string resourceName = "LOLItems/Resources/passive_item_sprites/liandrys_torment_pixelart_sprite_small";
             
             GameObject obj = new GameObject(itemName);

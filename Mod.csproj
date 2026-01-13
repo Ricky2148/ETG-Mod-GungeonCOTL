@@ -114,6 +114,7 @@
     <Compile Include="active_items\Stridebreaker.cs" />
     <Compile Include="passive_items\Thornmail.cs" />
     <Compile Include="active_items\ZhonyasHourglass.cs" />
+    <Compile Include="Synergies.cs" />
     <Compile Include="weapons\Crossblade.cs" />
     <Compile Include="weapons\ElectricRifle.cs" />
     <Compile Include="weapons\HextechRifle.cs" />

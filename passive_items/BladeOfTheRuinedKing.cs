@@ -13,6 +13,8 @@ namespace LOLItems
 {
     internal class BladeOfTheRuinedKing : PassiveItem
     {
+        public static string ItemName = "Blade of the Ruined King";
+
         // stats pool for item
         private bool shouldApplySlow = false;
         private static float DamageStat = 1.25f;
@@ -31,11 +33,15 @@ namespace LOLItems
             SpeedMultiplier = slowPercent,
         };
 
+        public bool firstSynergyActivated = false;
+        public bool secondSynergyActivated = false;
+        public bool thirdSynergyActivated = false;
+
         public static int ID;
 
         public static void Init()
         {
-            string itemName = "Blade of the Ruined King";
+            string itemName = ItemName;
             string resourceName = "LOLItems/Resources/passive_item_sprites/blade_of_the_ruined_king_pixelart_sprite_small";
 
             GameObject obj = new GameObject(itemName);
@@ -87,6 +93,26 @@ namespace LOLItems
             shouldApplySlow = false;
         }
 
+        public override void Update()
+        {
+            if (Owner != null)
+            {
+                if (Owner.HasSynergy(Synergy.YOU_DARE_FACE_A_KING) && !firstSynergyActivated)
+                {
+                    PercentCurrentHealthStat = 0.18f;
+
+                    firstSynergyActivated = true;
+                }
+                else if (!Owner.HasSynergy(Synergy.YOU_DARE_FACE_A_KING) && firstSynergyActivated)
+                {
+                    PercentCurrentHealthStat = 0.12f;
+
+                    firstSynergyActivated = false;
+                }
+            }
+            base.Update();
+        }
+
         // when gun is reloaded, set the flag to apply slow effect
         private void OnGunReloaded(PlayerController player, Gun gun)
         {
@@ -126,7 +152,14 @@ namespace LOLItems
                 if (shouldApplySlow)
                 {
                     ApplySlowEffect(proj);
-                    shouldApplySlow = false;
+                    if (Owner.HasSynergy(Synergy.FOR_ISOLDE))
+                    {
+                        shouldApplySlow = true;
+                    }
+                    else
+                    {
+                        shouldApplySlow = false;
+                    }
                 }
                 //Apply 12% of current health damage to enemies hit by the projectile
                 //Seems to be an interaction with bosses where they only take the bonus damage every few frames

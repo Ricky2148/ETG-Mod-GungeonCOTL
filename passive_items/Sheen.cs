@@ -10,6 +10,8 @@ namespace LOLItems.passive_items
 {
     internal class Sheen : PassiveItem
     {
+        public static string ItemName = "Sheen";
+
         private bool shouldApplySpellblade = false;
         private static float spellbladeDmg = 10f;
 
@@ -17,7 +19,7 @@ namespace LOLItems.passive_items
 
         public static void Init()
         {
-            string itemName = "Sheen";
+            string itemName = ItemName;
             string resourceName = "LOLItems/Resources/passive_item_sprites/sheen_pixelart_sprite";
 
             GameObject obj = new GameObject(itemName);

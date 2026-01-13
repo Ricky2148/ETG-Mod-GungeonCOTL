@@ -16,6 +16,8 @@ namespace LOLItems.passive_items
 {
     internal class DetonationOrb : PassiveItem
     {
+        public static string ItemName = "Detonation Orb";
+
         private static float DamageStat = 1.2f;
         private static float TheBombDmgScale = 0.25f;
         private static float TheBombDuration = 3f;
@@ -28,7 +30,7 @@ namespace LOLItems.passive_items
 
         public static void Init()
         {
-            string itemName = "Detonation Orb";
+            string itemName = ItemName;
             string resourceName = "LOLItems/Resources/passive_item_sprites/detonation_orb_pixelart_sprite";
 
             GameObject obj = new GameObject(itemName);
