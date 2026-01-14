@@ -80,10 +80,19 @@ Guinsoo's Rageblade (S):
 Horizon Focus (A):
 - Stats: 1.1x DMG
 - Effect: Increases each bullet's damage by up to 25% based on how far the hit target is from the player.
+- Synergies
+	+ Amplified Lens [Sniper Rifle/M1/AWP]: increase the damage amp
+	+ Futuristic Compatibility [Railgun/Prototype Railgun/Hextech Rifle]: increase damage amp
+	+ guaranteed hit IF it hits [Eyepatch]: greatly increase damage amp
+
 
 ![](https://i.ibb.co/JRJsMBpf/hubris-pixelart-sprite-small.png)
 Hubris (A):
 - Effect: Each kill increases player's damage by 0.5%. Stacking infinitely.
+- Synergies:
+	+ Infinite Scaling [Metronome & Platinum Bullets]: Damage increase scaling +0.5%
+	+ Gladitorial Challenge [Lament Configurum]: After using lament configurum, gain 3 stacks per kill
+ + Peace and War [Really Special Lute]: Every some number of stacks, heal a half heart
 
 ![](https://i.ibb.co/6RKHPdxx/kraken-slayer-pixelart-sprite-outline.png)
 Kraken Slayer (S):
