@@ -1,12 +1,13 @@
-﻿using System;
+﻿using Alexandria;
+using Alexandria.ItemAPI;
+using Alexandria.Misc;
+using Dungeonator;
+using LOLItems.custom_class_data;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Alexandria.ItemAPI;
 using UnityEngine;
-using Alexandria;
-using LOLItems.custom_class_data;
-using Alexandria.Misc;
 
 //add vfx and sfx during revive duration
 // sometimes can get hit immediately after revive ends, add extra iframes?
@@ -22,6 +23,12 @@ namespace LOLItems
         private static float DamageStat = 1.25f;
         private static int ArmorStat = 2;
         private bool hasRevived = false;
+
+        private static float DIVINEJUDGEMENTRange = 5f;
+        private static float DIVINEJUDGEMENTDamage = 30f;
+        public bool WHYWONTYOUDIEActivated;
+        private static float WHYWONTYOUDIEHealthStat = 1f;
+        public bool WHYWONTYOUDIEFirstActivation = true;
 
         public static int ID;
 
@@ -69,6 +76,36 @@ namespace LOLItems
             {
                 player.healthHaver.OnPreDeath -= Rebirth;
             }
+        }
+
+        public override void Update()
+        {
+            if (Owner != null)
+            {
+                if (Owner.HasSynergy(Synergy.WHY_WONT_YOU_DIE) && !WHYWONTYOUDIEActivated)
+                {
+                    ItemBuilder.AddPassiveStatModifier(this, PlayerStats.StatType.Health, WHYWONTYOUDIEHealthStat);
+                    Owner.stats.RecalculateStatsWithoutRebuildingGunVolleys(Owner);
+                    if (WHYWONTYOUDIEFirstActivation)
+                    {
+                        Owner.healthHaver.ApplyHealing(1f);
+
+                        WHYWONTYOUDIEFirstActivation = false;
+                    }
+                    //Plugin.Log($"why wont you die activated, healthStat: {Owner.stats.GetStatValue(PlayerStats.StatType.Health)}");
+
+                    WHYWONTYOUDIEActivated = true;
+                }
+                else if (!Owner.HasSynergy(Synergy.WHY_WONT_YOU_DIE) && WHYWONTYOUDIEActivated)
+                {
+                    ItemBuilder.RemovePassiveStatModifier(this, PlayerStats.StatType.Health);
+                    Owner.stats.RecalculateStatsWithoutRebuildingGunVolleys(Owner);
+
+                    WHYWONTYOUDIEActivated = false;
+                }
+            }
+
+            base.Update();
         }
 
         private void Rebirth(Vector2 DeathPositon)
@@ -121,8 +158,44 @@ namespace LOLItems
 
             // trigger blank to push away enemies and clear bullets, restore input, and remove invulerability
             player.ForceBlank();
+
+            if (player.HasSynergy(Synergy.DIVINE_JUDGEMENT))
+            {
+                DoDivineJudgement(player);
+            }
+
             player.CurrentInputState = PlayerInputState.AllInput;
             player.healthHaver.PreventAllDamage = false;
+        }
+
+        private void DoDivineJudgement(PlayerController player)
+        {
+            if (player.CurrentRoom == null) return;
+
+            List<AIActor> enemyList = player.CurrentRoom.GetActiveEnemies(RoomHandler.ActiveEnemyType.All);
+            if (enemyList != null)
+            {
+                foreach (AIActor enemy in enemyList)
+                {
+                    if (enemy != null && enemy.healthHaver != null && enemy.healthHaver.IsVulnerable)
+                    {
+                        float dist = Vector2.Distance(player.CenterPosition, enemy.CenterPosition);
+                        float damageToDeal = DIVINEJUDGEMENTDamage * player.stats.GetStatValue(PlayerStats.StatType.Damage);
+
+                        if (dist <= DIVINEJUDGEMENTRange)
+                        {
+                            enemy.healthHaver.ApplyDamage(
+                                damageToDeal,
+                                Vector2.zero,
+                                "thornmail_blank_damage",
+                                CoreDamageTypes.None,
+                                DamageCategory.Normal,
+                                false
+                            );
+                        }
+                    }
+                }
+            }
         }
     }
 }

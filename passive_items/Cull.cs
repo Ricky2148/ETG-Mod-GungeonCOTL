@@ -1,4 +1,5 @@
 ﻿using Alexandria.ItemAPI;
+using Alexandria.Misc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,10 +14,14 @@ namespace LOLItems.passive_items
 
         private static int ReapKillThreshold = 5;
         private static int ReapCountMax = 200;
-        private static int ReapCountMaxMoney = 15;
+        private int ReapMoney = 1;
+        private static int ReapCountMaxMoney = 30;
         private bool ReapCountMaxReached = false;
 
         private int ReapCount = 0;
+
+        public bool WEAKEARLYGAMEActivated = false;
+        public bool BAUSENLAWActivated = false;
 
         public static int ID;
 
@@ -68,6 +73,41 @@ namespace LOLItems.passive_items
             }
         }
 
+        public override void Update()
+        {
+            if (Owner != null)
+            {
+                if (Owner.HasSynergy(Synergy.WEAK_EARLY_GAME) && !WEAKEARLYGAMEActivated)
+                {
+                    ItemBuilder.AddPassiveStatModifier(this, PlayerStats.StatType.Damage, 1.1f, StatModifier.ModifyMethod.MULTIPLICATIVE);
+                    Owner.stats.RecalculateStatsWithoutRebuildingGunVolleys(Owner);
+
+                    WEAKEARLYGAMEActivated = true;
+                }
+                else if (!Owner.HasSynergy(Synergy.WEAK_EARLY_GAME) && WEAKEARLYGAMEActivated)
+                {
+                    ItemBuilder.RemovePassiveStatModifier(this, PlayerStats.StatType.Damage);
+                    Owner.stats.RecalculateStatsWithoutRebuildingGunVolleys(Owner);
+
+                    WEAKEARLYGAMEActivated = false;
+                }
+                if (Owner.HasSynergy(Synergy.BAUSEN_LAW) && !BAUSENLAWActivated)
+                {
+                    ReapMoney = 3;
+
+                    BAUSENLAWActivated = true;
+                }
+                else if (!Owner.HasSynergy(Synergy.BAUSEN_LAW) && BAUSENLAWActivated)
+                {
+                    ReapMoney = 1;
+
+                    BAUSENLAWActivated = false;
+                }
+            }
+
+            base.Update();
+        }
+
         private void KillEnemyCount(float damage, bool fatal, HealthHaver enemy)
         {
             if (enemy.aiActor != null && enemy && fatal)
@@ -75,10 +115,10 @@ namespace LOLItems.passive_items
                 ReapCount++;
                 //Plugin.Log($"reapcount: {ReapCount}");
 
-                //spawns gold every 4 (reapkillthreshold) kills
+                //spawns gold every (reapkillthreshold) kills
                 if (ReapCount % ReapKillThreshold == 0)
                 {
-                    LootEngine.SpawnCurrency(enemy.specRigidbody.UnitCenter, 1, false);
+                    LootEngine.SpawnCurrency(enemy.specRigidbody.UnitCenter, ReapMoney, false);
                 }
 
                 if (ReapCount >= ReapCountMax && !ReapCountMaxReached)

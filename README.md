@@ -7,61 +7,72 @@ Adds various different items from ***League of Legends*** into Enter the Gungeon
 Blade of the Ruined King (S):
 - Stats: 1.25x DMG, 1.2x ROF.
 - Effect: First bullet of clip slows targets hit by 50% for 3s. All player bullets deal 12% current health damage on hit. (25% effective against bosses)
+- Synergies:
+	+ You dare face a king?! [Crown of guns/Gilded Bullets/Coin Crown]: Increases on hit to 18% current health damage
+	+ For Isolde! [Excaliber/Blasphemy]: All bullets apply slow
 
 ![](https://i.ibb.co/0pjmTSCR/cloak-of-starry-night-pixelart-sprite-outline.png)
 Cloak of Starry Night (B):
 - Stats: 1 Heart
 - Effect: 10% chance to deny taking damage.
 - Synergy: 
-	+ Shield of Molten Stone: Proc chance increases to 20% for both items
+	+ Heaven and Earth Combined [Shield of Molten Stone]: Proc chance increases to 20% for both items
 
 ![](https://i.ibb.co/nxcr93X/shield-of-molten-stone-pixelart-sprite-outline.png)
 Shield of Molten Stone (B):
 - Stats: 1 Heart
 - Effect: 10% chance to deny taking damage.
-- Synergy: 
-	+ Cloak of Starry Night: Proc chance increases to 20% for both items
 
 ![](https://i.ibb.co/Wv5Ln26w/the-collector-pixelart-sprite.png)
 The Collector (A):
 - Stats: 1.1x DMG
 - Effect: All bullets execute enemies below 15% max health. 30% chance to drop 1 extra casing on kill.
 - Synergies:
-	+ Loot Bag/Briefcase of Cash: Increase casing drop by 1
-	+ Fortune's Favor: Guaranteed casing drop and doubled casing amount while fortune's favor's effect is active
-	+ Daruma: Triggers chance to gain tripled casing amount on daruma use
-	+ Chance Bullets: Increase casing drop chance to 75%
+	+ Return on Investment [Loot Bag/Briefcase of Cash]: Increase casing drop by 1
+	+ Stroke of Luck [Fortune's Favor]: Guaranteed casing drop and doubled casing amount while fortune's favor's effect is active
+	+ An offering [Daruma]: Triggers chance to gain tripled casing amount on daruma use
+	+ Better RNG [Chance Bullets]: Increase casing drop chance to 75%
 
 ![](https://i.ibb.co/Ds44Y5F/cull-pixelart-sprite.png)
 Cull (D):
-- Effect: Gain 1 extra casing every 4 kills. After 100 kills, gain 25 casings and cease effect.
+- Effect: Gain 1 extra casing every 5 kills. After 200 kills, gain a one time drop of 30 casings.
+- Synergies:
+	+ weak early game... [Unfinished Gun]: 10% inc damage
+	+ Bausen Law [Huntsman]: gain 3 casings every 5 kills instead.
 
 ![](https://i.ibb.co/j98Hd9QX/experimental-hexplate-pixelart-sprite.png)
 Experimental Hexplate (A):
 - Stats: 1.1x DMG, 1.1x ROF, 1 Heart
 - Effect: On item activation, provide Overdrive buff to player. Overdrive lasts for 8s, has a 30s cooldown, and provides a 1.5x ROF and 1.25x MOVSPD buff.
-
-![](https://i.ibb.co/95m86x4/fated-ashes-pixelart-sprite.png)
-Fated Ashes (D):
-- Effect: Dealing damage applies a burn on the enemy that does 3 damage per second for 3 seconds.
+- Synergies:
+	+ That GOOD $#%& [Cigarettes]
+	+ Speed Blitz [Bionic Leg/Shotgun Coffee/Shotga Cola/Ballistic Boots/Magic Sweet]
+	+ Fill'Er-Up [Gungine]
 
 ![](https://i.ibb.co/c0ZB4RK/frozen-heart-pixelart-sprite.png)
 Frozen Heart (B):
 - Stats: 1 Armor
 - Effect: Applies a 30% cripple to nearby enemies. Cripple: slows target's ROF by certain amount.
 - Synergies:
-	+ Frost Bullets/Snowballets/Heart of Ice: Cripple increases to 45%
-	+ Cold 45/Frost Giant/Freeze Ray/Glacier/Snowballer: Bullets also apply cripple
+	+ Ice to the core [Frost Bullets/Snowballets/Heart of Ice]: Cripple increases to 45%
+	+ Frozen Bullets [Cold 45/Frost Giant/Freeze Ray/Glacier/Snowballer]: Bullets also apply cripple
 
 ![](https://i.ibb.co/XrCRPYWp/guardian-angel-pixelart-sprite-small.png)
 Guardian Angel (S):
 - Stats: 1.25x DMG, 2 Armor
 - Effect: Triggers Rebirth on death. Rebirth: become invulnerable for 4 seconds, sets health to 50% of player's max hearts, then triggers a blank at the end of the invulnerability. Rebirth cannot trigger again.
+- Synergies:
+	+ Divine Judgement! [Virtue Form 3]: Activating the revive deals damage in an aoe around you.
+	+ Why won't you DIE! [Clone/Gun Soul/Pig]: 
 
 ![](https://i.ibb.co/KpX3WPTn/guinsoos-rageblade-pixelart-sprite-small.png)
 Guinsoo's Rageblade (S):
 - Stats: 1.25x DMG, 1.2x ROF
 - Effect: Every 3rd bullet fired, an extra projectile copied from that 3rd projectile will fire after a slight delay. This bullet is tinted red and does not consume any ammo.
+- Synergies:
+	+ Blades of Chaos [Chaos Bullets/Chaos Ammolet]: Extra projectile ignites enemies. 10 dps for 5s
+	+ Poseigun's Wrath [Trident]: 50% faster projectiles, decreases reload speed by 40%
+	+ TRIPLE DELUXE [Blade of the Ruined King & Kraken Slayer]: Fires an extra projectile every 2nd bullet fired
 
 ![](https://i.ibb.co/VWfQdrXP/horizon-focus-pixelart-sprite.png)
 Horizon Focus (A):
@@ -77,10 +88,18 @@ Kraken Slayer (S):
 - Stats: 1.25x DMG, 1.25x ROF
 - Effect: Every 3rd bullet will deal additional 20 damage on hit. This extra damage increases based on the floor up to 40 damage. This extra damage will also scale with missing health up to 1.75x damage.
 
+![](https://i.ibb.co/95m86x4/fated-ashes-pixelart-sprite.png)
+Fated Ashes (D):
+- Effect: Dealing damage applies a burn on the enemy that does 3 damage per second for 3 seconds.
+
 ![](https://i.ibb.co/3yzMtSjx/liandrys-torment-pixelart-sprite-small.png)
 Liandry's Torment (B):
 - Stats: 1.15x DMG, 1 Heart
 - Effect: Dealing damage applies a burn to enemies that deal 5 + 10% max health damage per second for 3 seconds. (25% effective against bosses)
+
+![](https://i.ibb.co/mVrsqVDG/tear-of-the-goddess-pixelart-sprite.png)
+Tear of the Goddess (D):
+- Effect: Every 25 kills, provides 1 Manaflow stack. Each manaflow stack increases max ammo capacity and max clip size by 5% (Max: 10 stacks). Stacks transfer to muramana and is consumed.
 
 ![](https://i.ibb.co/QvFJ5yz6/manamune-pixelart-sprite-small.png)
 Manamune (B):
@@ -106,8 +125,8 @@ Puppeteer (B):
 Rod of Ages (B):
 - Effect: Every 120s, gain a stack of Timeless. Each Timeless stack provides 2% inc DMG, 5% inc Max Ammo Capacity, and 5% inc Max Clip Size. Stacks up to 15 times. When reaching max stacks, provides an extra heart and the Eternity effect. Eternity: when damaged, restores 25% ammo to player's all weapons.
 - Synergies:
-	+ Macho Brace: Halved stack gain delay
-	+ Old Knight's Shield/Helm/Flask: 30% damage increase and double Eternity effect
+	+ Super Training [Macho Brace]: Halved stack gain delay
+	+ Age old wisdom [Old Knight's Shield/Helm/Flask]: 30% damage increase and double Eternity effect
 
 ![](https://i.ibb.co/LXv3XQrM/rylais-crystal-scepter-pixelart-sprite-outline.png)
 Rylai's Crystal Scepter (C):
@@ -149,8 +168,8 @@ Galeforce (A):
 - Stats: 1.25x DMG, 1.2x ROF
 - Effect: Dash (invincible and floating during the dash: dodgeroll properties) in the aimed direction, firing 3 homing missiles at the end. Each missile deals 10 damage and is affected by player damage modifiers. Goes on a 90s cooldown.
 - Synergies:
-	+ Whisper: Missiles deal 2.5x damage
-	+ Bow/Charmed Bow/Gunbow: Halved cooldown
+	+ FOUR! [Whisper]: Missiles deal 2.5x damage
+	+ Bow Mastery [Bow/Charmed Bow/Gunbow]: Halved cooldown
 
 ![](https://i.ibb.co/xtgHCPqf/perfectly-timed-stopwatch-pixelart-sprite.png)
 Perfectly Timed Stopwatch (D):
@@ -164,6 +183,9 @@ Redemption (A):
 ![](https://i.ibb.co/8g7bBtLt/refillable-potion.png)
 Refillable Potion (C):
 - Effect: Activate to heal a half heart. Stacks up to two times. Refills upon entering a new floor.
+- Synergies:
+	+ BunchO Potions [Old Knight's Flask]: stacks up to 3
+	+ Cocktail Potion [Potion of Gun Friendship/Potion of Lead Skin]: Using the refillable potion provides half the effect of each Buff Potions. Gun Friendship: Halved buff amounts. Lead Skin: Halved duration.
 
 ![](https://i.ibb.co/ZR5sZTJ5/stridebreaker-pixelart-sprite-small.png)
 Stridebreaker (A):
@@ -193,13 +215,15 @@ Braum's Shield (C):
 Crossblade (C):
 - Stats: Fire rate: 0.6s, 10 dmg, 250 ammo
 - Fires boomerangs that chain to other nearby enemies on hit. Boomerang deals 40% damage after 1st enemy hit and bounce 8 times.
-- Synergy: Bouncemaxxing [Bouncy Bullets, Boomerang]: boomerangs bounce 3 more times.
+- Synergy:
+	+ Bouncemaxxing [Bouncy Bullets, Boomerang]: boomerangs bounce 3 more times.
 
 ![](https://i.ibb.co/ZzY5mZgJ/shock-SMG-idle-001.png)
 Zaunite Rifle (B):
 - Stats: Fire rate: 0.67s, 3.5 dmg, 7 bullets per burst, 1000 ammo, reload: 1.0s
 - Fires a burst of 7 bullets per shot.
-- Synergy: Passive Charge [Battery Bullets, Shock Rounds, Thunderclap, Shock Rifle, Laser Lotus]: regains 2 ammo per second while not in use.
+- Synergies:
+	+ Passive Charge [Battery Bullets, Shock Rounds, Thunderclap, Shock Rifle, Laser Lotus]: regains 2 ammo per second while not in use.
 
 ![](https://i.ibb.co/bgGzMTHr/hextech-idle-001.png)
 Hextech Rifle (C):
@@ -233,7 +257,8 @@ Virtue [Form 1] (C):
 - Fires projectiles
 - Gains exp from killing enemies equal to their HP, evolves into next form once enough exp has been acquired.
 - All forms share the same synergies
-- Synergy: Exp. Share [Macho Brace, Scouter, Broccoli, Life Orb]: doubles exp gained.
+- Synergies: 
+	+ Exp. Share [Macho Brace, Scouter, Life Orb]: doubles exp gained.
 
 ![](https://i.ibb.co/zz36nrx/virtue-form2-idle-001.png)
 Virtue [Form 2] (EX):

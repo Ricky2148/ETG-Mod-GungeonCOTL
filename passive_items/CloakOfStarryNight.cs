@@ -22,7 +22,7 @@ namespace LOLItems.passive_items
         private static float preDamageProcChance = 0.1f;
         private static float synergyProcChance = 0.2f;
 
-        public bool firstSynergyActivated = false;
+        public bool HEAVENANDEARTHCOMBINEDActivated = false;
 
         public static int ID;
 
@@ -118,7 +118,7 @@ namespace LOLItems.passive_items
         {
             if (Owner != null)
             {
-                if (Owner.HasSynergy(Synergy.HEAVEN_AND_EARTH_COMBINED) && !firstSynergyActivated)
+                if (Owner.HasSynergy(Synergy.HEAVEN_AND_EARTH_COMBINED) && !HEAVENANDEARTHCOMBINEDActivated)
                 {
                     procChance = synergyProcChance;
                     foreach (PassiveItem item in Owner.passiveItems)
@@ -130,9 +130,9 @@ namespace LOLItems.passive_items
                         }
                     }
 
-                    firstSynergyActivated = true;
+                    HEAVENANDEARTHCOMBINEDActivated = true;
                 }
-                else if (!Owner.HasSynergy(Synergy.HEAVEN_AND_EARTH_COMBINED) && firstSynergyActivated)
+                else if (!Owner.HasSynergy(Synergy.HEAVEN_AND_EARTH_COMBINED) && HEAVENANDEARTHCOMBINEDActivated)
                 {
                     procChance = preDamageProcChance;
                     foreach (PassiveItem item in Owner.passiveItems)
@@ -144,7 +144,7 @@ namespace LOLItems.passive_items
                         }
                     }
 
-                    firstSynergyActivated = false;
+                    HEAVENANDEARTHCOMBINEDActivated = false;
                 }
             }
 

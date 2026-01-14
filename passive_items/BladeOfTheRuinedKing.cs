@@ -33,9 +33,9 @@ namespace LOLItems
             SpeedMultiplier = slowPercent,
         };
 
-        public bool firstSynergyActivated = false;
-        public bool secondSynergyActivated = false;
-        public bool thirdSynergyActivated = false;
+        public bool YOUDAREFACEAKINGActivated = false;
+        private static float YOUDAREFACEAKINGPercentCurrentHealthStat = 0.2f;
+        public bool FORISOLDEActivated = false;
 
         public static int ID;
 
@@ -97,17 +97,17 @@ namespace LOLItems
         {
             if (Owner != null)
             {
-                if (Owner.HasSynergy(Synergy.YOU_DARE_FACE_A_KING) && !firstSynergyActivated)
+                if (Owner.HasSynergy(Synergy.YOU_DARE_FACE_A_KING) && !YOUDAREFACEAKINGActivated)
                 {
-                    PercentCurrentHealthStat = 0.18f;
+                    PercentCurrentHealthStat = YOUDAREFACEAKINGPercentCurrentHealthStat;
 
-                    firstSynergyActivated = true;
+                    YOUDAREFACEAKINGActivated = true;
                 }
-                else if (!Owner.HasSynergy(Synergy.YOU_DARE_FACE_A_KING) && firstSynergyActivated)
+                else if (!Owner.HasSynergy(Synergy.YOU_DARE_FACE_A_KING) && YOUDAREFACEAKINGActivated)
                 {
                     PercentCurrentHealthStat = 0.12f;
 
-                    firstSynergyActivated = false;
+                    YOUDAREFACEAKINGActivated = false;
                 }
             }
             base.Update();

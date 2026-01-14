@@ -45,7 +45,7 @@ namespace LOLItems.weapons
             "boomerangblade_fire_sfx_007",
         };
 
-        public bool firstSynergyActivated;
+        public bool BOUNCEMAXXINGActivated;
 
         public static void Add()
         {
@@ -297,21 +297,21 @@ namespace LOLItems.weapons
             base.OnDropped();
         }
 
-        public void Update()
+        protected override void Update()
         {
             if (Owner != null)
             {
-                if (Player.HasSynergy(Synergy.BOUNCEMAXXING) && !firstSynergyActivated)
+                if (Player.HasSynergy(Synergy.BOUNCEMAXXING) && !BOUNCEMAXXINGActivated)
                 {
                     gun.DefaultModule.projectiles[0].gameObject.GetComponent<PierceProjModifier>().penetration = ricochetCount + 2;
 
-                    firstSynergyActivated = true;
+                    BOUNCEMAXXINGActivated = true;
                 }
-                else if (!Player.HasSynergy(Synergy.BOUNCEMAXXING) && firstSynergyActivated)
+                else if (!Player.HasSynergy(Synergy.BOUNCEMAXXING) && BOUNCEMAXXINGActivated)
                 {
                     gun.DefaultModule.projectiles[0].gameObject.GetComponent<PierceProjModifier>().penetration = ricochetCount;
 
-                    firstSynergyActivated = false;
+                    BOUNCEMAXXINGActivated = false;
                 }
             }
         }

@@ -24,7 +24,7 @@ namespace LOLItems
 
         private static float EternityAmmoRestorePercent = 0.25f;
 
-        public bool secondSynergyActivated = false;
+        public bool AGEOLDWISDOMActivated = false;
 
         public static int ID;
 
@@ -95,19 +95,21 @@ namespace LOLItems
         {
             if (Owner != null)
             {
-                if (Owner.HasSynergy(Synergy.AGE_OLD_WISDOM) && !secondSynergyActivated)
+                if (Owner.HasSynergy(Synergy.AGE_OLD_WISDOM) && !AGEOLDWISDOMActivated)
                 {
                     ItemBuilder.AddPassiveStatModifier(this, PlayerStats.StatType.Damage, 1f + TimelessDamageIncreaseMax, StatModifier.ModifyMethod.MULTIPLICATIVE);
+                    Owner.stats.RecalculateStatsWithoutRebuildingGunVolleys(Owner);
                     //Plugin.Log($"postprocessproj on");
 
-                    secondSynergyActivated = true;
+                    AGEOLDWISDOMActivated = true;
                 }
-                else if (!Owner.HasSynergy(Synergy.AGE_OLD_WISDOM) && secondSynergyActivated)
+                else if (!Owner.HasSynergy(Synergy.AGE_OLD_WISDOM) && AGEOLDWISDOMActivated)
                 {
                     ItemBuilder.RemovePassiveStatModifier(this, PlayerStats.StatType.Damage);
+                    Owner.stats.RecalculateStatsWithoutRebuildingGunVolleys(Owner);
                     //Plugin.Log($"postprocessproj off");
 
-                    secondSynergyActivated = false;
+                    AGEOLDWISDOMActivated = false;
                 }
             }
 
@@ -121,7 +123,7 @@ namespace LOLItems
             while (TimelessStackCount * TimelessIncrementValue < TimelessIncreaseMax)
             {
                 // wait timer
-                if (player.HasSynergy(Synergy.TRAINING_UP))
+                if (player.HasSynergy(Synergy.SUPER_TRAINING))
                 {
                     yield return new WaitForSeconds(TimelessIncrementTimeInterval / 2f);
                 }

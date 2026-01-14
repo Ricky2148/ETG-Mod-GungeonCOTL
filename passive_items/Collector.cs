@@ -25,10 +25,14 @@ namespace LOLItems
 
         private static float ExecuteThreshold = 0.15f;
 
-        public bool firstSynergyActivated = false;
-        public bool secondSynergyActivated = false;
-        public bool thirdSynergyActivated = false;
-        public bool fourthSynergyActivated = false;
+        public bool RETURNONINVESTMENTActivated = false;
+        private static int RETURNONINVESTMENTDeathGoldStat = 2;
+        public bool STROKEOFLUCKActivated = false;
+        private static int STROKEOFLUCKGoldMultiplier = 2;
+        public bool ANOFFERINGActivated = false;
+        private static int ANOFFERINGGoldMultiplier = 3;
+        public bool BETTERRNGActivated = false;
+        private static float BETTERRNGDeathGoldChance = 0.75f;
 
         public static int ID;
 
@@ -117,33 +121,33 @@ namespace LOLItems
         {
             if (Owner != null)
             {
-                if (Owner.HasSynergy(Synergy.RETURN_ON_INVESTMENT) && !firstSynergyActivated)
+                if (Owner.HasSynergy(Synergy.RETURN_ON_INVESTMENT) && !RETURNONINVESTMENTActivated)
                 {
-                    DeathGoldStat = 2;
+                    DeathGoldStat = RETURNONINVESTMENTDeathGoldStat;
                     //Plugin.Log($"{DeathGoldStat}");
 
-                    firstSynergyActivated = true;
+                    RETURNONINVESTMENTActivated = true;
                 }
-                else if (!Owner.HasSynergy(Synergy.RETURN_ON_INVESTMENT) && firstSynergyActivated)
+                else if (!Owner.HasSynergy(Synergy.RETURN_ON_INVESTMENT) && RETURNONINVESTMENTActivated)
                 {
                     DeathGoldStat = 1;
                     //Plugin.Log($"{DeathGoldStat}");
 
-                    firstSynergyActivated = false;
+                    RETURNONINVESTMENTActivated = false;
                 }
 
-                if (Owner.HasSynergy(Synergy.BETTER_RNG) && !fourthSynergyActivated)
+                if (Owner.HasSynergy(Synergy.BETTER_RNG) && !BETTERRNGActivated)
                 {
-                    DeathGoldChance = 0.75f;
+                    DeathGoldChance = BETTERRNGDeathGoldChance;
                     //Plugin.Log("synergy 4 activate");
 
-                    fourthSynergyActivated = true;
+                    BETTERRNGActivated = true;
                 }
-                else if (!Owner.HasSynergy(Synergy.BETTER_RNG)&& fourthSynergyActivated)
+                else if (!Owner.HasSynergy(Synergy.BETTER_RNG)&& BETTERRNGActivated)
                 {
                     DeathGoldChance = 0.3f;
 
-                    fourthSynergyActivated = false;
+                    BETTERRNGActivated = false;
                 }
             }
 
@@ -225,11 +229,11 @@ namespace LOLItems
                             //Plugin.Log($"synergy 2 fortunes favor work");
                             if (enemy.healthHaver.IsBoss || enemy.healthHaver.IsSubboss)
                             {
-                                LootEngine.SpawnCurrency(enemy.specRigidbody.UnitCenter, DeathGoldStat * 20);
+                                LootEngine.SpawnCurrency(enemy.specRigidbody.UnitCenter, STROKEOFLUCKGoldMultiplier * DeathGoldStat * 10);
                             }
                             else
                             {
-                                LootEngine.SpawnCurrency(enemy.specRigidbody.UnitCenter, DeathGoldStat * 2);
+                                LootEngine.SpawnCurrency(enemy.specRigidbody.UnitCenter, STROKEOFLUCKGoldMultiplier * DeathGoldStat);
                             }
                             return;
                         }
@@ -263,7 +267,7 @@ namespace LOLItems
                         //Plugin.Log($"synergy 3 daruma work");
                         if (UnityEngine.Random.value < DeathGoldChance)
                         {
-                            LootEngine.SpawnCurrency(Owner.specRigidbody.UnitCenter, DeathGoldStat * 3);
+                            LootEngine.SpawnCurrency(Owner.specRigidbody.UnitCenter, ANOFFERINGGoldMultiplier * DeathGoldStat);
                         }
                     }
                 }

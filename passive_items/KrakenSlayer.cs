@@ -17,12 +17,12 @@ namespace LOLItems
         public static string ItemName = "Kraken Slayer";
 
         // stats pool for item
-        private int bringItDownCount = 0;
-        private static float bringItDownDamage = 20f;
+        public int bringItDownCount = 0;
+        public float bringItDownDamage = 20f;
         private static float bringItDownDamageScale = 0.25f;
         private static float DamageStat = 1.25f;
         private static float RateOfFireStat = 1.25f;
-        private string[] sfxList = new string[]
+        public string[] sfxList = new string[]
         {
             "kraken_slayer_passive_SFX_1",
             "kraken_slayer_passive_SFX_2",

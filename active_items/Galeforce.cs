@@ -25,7 +25,7 @@ namespace LOLItems.active_items
         private static float CloudburstCooldown = 40f;
 
         //private bool playerHasFlight = false;
-        private bool secondSynergyActivated = false;
+        private bool BOWMASTERYActivated = false;
 
         public Projectile CloudburstProjectile = (PickupObjectDatabase.GetById((int)Items.YariLauncher) as Gun)
             .DefaultModule.projectiles[0].InstantiateAndFakeprefab();
@@ -107,18 +107,18 @@ namespace LOLItems.active_items
         {
             if (LastOwner != null)
             {
-                if (LastOwner.HasSynergy(Synergy.BOW_MASTERY) && !secondSynergyActivated)
+                if (LastOwner.HasSynergy(Synergy.BOW_MASTERY) && !BOWMASTERYActivated)
                 {
                     this.timeCooldown = CloudburstCooldown / 2f;
 
-                    secondSynergyActivated = true;
+                    BOWMASTERYActivated = true;
                 }
-                else if (!LastOwner.HasSynergy(Synergy.BOW_MASTERY) && secondSynergyActivated)
+                else if (!LastOwner.HasSynergy(Synergy.BOW_MASTERY) && BOWMASTERYActivated)
                 {
                     this.timeCooldown = CloudburstCooldown;
                     //Plugin.Log($"{WintersCaressCrippleEffect.CrippleAmount}");
 
-                    secondSynergyActivated = false;
+                    BOWMASTERYActivated = false;
                 }
             }
 

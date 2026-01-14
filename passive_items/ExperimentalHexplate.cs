@@ -6,6 +6,7 @@ using UnityEngine;
 using Alexandria.ItemAPI;
 using Alexandria;
 using Alexandria.Misc;
+using LOLItems.custom_class_data;
 
 //health, dmg, and fire rate, extra dmg and fire rate when using an item
 
@@ -24,6 +25,15 @@ namespace LOLItems
         private static float OverdriveRateOfFireStat = 1.5f;
         private static float overdriveMovementSpeedStat = 1.25f;
         private bool isOverdriveActive = false;
+        public bool isOnCooldown = false;
+
+        private int cigaretteUses = 0;
+        private static float DamageStatPerCigUse = 0.05f;
+
+        public bool SPEEDBLITZActivated = false;
+        private static float SPEEDBLITZMovementSpeedStat = 1.25f;
+        public bool FILLERUPActivated = false;
+        private static float FILLERUPRateOfFireStat = 2f;
 
         public static int ID;
         public static void Init()
@@ -74,15 +84,76 @@ namespace LOLItems
             }
         }
 
+        public override void Update()
+        {
+            if (Owner != null)
+            {
+                if (Owner.HasSynergy(Synergy.SPEED_BLITZ) && !SPEEDBLITZActivated)
+                {
+                    ItemBuilder.AddPassiveStatModifier(this, PlayerStats.StatType.MovementSpeed, SPEEDBLITZMovementSpeedStat, StatModifier.ModifyMethod.MULTIPLICATIVE);
+                    Owner.stats.RecalculateStatsWithoutRebuildingGunVolleys(Owner);
+
+                    SPEEDBLITZActivated = true;
+                }
+                else if (!Owner.HasSynergy(Synergy.SPEED_BLITZ) && SPEEDBLITZActivated)
+                {
+                    ItemBuilder.RemovePassiveStatModifier(this, PlayerStats.StatType.MovementSpeed);
+                    Owner.stats.RecalculateStatsWithoutRebuildingGunVolleys(Owner);
+
+                    SPEEDBLITZActivated = false;
+                }
+                //Plugin.Log($"{Owner.HasSynergy(Synergy.FILLER_UP)}, {FILLERUPActivated}, {Owner.CurrentGun.PickupObjectId == ((int)Items.Gungine)}");
+                if (Owner.HasSynergy(Synergy.FILLER_UP) && !FILLERUPActivated && Owner.CurrentGun.PickupObjectId == (int)Items.Gungine)
+                {
+                    ItemBuilder.AddPassiveStatModifier(this, PlayerStats.StatType.RateOfFire, FILLERUPRateOfFireStat, StatModifier.ModifyMethod.MULTIPLICATIVE);
+                    Owner.stats.RecalculateStatsWithoutRebuildingGunVolleys(Owner);
+
+                    FILLERUPActivated = true;
+                }
+                else if (Owner.HasSynergy(Synergy.FILLER_UP) && Owner.CurrentGun.PickupObjectId != (int)Items.Gungine)
+                {
+                    ItemBuilder.RemovePassiveStatModifier(this, PlayerStats.StatType.RateOfFire);
+                    ItemBuilder.AddPassiveStatModifier(this, PlayerStats.StatType.RateOfFire, RateOfFireStat, StatModifier.ModifyMethod.MULTIPLICATIVE);
+                    if (isOverdriveActive)
+                    {
+                        ItemBuilder.AddPassiveStatModifier(this, PlayerStats.StatType.RateOfFire, OverdriveRateOfFireStat, StatModifier.ModifyMethod.MULTIPLICATIVE);
+                    }
+                    Owner.stats.RecalculateStatsWithoutRebuildingGunVolleys(Owner);
+
+                    FILLERUPActivated = false;
+                }
+                else if (!Owner.HasSynergy(Synergy.FILLER_UP) && FILLERUPActivated)
+                {
+                    ItemBuilder.RemovePassiveStatModifier(this, PlayerStats.StatType.RateOfFire);
+                    Owner.stats.RecalculateStatsWithoutRebuildingGunVolleys(Owner);
+
+                    FILLERUPActivated = false;
+                }
+            }
+
+            base.Update();
+        }
+
         private void OnPlayerItemUsed(PlayerController player, PlayerItem item)
         {
-            if (!isOverdriveActive) StartCoroutine(ApplyOverdriveBuff(player));
+            if (player.HasSynergy(Synergy.THAT_GOOD_SHIT))
+            {
+                if (item.PickupObjectId == (int)Items.Cigarettes)
+                {
+                    cigaretteUses++;
+                    ItemBuilder.RemovePassiveStatModifier(item, PlayerStats.StatType.Damage);
+                    ItemBuilder.AddPassiveStatModifier(item, PlayerStats.StatType.Damage, (cigaretteUses * DamageStatPerCigUse), StatModifier.ModifyMethod.MULTIPLICATIVE);
+                    player.stats.RecalculateStatsWithoutRebuildingGunVolleys(player);
+                }
+            }
+            if (!isOnCooldown) StartCoroutine(ApplyOverdriveBuff(player));
         }
 
         // upon item use, apply overdrive buff, track cooldown, and track duration
         private System.Collections.IEnumerator ApplyOverdriveBuff(PlayerController player)
         {
             isOverdriveActive = true;
+            isOnCooldown = true;
 
             // applies additional stat buff for overdrive
             ItemBuilder.AddPassiveStatModifier(this, PlayerStats.StatType.RateOfFire, OverdriveRateOfFireStat, StatModifier.ModifyMethod.MULTIPLICATIVE);
@@ -108,6 +179,13 @@ namespace LOLItems
 
             // reapplies original base item stat buff
             ItemBuilder.AddPassiveStatModifier(this, PlayerStats.StatType.RateOfFire, RateOfFireStat, StatModifier.ModifyMethod.MULTIPLICATIVE);
+
+            if (player.HasSynergy(Synergy.SPEED_BLITZ))
+            {
+                ItemBuilder.AddPassiveStatModifier(this, PlayerStats.StatType.MovementSpeed, SPEEDBLITZMovementSpeedStat);
+            }
+
+            FILLERUPActivated = false;
             
             //player.stats.RecalculateStats(player, false, false);
             player.stats.RecalculateStatsWithoutRebuildingGunVolleys(player);
@@ -116,10 +194,11 @@ namespace LOLItems
             {
                 mat.SetColor("_OverrideColor", new Color(0f, 0f, 0f));
             }
+            isOverdriveActive = false;
 
             // waits time to simulate cooldown
             yield return new WaitForSeconds(OverdriveCooldown - OverdriveDuration);
-            isOverdriveActive = false;
+            isOnCooldown = false;
 
             //tk2dBaseSprite s = this.sprite;
             //GameUIRoot.Instance.RegisterDefaultLabel(s.transform, new Vector3(s.GetBounds().max.x + 0f, s.GetBounds().min.y + 0f, 0f), $"{this.EncounterNameOrDisplayName} ready");

@@ -42,6 +42,7 @@ namespace LOLItems
             #region Synergies
             //example: NewSynergy(LOLItems.Synergy., "", new[] { IName(MainItem.ItemName) }, new[] { });
 
+            //PASSIVE ITEMS ======================================================================================================================================================================================================================================
             //Blade of the Ruined King
             NewSynergy(LOLItems.Synergy.YOU_DARE_FACE_A_KING, "You dare face a king?!", new[] { IName(BladeOfTheRuinedKing.ItemName) }, new[] { "crown_of_guns", "gilded_bullets", "coin_crown"});
             NewSynergy(LOLItems.Synergy.FOR_ISOLDE, "For Isolde!", new[] { IName(BladeOfTheRuinedKing.ItemName) }, new[] { "excaliber", "blasphemy"});
@@ -56,25 +57,49 @@ namespace LOLItems
             NewSynergy(LOLItems.Synergy.AN_OFFERING, "An offering", new[] { IName(Collector.ItemName), "daruma" });
             NewSynergy(LOLItems.Synergy.BETTER_RNG, "Better RNG", new[] { IName(Collector.ItemName), "chance_bullets" });
 
+            //Cull
+            NewSynergy(LOLItems.Synergy.WEAK_EARLY_GAME, "weak early game...", new[] { IName(Cull.ItemName), "unfinished_gun" });
+            NewSynergy(LOLItems.Synergy.BAUSEN_LAW, "Bausen Law", new[] { IName(Cull.ItemName), "huntsman" });
+
+            //Experimental Hexplate
+            NewSynergy(LOLItems.Synergy.THAT_GOOD_SHIT, "that GOOD $#%&", new[] { IName(ExperimentalHexplate.ItemName), "cigarettes" });
+            NewSynergy(LOLItems.Synergy.SPEED_BLITZ, "Speed Blitz", new[] { IName(ExperimentalHexplate.ItemName) }, new[] { "bionic_leg", "shotgun_coffee", "shotga_cola", "ballistic_boots", "magic_sweet" });
+            NewSynergy(LOLItems.Synergy.FILLER_UP, "Fill'Er-Up", new[] { IName(ExperimentalHexplate.ItemName), "gungine" });
+
             //Frozen Heart
             NewSynergy(LOLItems.Synergy.ICE_TO_THE_CORE, "Ice to the core", new[] { IName(FrozenHeart.ItemName) }, new[] { "frost_bullets", "snowballets", "heart_of_ice" });
             NewSynergy(LOLItems.Synergy.FROZEN_BULLETS, "Frozen Bullets", new[] { IName(FrozenHeart.ItemName) }, new[] { "cold_45", "frost_giant", "freeze_ray", "glacier", "snowballer"});
 
+            //Guardian Angel
+            NewSynergy(LOLItems.Synergy.DIVINE_JUDGEMENT, "Divine Judgement!", new[] { IName(GuardianAngel.ItemName), VirtueForm3.internalName });
+            NewSynergy(LOLItems.Synergy.WHY_WONT_YOU_DIE, "Why won't you DIE!", new[] { IName(GuardianAngel.ItemName) }, new[] { "clone", "gun_soul", "pig" });
+
+            //Guinsoo's Rageblade
+            NewSynergy(LOLItems.Synergy.BLADES_OF_CHAOS, "Blades of Chaos", new[] { IName(GuinsoosRageblade.ItemName)}, new[] { "chaos_ammolet", "chaos_bullets" });
+            NewSynergy(LOLItems.Synergy.POSEIGUNS_WRATH, "Poseigun's Wrath", new[] { IName(GuinsoosRageblade.ItemName), "trident" });
+            NewSynergy(LOLItems.Synergy.TRIPLE_DELUXE, "TRIPLE DELUXE", new[] { IName(GuinsoosRageblade.ItemName), IName(BladeOfTheRuinedKing.ItemName), IName(KrakenSlayer.ItemName) });
+            //NewSynergy(LOLItems.Synergy.ONHIT_SYNERGY_WITH_KRAKENSLAYER, "On-hit synergy", new[] { IName(GuinsoosRageblade.ItemName), IName(KrakenSlayer.ItemName) });
+
+            //Rod of Ages
+            NewSynergy(LOLItems.Synergy.SUPER_TRAINING, "Super Training", new[] { IName(RodOfAges.ItemName), "macho_brace" });
+            NewSynergy(LOLItems.Synergy.AGE_OLD_WISDOM, "Age old wisdom", new[] { IName(RodOfAges.ItemName) }, new[] { "old_knights_shield", "old_knights_helm", "old_knights_flask" });
+
+            //ACTIVE ITEMS ==============================================================================================================================================================================================================================================================================
             //Galeforce
             NewSynergy(LOLItems.Synergy.GALEFORCE_FOUR, "FOUR!", new[] { IName(Galeforce.ItemName), Whisper.internalName });
             NewSynergy(LOLItems.Synergy.BOW_MASTERY, "Bow Mastery", new[] { IName(Galeforce.ItemName) }, new[] { "bow", "charmed_bow", "gunbow" });
 
-            //Rod of Ages
-            NewSynergy(LOLItems.Synergy.TRAINING_UP, "Training up!", new[] { IName(RodOfAges.ItemName), "macho_brace" });
-            NewSynergy(LOLItems.Synergy.AGE_OLD_WISDOM, "Age old wisdom", new[] { IName(RodOfAges.ItemName) }, new[] { "old_knights_shield", "old_knights_helm", "old_knights_flask" });
+            //Refillable Potion
+            NewSynergy(LOLItems.Synergy.BUNCH_O_POTIONS, "BunchO Potions", new[] { IName(RefillablePotion.ItemName), "old_knights_flask" });
+            NewSynergy(LOLItems.Synergy.COCKTAIL_POTION, "Cocktail Potion", new[] { IName(RefillablePotion.ItemName) }, new[] { "potion_of_lead_skin", "potion_of_gun_friendship" });
 
+            //WEAPONS ====================================================================================================================================================================================================================================================
+            //Crossblade
+            NewSynergy(LOLItems.Synergy.BOUNCEMAXXING, "Bouncemaxxing", new[] { Crossblade.internalName }, new[] { "bouncy_bullets", "boomerang" });
+            
             //Electric Rifle
             // not sure how this synergy should work with this type of setup, shouldn't cause much issues if i keep it the old setup method
             //NewSynergy(LOLItems.Synergy.PASSIVE_CHARGE, "Passive charge", new[] { IName(ElectricRifle.internalName) }, new[] { "battery_bullets", "shock_rounds", "thunderclap", "shock_rifle", "laser_lotus" });
-
-            //WEAPONS
-            //Crossblade
-            NewSynergy(LOLItems.Synergy.BOUNCEMAXXING, "Bouncemaxxing", new[] { Crossblade.internalName }, new[] { "bouncy_bullets", "boomerang" });
 
             //Hextech Rifle
             NewSynergy(LOLItems.Synergy.ME_MISS_NOT_BY_A_LONG_SHOT, "\"Me, miss? Not by a long shot.\"", new[] { HextechRifle.internalName }, new[] { "scope", "laser_sight" });
@@ -170,7 +195,7 @@ namespace LOLItems
         FROZEN_BULLETS,
         GALEFORCE_FOUR,
         BOW_MASTERY,
-        TRAINING_UP,
+        SUPER_TRAINING,
         AGE_OLD_WISDOM,
         //PASSIVE_CHARGE,
         YOU_DARE_FACE_A_KING,
@@ -181,6 +206,19 @@ namespace LOLItems
         EXP_SHARE_FORM_1,
         EXP_SHARE_FORM_2,
         EXP_SHARE_FORM_3,
+        WEAK_EARLY_GAME,
+        BAUSEN_LAW,
+        THAT_GOOD_SHIT,
+        SPEED_BLITZ,
+        FILLER_UP,
+        DIVINE_JUDGEMENT,
+        WHY_WONT_YOU_DIE,
+        BUNCH_O_POTIONS,
+        COCKTAIL_POTION,
+        BLADES_OF_CHAOS,
+        POSEIGUNS_WRATH,
+        TRIPLE_DELUXE,
+        //ONHIT_SYNERGY_WITH_KRAKENSLAYER,
 
     };
 }

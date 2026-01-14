@@ -23,8 +23,8 @@ namespace LOLItems
         private static float WintersCaressCrippleRatio = 0.7f;
         private static float WintersCaressRange = 8f;
 
-        public bool firstSynergyActivated = false;
-        public bool secondSynergyActivated = false;
+        public bool ICETOTHECOREActivated = false;
+        public bool FROZENBULLETSActivated = false;
 
         public static int ID;
 
@@ -131,34 +131,34 @@ namespace LOLItems
         {
             if (Owner != null)
             {
-                if (Owner.HasSynergy(Synergy.ICE_TO_THE_CORE) && !firstSynergyActivated)
+                if (Owner.HasSynergy(Synergy.ICE_TO_THE_CORE) && !ICETOTHECOREActivated)
                 {
                     WintersCaressCrippleEffect.CrippleAmount = 1f - ((1f - WintersCaressCrippleRatio) * 1.5f);
                     //Plugin.Log($"{WintersCaressCrippleEffect.CrippleAmount}");
 
-                    firstSynergyActivated = true;
+                    ICETOTHECOREActivated = true;
                 }
-                else if (!Owner.HasSynergy(Synergy.ICE_TO_THE_CORE) && firstSynergyActivated)
+                else if (!Owner.HasSynergy(Synergy.ICE_TO_THE_CORE) && ICETOTHECOREActivated)
                 {
                     WintersCaressCrippleEffect.CrippleAmount = WintersCaressCrippleRatio;
                     //Plugin.Log($"{WintersCaressCrippleEffect.CrippleAmount}");
 
-                    firstSynergyActivated = false;
+                    ICETOTHECOREActivated = false;
                 }
 
-                if (Owner.HasSynergy(Synergy.FROZEN_BULLETS) && !secondSynergyActivated)
+                if (Owner.HasSynergy(Synergy.FROZEN_BULLETS) && !FROZENBULLETSActivated)
                 {
                     Owner.PostProcessProjectile += OnPostProcessProjectile;
                     //Plugin.Log($"postprocessproj on");
 
-                    secondSynergyActivated = true;
+                    FROZENBULLETSActivated = true;
                 }
-                else if (!Owner.HasSynergy(Synergy.FROZEN_BULLETS) && secondSynergyActivated)
+                else if (!Owner.HasSynergy(Synergy.FROZEN_BULLETS) && FROZENBULLETSActivated)
                 {
                     Owner.PostProcessProjectile -= OnPostProcessProjectile;
                     //Plugin.Log($"postprocessproj off");
 
-                    secondSynergyActivated = false;
+                    FROZENBULLETSActivated = false;
                 }
             }
 
