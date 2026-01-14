@@ -92,12 +92,17 @@ Hubris (A):
 - Synergies:
 	+ Infinite Scaling [Metronome & Platinum Bullets]: Damage increase scaling +0.5%
 	+ Gladitorial Challenge [Lament Configurum]: After using lament configurum, gain 3 stacks per kill
- + Peace and War [Really Special Lute]: Every some number of stacks, heal a half heart
+	+ Peace and War [Really Special Lute]: Every some number of stacks, heal a half heart
 
 ![](https://i.ibb.co/6RKHPdxx/kraken-slayer-pixelart-sprite-outline.png)
 Kraken Slayer (S):
 - Stats: 1.25x DMG, 1.25x ROF
 - Effect: Every 3rd bullet will deal additional 20 damage on hit. This extra damage increases based on the floor up to 40 damage. This extra damage will also scale with missing health up to 1.75x damage.
+- Synergies:
+	+ Top tier fishing tool [Siren/Trident/Barrel]: base damage +10
+	+ Entanglement [Abyssal Tentacle]: bullet that deals additional damage will also slow enemies
+	+ Megalodon Slayer [Compressed Air Tank]: missing health scaling increased to 3x damage.
+	+ A sailor's best friend [Double vision]: base damage doubled while double vision is active
 
 ![](https://i.ibb.co/95m86x4/fated-ashes-pixelart-sprite.png)
 Fated Ashes (D):
