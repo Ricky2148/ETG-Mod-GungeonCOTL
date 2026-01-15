@@ -49,7 +49,7 @@ namespace LOLItems
 
             string shortDesc = "Ethically Questionable";
             // maybe add effect explanation?
-            string longDesc = "Activating an item increases your fire rate and movespeed for a few seconds. Goes on a cooldown.\n\n" +
+            string longDesc = "+1 Heart, Increase damage and fire rate\nActivating an item increases your fire rate and movespeed for a few seconds. Goes on a cooldown.\n\n" +
                 "This strange piece of armor appears to be mechanically equipped to help the user " +
                 "enhance their physical abilities. There's an extra mechanism on the armor, but you can't figure " +
                 "out what the trigger is.\n\nIt never passed testing phase for a reason.\n";

@@ -115,7 +115,7 @@ namespace LOLItems
             ItemBuilder.AddSpriteToObject(itemName, resourceName, obj);
 
             string shortDesc = "Deus Ex Machina";
-            string longDesc = "Activates a circle where you target. The circle winds up for a short time, then harms enemies and heals players.\n\n" +
+            string longDesc = "+1 Heart\nActivates a circle where you target. The circle winds up for a short time, then harms enemies and heals players.\n\n" +
                 "A magical pendant with the power to call upon a beam of light at will. It's purifying light harms those it deems evil and " +
                 "heals those it deems good. The light's morals seem questionable if it deems the gungeoneers as good.\n";
 

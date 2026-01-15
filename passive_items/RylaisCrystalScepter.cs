@@ -40,7 +40,7 @@ namespace LOLItems.passive_items
             ItemBuilder.AddSpriteToObject(itemName, resourceName, obj);
             
             string shortDesc = "A Cold One";
-            string longDesc = "Dealing damage slows enemies hit.\n\n" +
+            string longDesc = "+1 Heart\nDealing damage slows enemies hit.\n\n" +
                 "A magic scepter with a bright blue crystal. The crystal is freezing to the touch, " +
                 "but you kinda don't care. Things start to feel less important as you hold this scepter.\n";
             

@@ -52,7 +52,7 @@ namespace LOLItems
 
             string shortDesc = "from the Greatest Swordsmith";
             // maybe add effect explanation?
-            string longDesc = "Increases max ammo multiplier and clip size multiplier every few kills. Evolves after enough kills.\n\n" +
+            string longDesc = "Slightly increase damage\nIncreases max ammo multiplier and clip size multiplier every few kills. Evolves after enough kills.\n\n" +
                 "Created by the Greatest Swordsmith, Masamune, this sword increases the wielder's" +
                 " capacity for battle.\n\nLegends hint at the blade's true strength being sealed away.\n";
 
@@ -76,7 +76,7 @@ namespace LOLItems
                 player.OnAnyEnemyReceivedDamage += ManaflowStack;
             }
                
-            foreach (PassiveItem item in player.passiveItems)
+            /*foreach (PassiveItem item in player.passiveItems)
             {
                 if (item.PickupObjectId == TearOfTheGoddess.ID && item != null)
                 {
@@ -95,8 +95,7 @@ namespace LOLItems
                     }
                     player.RemovePassiveItem(TearOfTheGoddess.ID);
                 }
-
-            }
+            }*/
         }
 
         public override void DisableEffect(PlayerController player)
@@ -110,6 +109,40 @@ namespace LOLItems
                 player.OnAnyEnemyReceivedDamage -= ManaflowStack;
                 //player.PostProcessProjectile -= MuramanaShock;
             }
+        }
+
+        public override void Update()
+        {
+            if (Owner != null)
+            {
+                if (Owner.HasSynergy(Synergy.BUILDS_INTO_MANAMUNE))
+                {
+                    foreach (PassiveItem item in Owner.passiveItems)
+                    {
+                        if (item.PickupObjectId == TearOfTheGoddess.ID && item != null)
+                        {
+                            if (item.GetComponent<TearOfTheGoddess>().ManaflowMaxed)
+                            {
+                                UpgradeToMuramana(Owner);
+                            }
+                            else
+                            {
+                                ManaflowStackCount = item.GetComponent<TearOfTheGoddess>().ManaflowStackCount;
+                                CurrentManaflowKillCount = item.GetComponent<TearOfTheGoddess>().CurrentManaflowKillCount * (1f / 2f);
+                                ItemBuilder.AddPassiveStatModifier(this, PlayerStats.StatType.AdditionalClipCapacityMultiplier, 1f + ManaflowIncrementValue * ManaflowStackCount, StatModifier.ModifyMethod.MULTIPLICATIVE);
+                                ItemBuilder.AddPassiveStatModifier(this, PlayerStats.StatType.AmmoCapacityMultiplier, 1f + ManaflowIncrementValue * ManaflowStackCount, StatModifier.ModifyMethod.MULTIPLICATIVE);
+                                Plugin.Log($"tear: {item.GetComponent<TearOfTheGoddess>().ManaflowStackCount}, {item.GetComponent<TearOfTheGoddess>().CurrentManaflowKillCount}" +
+                                    $"\nmanamune: {ManaflowStackCount}, {CurrentManaflowKillCount}");
+    
+                                LootEngine.SpawnCurrency(Owner.specRigidbody.UnitCenter, item.PurchasePrice);
+                            }
+                        }
+                    }
+                    Owner.RemovePassiveItem(TearOfTheGoddess.ID);
+                }
+            }
+
+            base.Update();
         }
 
         private void ManaflowStack(float damage, bool fatal, HealthHaver enemyHealth)

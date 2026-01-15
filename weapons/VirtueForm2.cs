@@ -521,6 +521,8 @@ namespace LOLItems.weapons
                 BraveUtility.Swap(ref this.gun.alternateShootAnimation, ref this.gun.finalShootAnimation);
                 BraveUtility.Swap(ref this.gun.idleAnimation, ref this.gun.alternateIdleAnimation);
 
+                gun.Reload();
+
                 zealCapActivated = false;
             }
         }

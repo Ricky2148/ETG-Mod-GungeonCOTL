@@ -50,7 +50,7 @@ namespace LOLItems
             ItemBuilder.AddSpriteToObject(itemName, resourceName, obj);
             
             string shortDesc = "Cursed Mask";
-            string longDesc = "Dealing damage burns enemies for %max health damage.\n\n" +
+            string longDesc = "+1 Heart, Increase damage\nDealing damage burns enemies for %max health damage.\n\n" +
                 "Once belonged to a theatre company and used as a prop in their most infamous act. " +
                 "Rumors claim that each run of the act needed new actors since one actor always died mysteriously. " +
                 "\nSomething tells you that this mask was connected to these incidents.\n";

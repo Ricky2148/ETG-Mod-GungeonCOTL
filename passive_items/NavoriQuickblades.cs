@@ -30,7 +30,7 @@ namespace LOLItems.passive_items
 
             string shortDesc = "\"random bullshit go!\"";
             // maybe add effect explanation?
-            string longDesc = "Every bullet decreases your active item cooldowns by %remaining cooldown.\n\n" +
+            string longDesc = "Increase fire rate\nEvery bullet decreases your active item cooldowns by %remaining cooldown.\n\n" +
                 "A set of knives that magically come back after they land. Somehow there's always " +
                 "at least one in your hand. You wonder what would happen if you threw them all at once but you " +
                 "never do.\n";

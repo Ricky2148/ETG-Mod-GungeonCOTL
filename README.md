@@ -107,6 +107,8 @@ Kraken Slayer (S):
 ![](https://i.ibb.co/95m86x4/fated-ashes-pixelart-sprite.png)
 Fated Ashes (D):
 - Effect: Dealing damage applies a burn on the enemy that does 3 damage per second for 3 seconds.
+- Synergy:
+	+ Builds into Liandry's Torment [Liandry's Torment]: 
 
 ![](https://i.ibb.co/3yzMtSjx/liandrys-torment-pixelart-sprite-small.png)
 Liandry's Torment (B):
@@ -116,6 +118,8 @@ Liandry's Torment (B):
 ![](https://i.ibb.co/mVrsqVDG/tear-of-the-goddess-pixelart-sprite.png)
 Tear of the Goddess (D):
 - Effect: Every 50 kills, provides 1 Manaflow stack. Each manaflow stack increases max ammo capacity and max clip size by 5% (Max: 10 stacks). Stacks transfer to muramana and is consumed.
+- Synergy:
+	+ Builds into Manamune [Manamune]: 
 
 ![](https://i.ibb.co/QvFJ5yz6/manamune-pixelart-sprite-small.png)
 Manamune (B):
@@ -190,6 +194,8 @@ Galeforce (A):
 ![](https://i.ibb.co/xtgHCPqf/perfectly-timed-stopwatch-pixelart-sprite.png)
 Perfectly Timed Stopwatch (D):
 - Effect: Zhonya's Hourglass identical effect. One use consumable.
+- Synergy:
+	+ Builds into Zhonya's Hourglass [Zhonya's Hourglass]: 
 
 ![](https://i.ibb.co/prwMpFxy/redemption-pixelart-sprite.png)
 Redemption (A):

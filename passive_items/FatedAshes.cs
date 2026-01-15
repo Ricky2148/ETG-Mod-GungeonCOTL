@@ -73,6 +73,21 @@ namespace LOLItems.passive_items
             }
         }
 
+        public override void Update()
+        {
+            if (Owner != null)
+            {
+                if (Owner.HasSynergy(Synergy.BUILDS_INTO_LIANDRYS_TORMENT))
+                {
+                    Owner.RemovePassiveItem(ID);
+
+                    LootEngine.SpawnCurrency(Owner.specRigidbody.UnitCenter, this.PurchasePrice);
+                }
+            }
+
+            base.Update();
+        }
+
         private void OnPostProcessProjectile(Projectile proj, float f)
         {
             proj.OnHitEnemy += (projHit, enemy, fatal) =>

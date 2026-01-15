@@ -35,7 +35,7 @@ namespace LOLItems.passive_items
             ItemBuilder.AddSpriteToObject(itemName, resourceName, obj);
 
             string shortDesc = "Immovable as the Earth";
-            string longDesc = "Sometimes prevents the player from taking damage.\n\n" +
+            string longDesc = "+1 Heart\nSometimes prevents the player from taking damage.\n\n" +
                 "This magical shield imbues your body with heavy defense and resilience like that of the earth.\n";
 
             ItemBuilder.SetupItem(item, shortDesc, longDesc, "LOLItems");

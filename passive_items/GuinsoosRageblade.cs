@@ -59,7 +59,7 @@ namespace LOLItems
             ItemBuilder.AddSpriteToObject(itemName, resourceName, obj);
 
             string shortDesc = "*not affiliated with Kratos*";
-            string longDesc = "Every 3rd bullet fires an additional copy of that bullet.\n\n" +
+            string longDesc = "Increase damage and fire rate\nEvery 3rd bullet fires an additional copy of that bullet.\n\n" +
                 "Forged in the foulest depths of the Void. These blades increase one's capacity for " +
                 "rage and destruction. Perhaps you should not wield them.\n";
 

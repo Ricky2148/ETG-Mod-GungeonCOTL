@@ -48,7 +48,7 @@ namespace LOLItems
             ItemBuilder.AddSpriteToObject(itemName, resourceName, obj);
 
             string shortDesc = "\"death and taxes\"";
-            string longDesc = "Bullets execute enemies at low health. Each kill has a chance to give an extra casing.\n\n" +
+            string longDesc = "Increase damage\nBullets execute enemies at low health. Each kill has a chance to give an extra casing.\n\n" +
                 "A weapon that once belonged to a legendary pirate. It now rests in your hands " +
                 "and lends you a desire for gold. An orange sounds good right about now.\n";
 

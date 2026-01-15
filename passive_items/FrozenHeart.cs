@@ -50,7 +50,7 @@ namespace LOLItems
             ItemBuilder.AddSpriteToObject(itemName, resourceName, obj);
 
             string shortDesc = "Warning: Do not thaw!";
-            string longDesc = "Decreases nearby enemies' fire rate.\n\n" +
+            string longDesc = "+1 Armor\nDecreases nearby enemies' fire rate.\n\n" +
                 "Emits a chilling air that causes those nearby to have cold hands. It might just be " +
                 "a disguised AC unit. They keep complaining that they would've killed you if it weren't for their " +
                 "cold hands.\n";

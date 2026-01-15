@@ -49,7 +49,7 @@ namespace LOLItems
             string shortDesc = "A symbol of victory";
             string longDesc = "Every kill permanently increases your damage a little bit.\n\n" +
                 "A congratulatory laurel wreath gifted to the victor. With each triumph, one's strength increases. " +
-                "Legends speak of a statue that manifests once you reach the pinnacle of victory.\n";
+                "Legends speak of a statue that once bore this headpiece.\n";
 
             ItemBuilder.SetupItem(item, shortDesc, longDesc, "LOLItems");
 
@@ -158,7 +158,7 @@ namespace LOLItems
                 ItemBuilder.RemovePassiveStatModifier(this, PlayerStats.StatType.Damage);
                 float damageIncrease = eminenceCount * eminenceDamageIncrease;
                 Plugin.Log($"{eminenceCount}, {damageIncrease}");
-                ItemBuilder.AddPassiveStatModifier(this, PlayerStats.StatType.Damage, 1.0f + damageIncrease, StatModifier.ModifyMethod.ADDITIVE);
+                ItemBuilder.AddPassiveStatModifier(this, PlayerStats.StatType.Damage, /*1.0f + */damageIncrease, StatModifier.ModifyMethod.ADDITIVE);
                 //Owner.stats.RecalculateStats(Owner, false, false);
                 Owner.stats.RecalculateStatsWithoutRebuildingGunVolleys(Owner);
             }

@@ -33,7 +33,7 @@ namespace LOLItems
             ItemBuilder.AddSpriteToObject(itemName, resourceName, obj);
 
             string shortDesc = "The Peak of Swordsmithing";
-            string longDesc = "Every bullet deals additional damage. This damage increases based on your max ammo multiplier and clip size multiplier.\n\n" +
+            string longDesc = "Increase damage, max ammo, and clip size\nEvery bullet deals additional damage. This damage increases based on your max ammo multiplier and clip size multiplier.\n\n" +
                 "A blade forged by Masamune and wielded by the worthy, the Manamune's true " +
                 "power has been unlocked and empowers your every attack.\n";
 

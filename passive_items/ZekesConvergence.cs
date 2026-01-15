@@ -88,7 +88,7 @@ namespace LOLItems.passive_items
             ItemBuilder.AddSpriteToObject(itemName, resourceName, obj);
 
             string shortDesc = "ICY HOT";
-            string longDesc = "Activating an item creates an aura around you that deals damage and slows. Goes on a cooldown.\n\n" +
+            string longDesc = "+1 Heart\nActivating an item creates an aura around you that deals damage and slows. Goes on a cooldown.\n\n" +
                 "Another strange piece of armor that helps protect the user. There appears to be a mechanism to emit an aura of fire and ice, " +
                 "but the trigger is nowhere to be found. It makes you feel both hot and cold at the same time and it's really annoying.\n";
             ItemBuilder.SetupItem(item, shortDesc, longDesc, "LOLItems");

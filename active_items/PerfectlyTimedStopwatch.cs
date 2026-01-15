@@ -1,12 +1,13 @@
-﻿using System;
+﻿using Alexandria;
+using Alexandria.ItemAPI;
+using Alexandria.Misc;
+using LOLItems.custom_class_data;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Alexandria.ItemAPI;
 using UnityEngine;
-using Alexandria;
-using LOLItems.custom_class_data;
-using Alexandria.Misc;
+using static UnityEngine.UI.GridLayoutGroup;
 
 namespace LOLItems.active_items
 {
@@ -41,7 +42,7 @@ namespace LOLItems.active_items
             item.quality = PickupObject.ItemQuality.D;
 
             item.UsesCustomCost = true;
-            item.CustomCost = 25;
+            item.CustomCost = 20;
 
             ID = item.PickupObjectId;
         }
@@ -57,6 +58,21 @@ namespace LOLItems.active_items
             Plugin.Log($"Player dropped or got rid of {this.EncounterNameOrDisplayName}");
 
             return base.Drop(player);
+        }
+
+        public override void Update()
+        {
+            if (LastOwner != null)
+            {
+                if (LastOwner.HasSynergy(Synergy.BUILDS_INTO_ZHONYAS_HOURGLASS))
+                {
+                    LastOwner.RemoveActiveItem(ID);
+
+                    LootEngine.SpawnCurrency(LastOwner.specRigidbody.UnitCenter, this.PurchasePrice);
+                }
+            }
+
+            base.Update();
         }
 
         public override void DoEffect(PlayerController player)

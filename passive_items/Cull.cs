@@ -45,7 +45,7 @@ namespace LOLItems.passive_items
             item.quality = PickupObject.ItemQuality.D;
 
             item.UsesCustomCost = false;
-            item.CustomCost = 20;
+            //item.CustomCost = 20;
 
             ID = item.PickupObjectId;
         }

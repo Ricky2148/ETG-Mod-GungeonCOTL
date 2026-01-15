@@ -44,7 +44,7 @@ namespace LOLItems
             ItemBuilder.AddSpriteToObject(itemName, resourceName, obj);
 
             string shortDesc = "\"Heroes never die!\"";
-            string longDesc = "Revives you once on death.\n\n" +
+            string longDesc = "+2 Armor, Increase damage\nRevives you once on death.\n\n" +
                 "A blade imbued with the hope of a cult who believed in rebirth. You almost feel " +
                 "like you could defy even death with it in hand.\n";
 

@@ -45,7 +45,7 @@ namespace LOLItems.active_items
             ItemBuilder.AddSpriteToObject(itemName, resourceName, obj);
             
             string shortDesc = "\"Hasagi!\"";
-            string longDesc = "Dash in a direction.\n\n" +
+            string longDesc = "Increase damage and fire rate\nDash in a direction.\n\n" +
                 "A strangely crafted bow that seems to make the feet below you lighter. " +
                 "You can't help but feel that there's something hidden with this bow. Maybe there's something " +
                 "hidden in the bow?\n";

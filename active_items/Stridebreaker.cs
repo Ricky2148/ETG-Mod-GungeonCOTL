@@ -69,7 +69,7 @@ namespace LOLItems
             ItemBuilder.AddSpriteToObject(itemName, resourceName, obj);
             
             string shortDesc = "\"No more cages!\"";
-            string longDesc = "Slashes around you, deals damage, enemies hit are slowed.\n\n" +
+            string longDesc = "+1 Heart, Increase damage and fire rate\nSlashes around you, deals damage, enemies hit are slowed.\n\n" +
                 "A set of chains that appears to have been used as a weapon. The chains feel cold to the touch " +
                 "and seem to instill a feeling of rebellion within you.\n";
             

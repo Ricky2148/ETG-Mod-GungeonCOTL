@@ -31,7 +31,7 @@ namespace LOLItems
 
             string shortDesc = "*hiring janitors*";
             // maybe add effect explanation?
-            string longDesc = "Deal increased damage to low health enemies.\n\n" +
+            string longDesc = "Increase damage\nDeal increased damage to low health enemies.\n\n" +
                 "A magical necklace that empowers you to finish off targets quicker. " +
                 "You begin to feel like you like a character called \"Shadow\"? This cannot be good\n";
 

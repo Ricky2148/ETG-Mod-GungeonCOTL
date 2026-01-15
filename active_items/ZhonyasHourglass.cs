@@ -17,6 +17,7 @@ namespace LOLItems
         public static string ItemName = "Zhonya's Hourglass";
 
         // stats pool for item
+        private static float DamageStat = 1.05f;
         private static float ArmorStat = 2.0f;
         private bool hasGainedArmor = false;
         private static float StasisDuration = 2.5f;
@@ -36,13 +37,16 @@ namespace LOLItems
             ItemBuilder.AddSpriteToObject(itemName, resourceName, obj);
 
             string shortDesc = "Borrowed Time";
-            string longDesc = "Enter stasis, where you're invulnerable but also can't do anything for a duration, then activates a blank.\n\n" +
+            string longDesc = "Slightly increase damage\nEnter stasis, where you're invulnerable but also can't do anything for a duration, then activates a blank.\n\n" +
                 "A sand stopwatch that allows the user to suspend their life for a few moments. " +
                 "It's believed that a pharaoh used it to reminisce his last moments during his empire's fall.\n";
 
             ItemBuilder.SetupItem(item, shortDesc, longDesc, "LOLItems");
             ItemBuilder.SetCooldownType(item, ItemBuilder.CooldownType.Timed, StasisCooldown);
             item.consumable = false;
+
+            ItemBuilder.AddPassiveStatModifier(item, PlayerStats.StatType.AdditionalItemCapacity, 1);
+            ItemBuilder.AddPassiveStatModifier(item, PlayerStats.StatType.Damage, DamageStat, StatModifier.ModifyMethod.MULTIPLICATIVE);
 
             item.usableDuringDodgeRoll = true;
             item.quality = PickupObject.ItemQuality.A;

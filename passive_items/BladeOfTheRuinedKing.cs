@@ -51,7 +51,7 @@ namespace LOLItems
             ItemBuilder.AddSpriteToObject(itemName, resourceName, obj);
 
             string shortDesc = "\"The mist devours all!\"";
-            string longDesc = "First bullet of clip slows enemies, every bullet deals %current health damage.\n\n" +
+            string longDesc = "Increase damage and fire rate\nFirst bullet of clip slows enemies, every bullet deals %current health damage.\n\n" +
                 "No price is too great.\n" +
                 "No atrocity beyond my reach.\n" +
                 "For her, I will do anything.\n" +

@@ -96,6 +96,14 @@ namespace LOLItems
             NewSynergy(LOLItems.Synergy.MEGALODON_SLAYER, "Megalodon Slayer", new[] { IName(KrakenSlayer.ItemName), "compressed_air_tank" });
             NewSynergy(LOLItems.Synergy.A_SAILORS_BEST_FRIEND, "A sailor's best friend.", new[] { IName(KrakenSlayer.ItemName), "double_vision" });
 
+            //Fated Ashes
+            NewSynergy(LOLItems.Synergy.BUILDS_INTO_LIANDRYS_TORMENT, "builds into Liandry's Torment", new[] { IName(FatedAshes.ItemName), IName(LiandrysTorment.ItemName) });
+
+            //Liandry's Torment
+
+            //Tear of the Goddess
+            NewSynergy(LOLItems.Synergy.BUILDS_INTO_MANAMUNE, "builds into Manamune", new[] { IName(TearOfTheGoddess.ItemName), IName(Manamune.ItemName) });
+
             //Rod of Ages
             NewSynergy(LOLItems.Synergy.SUPER_TRAINING, "Super Training", new[] { IName(RodOfAges.ItemName), "macho_brace" });
             NewSynergy(LOLItems.Synergy.AGE_OLD_WISDOM, "Age old wisdom", new[] { IName(RodOfAges.ItemName) }, new[] { "old_knights_shield", "old_knights_helm", "old_knights_flask" });
@@ -104,6 +112,9 @@ namespace LOLItems
             //Galeforce
             NewSynergy(LOLItems.Synergy.GALEFORCE_FOUR, "FOUR!", new[] { IName(Galeforce.ItemName), Whisper.internalName });
             NewSynergy(LOLItems.Synergy.BOW_MASTERY, "Bow Mastery", new[] { IName(Galeforce.ItemName) }, new[] { "bow", "charmed_bow", "gunbow" });
+
+            //Perfectly Timed Stopwatch
+            NewSynergy(LOLItems.Synergy.BUILDS_INTO_ZHONYAS_HOURGLASS, "builds into Zhonya's Hourglass", new[] { IName(PerfectlyTimedStopwatch.ItemName), IName(ZhonyasHourglass.ItemName) });
 
             //Refillable Potion
             NewSynergy(LOLItems.Synergy.BUNCH_O_POTIONS, "BunchO Potions", new[] { IName(RefillablePotion.ItemName), "old_knights_flask" });
@@ -245,6 +256,9 @@ namespace LOLItems
         ENTANGLEMENT,
         MEGALODON_SLAYER,
         A_SAILORS_BEST_FRIEND,
+        BUILDS_INTO_LIANDRYS_TORMENT,
+        BUILDS_INTO_MANAMUNE,
+        BUILDS_INTO_ZHONYAS_HOURGLASS,
 
     };
 }

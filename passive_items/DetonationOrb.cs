@@ -19,7 +19,7 @@ namespace LOLItems.passive_items
         public static string ItemName = "Detonation Orb";
 
         private static float DamageStat = 1.2f;
-        private static float TheBombDmgScale = 0.25f;
+        private static float TheBombDmgScale = 0.20f;
         private static float TheBombDuration = 3f;
 
         private Dictionary<AIActor, float> enemyTheBombDmgStored = new Dictionary<AIActor, float>();

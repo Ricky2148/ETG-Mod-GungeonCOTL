@@ -56,7 +56,7 @@ namespace LOLItems
             ItemBuilder.AddSpriteToObject(itemName, resourceName, obj);
 
             string shortDesc = "Radiates Heat";
-            string longDesc = "Gain a damaging aura around you. Size and damage increases based on your max hearts.\n\n" +
+            string longDesc = "+1 Heart and Armor\nGain a damaging aura around you. Size and damage increases based on your max hearts.\n\n" +
                 "The golden armor glows with a warmth not unlike the sun. Appears to have been blessed " +
                 "by the gods to burn the wicked around it.\n";
 
