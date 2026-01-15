@@ -20,7 +20,7 @@ namespace LOLItems.passive_items
         {
             duration = RimefrostSlowDuration,
             effectIdentifier = "rimefrost_slow",
-            resistanceType = EffectResistanceType.Freeze,
+            resistanceType = EffectResistanceType.None,
             AppliesOutlineTint = true,
             OutlineTintColor = Color.cyan,
             SpeedMultiplier = RimefrostSlowPercent,

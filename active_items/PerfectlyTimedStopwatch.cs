@@ -41,7 +41,7 @@ namespace LOLItems.active_items
             item.quality = PickupObject.ItemQuality.D;
 
             item.UsesCustomCost = true;
-            item.CustomCost = 20;
+            item.CustomCost = 25;
 
             ID = item.PickupObjectId;
         }

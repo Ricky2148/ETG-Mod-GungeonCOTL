@@ -80,6 +80,22 @@ namespace LOLItems
             NewSynergy(LOLItems.Synergy.TRIPLE_DELUXE, "TRIPLE DELUXE", new[] { IName(GuinsoosRageblade.ItemName), IName(BladeOfTheRuinedKing.ItemName), IName(KrakenSlayer.ItemName) });
             //NewSynergy(LOLItems.Synergy.ONHIT_SYNERGY_WITH_KRAKENSLAYER, "On-hit synergy", new[] { IName(GuinsoosRageblade.ItemName), IName(KrakenSlayer.ItemName) });
 
+            //Horizon Focus
+            NewSynergy(LOLItems.Synergy.AMPLIFIED_LENS, "Amplified Lens", new[] { IName(HorizonFocus.ItemName) }, new[] { "sniper_rifle", "m1", "awp" });
+            NewSynergy(LOLItems.Synergy.FUTURISTIC_COMPATIBILITY, "Futuristic Compatibility", new[] { IName(HorizonFocus.ItemName) }, new[] { "railgun", "prototype_railgun", HextechRifle.internalName });
+            NewSynergy(LOLItems.Synergy.GUARANTEED_HIT_IF_IT_HITS, "guaranteed hit \"IF\" it hits", new[] { IName(HorizonFocus.ItemName), "eyepatch" });
+
+            //Hubris
+            NewSynergy(LOLItems.Synergy.QUADRATIC_SCALING, "Quadratic Scaling", new[] { IName(Hubris.ItemName), "metronome", "platinum_bullets" });
+            NewSynergy(LOLItems.Synergy.GLADITORIAL_CHALLENGE, "Gladitorial Challenge", new[] { IName(Hubris.ItemName), "lament_configurum" });
+            NewSynergy(LOLItems.Synergy.PEACE_AND_WAR, "Peace & War", new[] { IName(Hubris.ItemName), "really_special_lute" });
+
+            //Kraken Slayer
+            NewSynergy(LOLItems.Synergy.TOP_TIER_FISHING_TOOL, "TOP TIER Fishing Tool", new[] { IName(KrakenSlayer.ItemName) }, new[] { "siren", "trident", "barrel" });
+            NewSynergy(LOLItems.Synergy.ENTANGLEMENT, "Entanglement", new[] { IName(KrakenSlayer.ItemName), "abyssal_tentacle" });
+            NewSynergy(LOLItems.Synergy.MEGALODON_SLAYER, "Megalodon Slayer", new[] { IName(KrakenSlayer.ItemName), "compressed_air_tank" });
+            NewSynergy(LOLItems.Synergy.A_SAILORS_BEST_FRIEND, "A sailor's best friend.", new[] { IName(KrakenSlayer.ItemName), "double_vision" });
+
             //Rod of Ages
             NewSynergy(LOLItems.Synergy.SUPER_TRAINING, "Super Training", new[] { IName(RodOfAges.ItemName), "macho_brace" });
             NewSynergy(LOLItems.Synergy.AGE_OLD_WISDOM, "Age old wisdom", new[] { IName(RodOfAges.ItemName) }, new[] { "old_knights_shield", "old_knights_helm", "old_knights_flask" });
@@ -219,6 +235,16 @@ namespace LOLItems
         POSEIGUNS_WRATH,
         TRIPLE_DELUXE,
         //ONHIT_SYNERGY_WITH_KRAKENSLAYER,
+        AMPLIFIED_LENS,
+        FUTURISTIC_COMPATIBILITY,
+        GUARANTEED_HIT_IF_IT_HITS,
+        QUADRATIC_SCALING,
+        GLADITORIAL_CHALLENGE,
+        PEACE_AND_WAR,
+        TOP_TIER_FISHING_TOOL,
+        ENTANGLEMENT,
+        MEGALODON_SLAYER,
+        A_SAILORS_BEST_FRIEND,
 
     };
 }

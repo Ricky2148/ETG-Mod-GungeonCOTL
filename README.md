@@ -81,18 +81,18 @@ Horizon Focus (A):
 - Stats: 1.1x DMG
 - Effect: Increases each bullet's damage by up to 25% based on how far the hit target is from the player.
 - Synergies
-	+ Amplified Lens [Sniper Rifle/M1/AWP]: increase the damage amp
-	+ Futuristic Compatibility [Railgun/Prototype Railgun/Hextech Rifle]: increase damage amp
-	+ guaranteed hit IF it hits [Eyepatch]: greatly increase damage amp
+	+ Amplified Lens [Sniper Rifle/M1/AWP]: distance based damage scale +25%
+	+ Futuristic Compatibility [Railgun/Prototype Railgun/Hextech Rifle]: distance based damage scale +50%
+	+ guaranteed hit IF it hits [Eyepatch]: distance based damage scale +75%
 
 
 ![](https://i.ibb.co/JRJsMBpf/hubris-pixelart-sprite-small.png)
 Hubris (A):
-- Effect: Each kill increases player's damage by 0.5%. Stacking infinitely.
+- Effect: Each kill increases player's damage by 0.4%. This buff is ADDITIVE NOT MULTIPLICATIVE. Stacking infinitely.
 - Synergies:
-	+ Infinite Scaling [Metronome & Platinum Bullets]: Damage increase scaling +0.5%
-	+ Gladitorial Challenge [Lament Configurum]: After using lament configurum, gain 3 stacks per kill
-	+ Peace and War [Really Special Lute]: Every some number of stacks, heal a half heart
+	+ Quadratic Scaling [Metronome & Platinum Bullets]: Gain 2 stacks per kill
+	+ Gladitorial Challenge [Lament Configurum]: After using lament configurum, gain 3x stacks per kill for 10 seconds
+	+ Peace and War [Really Special Lute]: Every 50 kills, heal a half heart
 
 ![](https://i.ibb.co/6RKHPdxx/kraken-slayer-pixelart-sprite-outline.png)
 Kraken Slayer (S):
@@ -102,7 +102,7 @@ Kraken Slayer (S):
 	+ Top tier fishing tool [Siren/Trident/Barrel]: base damage +10
 	+ Entanglement [Abyssal Tentacle]: bullet that deals additional damage will also slow enemies
 	+ Megalodon Slayer [Compressed Air Tank]: missing health scaling increased to 3x damage.
-	+ A sailor's best friend [Double vision]: base damage doubled while double vision is active
+	+ A sailor's best friend [Double vision]: extra damage doubled while double vision is active
 
 ![](https://i.ibb.co/95m86x4/fated-ashes-pixelart-sprite.png)
 Fated Ashes (D):
@@ -115,7 +115,7 @@ Liandry's Torment (B):
 
 ![](https://i.ibb.co/mVrsqVDG/tear-of-the-goddess-pixelart-sprite.png)
 Tear of the Goddess (D):
-- Effect: Every 25 kills, provides 1 Manaflow stack. Each manaflow stack increases max ammo capacity and max clip size by 5% (Max: 10 stacks). Stacks transfer to muramana and is consumed.
+- Effect: Every 50 kills, provides 1 Manaflow stack. Each manaflow stack increases max ammo capacity and max clip size by 5% (Max: 10 stacks). Stacks transfer to muramana and is consumed.
 
 ![](https://i.ibb.co/QvFJ5yz6/manamune-pixelart-sprite-small.png)
 Manamune (B):
@@ -295,4 +295,9 @@ Whisper (A):
 - Clip size cannot be increased and instead increases damage multiplier by 25% of clip size modifier.
 
 ## Contributors:
-- Dallan - Item Pixelart (*don't check what they were before he helped out*)
+- Dallan - ALL artwork (*don't check what they were before he helped out*)
+
+## Credits:
+- League of Legends - The game from which all items originate from and are based on. Most sfx is also taken from league.
+- Chrono Trigger - like 3 sound effects lol
+- Hollow Knight - like 1 sound effect lol

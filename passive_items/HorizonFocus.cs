@@ -18,6 +18,13 @@ namespace LOLItems
         private static float HyperShotMinDistance = 3f;
         private static float HyperShotMaxDamageInc = 0.25f;
 
+        public bool AMPLIFIEDLENSActivated = false;
+        private static float AMPLIFIEDLENSHyperShotMaxDamageInc = 0.25f;
+        public bool FUTURISTICCOMPATIBILITYActivated = false;
+        private static float FUTURISTICCOMPATIBILITYHyperShotMaxDamageInc = 0.50f;
+        public bool GUARANTEEDHITIFITHITSActivated = false;
+        private static float GUARANTEEDHITIFITHITSHyperShotMaxDamageInc = 0.75f;
+
         public static int ID;
 
         public static void Init()
@@ -61,6 +68,57 @@ namespace LOLItems
                 player.PostProcessProjectile -= OnPostProcessProjectile;
                 player.PostProcessBeamTick -= OnPostProcessProjectile;
             }
+        }
+
+        public override void Update()
+        {
+            if (Owner != null)
+            {
+                if (Owner.HasSynergy(Synergy.AMPLIFIED_LENS) && !AMPLIFIEDLENSActivated)
+                {
+                    HyperShotMaxDamageInc += AMPLIFIEDLENSHyperShotMaxDamageInc;
+                    //Plugin.Log($"{HyperShotMaxDamageInc}");
+
+                    AMPLIFIEDLENSActivated = true;
+                }
+                else if (!Owner.HasSynergy(Synergy.AMPLIFIED_LENS) && AMPLIFIEDLENSActivated)
+                {
+                    HyperShotMaxDamageInc -= AMPLIFIEDLENSHyperShotMaxDamageInc;
+                    //Plugin.Log($"{HyperShotMaxDamageInc}");
+
+                    AMPLIFIEDLENSActivated = false;
+                }
+                if (Owner.HasSynergy(Synergy.FUTURISTIC_COMPATIBILITY) && !FUTURISTICCOMPATIBILITYActivated)
+                {
+                    HyperShotMaxDamageInc += FUTURISTICCOMPATIBILITYHyperShotMaxDamageInc;
+                    //Plugin.Log($"{HyperShotMaxDamageInc}");
+
+                    FUTURISTICCOMPATIBILITYActivated = true;
+                }
+                else if (!Owner.HasSynergy(Synergy.FUTURISTIC_COMPATIBILITY) && FUTURISTICCOMPATIBILITYActivated)
+                {
+                    HyperShotMaxDamageInc -= FUTURISTICCOMPATIBILITYHyperShotMaxDamageInc;
+                    //Plugin.Log($"{HyperShotMaxDamageInc}");
+
+                    FUTURISTICCOMPATIBILITYActivated = false;
+                }
+                if (Owner.HasSynergy(Synergy.GUARANTEED_HIT_IF_IT_HITS) && !GUARANTEEDHITIFITHITSActivated)
+                {
+                    HyperShotMaxDamageInc += GUARANTEEDHITIFITHITSHyperShotMaxDamageInc;
+                    //Plugin.Log($"{HyperShotMaxDamageInc}");
+
+                    GUARANTEEDHITIFITHITSActivated = true;
+                }
+                else if (!Owner.HasSynergy(Synergy.GUARANTEED_HIT_IF_IT_HITS) && GUARANTEEDHITIFITHITSActivated)
+                {
+                    HyperShotMaxDamageInc -= GUARANTEEDHITIFITHITSHyperShotMaxDamageInc;
+                    //Plugin.Log($"{HyperShotMaxDamageInc}");
+
+                    GUARANTEEDHITIFITHITSActivated = false;
+                }
+            }
+
+            base.Update();
         }
 
         // scales damage based on distance to target

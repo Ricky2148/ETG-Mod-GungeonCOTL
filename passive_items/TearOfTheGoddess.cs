@@ -7,6 +7,8 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 
+// REWRITE DESCRIPTION!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
 namespace LOLItems.passive_items
 {
     internal class TearOfTheGoddess : PassiveItem
@@ -15,7 +17,7 @@ namespace LOLItems.passive_items
 
         private static float ManaflowIncreaseMax = 0.5f;
         private static float ManaflowIncrementValue = 0.05f;
-        private static float ManaflowIncrementKillReq = 25f;
+        private static float ManaflowIncrementKillReq = 50f;
         public float CurrentManaflowKillCount = 0f;
         public int ManaflowStackCount = 0;
 
@@ -34,16 +36,16 @@ namespace LOLItems.passive_items
 
             ItemBuilder.AddSpriteToObject(itemName, resourceName, obj);
 
-            string shortDesc = "*NOT REAL A TEAR*";
+            string shortDesc = "*NOT A REAL TEAR*";
             string longDesc = "Increases max ammo multiplier and clip size multiplier every few kills. After enough kills, stops increasing stats. Stacks carry over to Manamune.\n\n" +
                 "\"Few are fortunate enough to come across the tears of the very goddess who created our world... " +
-                "but those who are lucky enough to acquire a Tear of the Goddess may take pleasure in a significant boost of ammo capacity and clip capacity.\"";
+                "but those who are lucky enough to acquire a Tear of the Goddess are said to be destined for greatness.\"";
 
             ItemBuilder.SetupItem(item, shortDesc, longDesc, "LOLItems");
 
             item.quality = PickupObject.ItemQuality.D;
 
-            item.UsesCustomCost = true;
+            item.UsesCustomCost = false;
             item.CustomCost = 20;
 
             ID = item.PickupObjectId;

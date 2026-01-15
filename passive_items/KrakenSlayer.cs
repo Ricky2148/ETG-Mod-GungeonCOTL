@@ -19,7 +19,7 @@ namespace LOLItems
         // stats pool for item
         public int bringItDownCount = 0;
         public float bringItDownDamage = 20f;
-        private static float bringItDownDamageScale = 0.25f;
+        private static float bringItDownMissingHealthScale = 0.75f;
         private static float DamageStat = 1.25f;
         private static float RateOfFireStat = 1.25f;
         public string[] sfxList = new string[]
@@ -28,6 +28,23 @@ namespace LOLItems
             "kraken_slayer_passive_SFX_2",
             "kraken_slayer_passive_SFX_3"
         };
+
+        public bool TOPTIERFISHINGTOOLActivated = false;
+        private static float TOPTIERFISHINGTOOLbringItDownDamageInc = 10f;
+        public bool ENTANGLEMENTActivated = false;
+
+        private static GameActorSpeedEffect ENTANGLEMENTSlowEffect = new GameActorSpeedEffect
+        {
+            duration = 1.5f,
+            effectIdentifier = "kraken_slayer_entanglement_slow_effect",
+            resistanceType = EffectResistanceType.None,
+            AppliesOutlineTint = true,
+            OutlineTintColor = ExtendedColours.purple,
+            SpeedMultiplier = 0.6f,
+        };
+        public bool MEGALODONSLAYERActivated = false;
+        private static float MEGALODONSLAYERbringItDownMissingHealthScaleInc = 1.25f;
+        private static float ASAILORSBESTFRIENDbringItDownDamageMultiplier = 2f;
 
         public static int ID;
 
@@ -81,6 +98,47 @@ namespace LOLItems
                 //player.OnReloadedGun -= OnGunReloaded;
                 bringItDownCount = 0; // Reset the count when the item is dropped
             }
+        }
+
+        public override void Update()
+        {
+            if (Owner != null)
+            {
+                if (Owner.HasSynergy(Synergy.TOP_TIER_FISHING_TOOL) && !TOPTIERFISHINGTOOLActivated)
+                {
+                    bringItDownDamage += TOPTIERFISHINGTOOLbringItDownDamageInc;
+
+                    TOPTIERFISHINGTOOLActivated = true;
+                }
+                else if (!Owner.HasSynergy(Synergy.TOP_TIER_FISHING_TOOL) && TOPTIERFISHINGTOOLActivated)
+                {
+                    bringItDownDamage = 20f;
+
+                    TOPTIERFISHINGTOOLActivated = false;
+                }
+                if (Owner.HasSynergy(Synergy.ENTANGLEMENT) && !ENTANGLEMENTActivated)
+                {
+                    ENTANGLEMENTActivated = true;
+                }
+                else if (!Owner.HasSynergy(Synergy.ENTANGLEMENT) && ENTANGLEMENTActivated)
+                {
+                    ENTANGLEMENTActivated = false;
+                }
+                if (Owner.HasSynergy(Synergy.MEGALODON_SLAYER) && !MEGALODONSLAYERActivated)
+                {
+                    bringItDownMissingHealthScale += MEGALODONSLAYERbringItDownMissingHealthScaleInc;
+
+                    MEGALODONSLAYERActivated = true;
+                }
+                else if (!Owner.HasSynergy(Synergy.MEGALODON_SLAYER) && MEGALODONSLAYERActivated)
+                {
+                    bringItDownMissingHealthScale = 0.75f;
+
+                    MEGALODONSLAYERActivated = false;
+                }
+            }
+
+            base.Update();
         }
 
         // returns a float value representing the damage scale for the current floor
@@ -137,13 +195,27 @@ namespace LOLItems
                 if (hitRigidbody.healthHaver != null)
                 {
                     // scales damage based on enemy's missing health percentage
-                    float percentDamageIncrease = 0.75f * (1.0f - firstEnemy.healthHaver.GetCurrentHealthPercentage());
+                    float percentDamageIncrease = bringItDownMissingHealthScale * (1.0f - firstEnemy.healthHaver.GetCurrentHealthPercentage());
                     // scale damage down by tickrate
                     float damageToDeal = bringItDownDamage * (1.0f + percentDamageIncrease) * HelpfulMethods.GetFloorDamageScale();
                     // damage is 1/4 against bosses and sub-bosses
-                    if (firstEnemy.healthHaver.IsBoss || firstEnemy.healthHaver.IsSubboss)
+                    /*if (firstEnemy.healthHaver.IsBoss || firstEnemy.healthHaver.IsSubboss)
                     {
-                        //damageToDeal *= 0.25f;
+                        damageToDeal *= 0.25f;
+                    }*/
+                    if (Owner.HasSynergy(Synergy.A_SAILORS_BEST_FRIEND))
+                    {
+                        foreach (PlayerItem item in Owner.activeItems)
+                        {
+                            if (item.PickupObjectId == (int)Items.DoubleVision && item != null && item.IsCurrentlyActive)
+                            {
+                                damageToDeal *= ASAILORSBESTFRIENDbringItDownDamageMultiplier;
+                            }
+                        }
+                    }
+                    if (ENTANGLEMENTActivated)
+                    {
+                        firstEnemy.ApplyEffect(ENTANGLEMENTSlowEffect);
                     }
                     // calculates additional extra damage to apply to enemy
                     firstEnemy.healthHaver.ApplyDamage(
@@ -175,17 +247,44 @@ namespace LOLItems
                     proj.OnHitEnemy += (projHit, enemy, fatal) =>
                     {
                         if (enemy == null) return;
-                        if (enemy.aiActor == null && enemy.GetComponentInParent<AIActor>() == null) return;
+                        //if (enemy.aiActor == null && enemy.GetComponentInParent<AIActor>() == null) return;
+                        AIActor firstEnemy = null;
+                        if (enemy.aiActor != null)
+                        {
+                            firstEnemy = enemy.aiActor;
+                        }
+                        else if (enemy.GetComponentInParent<AIActor>() != null)
+                        {
+                            firstEnemy = enemy.GetComponentInParent<AIActor>();
+                        }
+                        else
+                        {
+                            return;
+                        }
                         if (enemy.healthHaver != null)
                         {
                             // scales damage based on enemy's missing health percentage
-                            float percentDamageIncrease = 0.75f * (1.0f - enemy.healthHaver.GetCurrentHealthPercentage());
+                            float percentDamageIncrease = bringItDownMissingHealthScale * (1.0f - enemy.healthHaver.GetCurrentHealthPercentage());
                             // GetFloorPriceMod works instead of explicitly stating it like GetFloorDamageScale
                             float damageToDeal = bringItDownDamage * (1.0f + percentDamageIncrease) * HelpfulMethods.GetFloorPriceMod();
                             // damage is 1/4 against bosses and sub-bosses
-                            if (enemy.healthHaver.IsBoss || enemy.healthHaver.IsSubboss)
+                            /*if (enemy.healthHaver.IsBoss || enemy.healthHaver.IsSubboss)
                             {
-                                //damageToDeal *= 0.25f;
+                                damageToDeal *= 0.25f;
+                            }*/
+                            if (Owner.HasSynergy(Synergy.A_SAILORS_BEST_FRIEND))
+                            {
+                                foreach (PlayerItem item in Owner.activeItems)
+                                {
+                                    if (item.PickupObjectId == (int)Items.DoubleVision && item != null && item.IsCurrentlyActive)
+                                    {
+                                        damageToDeal *= ASAILORSBESTFRIENDbringItDownDamageMultiplier;
+                                    }
+                                }
+                            }
+                            if (ENTANGLEMENTActivated)
+                            {
+                                firstEnemy.ApplyEffect(ENTANGLEMENTSlowEffect);
                             }
 
                             // calculates additional extra damage to apply to enemy

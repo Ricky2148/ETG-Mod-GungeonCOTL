@@ -27,7 +27,7 @@ namespace LOLItems
         {
             duration = slowDuration,
             effectIdentifier = "botrk_slow",
-            resistanceType = EffectResistanceType.Freeze,
+            resistanceType = EffectResistanceType.None,
             AppliesOutlineTint = true,
             OutlineTintColor = Color.cyan,
             SpeedMultiplier = slowPercent,
