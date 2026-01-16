@@ -9,7 +9,7 @@ using UnityEngine;
 
 //health, dmg, every bullet applies a burn effect that deals dmg over time, DOT is %max health of enemy (scales on bosses and mini bosses)
 // this applies the regular burn effect: damage, duration, and vfx all seem to match
-// test the damage doesnt seem accurate
+// look into changing the color of the fire
 
 namespace LOLItems
 {
@@ -35,6 +35,11 @@ namespace LOLItems
             ignitesGoops = false,
             FlameVfx = phoenix.DefaultModule.projectiles[0].fireEffect.FlameVfx,
         };
+
+        public bool BURNINGVENGENCEActivated = false;
+        private static float BURNINGVENGENCETormentDurationInc = 3f;
+        public bool BLAZINGUNIVERSEActivated = false;
+        private static float BLAZINGUNIVERSETormentDamageIncScale = 2.0f;
 
         public static int ID;
 
@@ -84,6 +89,40 @@ namespace LOLItems
                 player.PostProcessProjectile -= OnPostProcessProjectile;
                 player.PostProcessBeamTick -= OnPostProcessProjectile;
             }
+        }
+
+        public override void Update()
+        {
+            if (Owner != null)
+            {
+                if (Owner.HasSynergy(Synergy.BURNING_VENGENCE) && !BURNINGVENGENCEActivated)
+                {
+                    TormentBurnEffect.duration = TormentDuration + BURNINGVENGENCETormentDurationInc;
+
+                    BURNINGVENGENCEActivated = true;
+                }
+                else if (!Owner.HasSynergy(Synergy.BURNING_VENGENCE) && BURNINGVENGENCEActivated)
+                {
+                    TormentBurnEffect.duration = TormentDuration;
+
+                    BURNINGVENGENCEActivated = false;
+                }
+                if (Owner.HasSynergy(Synergy.BLAZING_UNIVERSE) && !BLAZINGUNIVERSEActivated)
+                {
+                    TormentBaseDamage *= BLAZINGUNIVERSETormentDamageIncScale;
+                    TormentPercentHealthDamage *= BLAZINGUNIVERSETormentDamageIncScale;
+
+                    BLAZINGUNIVERSEActivated = true;
+                }
+                else if (!Owner.HasSynergy(Synergy.BLAZING_UNIVERSE) && BLAZINGUNIVERSEActivated)
+                {
+                    TormentBaseDamage = 5f;
+                    TormentPercentHealthDamage = 0.10f;
+                    BLAZINGUNIVERSEActivated = false;
+                }
+            }
+
+            base.Update();
         }
 
         private void OnPostProcessProjectile(BeamController beam, SpeculativeRigidbody hitRigidbody, float tickrate)

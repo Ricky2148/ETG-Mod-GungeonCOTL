@@ -100,9 +100,19 @@ namespace LOLItems
             NewSynergy(LOLItems.Synergy.BUILDS_INTO_LIANDRYS_TORMENT, "builds into Liandry's Torment", new[] { IName(FatedAshes.ItemName), IName(LiandrysTorment.ItemName) });
 
             //Liandry's Torment
+            NewSynergy(LOLItems.Synergy.BURNING_VENGENCE, "Burning Vengence", new[] { IName(LiandrysTorment.ItemName) }, new[] { "phoenix", "flame_hand", "pitchfork", "demon_head", "napalm_strike" });
+            NewSynergy(LOLItems.Synergy.BLAZING_UNIVERSE, "Blazing Universe!", new[] { IName(LiandrysTorment.ItemName) }, new[] { "hot_lead", "gungeon_pepper", "sunlight_javelin" });
 
             //Tear of the Goddess
             NewSynergy(LOLItems.Synergy.BUILDS_INTO_MANAMUNE, "builds into Manamune", new[] { IName(TearOfTheGoddess.ItemName), IName(Manamune.ItemName) });
+
+            //Manamune
+            NewSynergy(LOLItems.Synergy.BLADE_OF_THE_ONI_MANAMUNE, "Blade of the Oni", new[] { IName(Manamune.ItemName), "demon_head" });
+
+            //Muramana
+            NewSynergy(LOLItems.Synergy.BLADE_OF_THE_ONI_MURAMANA, "Blade of the Oni", new[] { IName(Muramana.ItemName), "demon_head" });
+            NewSynergy(LOLItems.Synergy.IT_HAS_TO_BE_THIS_WAY, "It Has To Be This Way", new[] { IName(Muramana.ItemName), "raiden_coil" });
+            NewSynergy(LOLItems.Synergy.JETSTREAM_SAM, "Jetstream Sam", new[] { IName(Muramana.ItemName), "bionic_leg" });
 
             //Rod of Ages
             NewSynergy(LOLItems.Synergy.SUPER_TRAINING, "Super Training", new[] { IName(RodOfAges.ItemName), "macho_brace" });
@@ -259,6 +269,12 @@ namespace LOLItems
         BUILDS_INTO_LIANDRYS_TORMENT,
         BUILDS_INTO_MANAMUNE,
         BUILDS_INTO_ZHONYAS_HOURGLASS,
+        BLADE_OF_THE_ONI_MANAMUNE,
+        BLADE_OF_THE_ONI_MURAMANA,
+        IT_HAS_TO_BE_THIS_WAY,
+        JETSTREAM_SAM,
+        BURNING_VENGENCE,
+        BLAZING_UNIVERSE,
 
     };
 }

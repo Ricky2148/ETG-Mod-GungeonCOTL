@@ -114,6 +114,9 @@ Fated Ashes (D):
 Liandry's Torment (B):
 - Stats: 1.15x DMG, 1 Heart
 - Effect: Dealing damage applies a burn to enemies that deal 5 + 10% max health damage per second for 3 seconds. (25% effective against bosses)
+- Synergy:
+	+ Burning Vengence [Phoenix/Flame Hand/Pitchfork/Demon Head/Napalm Strike]: Burn duration increased to 6 seconds
+	+ Blazing Universe [Hot Lead/Gungeon Pepper/Sunlight Javelin]: Burn damage doubled
 
 ![](https://i.ibb.co/mVrsqVDG/tear-of-the-goddess-pixelart-sprite.png)
 Tear of the Goddess (D):
@@ -125,16 +128,26 @@ Tear of the Goddess (D):
 Manamune (B):
 - Stats: 1.05x DMG
 - Effect: Every 25 kills, provides 1 Manaflow stack. Each manaflow stack increases max ammo capacity and max clip size by 5% (Max: 10 stacks). Upon reaching max stacks, upgrades to Muramana.
+- Synergies:
+	+ Blade of the Oni [Demon Head]: Damage buff increases to 1.25x
 
 ![](https://i.ibb.co/PvFFn1C7/muramana-pixelart-sprite-outline.png)
 Muramana (EX):
 - Stats: 1.2x DMG, 1.5x MaxAmmoSize, 1.5x MaxClipSize
-- Effect: Every bullet deals an additional 5 damage on hit. This damage scales with the player's MaxAmmoSize and MaxClipSize multipliers (20% of the difference amount). (With just Muramana's ammo and clipsize buffs, the additional damage is multiplied by 1.2x)
+- Effect: Every bullet deals an additional 5 damage on hit. This damage scales with the player's MaxAmmoSize and MaxClipSize multipliers (50% of the difference amount). (With just Muramana's ammo and clipsize buffs, the additional damage is multiplied by 1.5x)
+- Synergies:
+	+ Blade of the Oni [Demon Head]: Damage buff increases to 1.5x
+	+ It has to be this way [Raiden Coil]: Ammo and Clip size buff increases to 2x
+	+ Jetstream Sam [Bionic Leg]: +2 movement speed, on hit damage increased by 5
 
 ![](https://i.ibb.co/H5pqmd9/navori-quickblades-pixelart-sprite-outline.png)
 Navori Quickblades (B):
 - Stats: 1.1x ROF
 - Effect: Every bullet reduces player's item cooldowns by 3% current cooldown.
+- Synergies:
+	+ [Knife Shield]: can reduce knife shield's cooldown while it is active and lowers it much faster while it is active
+	+ Quickblades and Quickbullets [Rocket-Powered Bullets]: increase firerate to 1.25x
+	+ Lightslinger [Big Iron/The Judge]
 
 ![](https://i.ibb.co/tpQ6p8gv/puppeteer-pixelart-sprite.png)
 Puppeteer (B):

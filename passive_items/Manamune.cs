@@ -29,6 +29,9 @@ namespace LOLItems
         private float CurrentManaflowKillCount = 0f;
         private int ManaflowStackCount = 0;
 
+        public bool BLADEOFTHEONIActivated = false;
+        private static float BLADEOFTHEONIDamageStat = 1.25f;
+
         public static int ID;
 
         private PassiveItem muramanaItem;
@@ -133,12 +136,32 @@ namespace LOLItems
                                 ItemBuilder.AddPassiveStatModifier(this, PlayerStats.StatType.AmmoCapacityMultiplier, 1f + ManaflowIncrementValue * ManaflowStackCount, StatModifier.ModifyMethod.MULTIPLICATIVE);
                                 Plugin.Log($"tear: {item.GetComponent<TearOfTheGoddess>().ManaflowStackCount}, {item.GetComponent<TearOfTheGoddess>().CurrentManaflowKillCount}" +
                                     $"\nmanamune: {ManaflowStackCount}, {CurrentManaflowKillCount}");
-    
+
                                 LootEngine.SpawnCurrency(Owner.specRigidbody.UnitCenter, item.PurchasePrice);
                             }
                         }
                     }
                     Owner.RemovePassiveItem(TearOfTheGoddess.ID);
+                }
+
+                if (Owner != null)
+                {
+                    if (Owner.HasSynergy(Synergy.BLADE_OF_THE_ONI_MANAMUNE) && !BLADEOFTHEONIActivated)
+                    {
+                        ItemBuilder.RemovePassiveStatModifier(this, PlayerStats.StatType.Damage);
+                        ItemBuilder.AddPassiveStatModifier(this, PlayerStats.StatType.Damage, BLADEOFTHEONIDamageStat, StatModifier.ModifyMethod.MULTIPLICATIVE);
+                        Owner.stats.RecalculateStatsWithoutRebuildingGunVolleys(Owner);
+
+                        BLADEOFTHEONIActivated = true;
+                    }
+                    else if (!Owner.HasSynergy(Synergy.BLADE_OF_THE_ONI_MANAMUNE) && BLADEOFTHEONIActivated)
+                    {
+                        ItemBuilder.RemovePassiveStatModifier(this, PlayerStats.StatType.Damage);
+                        ItemBuilder.AddPassiveStatModifier(this, PlayerStats.StatType.Damage, DamageStat, StatModifier.ModifyMethod.MULTIPLICATIVE);
+                        Owner.stats.RecalculateStatsWithoutRebuildingGunVolleys(Owner);
+
+                        BLADEOFTHEONIActivated = false;
+                    }
                 }
             }
 
