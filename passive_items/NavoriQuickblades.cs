@@ -1,9 +1,10 @@
-﻿using System;
+﻿using Alexandria;
+using Alexandria.ItemAPI;
+using Alexandria.Misc;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Alexandria;
-using Alexandria.ItemAPI;
 using UnityEngine;
 
 namespace LOLItems.passive_items
@@ -14,6 +15,13 @@ namespace LOLItems.passive_items
 
         private static float RateOfFireStat = 1.1f;
         private static float TranscendenceCooldownReductionRatio = 0.03f;
+
+        public bool SPONSOREDBYNAVORIActivated = false;
+        private static float SPONSOREDBYNAVORIDamageStat = 1.15f;
+        public bool QUICKBLADESANDQUICKBULLETSActivated = false;
+        private static float QUICKBLADESANDQUICKBULLETSRateOfFireStatInc = 0.15f;
+        public bool LIGHTSLINGERActivated = false;
+        private static float LIGHTSLINGERTranscendenceCooldownReductionRatioInc = 0.05f;
 
         public static int ID;
 
@@ -28,7 +36,7 @@ namespace LOLItems.passive_items
 
             ItemBuilder.AddSpriteToObject(itemName, resourceName, obj);
 
-            string shortDesc = "\"random bullshit go!\"";
+            string shortDesc = "\"random !^@$*#%& go!\"";
             // maybe add effect explanation?
             string longDesc = "Increase fire rate\nEvery bullet decreases your active item cooldowns by %remaining cooldown.\n\n" +
                 "A set of knives that magically come back after they land. Somehow there's always " +
@@ -64,6 +72,59 @@ namespace LOLItems.passive_items
                 player.PostProcessProjectile -= OnPostProcessProjectile;
                 player.PostProcessBeamTick -= OnPostProcessProjectile;
             }
+        }
+
+        public override void Update()
+        {
+            if (Owner != null)
+            {
+                if (Owner.HasSynergy(Synergy.SPONSORED_BY_NAVORI) && !SPONSOREDBYNAVORIActivated)
+                {
+                    ItemBuilder.AddPassiveStatModifier(this, PlayerStats.StatType.Damage, SPONSOREDBYNAVORIDamageStat, StatModifier.ModifyMethod.MULTIPLICATIVE);
+                    Owner.stats.RecalculateStatsWithoutRebuildingGunVolleys(Owner);
+
+                    SPONSOREDBYNAVORIActivated = true;
+                }
+                else if (!Owner.HasSynergy(Synergy.SPONSORED_BY_NAVORI) && SPONSOREDBYNAVORIActivated)
+                {
+                    ItemBuilder.RemovePassiveStatModifier(this, PlayerStats.StatType.Damage);
+                    Owner.stats.RecalculateStatsWithoutRebuildingGunVolleys(Owner);
+
+                    SPONSOREDBYNAVORIActivated = false;
+                }
+
+                if (Owner.HasSynergy(Synergy.QUICKBLADES_AND_QUICKBULLETS) && !QUICKBLADESANDQUICKBULLETSActivated)
+                {
+                    ItemBuilder.RemovePassiveStatModifier(this, PlayerStats.StatType.RateOfFire);
+                    ItemBuilder.AddPassiveStatModifier(this, PlayerStats.StatType.RateOfFire, RateOfFireStat + QUICKBLADESANDQUICKBULLETSRateOfFireStatInc, StatModifier.ModifyMethod.MULTIPLICATIVE);
+                    Owner.stats.RecalculateStatsWithoutRebuildingGunVolleys(Owner);
+
+                    QUICKBLADESANDQUICKBULLETSActivated = true;
+                }
+                else if (!Owner.HasSynergy(Synergy.QUICKBLADES_AND_QUICKBULLETS) && QUICKBLADESANDQUICKBULLETSActivated)
+                {
+                    ItemBuilder.RemovePassiveStatModifier(this, PlayerStats.StatType.RateOfFire);
+                    ItemBuilder.AddPassiveStatModifier(this, PlayerStats.StatType.RateOfFire, RateOfFireStat, StatModifier.ModifyMethod.MULTIPLICATIVE);
+                    Owner.stats.RecalculateStatsWithoutRebuildingGunVolleys(Owner);
+
+                    QUICKBLADESANDQUICKBULLETSActivated = false;
+                }
+
+                if (Owner.HasSynergy(Synergy.LIGHTSLINGER) && !LIGHTSLINGERActivated)
+                {
+                    TranscendenceCooldownReductionRatio += LIGHTSLINGERTranscendenceCooldownReductionRatioInc;
+
+                    LIGHTSLINGERActivated = true;
+                }
+                else if (!Owner.HasSynergy(Synergy.LIGHTSLINGER) && LIGHTSLINGERActivated)
+                {
+                    TranscendenceCooldownReductionRatio = 0.03f;
+
+                    LIGHTSLINGERActivated = false;
+                }
+            }
+
+            base.Update();
         }
 
         private void OnPostProcessProjectile(BeamController beam, SpeculativeRigidbody hitRigidbody, float tickrate)

@@ -36,6 +36,16 @@ namespace LOLItems
                 .hitEffects.tileMapHorizontal.effects[0]
                 .effects[0].effect;
 
+        private static GameActorSpeedEffect slowEffect = new GameActorSpeedEffect
+        {
+            duration = slowDuration,
+            effectIdentifier = "stridebreaker_active_slow",
+            resistanceType = EffectResistanceType.Freeze,
+            AppliesOutlineTint = true,
+            OutlineTintColor = Color.gray,
+            SpeedMultiplier = slowPercent,
+        };
+
         private static List<string> VFXSpritePath = new List<string>
             {
                 "LOLItems/Resources/vfxs/breakingshockwave/breakingshockwave_001",
@@ -205,16 +215,6 @@ namespace LOLItems
                 //sprite.renderer.material.shader = ShaderCache.Acquire("Brave/Internal/SimpleAlphaFadeUnlit");
                 //sprite.renderer.material.SetFloat("_Fade", 0.8f);
             }
-
-            GameActorSpeedEffect slowEffect = new GameActorSpeedEffect
-            {
-                duration = slowDuration,
-                effectIdentifier = "stridebreaker_active_slow",
-                resistanceType = EffectResistanceType.Freeze,
-                AppliesOutlineTint = true,
-                OutlineTintColor = Color.gray,
-                SpeedMultiplier = slowPercent,
-            };
 
             float ShockwaveDamage = ShockwaveBaseDamage * player.stats.GetStatValue(PlayerStats.StatType.Damage);
 

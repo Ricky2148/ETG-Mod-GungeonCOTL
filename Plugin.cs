@@ -93,7 +93,7 @@ namespace LOLItems
 
             //testing
             //CarefreeMelody.Init();
-            //debugItem.Init();
+            debugItem.Init();
 
             //guon stones
             BraumsShield.Init();

@@ -2,6 +2,7 @@
 using Alexandria.ItemAPI;
 using Alexandria.Misc;
 using Alexandria.VisualAPI;
+using Dungeonator;
 using LOLItems.custom_class_data;
 using LOLItems.guon_stones;
 using LOLItems.passive_items;
@@ -52,6 +53,16 @@ namespace LOLItems
 
         private GameObject activeVFXObject;
 
+        //doesn't work at all
+        private static GameActorBleedEffect bleedEffect = new GameActorBleedEffect
+        {
+            duration = 5f,
+            effectIdentifier = "debug bleed effect",
+            resistanceType = EffectResistanceType.None,
+            AppliesOutlineTint = true,
+            OutlineTintColor = Color.gray,
+        };
+
         public static void Init()
         {
             string itemName = "Debug Item";
@@ -92,11 +103,23 @@ namespace LOLItems
 
         public override void DoEffect(PlayerController player)
         {
-            StartCoroutine(EffectCoroutine(player));
+            //StartCoroutine(EffectCoroutine(player));
 
             //HelpfulMethods.CustomNotification("smth1", "smth2", this.sprite);
 
             //LootEngine.SpawnItem(PickupObjectDatabase.GetByName("Muramana").gameObject, player.CenterPosition, Vector2.down, 0);
+
+            /*List<AIActor> enemyList = player.CurrentRoom.GetActiveEnemies(RoomHandler.ActiveEnemyType.All);
+            if (enemyList != null)
+            {
+                foreach (AIActor enemy in enemyList)
+                {
+                    if (enemy != null && enemy.healthHaver != null && enemy.healthHaver.IsVulnerable)
+                    {
+                        enemy.ApplyEffect(bleedEffect, 1f, null);
+                    }
+                }
+            }*/
 
             //Plugin.Log("debug item finished");
         }

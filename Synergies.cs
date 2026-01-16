@@ -114,6 +114,15 @@ namespace LOLItems
             NewSynergy(LOLItems.Synergy.IT_HAS_TO_BE_THIS_WAY, "It Has To Be This Way", new[] { IName(Muramana.ItemName), "raiden_coil" });
             NewSynergy(LOLItems.Synergy.JETSTREAM_SAM, "Jetstream Sam", new[] { IName(Muramana.ItemName), "bionic_leg" });
 
+            //Navori Quickblades
+            NewSynergy(LOLItems.Synergy.SPONSORED_BY_NAVORI, "*sponsored by Navori*", new[] { IName(NavoriQuickblades.ItemName) }, new[] { "knife_shield", "katana_bullets" });
+            NewSynergy(LOLItems.Synergy.QUICKBLADES_AND_QUICKBULLETS, "Quickblades and Quickbullets", new[] { IName(NavoriQuickblades.ItemName), "rocket_powered_bullets" });
+            NewSynergy(LOLItems.Synergy.LIGHTSLINGER, "Lightslinger", new[] { IName(NavoriQuickblades.ItemName) }, new[] { "big_iron", "the_judge" });
+
+            //Puppeteer
+            NewSynergy(LOLItems.Synergy.PLUS25_CHARM, "+25 Charm", new[] { IName(Puppeteer.ItemName) }, new[] { "shotgun_full_of_love", "charmed_bow", "really_special_lute", "charming_rounds" });
+            NewSynergy(LOLItems.Synergy.CHARMING_REINVIGORATION, "Charming Reinvigoration", new[] { IName(Puppeteer.ItemName), "charm_horn" });
+
             //Rod of Ages
             NewSynergy(LOLItems.Synergy.SUPER_TRAINING, "Super Training", new[] { IName(RodOfAges.ItemName), "macho_brace" });
             NewSynergy(LOLItems.Synergy.AGE_OLD_WISDOM, "Age old wisdom", new[] { IName(RodOfAges.ItemName) }, new[] { "old_knights_shield", "old_knights_helm", "old_knights_flask" });
@@ -275,6 +284,11 @@ namespace LOLItems
         JETSTREAM_SAM,
         BURNING_VENGENCE,
         BLAZING_UNIVERSE,
+        SPONSORED_BY_NAVORI,
+        QUICKBLADES_AND_QUICKBULLETS,
+        LIGHTSLINGER,
+        PLUS25_CHARM,
+        CHARMING_REINVIGORATION,
 
     };
 }

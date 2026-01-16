@@ -108,7 +108,7 @@ Kraken Slayer (S):
 Fated Ashes (D):
 - Effect: Dealing damage applies a burn on the enemy that does 3 damage per second for 3 seconds.
 - Synergy:
-	+ Builds into Liandry's Torment [Liandry's Torment]: 
+	+ Builds into Liandry's Torment [Liandry's Torment]
 
 ![](https://i.ibb.co/3yzMtSjx/liandrys-torment-pixelart-sprite-small.png)
 Liandry's Torment (B):
@@ -122,7 +122,7 @@ Liandry's Torment (B):
 Tear of the Goddess (D):
 - Effect: Every 50 kills, provides 1 Manaflow stack. Each manaflow stack increases max ammo capacity and max clip size by 5% (Max: 10 stacks). Stacks transfer to muramana and is consumed.
 - Synergy:
-	+ Builds into Manamune [Manamune]: 
+	+ Builds into Manamune [Manamune]
 
 ![](https://i.ibb.co/QvFJ5yz6/manamune-pixelart-sprite-small.png)
 Manamune (B):
@@ -145,14 +145,17 @@ Navori Quickblades (B):
 - Stats: 1.1x ROF
 - Effect: Every bullet reduces player's item cooldowns by 3% current cooldown.
 - Synergies:
-	+ [Knife Shield]: can reduce knife shield's cooldown while it is active and lowers it much faster while it is active
+	+ Sponsored by Navori [Knife Shield/Katana Bullets]: Gain a damage buff of 1.15x
 	+ Quickblades and Quickbullets [Rocket-Powered Bullets]: increase firerate to 1.25x
-	+ Lightslinger [Big Iron/The Judge]
+	+ Lightslinger [Big Iron/The Judge]: cooldown reduction increased by 5%
 
 ![](https://i.ibb.co/tpQ6p8gv/puppeteer-pixelart-sprite.png)
 Puppeteer (B):
 - Stats: 1.15x ROF
 - Effect: Every bullet applies a stack of Pull Their Strings to enemies hit. When an enemy reaches 4 stacks, they are charmed for 999 seconds. Goes on a 25s cooldown.
+- Synergies:
+	+ +25 Charm [Shotgun Full of Love, Charmed Bow, Really Special Lute, Charming Rounds]: Decrease stack requirement to 3 stacks and cooldown to 15 seconds
+	+ Charming Reinvigoration [Charm Horn]: resets item cooldown on charm horn activation
 
 ![](https://i.ibb.co/gLXQC0Xw/rod-of-ages-pixelart-sprite-outline.png)
 Rod of Ages (B):
