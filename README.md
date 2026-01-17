@@ -47,9 +47,9 @@ Experimental Hexplate (A):
 - Stats: 1.1x DMG, 1.1x ROF, 1 Heart
 - Effect: On item activation, provide Overdrive buff to player. Overdrive lasts for 8s, has a 30s cooldown, and provides a 1.5x ROF and 1.25x MOVSPD buff.
 - Synergies:
-	+ That GOOD $#%& [Cigarettes]
-	+ Speed Blitz [Bionic Leg/Shotgun Coffee/Shotga Cola/Ballistic Boots/Magic Sweet]
-	+ Fill'Er-Up [Gungine]
+	+ That GOOD $#%& [Cigarettes]: Every use of cigarettes gives +5% damage buff
+	+ Speed Blitz [Bionic Leg/Shotgun Coffee/Shotga Cola/Ballistic Boots/Magic Sweet]: Gives a +1.5 movement speed buff
+	+ Fill'Er-Up [Gungine]: double Gungine fire rate
 
 ![](https://i.ibb.co/c0ZB4RK/frozen-heart-pixelart-sprite.png)
 Frozen Heart (B):
@@ -65,7 +65,7 @@ Guardian Angel (S):
 - Effect: Triggers Rebirth on death. Rebirth: become invulnerable for 4 seconds, sets health to 50% of player's max hearts, then triggers a blank at the end of the invulnerability. Rebirth cannot trigger again.
 - Synergies:
 	+ Divine Judgement! [Virtue Form 3]: Activating the revive deals damage in an aoe around you.
-	+ Why won't you DIE! [Clone/Gun Soul/Pig]: 
+	+ Why won't you DIE! [Clone/Gun Soul/Pig]: +1 heart
 
 ![](https://i.ibb.co/KpX3WPTn/guinsoos-rageblade-pixelart-sprite-small.png)
 Guinsoo's Rageblade (S):
@@ -88,7 +88,7 @@ Horizon Focus (A):
 
 ![](https://i.ibb.co/JRJsMBpf/hubris-pixelart-sprite-small.png)
 Hubris (A):
-- Effect: Each kill increases player's damage by 0.4%. This buff is ADDITIVE NOT MULTIPLICATIVE. Stacking infinitely.
+- Effect: Each kill increases player's damage by 0.4%. Stacking infinitely.
 - Synergies:
 	+ Quadratic Scaling [Metronome & Platinum Bullets]: Gain 2 stacks per kill
 	+ Gladitorial Challenge [Lament Configurum]: After using lament configurum, gain 3x stacks per kill for 10 seconds

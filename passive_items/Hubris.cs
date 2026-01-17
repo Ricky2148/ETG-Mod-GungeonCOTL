@@ -87,14 +87,14 @@ namespace LOLItems
                 if (Owner.HasSynergy(Synergy.QUADRATIC_SCALING) && !QUADRATICSCALINGActivated)
                 {
                     eminenceCountPerStack += QUADRATICSCALINGEminenceCountPerStack;
-                    Plugin.Log($"{eminenceCountPerStack}");
+                    //Plugin.Log($"{eminenceCountPerStack}");
 
                     QUADRATICSCALINGActivated = true;
                 }
                 else if (!Owner.HasSynergy(Synergy.QUADRATIC_SCALING) && QUADRATICSCALINGActivated)
                 {
                     eminenceCountPerStack = 1;
-                    Plugin.Log($"{eminenceCountPerStack}");
+                    //Plugin.Log($"{eminenceCountPerStack}");
 
                     QUADRATICSCALINGActivated = false;
                 }
@@ -157,8 +157,8 @@ namespace LOLItems
 
                 ItemBuilder.RemovePassiveStatModifier(this, PlayerStats.StatType.Damage);
                 float damageIncrease = eminenceCount * eminenceDamageIncrease;
-                Plugin.Log($"{eminenceCount}, {damageIncrease}");
-                ItemBuilder.AddPassiveStatModifier(this, PlayerStats.StatType.Damage, /*1.0f + */damageIncrease, StatModifier.ModifyMethod.ADDITIVE);
+                //Plugin.Log($"{eminenceCount}, {damageIncrease}");
+                ItemBuilder.AddPassiveStatModifier(this, PlayerStats.StatType.Damage, 1.0f + damageIncrease, StatModifier.ModifyMethod.MULTIPLICATIVE);
                 //Owner.stats.RecalculateStats(Owner, false, false);
                 Owner.stats.RecalculateStatsWithoutRebuildingGunVolleys(Owner);
             }
@@ -181,12 +181,12 @@ namespace LOLItems
         private System.Collections.IEnumerator StartConfigurumDuration(PlayerController player)
         {
             eminenceCountPerStack *= GLADITORIALCHALLENGEEminenceCountPerStackMultiplier;
-            Plugin.Log($"start configurum effect {eminenceCountPerStack}");
+            //Plugin.Log($"start configurum effect {eminenceCountPerStack}");
 
             yield return new WaitForSeconds(GLADITORIALCHALLENGEDuration);
             eminenceCountPerStack = 1;
             QUADRATICSCALINGActivated = false;
-            Plugin.Log($"end configurum effect {eminenceCountPerStack}");
+            //Plugin.Log($"end configurum effect {eminenceCountPerStack}");
         }
     }
 }

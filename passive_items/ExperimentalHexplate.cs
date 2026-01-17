@@ -31,7 +31,7 @@ namespace LOLItems
         private static float DamageStatPerCigUse = 0.05f;
 
         public bool SPEEDBLITZActivated = false;
-        private static float SPEEDBLITZMovementSpeedStat = 1.25f;
+        private static float SPEEDBLITZMovementSpeedStat = 1.5f;
         public bool FILLERUPActivated = false;
         private static float FILLERUPRateOfFireStat = 2f;
 
@@ -90,7 +90,7 @@ namespace LOLItems
             {
                 if (Owner.HasSynergy(Synergy.SPEED_BLITZ) && !SPEEDBLITZActivated)
                 {
-                    ItemBuilder.AddPassiveStatModifier(this, PlayerStats.StatType.MovementSpeed, SPEEDBLITZMovementSpeedStat, StatModifier.ModifyMethod.MULTIPLICATIVE);
+                    ItemBuilder.AddPassiveStatModifier(this, PlayerStats.StatType.MovementSpeed, SPEEDBLITZMovementSpeedStat, StatModifier.ModifyMethod.ADDITIVE);
                     Owner.stats.RecalculateStatsWithoutRebuildingGunVolleys(Owner);
 
                     SPEEDBLITZActivated = true;
