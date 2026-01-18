@@ -1,9 +1,10 @@
-﻿using System;
+﻿using Alexandria;
+using Alexandria.ItemAPI;
+using Alexandria.Misc;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Alexandria;
-using Alexandria.ItemAPI;
 using UnityEngine;
 
 namespace LOLItems.passive_items
@@ -14,7 +15,7 @@ namespace LOLItems.passive_items
 
         private static float HealthStat = 1f;
         private static float RimefrostSlowPercent = 0.7f;
-        private static float RimefrostSlowDuration = 1f;
+        private static float RimefrostSlowDuration = 2f;
 
         private static GameActorSpeedEffect slowEffect = new GameActorSpeedEffect
         {
@@ -25,6 +26,12 @@ namespace LOLItems.passive_items
             OutlineTintColor = Color.cyan,
             SpeedMultiplier = RimefrostSlowPercent,
         };
+
+        public bool ICEIIActivated = false;
+        private static float ICEIIRimefrostSlowPercent = 0.4f;
+        public bool WITCHCRAFTActivated = false;
+        private static float WITCHCRAFTDamageStat = 1.1f;
+        private static float WITCHCRAFTRimefrostSlowDurationMultiplier = 2f;
 
         public static int ID;
 
@@ -70,6 +77,46 @@ namespace LOLItems.passive_items
                 player.PostProcessProjectile -= ApplyRimefrostEffect;
                 player.PostProcessBeamTick -= ApplyRimefrostEffect;
             }
+        }
+
+        public override void Update()
+        {
+            if (Owner != null)
+            {
+                if (Owner.HasSynergy(Synergy.ICE_II) && !ICEIIActivated)
+                {
+                    slowEffect.SpeedMultiplier = ICEIIRimefrostSlowPercent;
+
+                    ICEIIActivated = true;
+                }
+                else if (!Owner.HasSynergy(Synergy.ICE_II) && ICEIIActivated)
+                {
+                    slowEffect.SpeedMultiplier = RimefrostSlowPercent;
+
+                    ICEIIActivated = false;
+                }
+
+                if (Owner.HasSynergy(Synergy.WITCHCRAFT) && !WITCHCRAFTActivated)
+                {
+                    slowEffect.duration = RimefrostSlowDuration * WITCHCRAFTRimefrostSlowDurationMultiplier;
+
+                    ItemBuilder.AddPassiveStatModifier(this, PlayerStats.StatType.Damage, WITCHCRAFTDamageStat, StatModifier.ModifyMethod.MULTIPLICATIVE);
+                    Owner.stats.RecalculateStatsWithoutRebuildingGunVolleys(Owner);
+
+                    WITCHCRAFTActivated = true;
+                }
+                else if (!Owner.HasSynergy(Synergy.WITCHCRAFT) && WITCHCRAFTActivated)
+                {
+                    slowEffect.duration = RimefrostSlowDuration;
+
+                    ItemBuilder.RemovePassiveStatModifier(this, PlayerStats.StatType.Damage);
+                    Owner.stats.RecalculateStatsWithoutRebuildingGunVolleys(Owner);
+
+                    WITCHCRAFTActivated = false;
+                }
+            }
+
+            base.Update();
         }
 
         private void ApplyRimefrostEffect(BeamController beam, SpeculativeRigidbody hitRigidbody, float tickrate)

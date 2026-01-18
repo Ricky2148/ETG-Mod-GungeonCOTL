@@ -22,9 +22,16 @@ namespace LOLItems
         private int TimelessStackCount = 0;
         private static float TimelessMaxStackHealthIncrease = 1f;
 
+        private Coroutine TimelessStackTrackerCoroutine;
+
+        private bool EternityActivated = false;
         private static float EternityAmmoRestorePercent = 0.25f;
 
+        public bool SUPERTRAININGActivated = false;
+        private static float SUPERTRAININGTimelessStackMultiplier = 2f;
         public bool AGEOLDWISDOMActivated = false;
+        public bool ARCANEMASTERYActivated = false;
+        private static float ARCANEMASTERYMovementSpeedStat = 1.0f;
 
         public static int ID;
 
@@ -75,8 +82,11 @@ namespace LOLItems
         {
             base.Pickup(player);
             Plugin.Log($"Player picked up {this.EncounterNameOrDisplayName}");
+
+            Plugin.Log($"{EternityActivated}");
+
             // Start the Timeless buff coroutine
-            player.StartCoroutine(TimelessStackingTracker(player));
+            TimelessStackTrackerCoroutine = StartCoroutine(TimelessStackingTracker(player));
         }
 
         public override void DisableEffect(PlayerController player)
@@ -84,10 +94,15 @@ namespace LOLItems
             base.DisableEffect(player);
             Plugin.Log($"Player dropped or got rid of {this.EncounterNameOrDisplayName}");
             // Stop all coroutines when the item is dropped
-            
+
+            Plugin.Log($"{EternityActivated}");
+
             if (player != null)
             {
-                player.StopAllCoroutines();
+                if (TimelessStackTrackerCoroutine != null)
+                {
+                    StopCoroutine(TimelessStackTrackerCoroutine);
+                }
             }
         }
 
@@ -95,11 +110,41 @@ namespace LOLItems
         {
             if (Owner != null)
             {
+                if (Owner.HasSynergy(Synergy.SUPER_TRAINING) && !SUPERTRAININGActivated)
+                {
+                    ItemBuilder.RemovePassiveStatModifier(this, PlayerStats.StatType.Damage);
+                    ItemBuilder.RemovePassiveStatModifier(this, PlayerStats.StatType.AmmoCapacityMultiplier);
+                    ItemBuilder.RemovePassiveStatModifier(this, PlayerStats.StatType.AdditionalClipCapacityMultiplier);
+
+                    // apply new increased stat mods
+                    ItemBuilder.AddPassiveStatModifier(this, PlayerStats.StatType.Damage, 1f + (TimelessDamageIncrementValue * TimelessStackCount * SUPERTRAININGTimelessStackMultiplier), StatModifier.ModifyMethod.MULTIPLICATIVE);
+                    ItemBuilder.AddPassiveStatModifier(this, PlayerStats.StatType.AmmoCapacityMultiplier, 1f + (TimelessIncrementValue * TimelessStackCount * SUPERTRAININGTimelessStackMultiplier), StatModifier.ModifyMethod.MULTIPLICATIVE);
+                    ItemBuilder.AddPassiveStatModifier(this, PlayerStats.StatType.AdditionalClipCapacityMultiplier, 1f + (TimelessIncrementValue * TimelessStackCount * SUPERTRAININGTimelessStackMultiplier), StatModifier.ModifyMethod.MULTIPLICATIVE);
+
+                    Owner.stats.RecalculateStatsWithoutRebuildingGunVolleys(Owner);
+
+                    SUPERTRAININGActivated = true;
+                }
+                else if (!Owner.HasSynergy(Synergy.SUPER_TRAINING) && SUPERTRAININGActivated)
+                {
+                    ItemBuilder.RemovePassiveStatModifier(this, PlayerStats.StatType.Damage);
+                    ItemBuilder.RemovePassiveStatModifier(this, PlayerStats.StatType.AmmoCapacityMultiplier);
+                    ItemBuilder.RemovePassiveStatModifier(this, PlayerStats.StatType.AdditionalClipCapacityMultiplier);
+
+                    // apply new increased stat mods
+                    ItemBuilder.AddPassiveStatModifier(this, PlayerStats.StatType.Damage, 1f + (TimelessDamageIncrementValue * TimelessStackCount), StatModifier.ModifyMethod.MULTIPLICATIVE);
+                    ItemBuilder.AddPassiveStatModifier(this, PlayerStats.StatType.AmmoCapacityMultiplier, 1f + (TimelessIncrementValue * TimelessStackCount), StatModifier.ModifyMethod.MULTIPLICATIVE);
+                    ItemBuilder.AddPassiveStatModifier(this, PlayerStats.StatType.AdditionalClipCapacityMultiplier, 1f + (TimelessIncrementValue * TimelessStackCount), StatModifier.ModifyMethod.MULTIPLICATIVE);
+
+                    Owner.stats.RecalculateStatsWithoutRebuildingGunVolleys(Owner);
+
+                    SUPERTRAININGActivated = false;
+                }
+
                 if (Owner.HasSynergy(Synergy.AGE_OLD_WISDOM) && !AGEOLDWISDOMActivated)
                 {
                     ItemBuilder.AddPassiveStatModifier(this, PlayerStats.StatType.Damage, 1f + TimelessDamageIncreaseMax, StatModifier.ModifyMethod.MULTIPLICATIVE);
                     Owner.stats.RecalculateStatsWithoutRebuildingGunVolleys(Owner);
-                    //Plugin.Log($"postprocessproj on");
 
                     AGEOLDWISDOMActivated = true;
                 }
@@ -107,9 +152,69 @@ namespace LOLItems
                 {
                     ItemBuilder.RemovePassiveStatModifier(this, PlayerStats.StatType.Damage);
                     Owner.stats.RecalculateStatsWithoutRebuildingGunVolleys(Owner);
-                    //Plugin.Log($"postprocessproj off");
 
                     AGEOLDWISDOMActivated = false;
+                }
+
+                if (Owner.HasSynergy(Synergy.ARCANE_MASTERY) && !ARCANEMASTERYActivated)
+                {
+                    if (TimelessStackTrackerCoroutine != null)
+                    {
+                        StopCoroutine(TimelessStackTrackerCoroutine);
+                    }
+
+                    TimelessStackCount = 15;
+
+                    // reset current stat mods
+                    ItemBuilder.RemovePassiveStatModifier(this, PlayerStats.StatType.Damage);
+                    ItemBuilder.RemovePassiveStatModifier(this, PlayerStats.StatType.AmmoCapacityMultiplier);
+                    ItemBuilder.RemovePassiveStatModifier(this, PlayerStats.StatType.AdditionalClipCapacityMultiplier);
+
+                    // apply new increased stat mods
+                    if (SUPERTRAININGActivated)
+                    {
+                        ItemBuilder.AddPassiveStatModifier(this, PlayerStats.StatType.Damage, 1f + (TimelessDamageIncrementValue * TimelessStackCount * SUPERTRAININGTimelessStackMultiplier), StatModifier.ModifyMethod.MULTIPLICATIVE);
+                        ItemBuilder.AddPassiveStatModifier(this, PlayerStats.StatType.AmmoCapacityMultiplier, 1f + (TimelessIncrementValue * TimelessStackCount * SUPERTRAININGTimelessStackMultiplier), StatModifier.ModifyMethod.MULTIPLICATIVE);
+                        ItemBuilder.AddPassiveStatModifier(this, PlayerStats.StatType.AdditionalClipCapacityMultiplier, 1f + (TimelessIncrementValue * TimelessStackCount * SUPERTRAININGTimelessStackMultiplier), StatModifier.ModifyMethod.MULTIPLICATIVE);
+                    }
+                    else
+                    {
+                        ItemBuilder.AddPassiveStatModifier(this, PlayerStats.StatType.Damage, 1f + (TimelessDamageIncrementValue * TimelessStackCount), StatModifier.ModifyMethod.MULTIPLICATIVE);
+                        ItemBuilder.AddPassiveStatModifier(this, PlayerStats.StatType.AmmoCapacityMultiplier, 1f + (TimelessIncrementValue * TimelessStackCount), StatModifier.ModifyMethod.MULTIPLICATIVE);
+                        ItemBuilder.AddPassiveStatModifier(this, PlayerStats.StatType.AdditionalClipCapacityMultiplier, 1f + (TimelessIncrementValue * TimelessStackCount), StatModifier.ModifyMethod.MULTIPLICATIVE);
+                    }
+
+                    //Plugin.Log($"pre activation in synergy:{EternityActivated}");
+                    if (!EternityActivated)
+                    {
+                        ItemBuilder.AddPassiveStatModifier(this, PlayerStats.StatType.Health, TimelessMaxStackHealthIncrease, StatModifier.ModifyMethod.ADDITIVE);
+
+                        Owner.stats.RecalculateStatsWithoutRebuildingGunVolleys(Owner);
+
+                        Owner.healthHaver.ApplyHealing(1f);
+
+                        HelpfulMethods.CustomNotification("Achieved Eternity!", "", this.sprite, UINotificationController.NotificationColor.PURPLE);
+
+                        Owner.OnReceivedDamage += EternityEffect;
+
+                        EternityActivated = true;
+                        //Plugin.Log($"post activation in synergy:{EternityActivated}");
+                    }
+
+                    ItemBuilder.AddPassiveStatModifier(this, PlayerStats.StatType.MovementSpeed, ARCANEMASTERYMovementSpeedStat, StatModifier.ModifyMethod.ADDITIVE);
+
+                    Owner.stats.RecalculateStatsWithoutRebuildingGunVolleys(Owner);
+                    //Plugin.Log($"postprocessproj on");
+
+                    ARCANEMASTERYActivated = true;
+                }
+                else if (!Owner.HasSynergy(Synergy.ARCANE_MASTERY) && ARCANEMASTERYActivated)
+                {
+                    ItemBuilder.RemovePassiveStatModifier(this, PlayerStats.StatType.MovementSpeed);
+                    Owner.stats.RecalculateStatsWithoutRebuildingGunVolleys(Owner);
+                    //Plugin.Log($"postprocessproj off");
+
+                    ARCANEMASTERYActivated = false;
                 }
             }
 
@@ -141,21 +246,44 @@ namespace LOLItems
                 //Plugin.Log($"Rod of Ages Timeless Stack Count: {TimelessStackCount}");
 
                 // apply new increased stat mods
-                ItemBuilder.AddPassiveStatModifier(this, PlayerStats.StatType.Damage, 1f + (TimelessDamageIncrementValue * TimelessStackCount), StatModifier.ModifyMethod.MULTIPLICATIVE);
-                ItemBuilder.AddPassiveStatModifier(this, PlayerStats.StatType.AmmoCapacityMultiplier, 1f + (TimelessIncrementValue * TimelessStackCount), StatModifier.ModifyMethod.MULTIPLICATIVE);
-                ItemBuilder.AddPassiveStatModifier(this, PlayerStats.StatType.AdditionalClipCapacityMultiplier, 1f + (TimelessIncrementValue * TimelessStackCount), StatModifier.ModifyMethod.MULTIPLICATIVE);
-            
+                if (SUPERTRAININGActivated)
+                {
+                    ItemBuilder.AddPassiveStatModifier(this, PlayerStats.StatType.Damage, 1f + (TimelessDamageIncrementValue * TimelessStackCount * SUPERTRAININGTimelessStackMultiplier), StatModifier.ModifyMethod.MULTIPLICATIVE);
+                    ItemBuilder.AddPassiveStatModifier(this, PlayerStats.StatType.AmmoCapacityMultiplier, 1f + (TimelessIncrementValue * TimelessStackCount * SUPERTRAININGTimelessStackMultiplier), StatModifier.ModifyMethod.MULTIPLICATIVE);
+                    ItemBuilder.AddPassiveStatModifier(this, PlayerStats.StatType.AdditionalClipCapacityMultiplier, 1f + (TimelessIncrementValue * TimelessStackCount * SUPERTRAININGTimelessStackMultiplier), StatModifier.ModifyMethod.MULTIPLICATIVE);
+                }
+                else
+                {
+                    ItemBuilder.AddPassiveStatModifier(this, PlayerStats.StatType.Damage, 1f + (TimelessDamageIncrementValue * TimelessStackCount), StatModifier.ModifyMethod.MULTIPLICATIVE);
+                    ItemBuilder.AddPassiveStatModifier(this, PlayerStats.StatType.AmmoCapacityMultiplier, 1f + (TimelessIncrementValue * TimelessStackCount), StatModifier.ModifyMethod.MULTIPLICATIVE);
+                    ItemBuilder.AddPassiveStatModifier(this, PlayerStats.StatType.AdditionalClipCapacityMultiplier, 1f + (TimelessIncrementValue * TimelessStackCount), StatModifier.ModifyMethod.MULTIPLICATIVE);
+                }
+                    
                 //player.stats.RecalculateStats(player, false, false);
                 player.stats.RecalculateStatsWithoutRebuildingGunVolleys(player);
             }
 
             // when at max stacks, increase health and provide eternity effect
             //Plugin.Log("Rod of Ages has reached max Timeless stacks");
-            ItemBuilder.AddPassiveStatModifier(this, PlayerStats.StatType.Health, TimelessMaxStackHealthIncrease, StatModifier.ModifyMethod.ADDITIVE);
 
-            HelpfulMethods.CustomNotification("Rod of Ages has achieved Eternity!", "", this.sprite, UINotificationController.NotificationColor.PURPLE);
+            //Plugin.Log($"pre activation in coroutine:{EternityActivated}");
 
-            player.OnReceivedDamage += EternityEffect;
+            if (!EternityActivated)
+            {
+                ItemBuilder.AddPassiveStatModifier(this, PlayerStats.StatType.Health, TimelessMaxStackHealthIncrease, StatModifier.ModifyMethod.ADDITIVE);
+
+                player.stats.RecalculateStatsWithoutRebuildingGunVolleys(player);
+
+                player.healthHaver.ApplyHealing(1f);
+
+                HelpfulMethods.CustomNotification("Achieved Eternity!", "", this.sprite, UINotificationController.NotificationColor.PURPLE);
+
+                player.OnReceivedDamage += EternityEffect;
+    
+                EternityActivated = true;
+
+                //Plugin.Log($"post activation in coroutine:{EternityActivated}");
+            }
         }
 
         // when player is damaged, refill all their weapons with some percent ammo

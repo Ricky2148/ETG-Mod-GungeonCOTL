@@ -32,9 +32,11 @@ namespace LOLItems
         {
             duration = 1f,
             effectIdentifier = "frozen_heart_cripple_effect",
-            resistanceType = EffectResistanceType.None,
-            AppliesOutlineTint = true,
-            OutlineTintColor = ExtendedColours.skyblue,
+            resistanceType = EffectResistanceType.Freeze,
+            //AppliesOutlineTint = true,
+            //OutlineTintColor = ExtendedColours.skyblue,
+            AppliesTint = true,
+            TintColor = ExtendedColours.skyblue,
             CrippleAmount = WintersCaressCrippleRatio
         };
 

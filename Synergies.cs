@@ -42,7 +42,10 @@ namespace LOLItems
             #region Synergies
             //example: NewSynergy(LOLItems.Synergy., "", new[] { IName(MainItem.ItemName) }, new[] { });
 
+            
             //PASSIVE ITEMS ======================================================================================================================================================================================================================================
+            
+            
             //Blade of the Ruined King
             NewSynergy(LOLItems.Synergy.YOU_DARE_FACE_A_KING, "You dare face a king?!", new[] { IName(BladeOfTheRuinedKing.ItemName) }, new[] { "crown_of_guns", "gilded_bullets", "coin_crown"});
             NewSynergy(LOLItems.Synergy.FOR_ISOLDE, "For Isolde!", new[] { IName(BladeOfTheRuinedKing.ItemName) }, new[] { "excaliber", "blasphemy"});
@@ -68,7 +71,7 @@ namespace LOLItems
 
             //Frozen Heart
             NewSynergy(LOLItems.Synergy.ICE_TO_THE_CORE, "Ice to the core", new[] { IName(FrozenHeart.ItemName) }, new[] { "frost_bullets", "snowballets", "heart_of_ice" });
-            NewSynergy(LOLItems.Synergy.FROZEN_BULLETS, "Frozen Bullets", new[] { IName(FrozenHeart.ItemName) }, new[] { "cold_45", "frost_giant", "freeze_ray", "glacier", "snowballer"});
+            NewSynergy(LOLItems.Synergy.FROZEN_BULLETS, "Frozen Bullets", new[] { IName(FrozenHeart.ItemName) }, new[] { "cold_45", "frost_giant"});
 
             //Guardian Angel
             NewSynergy(LOLItems.Synergy.DIVINE_JUDGEMENT, "Divine Judgement!", new[] { IName(GuardianAngel.ItemName), VirtueForm3.internalName });
@@ -100,8 +103,8 @@ namespace LOLItems
             NewSynergy(LOLItems.Synergy.BUILDS_INTO_LIANDRYS_TORMENT, "builds into Liandry's Torment", new[] { IName(FatedAshes.ItemName), IName(LiandrysTorment.ItemName) });
 
             //Liandry's Torment
-            NewSynergy(LOLItems.Synergy.BURNING_VENGENCE, "Burning Vengence", new[] { IName(LiandrysTorment.ItemName) }, new[] { "phoenix", "flame_hand", "pitchfork", "demon_head", "napalm_strike" });
-            NewSynergy(LOLItems.Synergy.BLAZING_UNIVERSE, "Blazing Universe!", new[] { IName(LiandrysTorment.ItemName) }, new[] { "hot_lead", "gungeon_pepper", "sunlight_javelin" });
+            NewSynergy(LOLItems.Synergy.BURNING_VENGENCE, "Burning Vengence", new[] { IName(LiandrysTorment.ItemName) }, new[] { "phoenix", "napalm_strike" });
+            NewSynergy(LOLItems.Synergy.BLAZING_UNIVERSE, "Blazing Universe!", new[] { IName(LiandrysTorment.ItemName) }, new[] { "hot_lead", "gungeon_pepper" });
 
             //Tear of the Goddess
             NewSynergy(LOLItems.Synergy.BUILDS_INTO_MANAMUNE, "builds into Manamune", new[] { IName(TearOfTheGoddess.ItemName), IName(Manamune.ItemName) });
@@ -126,8 +129,20 @@ namespace LOLItems
             //Rod of Ages
             NewSynergy(LOLItems.Synergy.SUPER_TRAINING, "Super Training", new[] { IName(RodOfAges.ItemName), "macho_brace" });
             NewSynergy(LOLItems.Synergy.AGE_OLD_WISDOM, "Age old wisdom", new[] { IName(RodOfAges.ItemName) }, new[] { "old_knights_shield", "old_knights_helm", "old_knights_flask" });
+            NewSynergy(LOLItems.Synergy.ARCANE_MASTERY, "Arcane Mastery", new[] { IName(RodOfAges.ItemName), "bundle_of_wands", "staff_of_firepower" });
+
+            //Rylai's Crystal Scepter
+            NewSynergy(LOLItems.Synergy.ICE_II, "Ice II", new[] { IName(RylaisCrystalScepter.ItemName) }, new[] { "ice_breaker", "freeze_ray", "glacier", "snowballer" });
+            NewSynergy(LOLItems.Synergy.WITCHCRAFT, "witchcraft...", new[] { IName(RylaisCrystalScepter.ItemName) }, new[] { "witch_pistol", "hexagun" });
+
+            //Shadowflame
+            //NewSynergy(LOLItems.Synergy.CONFLICTING_EXECUTIONERS, "Conflicting Executioners", new[] { IName(Shadowflame.ItemName), IName(Collector.ItemName) });
+            NewSynergy(LOLItems.Synergy.HELLS_SHADOWS, "Hell's Shadows", new[] { IName(Shadowflame.ItemName) }, new[] { "pitchfork", "demon_head" });
+            NewSynergy(LOLItems.Synergy.SOLAR_FLAME, "Solar Flame", new[] { IName(Shadowflame.ItemName), "sunlight_javelin" });
 
             //ACTIVE ITEMS ==============================================================================================================================================================================================================================================================================
+
+
             //Galeforce
             NewSynergy(LOLItems.Synergy.GALEFORCE_FOUR, "FOUR!", new[] { IName(Galeforce.ItemName), Whisper.internalName });
             NewSynergy(LOLItems.Synergy.BOW_MASTERY, "Bow Mastery", new[] { IName(Galeforce.ItemName) }, new[] { "bow", "charmed_bow", "gunbow" });
@@ -139,7 +154,10 @@ namespace LOLItems
             NewSynergy(LOLItems.Synergy.BUNCH_O_POTIONS, "BunchO Potions", new[] { IName(RefillablePotion.ItemName), "old_knights_flask" });
             NewSynergy(LOLItems.Synergy.COCKTAIL_POTION, "Cocktail Potion", new[] { IName(RefillablePotion.ItemName) }, new[] { "potion_of_lead_skin", "potion_of_gun_friendship" });
 
+            
             //WEAPONS ====================================================================================================================================================================================================================================================
+            
+            
             //Crossblade
             NewSynergy(LOLItems.Synergy.BOUNCEMAXXING, "Bouncemaxxing", new[] { Crossblade.internalName }, new[] { "bouncy_bullets", "boomerang" });
             
@@ -289,6 +307,12 @@ namespace LOLItems
         LIGHTSLINGER,
         PLUS25_CHARM,
         CHARMING_REINVIGORATION,
+        ARCANE_MASTERY,
+        ICE_II,
+        WITCHCRAFT,
+        //CONFLICTING_EXECUTIONERS,
+        HELLS_SHADOWS,
+        SOLAR_FLAME,
 
     };
 }

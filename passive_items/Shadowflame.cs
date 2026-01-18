@@ -1,9 +1,10 @@
-﻿using System;
+﻿using Alexandria;
+using Alexandria.ItemAPI;
+using Alexandria.Misc;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Alexandria;
-using Alexandria.ItemAPI;
 using UnityEngine;
 
 namespace LOLItems
@@ -15,6 +16,11 @@ namespace LOLItems
         private static float DamageStat = 1.15f;
         private static float CinderbloomThreshold = 0.4f;
         private static float CinderbloomDamageAmp = 0.4f;
+
+        public bool HELLSSHADOWSActivated = false;
+        private static float HELLSSHADOWSCinderbloomDamageAmpInc = 0.2f;
+        public bool SOLARFLAMEActivated = false;
+        private static float SOLARFLAMECinderbloomThresholdInc = 0.2f;
 
         public static int ID;
 
@@ -61,6 +67,40 @@ namespace LOLItems
                 player.PostProcessProjectile -= OnPostProcessProjectile;
                 player.PostProcessBeamTick -= OnPostProcessProjectile;
             }
+        }
+
+        public override void Update()
+        {
+            if (Owner != null)
+            {
+                if (Owner.HasSynergy(Synergy.HELLS_SHADOWS) && !HELLSSHADOWSActivated)
+                {
+                    CinderbloomDamageAmp += HELLSSHADOWSCinderbloomDamageAmpInc;
+
+                    HELLSSHADOWSActivated = true;
+                }
+                else if (!Owner.HasSynergy(Synergy.HELLS_SHADOWS) && HELLSSHADOWSActivated)
+                {
+                    CinderbloomDamageAmp = 0.4f;
+
+                    HELLSSHADOWSActivated = false;
+                }
+
+                if (Owner.HasSynergy(Synergy.SOLAR_FLAME) && !SOLARFLAMEActivated)
+                {
+                    CinderbloomThreshold += SOLARFLAMECinderbloomThresholdInc;
+
+                    SOLARFLAMEActivated = true;
+                }
+                else if (!Owner.HasSynergy(Synergy.SOLAR_FLAME) && SOLARFLAMEActivated)
+                {
+                    CinderbloomThreshold = 0.4f;
+
+                    SOLARFLAMEActivated = false;
+                }
+            }
+
+            base.Update();
         }
 
         private void OnPostProcessProjectile (BeamController beam, SpeculativeRigidbody hitRigidbody, float tickrate)

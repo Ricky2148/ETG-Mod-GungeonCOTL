@@ -69,7 +69,7 @@ namespace LOLItems.passive_items
             effectIdentifier = "frostfire_tempest_slow_effect",
             resistanceType = EffectResistanceType.Freeze,
             AppliesTint = true,
-            TintColor = ExtendedColours.skyblue,
+            TintColor = ExtendedColours.dodgerBlue,
             //AppliesDeathTint = true,
             //DeathTintColor = new Color(0, 0, 0)
         };

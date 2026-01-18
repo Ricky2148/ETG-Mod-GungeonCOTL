@@ -57,7 +57,7 @@ Frozen Heart (B):
 - Effect: Applies a 30% cripple to nearby enemies. Cripple: slows target's ROF by certain amount.
 - Synergies:
 	+ Ice to the core [Frost Bullets/Snowballets/Heart of Ice]: Cripple increases to 45%
-	+ Frozen Bullets [Cold 45/Frost Giant/Freeze Ray/Glacier/Snowballer]: Bullets also apply cripple
+	+ Frozen Bullets [Cold 45/Frost Giant]: Bullets also apply cripple
 
 ![](https://i.ibb.co/XrCRPYWp/guardian-angel-pixelart-sprite-small.png)
 Guardian Angel (S):
@@ -115,8 +115,8 @@ Liandry's Torment (B):
 - Stats: 1.15x DMG, 1 Heart
 - Effect: Dealing damage applies a burn to enemies that deal 5 + 10% max health damage per second for 3 seconds. (25% effective against bosses)
 - Synergy:
-	+ Burning Vengence [Phoenix/Flame Hand/Pitchfork/Demon Head/Napalm Strike]: Burn duration increased to 6 seconds
-	+ Blazing Universe [Hot Lead/Gungeon Pepper/Sunlight Javelin]: Burn damage doubled
+	+ Burning Vengence [Phoenix/Napalm Strike]: Burn duration increased to 6 seconds
+	+ Blazing Universe [Hot Lead/Gungeon Pepper]: Burn damage doubled
 
 ![](https://i.ibb.co/mVrsqVDG/tear-of-the-goddess-pixelart-sprite.png)
 Tear of the Goddess (D):
@@ -154,25 +154,32 @@ Puppeteer (B):
 - Stats: 1.15x ROF
 - Effect: Every bullet applies a stack of Pull Their Strings to enemies hit. When an enemy reaches 4 stacks, they are charmed for 999 seconds. Goes on a 25s cooldown.
 - Synergies:
-	+ +25 Charm [Shotgun Full of Love, Charmed Bow, Really Special Lute, Charming Rounds]: Decrease stack requirement to 3 stacks and cooldown to 15 seconds
+	+ +25 Charm [Shotgun Full of Love/Charmed Bow/Really Special Lute/Charming Rounds]: Decrease stack requirement to 3 stacks and cooldown to 15 seconds
 	+ Charming Reinvigoration [Charm Horn]: resets item cooldown on charm horn activation
 
 ![](https://i.ibb.co/gLXQC0Xw/rod-of-ages-pixelart-sprite-outline.png)
 Rod of Ages (B):
 - Effect: Every 120s, gain a stack of Timeless. Each Timeless stack provides 2% inc DMG, 5% inc Max Ammo Capacity, and 5% inc Max Clip Size. Stacks up to 15 times. When reaching max stacks, provides an extra heart and the Eternity effect. Eternity: when damaged, restores 25% ammo to player's all weapons.
 - Synergies:
-	+ Super Training [Macho Brace]: Halved stack gain delay
+	+ Super Training [Macho Brace]: Halved stack gain delay, double each stack's effects
 	+ Age old wisdom [Old Knight's Shield/Helm/Flask]: 30% damage increase and double Eternity effect
+	+ Arcane Mastery [Bundle of Wands & Staff of Firepower]: Instantly fully stack Timeless. +1.0 Movement speed
 
 ![](https://i.ibb.co/LXv3XQrM/rylais-crystal-scepter-pixelart-sprite-outline.png)
 Rylai's Crystal Scepter (C):
 - Stats: 1 Heart
-- Effect: Dealing damage slows targets hit by 30% for 1s.
+- Effect: Dealing damage slows targets hit by 30% for 2s.
+- Synergies:
+	+ Ice II [Ice Breaker/Freeze Ray/Glacier/Snowballer]: Doubles slow effect
+	+ Witchcraft [Witch Pistol/Hexagun]: Doubles slow duration, +10% damage buff
 
 ![](https://i.ibb.co/v4xKKyPb/shadowflame-pixelart-sprite-outline.png)
 Shadowflame (A):
 - Stats: 1.15x DMG
 - Effect: When hitting an enemy that is below 40% health, deal 40% more damage.
+- Synergies:
+	+ Hell's Shadows [Pitchfork/Demon Head]: bonus damage multiplier increased by 20%
+	+ Solar Flame [Sunlight Javelin]: bonus damage threshold increased by 20%
 
 ![](https://i.ibb.co/9HKyS9mc/sheen-pixelart-sprite.png)
 Sheen (D):
