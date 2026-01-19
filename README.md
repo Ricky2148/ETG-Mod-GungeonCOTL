@@ -189,11 +189,18 @@ Sheen (D):
 Statikk Shiv (A):
 - Stats: 1.2x DMG, 1.1x ROF
 - Effect: The first 3 bullets of player's clip will chain lightning up to 5 enemies starting from the first enemy hit. Chain lightning deals 5 dmg.
+- Synergies:
+	+ Statikk Electricity [Thunderclap/Laser Lotus]: 4 more chain lightning bullets
+	+ Mo' Lightning [Shock Rounds]: +3 chain lightning damage, targets, and increased chain range
+	+ EMPEROR OF LIGHTNING [The Emperor]: +5 chain lighting bullets and damage
 
 ![](https://i.ibb.co/20g04C2Y/sunfire-aegis-pixelart-sprite-small.png)
 Sunfire Aegis (B):
 - Stats: 1 Heart, 1 Armor
-- Effect: Provides a damaging aura around the player. Radius: 2 + 1 per heart. Damage: 1.5/s per heart
+- Effect: Provides a damaging aura around the player. Radius: 3 + 0.5 per heart. Damage: 1.5/s per heart
+- Synergies:
+	+ True Sun God [Sunlight Javelin]: +0.25 radius per heart, +0.5 dps per heart
+	+ Voltage Nova [Gungeon Pepper]: +1.5 dps per heart
 
 ![](https://i.ibb.co/0pFHgknV/thornmail-pixelart-sprite-outline.png)
 Thornmail (B):

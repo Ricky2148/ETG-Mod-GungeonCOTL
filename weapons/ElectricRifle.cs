@@ -564,10 +564,10 @@ namespace LOLItems.weapons
             List<string> optionalConsoleIDs = new List<string>
             {
                 "battery_bullets",
-                "shock_rounds",
-                "thunderclap",
+                //"shock_rounds",
+                //"thunderclap",
                 "shock_rifle",
-                "laser_lotus",
+                //"laser_lotus",
             };
             AdvancedSynergyEntry ase = CustomSynergies.Add("Passive Charge", mandatoryConsoleIDs, optionalConsoleIDs, true);
 

@@ -140,6 +140,16 @@ namespace LOLItems
             NewSynergy(LOLItems.Synergy.HELLS_SHADOWS, "Hell's Shadows", new[] { IName(Shadowflame.ItemName) }, new[] { "pitchfork", "demon_head" });
             NewSynergy(LOLItems.Synergy.SOLAR_FLAME, "Solar Flame", new[] { IName(Shadowflame.ItemName), "sunlight_javelin" });
 
+            //Statikk Shiv
+            NewSynergy(LOLItems.Synergy.STATIKK_ELECTRICITY, "statikk electricity", new[] { IName(StatikkShiv.ItemName) }, new[] { "thunderclap", "laser_lotus" });
+            NewSynergy(LOLItems.Synergy.MO_LIGHTNING, "Mo' Lightning!", new[] { IName(StatikkShiv.ItemName), "shock_rounds" });
+            NewSynergy(LOLItems.Synergy.EMPEROR_OF_LIGHTNING, "EMPEROR OF LIGHTNING", new[] { IName(StatikkShiv.ItemName), "the_emperor" });
+
+            //Sunfire Aegis
+            NewSynergy(LOLItems.Synergy.TRUE_SUN_GOD, "TRUE SUN GOD", new[] { IName(SunfireAegis.ItemName), "sunlight_javelin" });
+            NewSynergy(LOLItems.Synergy.VOLTAGE_NOVA, "Voltage Nova", new[] { IName(SunfireAegis.ItemName), "gungeon_pepper" });
+
+
             //ACTIVE ITEMS ==============================================================================================================================================================================================================================================================================
 
 
@@ -313,6 +323,11 @@ namespace LOLItems
         //CONFLICTING_EXECUTIONERS,
         HELLS_SHADOWS,
         SOLAR_FLAME,
+        STATIKK_ELECTRICITY,
+        MO_LIGHTNING,
+        EMPEROR_OF_LIGHTNING,
+        TRUE_SUN_GOD,
+        VOLTAGE_NOVA,
 
     };
 }

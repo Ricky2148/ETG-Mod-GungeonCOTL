@@ -23,10 +23,8 @@ namespace LOLItems
 
         private static float ImmolateBaseDamage = 0f;
         private static float ImmolateDamagePerHeart = 1.5f;
-        private static float ImmolateBaseRadius = 2f;
-        private static float ImmolateRadiusPerHeart = 1f;
-
-        public static int ID;
+        private static float ImmolateBaseRadius = 3f;
+        private static float ImmolateRadiusPerHeart = 0.5f;
 
         private static List<string> VFXSpritePath = new List<string>
             {
@@ -43,6 +41,15 @@ namespace LOLItems
         private static GameObject EffectVFX;
 
         private GameObject activeVFXObject;
+
+        public bool TRUESUNGODActivated = false;
+        private static float TRUESUNGODImmolateDamagePerHeartInc = 0.5f;
+        private static float TRUESUNGODImmolateRadiusPerHeartInc = 0.25f;
+
+        public bool VOLTAGENOVAActivated = false;
+        private static float VOLTAGENOVAImmolateDamagePerHeartInc = 1.5f;
+
+        public static int ID;
 
         public static void Init()
         {
@@ -156,10 +163,78 @@ namespace LOLItems
             }
         }
 
+        public override void Update()
+        {
+            if (Owner != null)
+            {
+                if (Owner.HasSynergy(Synergy.TRUE_SUN_GOD) && !TRUESUNGODActivated)
+                {
+                    ImmolateDamagePerHeart += TRUESUNGODImmolateDamagePerHeartInc;
+                    ImmolateRadiusPerHeart += TRUESUNGODImmolateRadiusPerHeartInc;
+
+                    TRUESUNGODActivated = true;
+                    if (Owner.ForceZeroHealthState)
+                    {
+                        UpdateImmolateStats(0, 3f);
+                    }
+                    else
+                    {
+                        UpdateImmolateStats(0, Owner.healthHaver.GetMaxHealth());
+                    }
+                }
+                else if (!Owner.HasSynergy(Synergy.TRUE_SUN_GOD) && TRUESUNGODActivated)
+                {
+                    ImmolateDamagePerHeart -= TRUESUNGODImmolateDamagePerHeartInc;
+                    ImmolateRadiusPerHeart -= TRUESUNGODImmolateRadiusPerHeartInc;
+
+                    TRUESUNGODActivated = false;
+                    if (Owner.ForceZeroHealthState)
+                    {
+                        UpdateImmolateStats(0, 3f);
+                    }
+                    else
+                    {
+                        UpdateImmolateStats(0, Owner.healthHaver.GetMaxHealth());
+                    }
+                }
+
+                if (Owner.HasSynergy(Synergy.VOLTAGE_NOVA) && !VOLTAGENOVAActivated)
+                {
+                    ImmolateDamagePerHeart += VOLTAGENOVAImmolateDamagePerHeartInc;
+
+                    VOLTAGENOVAActivated = true;
+                    if (Owner.ForceZeroHealthState)
+                    {
+                        UpdateImmolateStats(0, 3f);
+                    }
+                    else
+                    {
+                        UpdateImmolateStats(0, Owner.healthHaver.GetMaxHealth());
+                    }
+                }
+                else if (!Owner.HasSynergy(Synergy.VOLTAGE_NOVA) && VOLTAGENOVAActivated)
+                {
+                    ImmolateDamagePerHeart -= VOLTAGENOVAImmolateDamagePerHeartInc;
+
+                    VOLTAGENOVAActivated = false;
+                    if (Owner.ForceZeroHealthState)
+                    {
+                        UpdateImmolateStats(0, 3f);
+                    }
+                    else
+                    {
+                        UpdateImmolateStats(0, Owner.healthHaver.GetMaxHealth());
+                    }
+                }
+            }
+
+            base.Update();
+        }
+
         // updates the immolate stats based on the player's current health
         private void UpdateImmolateStats(float oldHealth, float newHealth)
         {
-            //Plugin.Log("updated immolate stats");
+            Plugin.Log($"updated immolate stats: {newHealth}");
             this.DamagePerSecond = (newHealth) * ImmolateDamagePerHeart;
             this.AuraRadius = ImmolateBaseRadius + (newHealth) * ImmolateRadiusPerHeart;
             this.Update();

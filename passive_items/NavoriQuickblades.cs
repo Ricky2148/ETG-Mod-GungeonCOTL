@@ -129,6 +129,7 @@ namespace LOLItems.passive_items
 
         private void OnPostProcessProjectile(BeamController beam, SpeculativeRigidbody hitRigidbody, float tickrate)
         {
+            if (Owner.CurrentItem == null) return;
             if (hitRigidbody == null) return;
             if (hitRigidbody.aiActor == null && hitRigidbody.GetComponentInParent<AIActor>() == null) return;
             if (hitRigidbody.healthHaver != null)
@@ -156,6 +157,7 @@ namespace LOLItems.passive_items
 
         private void OnPostProcessProjectile(Projectile proj, float f)
         {
+            if (Owner.CurrentItem == null) return;
             if (proj.Shooter == proj.Owner.specRigidbody)
             {
                 proj.OnHitEnemy += (projHit, enemy, fatal) =>
