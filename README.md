@@ -205,12 +205,20 @@ Sunfire Aegis (B):
 ![](https://i.ibb.co/0pFHgknV/thornmail-pixelart-sprite-outline.png)
 Thornmail (B):
 - Stats: 1 Heart, 1 Armor
-- Effect: When taking damage, activate a blank and deal 10 extra damage to nearby enemies.
+- Effect: When taking damage, activate a blank and deal 20 extra damage to nearby enemies.
+- Synergies:
+	+ THORN MAELSTROM [Armor of Thorns]: +15 extra damage and increased range
+	+ Ice Cold Thorns [Heart of Ice]: doubled ice projectiles from heart of ice
+	+ Ow! Splinter [Wood Beam]: +30 extra damage
 
 ![](https://i.ibb.co/TqgpgYLq/zekes-convergence-pixelart-sprite-outline.png)
 Zeke's Convergence (B):
 - Stats: 1 Heart
 - Effect: On item activation, create an aura around the player for 10 seconds. The aura deals 15 dps and slows enemies by 50%. Goes on a 45s cooldown.
+- Synergies:
+	+ Absolute Convergence [Dark Marker]: aura is activated permanently.
+	+ Flame > Ice [Hot Lead & Phoenix]: doubled dps
+	+ Ice > Flame [Frost Giant & Frost Bullets]: slow increased to 80%
 
 ## Active Items:
 ![](https://i.ibb.co/nNnjs75f/galeforce-pixelart-sprite.png)
@@ -220,12 +228,6 @@ Galeforce (A):
 - Synergies:
 	+ FOUR! [Whisper]: Missiles deal 2.5x damage
 	+ Bow Mastery [Bow/Charmed Bow/Gunbow]: Halved cooldown
-
-![](https://i.ibb.co/xtgHCPqf/perfectly-timed-stopwatch-pixelart-sprite.png)
-Perfectly Timed Stopwatch (D):
-- Effect: Zhonya's Hourglass identical effect. One use consumable.
-- Synergy:
-	+ Builds into Zhonya's Hourglass [Zhonya's Hourglass]: 
 
 ![](https://i.ibb.co/prwMpFxy/redemption-pixelart-sprite.png)
 Redemption (A):
@@ -251,6 +253,12 @@ Talisman of Ascension (A):
 - Buff value range minimum: 0.2 + 0.1 per use
 - Buff value range maximum: 1.0 + 0.25 per use
 - Each stat the item can buff has a specific ratio set for balancing reasons. I am not writing all that out lol.
+
+![](https://i.ibb.co/xtgHCPqf/perfectly-timed-stopwatch-pixelart-sprite.png)
+Perfectly Timed Stopwatch (D):
+- Effect: Zhonya's Hourglass identical effect. One use consumable.
+- Synergy:
+	+ Builds into Zhonya's Hourglass [Zhonya's Hourglass]: 
 
 ![](https://i.ibb.co/KjLxCdnz/zhonyas-hourglass-pixelart-sprite-small.png)
 Zhonya's Hourglass (A):

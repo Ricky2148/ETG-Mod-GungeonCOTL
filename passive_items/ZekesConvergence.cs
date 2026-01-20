@@ -53,6 +53,8 @@ namespace LOLItems.passive_items
 
         private GameObject activeVFXObject;
 
+        private Coroutine FrostFireTempestCoroutine;
+
         /*
         private static Color SlowEffectColor = new Color
         (
@@ -73,6 +75,12 @@ namespace LOLItems.passive_items
             //AppliesDeathTint = true,
             //DeathTintColor = new Color(0, 0, 0)
         };
+
+        public bool ABSOLUTECONVERGENCEActivated = false;
+        public bool FLAMEOVERICEActivated = false;
+        private static float FLAMEOVERICEFrostFireTempestDamageMultiplier = 2f;
+        public bool ICEOVERFLAMEActivated = false;
+        private static float ICEOVERFLAMEFrostFireTempestSlowPercent = 0.2f;
 
         public static int ID;
 
@@ -145,10 +153,114 @@ namespace LOLItems.passive_items
             }
         }
 
+        public override void Update()
+        {
+            if (Owner != null)
+            {
+                if (Owner.HasSynergy(Synergy.ABSOLUTE_CONVERGENCE) && !ABSOLUTECONVERGENCEActivated)
+                {
+                    Owner.OnNewFloorLoaded += OnLoadedNewFloor;
+                    this.OnPickedUp += OnLoadedNewFloor;
+                    Owner.OnUsedPlayerItem -= ActivateFrostFireTempest;
+
+                    if (FrostFireTempestCoroutine != null) StopCoroutine(FrostFireTempestCoroutine);
+
+                    isFrostFireTempestActive = true;
+
+                    this.AuraRadius = FrostFireTempestRadius;
+                    this.DamagePerSecond = FrostFireTempestDamage;
+
+                    if (activeVFXObject != null)
+                    {
+                        Destroy(activeVFXObject);
+                    }
+
+                    //vector3(width/2 + 1, length/2 - 10, ????) 
+                    activeVFXObject = Owner.PlayEffectOnActor(EffectVFX, new Vector3(51 / 16f, 40 / 16f, -2f), true, false, false);
+                    //AkSoundEngine.PostEvent("zekes_convergence_sfx_01", Owner.gameObject);
+
+                    var sprite = activeVFXObject.GetComponent<tk2dSprite>();
+
+                    if (sprite != null)
+                    {
+                        sprite.HeightOffGround = -50f;
+
+                        sprite.scale = new Vector3(2.5f, 2.5f, 0f);
+
+                        sprite.UpdateZDepth();
+
+                        sprite.usesOverrideMaterial = true;
+
+                        sprite.renderer.material.shader = ShaderCache.Acquire("Brave/Internal/SimpleAlphaFadeUnlit");
+                        sprite.renderer.material.SetFloat("_Fade", 0.5f);
+                    }
+
+                    ABSOLUTECONVERGENCEActivated = true;
+                }
+                else if (!Owner.HasSynergy(Synergy.ABSOLUTE_CONVERGENCE) && ABSOLUTECONVERGENCEActivated)
+                {
+                    Owner.OnNewFloorLoaded -= OnLoadedNewFloor;
+                    this.OnPickedUp -= OnLoadedNewFloor;
+                    Owner.OnUsedPlayerItem += ActivateFrostFireTempest;
+
+                    this.AuraRadius = 0f;
+                    this.DamagePerSecond = 0f;
+
+                    if (activeVFXObject != null)
+                    {
+                        Destroy(activeVFXObject);
+                    }
+
+                    isFrostFireTempestActive = false;
+
+                    ABSOLUTECONVERGENCEActivated = false;
+                }
+
+                if (Owner.HasSynergy(Synergy.FLAME_OVER_ICE) && !FLAMEOVERICEActivated)
+                {
+                    FrostFireTempestDamage *= FLAMEOVERICEFrostFireTempestDamageMultiplier;
+                    if (isFrostFireTempestActive)
+                    {
+                        this.DamagePerSecond = FrostFireTempestDamage;
+                    }
+
+                    FLAMEOVERICEActivated = true;
+                }
+                else if (!Owner.HasSynergy(Synergy.FLAME_OVER_ICE) && FLAMEOVERICEActivated)
+                {
+                    FrostFireTempestDamage /= FLAMEOVERICEFrostFireTempestDamageMultiplier;
+                    if (isFrostFireTempestActive)
+                    {
+                        this.DamagePerSecond = FrostFireTempestDamage;
+                    }
+
+                    FLAMEOVERICEActivated = false;
+                }
+
+                if (Owner.HasSynergy(Synergy.ICE_OVER_FLAME) && !ICEOVERFLAMEActivated)
+                {
+                    FrostFireTempestSlowEffect.SpeedMultiplier = ICEOVERFLAMEFrostFireTempestSlowPercent;
+
+                    ICEOVERFLAMEActivated = true;
+                }
+                else if (!Owner.HasSynergy(Synergy.ICE_OVER_FLAME) && ICEOVERFLAMEActivated)
+                {
+                    FrostFireTempestSlowEffect.SpeedMultiplier = FrostFireTempestSlowPercent;
+
+                    ICEOVERFLAMEActivated = false;
+                }
+            }
+
+            base.Update();
+        }
+
         // updates the immolate stats based on the player's current health
         private void ActivateFrostFireTempest(PlayerController player, PlayerItem item)
         {
-            if (!isFrostFireTempestActive) StartCoroutine(DoFrostFireTempestEffect(player));
+            if (!isFrostFireTempestActive)
+            {
+                FrostFireTempestCoroutine = StartCoroutine(DoFrostFireTempestEffect(player));
+            }
         }
 
         private System.Collections.IEnumerator DoFrostFireTempestEffect(PlayerController player)
@@ -220,6 +332,7 @@ namespace LOLItems.passive_items
             {
                 AuraAction = delegate (AIActor actor, float dist)
                 {
+                    //Plugin.Log($"dps: {ModifiedDamagePerSecond}");
                     float num = ModifiedDamagePerSecond * BraveTime.DeltaTime;
                     if (DamageFallsOffInRadius)
                     {
@@ -241,6 +354,33 @@ namespace LOLItems.passive_items
             if (didDamageEnemies)
             {
                 m_owner.DidUnstealthyAction();
+            }
+        }
+
+        private void OnLoadedNewFloor(PlayerController player)
+        {
+            if (activeVFXObject != null)
+            {
+                Destroy(activeVFXObject);
+            }
+
+            activeVFXObject = player.PlayEffectOnActor(EffectVFX, new Vector3(51 / 16f, 40 / 16f, -2f), true, false, false);
+            //AkSoundEngine.PostEvent("zekes_convergence_sfx_01", player.gameObject);
+
+            var sprite = activeVFXObject.GetComponent<tk2dSprite>();
+
+            if (sprite != null)
+            {
+                sprite.HeightOffGround = -50f;
+
+                sprite.scale = new Vector3(2.5f, 2.5f, 0f);
+
+                sprite.UpdateZDepth();
+
+                sprite.usesOverrideMaterial = true;
+
+                sprite.renderer.material.shader = ShaderCache.Acquire("Brave/Internal/SimpleAlphaFadeUnlit");
+                sprite.renderer.material.SetFloat("_Fade", 0.5f);
             }
         }
     }

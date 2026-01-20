@@ -149,6 +149,16 @@ namespace LOLItems
             NewSynergy(LOLItems.Synergy.TRUE_SUN_GOD, "TRUE SUN GOD", new[] { IName(SunfireAegis.ItemName), "sunlight_javelin" });
             NewSynergy(LOLItems.Synergy.VOLTAGE_NOVA, "Voltage Nova", new[] { IName(SunfireAegis.ItemName), "gungeon_pepper" });
 
+            //Thornmail
+            NewSynergy(LOLItems.Synergy.ICE_COLD_THORNS, "Ice cold thorns", new[] { IName(Thornmail.ItemName), "heart_of_ice" });
+            NewSynergy(LOLItems.Synergy.THORN_MAELSTROM, "Thorn Maelstrom", new[] { IName(Thornmail.ItemName), "armor_of_thorns" });
+            NewSynergy(LOLItems.Synergy.OW_SPLINTER, "Ow! Splinter", new[] { IName(Thornmail.ItemName), "wood_beam" });
+
+            //Zeke's Convergence
+            NewSynergy(LOLItems.Synergy.ABSOLUTE_CONVERGENCE, "ABSOLUTE CONVERGENCE", new[] { IName(ZekesConvergence.ItemName), "dark_marker" });
+            NewSynergy(LOLItems.Synergy.FLAME_OVER_ICE, "Flame > Ice", new[] { IName(ZekesConvergence.ItemName), "hot_lead", "phoenix" });
+            NewSynergy(LOLItems.Synergy.ICE_OVER_FLAME, "Ice > Flame", new[] { IName(ZekesConvergence.ItemName), "frost_giant", "frost_bullets" });
+
 
             //ACTIVE ITEMS ==============================================================================================================================================================================================================================================================================
 
@@ -328,6 +338,12 @@ namespace LOLItems
         EMPEROR_OF_LIGHTNING,
         TRUE_SUN_GOD,
         VOLTAGE_NOVA,
+        ICE_COLD_THORNS,
+        THORN_MAELSTROM,
+        OW_SPLINTER,
+        ABSOLUTE_CONVERGENCE,
+        FLAME_OVER_ICE,
+        ICE_OVER_FLAME,
 
     };
 }
