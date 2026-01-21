@@ -67,7 +67,8 @@ namespace LOLItems.weapons
             Game.Items.Rename($"outdated_gun_mods:{FULLNAME.ToID()}", internalName);
             gun.gameObject.AddComponent<VirtueForm1>();
             gun.SetShortDescription("\"Truth, guide my sword!\"");
-            gun.SetLongDescription("Virtue. \nDefinition: a quality considered morally good.\n\nA blade of celestial creation that are capable of burning evil. " +
+            gun.SetLongDescription("Gain EXP per kill. Evolves after enough EXP.\n\n" +
+                "Virtue. Definition: a quality considered morally good.\n\nA blade of celestial creation that are capable of burning evil. " +
                 "The original wielder of this weapon was said to have tested whether one was virtuous by slashing at their neck. If they were truly virtuous, then the blade would cause them no harm. " +
                 "\n\nShe was capable of igniting the blade with holy fire but it appears to require something deep within.\n");
 
@@ -250,7 +251,7 @@ namespace LOLItems.weapons
             FakePrefab.MarkAsFakePrefab(AscensionIcon);
             AscensionIcon.SetActive(false);
 
-            List<string> mandatoryConsoleIDs = new List<string>
+            /*List<string> mandatoryConsoleIDs = new List<string>
             {
                 "LOLItems:virtueform1",
             };
@@ -261,7 +262,7 @@ namespace LOLItems.weapons
                 "broccoli",
                 "life_orb"
             };
-            AdvancedSynergyEntry ase = CustomSynergies.Add("Exp. Share", mandatoryConsoleIDs, optionalConsoleIDs, true);
+            AdvancedSynergyEntry ase = CustomSynergies.Add("Exp. Share", mandatoryConsoleIDs, optionalConsoleIDs, true);*/
         }
 
         public override void OnInitializedWithOwner(GameActor actor)
@@ -278,7 +279,7 @@ namespace LOLItems.weapons
         {
             currentOwner.OnAnyEnemyReceivedDamage -= KillEnemyCount;
 
-            Plugin.Log($"dropped up {realName}");
+            Plugin.Log($"dropped {realName}");
 
             base.OnDropped();
         }
@@ -308,7 +309,7 @@ namespace LOLItems.weapons
                     expToGain = enemyHealth.aiActor.healthHaver.GetMaxHealth();
                 }
 
-                if (Player.PlayerHasActiveSynergy("Exp. Share"))
+                if (Player.HasSynergy(Synergy.EXP_SHARE_FORM_1))
                 {
                     expToGain *= 2;
                 }

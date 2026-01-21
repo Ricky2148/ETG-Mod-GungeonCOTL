@@ -10,6 +10,8 @@ namespace LOLItems.passive_items
 {
     internal class FatedAshes : PassiveItem
     {
+        public static string ItemName = "Fated Ashes";
+
         private static float InflameDamagePerSecond = 3f;
         private static float InflameDuration = 3f;
 
@@ -27,7 +29,7 @@ namespace LOLItems.passive_items
 
         public static void Init()
         {
-            string itemName = "Fated Ashes";
+            string itemName = ItemName;
             string resourceName = "LOLItems/Resources/passive_item_sprites/fated_ashes_pixelart_sprite";
 
             GameObject obj = new GameObject(itemName);
@@ -37,7 +39,8 @@ namespace LOLItems.passive_items
             ItemBuilder.AddSpriteToObject(itemName, resourceName, obj);
 
             string shortDesc = "It's getting warm...";
-            string longDesc = "A vase storing the ashes of the guilty. Their guilt marks their fate for hell and, in turn, causes their ashes to burn up occasionally.\n";
+            string longDesc = "Dealing damage burns enemies.\n\n" +
+                "A vase storing the ashes of the guilty. Their guilt marks their fate for hell and, in turn, causes their ashes to burn up occasionally.\n";
 
             ItemBuilder.SetupItem(item, shortDesc, longDesc, "LOLItems");
 
@@ -63,8 +66,26 @@ namespace LOLItems.passive_items
             base.DisableEffect(player);
             Plugin.Log($"Player dropped or got rid of {this.EncounterNameOrDisplayName}");
 
-            player.PostProcessProjectile -= OnPostProcessProjectile;
-            player.PostProcessBeamTick -= OnPostProcessProjectile;
+            if (player != null)
+            {
+                player.PostProcessProjectile -= OnPostProcessProjectile;
+                player.PostProcessBeamTick -= OnPostProcessProjectile;
+            }
+        }
+
+        public override void Update()
+        {
+            if (Owner != null)
+            {
+                if (Owner.HasSynergy(Synergy.BUILDS_INTO_LIANDRYS_TORMENT))
+                {
+                    Owner.RemovePassiveItem(ID);
+
+                    LootEngine.SpawnCurrency(Owner.specRigidbody.UnitCenter, this.PurchasePrice);
+                }
+            }
+
+            base.Update();
         }
 
         private void OnPostProcessProjectile(Projectile proj, float f)

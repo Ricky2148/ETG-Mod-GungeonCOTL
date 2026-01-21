@@ -19,13 +19,13 @@ namespace LOLItems.weapons
 {
     internal class PowPow : AdvancedGunBehavior
     {
-        public static string internalName; //Internal name of the gun as used by console commands
+        public static string internalName = "Pow-Pow"; //Internal name of the gun as used by console commands
         public static int ID; //The Gun ID stored by the game.  Can be used by other functions to call your custom gun.
         public static string realName = "Pow-Pow"; //The actual name of the gun
 
         private static float rampUpIncCap = 5f;
         private static float rampUpIncPerSecond = 0.5f;
-        private static int ammoStat = 450;
+        private static int ammoStat = 600;
         private static float reloadDuration = 1.6f;
         private static float fireRateStat = 0.3f;
         private static int spreadAngle = 8;
@@ -57,6 +57,9 @@ namespace LOLItems.weapons
 
         private static int firingAnimationFPS = 10;
 
+        public bool RUNAANSBULLETSActivated = false;
+        private static float RUNAANSBULLETSDamageStat = 1.82f;
+
         private bool isFishbones = false;
 
         public static void Add()
@@ -73,15 +76,16 @@ namespace LOLItems.weapons
              * The default here is to use your mod's prefix then shortname so in this example it would come out as "twp:template_gun". */
             string FULLNAME = realName; //Full name of your gun 
             string SPRITENAME = "powpow"; //The name that prefixes your sprite files
-            internalName = $"LOLItems:powpow";
+            internalName = $"LOLItems:{internalName.ToID()}";
             Gun gun = ETGMod.Databases.Items.NewGun(FULLNAME, SPRITENAME);
             Game.Items.Rename($"outdated_gun_mods:{FULLNAME.ToID()}", internalName); //Renames the default internal name to your custom internal name
             gun.gameObject.AddComponent<PowPow>(); //AddComponent<[ClassName]>
             gun.SetShortDescription("Get Jinxed!");  //The description that pops up when you pick up the gun.
-            gun.SetLongDescription("Unique weapons of an infamous terrorist known as \"Jinx\". Despite its shoddy appearance, the genius engineering of these weapons is undeniable.\n\n" +
-                "Pow-Pow: a fast-firing minigun that shreds enemies like cake. \"Why does it have animal ears tho?\"\n\n" +
-                "Fishbones: a powerful rocket launcher that blows enemies to pieces. \"Why does it look like a shark?\"\n\n" +
-                "Press reload to swap forms.\n"); //The full description in the Ammonomicon.
+            gun.SetLongDescription("Pow-Pow: a fast-firing minigun that gains fire rate as you attack.\n" +
+                "Fishbones: a powerful rocket launcher that fires small missles.\n" +
+                "Press reload to swap forms.\n\n" +
+                "Unique weapons of an infamous terrorist known as \"Jinx\". Despite its shoddy appearance, the genius engineering of these weapons is undeniable.\n\n" +
+                "\"Why do they look like animals?\"\n"); //The full description in the Ammonomicon.
             /* SetupSprite sets up the default gun sprite for the ammonomicon and the "gun get" popup.  Your "..._idle_001" is often a good example.  
              * A copy of the sprite used must be in your "sprites/Ammonomicon Encounter Icon Collection/" folder.
              * The variable at the end assigns a default FPS to all other animations. */
@@ -426,6 +430,30 @@ namespace LOLItems.weapons
             ID = gun.PickupObjectId; //Sets the Gun ID. 
             ItemBuilder.AddCurrentGunStatModifier(gun, PlayerStats.StatType.RateOfFire, 1.0f, StatModifier.ModifyMethod.MULTIPLICATIVE);
         }
+
+        protected override void Update()
+        {
+            if (Player != null)
+            {
+                if (Player.HasSynergy(Synergy.RUNAANS_BULLETS) && !RUNAANSBULLETSActivated)
+                {
+                    ItemBuilder.AddCurrentGunStatModifier(gun, PlayerStats.StatType.Damage, RUNAANSBULLETSDamageStat, StatModifier.ModifyMethod.MULTIPLICATIVE);
+                    Player.stats.RecalculateStatsWithoutRebuildingGunVolleys(Player);
+
+                    RUNAANSBULLETSActivated = true;
+                }
+                else if (!Player.HasSynergy(Synergy.RUNAANS_BULLETS) && RUNAANSBULLETSActivated)
+                {
+                    ItemBuilder.RemoveCurrentGunStatModifier(gun, PlayerStats.StatType.Damage);
+                    Player.stats.RecalculateStatsWithoutRebuildingGunVolleys(Player);
+
+                    RUNAANSBULLETSActivated = false;
+                }
+            }
+
+            base.Update();
+        }
+
         /*
         public override void OnInitializedWithOwner(GameActor actor)
         {

@@ -31,7 +31,7 @@ namespace LOLItems
     {
         public const string GUID = "Ricky2148.etg.LOLItems";
         public const string NAME = "League of legends Items";
-        public const string VERSION = "2.1.0";
+        public const string VERSION = "3.0.0";
         public const string TEXT_COLOR = "#F1C232";
 
         internal static Harmony _Harmony;
@@ -48,7 +48,7 @@ namespace LOLItems
 
             _Harmony = new Harmony(GUID);
             //_Harmony.PatchAll(Assembly.GetExecutingAssembly());
-            
+
             /*
             if (_Harmony == null)
             {
@@ -62,6 +62,8 @@ namespace LOLItems
             }
             */
 
+            //Whisper.Add();
+            #region Items
             BladeOfTheRuinedKing.Init();
             ExperimentalHexplate.Init();
             GuardianAngel.Init();
@@ -96,22 +98,6 @@ namespace LOLItems
             //guon stones
             BraumsShield.Init();
 
-            //weapons
-            //BasicGun.Add();
-            //TemplateGun.Add();
-            PowPow.Add();
-            PowPowAltForm.Add();
-            HextechRifle.Add();
-            ElectricRifle.Add();
-            PrayerBeads.Add();
-            Whisper.Add();
-            Crossblade.Add();
-            VirtueForm1.Add();
-            VirtueForm2.Add();
-            VirtueForm3.Add();
-            SoulSpear.Add();
-
-
             //new items
             ShieldOfMoltenStone.Init();
             CloakOfStarryNight.Init();
@@ -129,9 +115,32 @@ namespace LOLItems
             //DetonationOrb.Init();
             RefillablePotion.Init();
             TalismanOfAscension.Init();
+            SilverBolts.Init();
+            #endregion
 
-            //npcs?
+            //weapons
+            //BasicGun.Add();
+            //TemplateGun.Add();
+            PowPow.Add();
+            PowPowAltForm.Add();
+            HextechRifle.Add();
+            ElectricRifle.Add();
+            PrayerBeads.Add();
+            Whisper.Add();
+            Crossblade.Add();
+            VirtueForm1.Add();
+            VirtueForm2.Add();
+            VirtueForm3.Add();
+            SoulSpear.Add();
+
+            #region NPCs
             Bubbs.Init();
+            #endregion
+
+            #region Synergies
+            LOLItemsSynergies.Init();
+            #endregion
+
             Log($"{NAME} v{VERSION} started successfully.", TEXT_COLOR);
             Log("Thirty seconds until minions spawn!", "#155DFC");
 

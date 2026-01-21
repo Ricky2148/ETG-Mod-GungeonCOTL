@@ -23,7 +23,7 @@ namespace LOLItems.weapons
 {
     internal class Whisper : AdvancedGunBehavior
     {
-        public static string internalName; //Internal name of the gun as used by console commands
+        public static string internalName = "Whisper"; //Internal name of the gun as used by console commands
         public static int ID; //The Gun ID stored by the game.  Can be used by other functions to call your custom gun.
         public static string realName = "Whisper"; //The name that shows up in the Ammonomicon and the mod console.
 
@@ -82,12 +82,13 @@ namespace LOLItems.weapons
              * The default here is to use your mod's prefix then shortname so in this example it would come out as "twp:template_gun". */
             string FULLNAME = "Whisper"; //Full name of your gun 
             string SPRITENAME = "whisper"; //The name that prefixes your sprite files
-            internalName = $"LOLItems:{FULLNAME.ToID()}";
+            internalName = $"LOLItems:{internalName.ToID()}";
             Gun gun = ETGMod.Databases.Items.NewGun(FULLNAME, SPRITENAME);
             Game.Items.Rename($"outdated_gun_mods:{FULLNAME.ToID()}", internalName); //Renames the default internal name to your custom internal name
             gun.gameObject.AddComponent<Whisper>(); //AddComponent<[ClassName]>
             gun.SetShortDescription("\"Art is worth the pain.\"");  //The description that pops up when you pick up the gun.
-            gun.SetLongDescription("A strange yet artistic weapon once wielded by a psychopath serial killer. It's said that he believed murder to be art and used this gun as his paintbrush. " +
+            gun.SetLongDescription("Fire rate and clip size stat increases will increase damage instead. Fourth shot deals increased damage and deals %missing health damage.\n\n" +
+                "A strange yet artistic weapon once wielded by a psychopath serial killer. It's said that he believed murder to be art and used this gun as his paintbrush. " +
                 "He would go to great lengths to create elaborate scenes of artistic brutality and loved every second of it.\n"); //The full description in the Ammonomicon.
             /* SetupSprite sets up the default gun sprite for the ammonomicon and the "gun get" popup.  Your "..._idle_001" is often a good example.  
              * A copy of the sprite used must be in your "sprites/Ammonomicon Encounter Icon Collection/" folder.

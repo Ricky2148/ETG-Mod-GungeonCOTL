@@ -86,7 +86,9 @@ namespace LOLItems.weapons
             Game.Items.Rename($"outdated_gun_mods:{FULLNAME.ToID()}", internalName);
             gun.gameObject.AddComponent<VirtueForm2>();
             gun.SetShortDescription("\"Burn all deceivers!\"");
-            gun.SetLongDescription("Virtue. \nDefinition: a quality considered morally good.\n\nA blade of celestial creation that are capable of burning evil. " +
+            gun.SetLongDescription("Gains a stack of zealous every attack. Each stack of zealous increases fire rate. At max zealous stacks, fires an additional wave projectile and gain increased movespeed.\n" +
+                "Gain EXP per kill. Evolves after enough EXP.\n\n" +
+                "Virtue. Definition: a quality considered morally good.\n\nA blade of celestial creation that are capable of burning evil. " +
                 "The original wielder of this weapon was said to have tested whether one was virtuous by slashing at their neck. If they were truly virtuous, then the blade would cause them no harm. " +
                 "\n\nYou've learned how to ignite the holy fire but cannot fully control its strength. You clearly yet lack something.\n");
 
@@ -377,7 +379,7 @@ namespace LOLItems.weapons
             FakePrefab.MarkAsFakePrefab(AscensionIcon);
             AscensionIcon.SetActive(false);
 
-            List<string> mandatoryConsoleIDs = new List<string>
+            /*List<string> mandatoryConsoleIDs = new List<string>
             {
                 "LOLItems:virtueform2",
             };
@@ -388,7 +390,7 @@ namespace LOLItems.weapons
                 "broccoli",
                 "life_orb"
             };
-            AdvancedSynergyEntry ase = CustomSynergies.Add("Exp. Share", mandatoryConsoleIDs, optionalConsoleIDs, true);
+            AdvancedSynergyEntry ase = CustomSynergies.Add("Exp. Share", mandatoryConsoleIDs, optionalConsoleIDs, true);*/
         }
 
         public override void OnPostFired(PlayerController player, Gun gun)
@@ -519,6 +521,8 @@ namespace LOLItems.weapons
                 BraveUtility.Swap(ref this.gun.alternateShootAnimation, ref this.gun.finalShootAnimation);
                 BraveUtility.Swap(ref this.gun.idleAnimation, ref this.gun.alternateIdleAnimation);
 
+                gun.Reload();
+
                 zealCapActivated = false;
             }
         }
@@ -613,7 +617,7 @@ namespace LOLItems.weapons
 
             //StopFlight();
 
-            Plugin.Log($"dropped up {realName}");
+            Plugin.Log($"dropped {realName}");
 
             base.OnDropped();
         }
@@ -634,7 +638,7 @@ namespace LOLItems.weapons
                     expToGain = enemyHealth.aiActor.healthHaver.GetMaxHealth();
                 }
 
-                if (Player.PlayerHasActiveSynergy("Exp. Share"))
+                if (Player.HasSynergy(Synergy.EXP_SHARE_FORM_2))
                 {
                     expToGain *= 2;
                 }

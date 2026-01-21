@@ -7,13 +7,17 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 
+// REWRITE DESCRIPTION!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
 namespace LOLItems.passive_items
 {
     internal class TearOfTheGoddess : PassiveItem
     {
+        public static string ItemName = "Tear of the Goddess";
+
         private static float ManaflowIncreaseMax = 0.5f;
         private static float ManaflowIncrementValue = 0.05f;
-        private static float ManaflowIncrementKillReq = 25f;
+        private static float ManaflowIncrementKillReq = 50f;
         public float CurrentManaflowKillCount = 0f;
         public int ManaflowStackCount = 0;
 
@@ -23,7 +27,7 @@ namespace LOLItems.passive_items
 
         public static void Init()
         {
-            string itemName = "Tear of the Goddess";
+            string itemName = ItemName;
             string resourceName = "LOLItems/Resources/passive_item_sprites/tear_of_the_goddess_pixelart_sprite";
 
             GameObject obj = new GameObject(itemName);
@@ -32,16 +36,17 @@ namespace LOLItems.passive_items
 
             ItemBuilder.AddSpriteToObject(itemName, resourceName, obj);
 
-            string shortDesc = "*NOT REAL A TEAR*";
-            string longDesc = "\"Few are fortunate enough to come across the tears of the very goddess who created our world... " +
-                "but those who are lucky enough to acquire a Tear of the Goddess may take pleasure in a significant boost of ammo capacity and clip capacity.\"";
+            string shortDesc = "*NOT A REAL TEAR*";
+            string longDesc = "Increases max ammo multiplier and clip size multiplier every few kills. After enough kills, stops increasing stats. Stacks carry over to Manamune.\n\n" +
+                "\"Few are fortunate enough to come across the tears of the very goddess who created our world... " +
+                "but those who are lucky enough to acquire a Tear of the Goddess are said to be destined for greatness.\"";
 
             ItemBuilder.SetupItem(item, shortDesc, longDesc, "LOLItems");
 
             item.quality = PickupObject.ItemQuality.D;
 
-            item.UsesCustomCost = true;
-            item.CustomCost = 20;
+            item.UsesCustomCost = false;
+            //item.CustomCost = 20;
 
             ID = item.PickupObjectId;
         }
@@ -62,7 +67,10 @@ namespace LOLItems.passive_items
             base.DisableEffect(player);
             Plugin.Log($"Player dropped or got rid of {this.EncounterNameOrDisplayName}");
 
-            player.OnAnyEnemyReceivedDamage -= ManaflowStack;
+            if (player != null)
+            {
+                player.OnAnyEnemyReceivedDamage -= ManaflowStack;
+            }
         }
 
         private void ManaflowStack(float damage, bool fatal, HealthHaver enemyHealth)

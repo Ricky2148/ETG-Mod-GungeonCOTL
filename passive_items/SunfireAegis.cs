@@ -15,16 +15,16 @@ namespace LOLItems
 {
     internal class SunfireAegis : AuraItem
     {
+        public static string ItemName = "Sunfire Aegis";
+
         // stats pool for item
         private static float HealthStat = 1f;
         private static int ArmorStat = 1;
 
         private static float ImmolateBaseDamage = 0f;
         private static float ImmolateDamagePerHeart = 1.5f;
-        private static float ImmolateBaseRadius = 2f;
-        private static float ImmolateRadiusPerHeart = 1f;
-
-        public static int ID;
+        private static float ImmolateBaseRadius = 3f;
+        private static float ImmolateRadiusPerHeart = 0.5f;
 
         private static List<string> VFXSpritePath = new List<string>
             {
@@ -42,9 +42,18 @@ namespace LOLItems
 
         private GameObject activeVFXObject;
 
+        public bool TRUESUNGODActivated = false;
+        private static float TRUESUNGODImmolateDamagePerHeartInc = 0.5f;
+        private static float TRUESUNGODImmolateRadiusPerHeartInc = 0.25f;
+
+        public bool VOLTAGENOVAActivated = false;
+        private static float VOLTAGENOVAImmolateDamagePerHeartInc = 1.5f;
+
+        public static int ID;
+
         public static void Init()
         {
-            string itemName = "Sunfire Aegis";
+            string itemName = ItemName;
             string resourceName = "LOLItems/Resources/passive_item_sprites/sunfire_aegis_pixelart_sprite_small";
 
             GameObject obj = new GameObject(itemName);
@@ -54,7 +63,8 @@ namespace LOLItems
             ItemBuilder.AddSpriteToObject(itemName, resourceName, obj);
 
             string shortDesc = "Radiates Heat";
-            string longDesc = "The golden armor glows with a warmth not unlike the sun. Appears to have been blessed " +
+            string longDesc = "+1 Heart and Armor\nGain a damaging aura around you. Size and damage increases based on your max hearts.\n\n" +
+                "The golden armor glows with a warmth not unlike the sun. Appears to have been blessed " +
                 "by the gods to burn the wicked around it.\n";
 
             ItemBuilder.SetupItem(item, shortDesc, longDesc, "LOLItems");
@@ -141,8 +151,11 @@ namespace LOLItems
             base.DisableEffect(player);
             Plugin.Log($"Player dropped or got rid of {this.EncounterNameOrDisplayName}");
 
-            player.OnNewFloorLoaded -= OnLoadedNewFloor;
-            player.healthHaver.OnHealthChanged -= UpdateImmolateStats;
+            if (player != null)
+            {
+                player.OnNewFloorLoaded -= OnLoadedNewFloor;
+                player.healthHaver.OnHealthChanged -= UpdateImmolateStats;
+            }
 
             if (activeVFXObject != null)
             {
@@ -150,10 +163,78 @@ namespace LOLItems
             }
         }
 
+        public override void Update()
+        {
+            if (Owner != null)
+            {
+                if (Owner.HasSynergy(Synergy.TRUE_SUN_GOD) && !TRUESUNGODActivated)
+                {
+                    ImmolateDamagePerHeart += TRUESUNGODImmolateDamagePerHeartInc;
+                    ImmolateRadiusPerHeart += TRUESUNGODImmolateRadiusPerHeartInc;
+
+                    TRUESUNGODActivated = true;
+                    if (Owner.ForceZeroHealthState)
+                    {
+                        UpdateImmolateStats(0, 3f);
+                    }
+                    else
+                    {
+                        UpdateImmolateStats(0, Owner.healthHaver.GetMaxHealth());
+                    }
+                }
+                else if (!Owner.HasSynergy(Synergy.TRUE_SUN_GOD) && TRUESUNGODActivated)
+                {
+                    ImmolateDamagePerHeart -= TRUESUNGODImmolateDamagePerHeartInc;
+                    ImmolateRadiusPerHeart -= TRUESUNGODImmolateRadiusPerHeartInc;
+
+                    TRUESUNGODActivated = false;
+                    if (Owner.ForceZeroHealthState)
+                    {
+                        UpdateImmolateStats(0, 3f);
+                    }
+                    else
+                    {
+                        UpdateImmolateStats(0, Owner.healthHaver.GetMaxHealth());
+                    }
+                }
+
+                if (Owner.HasSynergy(Synergy.VOLTAGE_NOVA) && !VOLTAGENOVAActivated)
+                {
+                    ImmolateDamagePerHeart += VOLTAGENOVAImmolateDamagePerHeartInc;
+
+                    VOLTAGENOVAActivated = true;
+                    if (Owner.ForceZeroHealthState)
+                    {
+                        UpdateImmolateStats(0, 3f);
+                    }
+                    else
+                    {
+                        UpdateImmolateStats(0, Owner.healthHaver.GetMaxHealth());
+                    }
+                }
+                else if (!Owner.HasSynergy(Synergy.VOLTAGE_NOVA) && VOLTAGENOVAActivated)
+                {
+                    ImmolateDamagePerHeart -= VOLTAGENOVAImmolateDamagePerHeartInc;
+
+                    VOLTAGENOVAActivated = false;
+                    if (Owner.ForceZeroHealthState)
+                    {
+                        UpdateImmolateStats(0, 3f);
+                    }
+                    else
+                    {
+                        UpdateImmolateStats(0, Owner.healthHaver.GetMaxHealth());
+                    }
+                }
+            }
+
+            base.Update();
+        }
+
         // updates the immolate stats based on the player's current health
         private void UpdateImmolateStats(float oldHealth, float newHealth)
         {
-            //Plugin.Log("updated immolate stats");
+            //Plugin.Log($"updated immolate stats: {newHealth}");
             this.DamagePerSecond = (newHealth) * ImmolateDamagePerHeart;
             this.AuraRadius = ImmolateBaseRadius + (newHealth) * ImmolateRadiusPerHeart;
             this.Update();

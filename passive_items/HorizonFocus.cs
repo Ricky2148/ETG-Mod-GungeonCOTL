@@ -10,17 +10,26 @@ namespace LOLItems
 {
     internal class HorizonFocus : PassiveItem
     {
+        public static string ItemName = "Horizon Focus";
+
         // stats pool for item
         private static float DamageStat = 1.1f;
         private static float HyperShotMaxDistance = 15f;
         private static float HyperShotMinDistance = 3f;
         private static float HyperShotMaxDamageInc = 0.25f;
 
+        public bool AMPLIFIEDLENSActivated = false;
+        private static float AMPLIFIEDLENSHyperShotMaxDamageInc = 0.25f;
+        public bool FUTURISTICCOMPATIBILITYActivated = false;
+        private static float FUTURISTICCOMPATIBILITYHyperShotMaxDamageInc = 0.50f;
+        public bool GUARANTEEDHITIFITHITSActivated = false;
+        private static float GUARANTEEDHITIFITHITSHyperShotMaxDamageInc = 0.75f;
+
         public static int ID;
 
         public static void Init()
         {
-            string itemName = "Horizon Focus";
+            string itemName = ItemName;
             string resourceName = "LOLItems/Resources/passive_item_sprites/horizon_focus_pixelart_sprite";
 
             GameObject obj = new GameObject(itemName);
@@ -30,7 +39,8 @@ namespace LOLItems
             ItemBuilder.AddSpriteToObject(itemName, resourceName, obj);
             
             string shortDesc = "*not camping btw*";
-            string longDesc = "A futuristic gauntlet that seems to improve your aim at far ranges, allowing " +
+            string longDesc = "Increase damage\nBullets deal increased damage the farther away you are from the target.\n\n" +
+                "A futuristic gauntlet that seems to improve your aim at far ranges, allowing " +
                 "your long range attacks to deal increased damage. There seems to be a signature: Ja-c- -nd Vi--or\n";
             
             ItemBuilder.SetupItem(item, shortDesc, longDesc, "LOLItems");
@@ -52,8 +62,63 @@ namespace LOLItems
         {
             base.DisableEffect(player);
             Plugin.Log($"Player dropped or got rid of {this.EncounterNameOrDisplayName}");
-            player.PostProcessProjectile -= OnPostProcessProjectile;
-            player.PostProcessBeamTick -= OnPostProcessProjectile;
+
+            if (player != null)
+            {
+                player.PostProcessProjectile -= OnPostProcessProjectile;
+                player.PostProcessBeamTick -= OnPostProcessProjectile;
+            }
+        }
+
+        public override void Update()
+        {
+            if (Owner != null)
+            {
+                if (Owner.HasSynergy(Synergy.AMPLIFIED_LENS) && !AMPLIFIEDLENSActivated)
+                {
+                    HyperShotMaxDamageInc += AMPLIFIEDLENSHyperShotMaxDamageInc;
+                    //Plugin.Log($"{HyperShotMaxDamageInc}");
+
+                    AMPLIFIEDLENSActivated = true;
+                }
+                else if (!Owner.HasSynergy(Synergy.AMPLIFIED_LENS) && AMPLIFIEDLENSActivated)
+                {
+                    HyperShotMaxDamageInc -= AMPLIFIEDLENSHyperShotMaxDamageInc;
+                    //Plugin.Log($"{HyperShotMaxDamageInc}");
+
+                    AMPLIFIEDLENSActivated = false;
+                }
+                if (Owner.HasSynergy(Synergy.FUTURISTIC_COMPATIBILITY) && !FUTURISTICCOMPATIBILITYActivated)
+                {
+                    HyperShotMaxDamageInc += FUTURISTICCOMPATIBILITYHyperShotMaxDamageInc;
+                    //Plugin.Log($"{HyperShotMaxDamageInc}");
+
+                    FUTURISTICCOMPATIBILITYActivated = true;
+                }
+                else if (!Owner.HasSynergy(Synergy.FUTURISTIC_COMPATIBILITY) && FUTURISTICCOMPATIBILITYActivated)
+                {
+                    HyperShotMaxDamageInc -= FUTURISTICCOMPATIBILITYHyperShotMaxDamageInc;
+                    //Plugin.Log($"{HyperShotMaxDamageInc}");
+
+                    FUTURISTICCOMPATIBILITYActivated = false;
+                }
+                if (Owner.HasSynergy(Synergy.GUARANTEED_HIT_IF_IT_HITS) && !GUARANTEEDHITIFITHITSActivated)
+                {
+                    HyperShotMaxDamageInc += GUARANTEEDHITIFITHITSHyperShotMaxDamageInc;
+                    //Plugin.Log($"{HyperShotMaxDamageInc}");
+
+                    GUARANTEEDHITIFITHITSActivated = true;
+                }
+                else if (!Owner.HasSynergy(Synergy.GUARANTEED_HIT_IF_IT_HITS) && GUARANTEEDHITIFITHITSActivated)
+                {
+                    HyperShotMaxDamageInc -= GUARANTEEDHITIFITHITSHyperShotMaxDamageInc;
+                    //Plugin.Log($"{HyperShotMaxDamageInc}");
+
+                    GUARANTEEDHITIFITHITSActivated = false;
+                }
+            }
+
+            base.Update();
         }
 
         // scales damage based on distance to target

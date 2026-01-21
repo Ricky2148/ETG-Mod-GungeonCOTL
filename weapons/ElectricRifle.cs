@@ -62,7 +62,7 @@ namespace LOLItems.weapons
              * Rename(a,b) works where "a" is what the game names your gun internally which uses lower case and underscores.  Here it would be "outdated_gun_mods:template_gun".
              * "b" is how you're renaming the gun to show up in the mod console.
              * The default here is to use your mod's prefix then shortname so in this example it would come out as "twp:template_gun". */
-            string FULLNAME = "Zaunite Rifle"; //Full name of your gun 
+            string FULLNAME = realName; //Full name of your gun 
             string SPRITENAME = "shockSMG"; //The name that prefixes your sprite files
             internalName = $"LOLItems:{internalName.ToID()}";
             Gun gun = ETGMod.Databases.Items.NewGun(FULLNAME, SPRITENAME);
@@ -564,10 +564,10 @@ namespace LOLItems.weapons
             List<string> optionalConsoleIDs = new List<string>
             {
                 "battery_bullets",
-                "shock_rounds",
-                "thunderclap",
+                //"shock_rounds",
+                //"thunderclap",
                 "shock_rifle",
-                "laser_lotus",
+                //"laser_lotus",
             };
             AdvancedSynergyEntry ase = CustomSynergies.Add("Passive Charge", mandatoryConsoleIDs, optionalConsoleIDs, true);
 

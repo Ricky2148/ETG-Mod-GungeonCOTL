@@ -9,12 +9,14 @@ using UnityEngine;
 
 //health, dmg, every bullet applies a burn effect that deals dmg over time, DOT is %max health of enemy (scales on bosses and mini bosses)
 // this applies the regular burn effect: damage, duration, and vfx all seem to match
-// test the damage doesnt seem accurate
+// look into changing the color of the fire
 
 namespace LOLItems
 {
     internal class LiandrysTorment : PassiveItem
     {
+        public static string ItemName = "Liandry's Torment";
+
         // stats pool for item
         private static float DamageStat = 1.15f;
         private static float HealthStat = 1f;
@@ -34,11 +36,16 @@ namespace LOLItems
             FlameVfx = phoenix.DefaultModule.projectiles[0].fireEffect.FlameVfx,
         };
 
+        public bool BURNINGVENGENCEActivated = false;
+        private static float BURNINGVENGENCETormentDurationInc = 3f;
+        public bool BLAZINGUNIVERSEActivated = false;
+        private static float BLAZINGUNIVERSETormentDamageIncScale = 2.0f;
+
         public static int ID;
 
         public static void Init()
         {
-            string itemName = "Liandry's Torment";
+            string itemName = ItemName;
             string resourceName = "LOLItems/Resources/passive_item_sprites/liandrys_torment_pixelart_sprite_small";
             
             GameObject obj = new GameObject(itemName);
@@ -48,7 +55,8 @@ namespace LOLItems
             ItemBuilder.AddSpriteToObject(itemName, resourceName, obj);
             
             string shortDesc = "Cursed Mask";
-            string longDesc = "Once belonged to a theatre company and used as a prop in their most infamous act. " +
+            string longDesc = "+1 Heart, Increase damage\nDealing damage burns enemies for %max health damage.\n\n" +
+                "Once belonged to a theatre company and used as a prop in their most infamous act. " +
                 "Rumors claim that each run of the act needed new actors since one actor always died mysteriously. " +
                 "\nSomething tells you that this mask was connected to these incidents.\n";
             
@@ -76,8 +84,45 @@ namespace LOLItems
             base.DisableEffect(player);
             Plugin.Log($"Player dropped or got rid of {this.EncounterNameOrDisplayName}");
 
-            player.PostProcessProjectile -= OnPostProcessProjectile;
-            player.PostProcessBeamTick -= OnPostProcessProjectile;
+            if (player != null)
+            {
+                player.PostProcessProjectile -= OnPostProcessProjectile;
+                player.PostProcessBeamTick -= OnPostProcessProjectile;
+            }
+        }
+
+        public override void Update()
+        {
+            if (Owner != null)
+            {
+                if (Owner.HasSynergy(Synergy.BURNING_VENGENCE) && !BURNINGVENGENCEActivated)
+                {
+                    TormentBurnEffect.duration = TormentDuration + BURNINGVENGENCETormentDurationInc;
+
+                    BURNINGVENGENCEActivated = true;
+                }
+                else if (!Owner.HasSynergy(Synergy.BURNING_VENGENCE) && BURNINGVENGENCEActivated)
+                {
+                    TormentBurnEffect.duration = TormentDuration;
+
+                    BURNINGVENGENCEActivated = false;
+                }
+                if (Owner.HasSynergy(Synergy.BLAZING_UNIVERSE) && !BLAZINGUNIVERSEActivated)
+                {
+                    TormentBaseDamage *= BLAZINGUNIVERSETormentDamageIncScale;
+                    TormentPercentHealthDamage *= BLAZINGUNIVERSETormentDamageIncScale;
+
+                    BLAZINGUNIVERSEActivated = true;
+                }
+                else if (!Owner.HasSynergy(Synergy.BLAZING_UNIVERSE) && BLAZINGUNIVERSEActivated)
+                {
+                    TormentBaseDamage = 5f;
+                    TormentPercentHealthDamage = 0.10f;
+                    BLAZINGUNIVERSEActivated = false;
+                }
+            }
+
+            base.Update();
         }
 
         private void OnPostProcessProjectile(BeamController beam, SpeculativeRigidbody hitRigidbody, float tickrate)

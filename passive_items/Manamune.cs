@@ -18,6 +18,8 @@ namespace LOLItems
 {
     public class Manamune : PassiveItem
     {
+        public static string ItemName = "Manamune";
+
         // stats pool for item
         private static float DamageStat = 1.05f;
         private static float ManaflowIncreaseMax = 0.5f;
@@ -27,13 +29,16 @@ namespace LOLItems
         private float CurrentManaflowKillCount = 0f;
         private int ManaflowStackCount = 0;
 
+        public bool BLADEOFTHEONIActivated = false;
+        private static float BLADEOFTHEONIDamageStat = 1.25f;
+
         public static int ID;
 
         private PassiveItem muramanaItem;
 
         public static void Init()
         {
-            string itemName = "Manamune";
+            string itemName = ItemName;
             string resourceName = "LOLItems/Resources/passive_item_sprites/manamune_pixelart_sprite_small";
             //string upgradeResourceName = "LOLItems/Resources/passive_item_sprites/muramana_pixelart_sprite";
 
@@ -50,7 +55,8 @@ namespace LOLItems
 
             string shortDesc = "from the Greatest Swordsmith";
             // maybe add effect explanation?
-            string longDesc = "Created by the Greatest Swordsmith, Masamune, this sword increases the wielder's" +
+            string longDesc = "Slightly increase damage\nIncreases max ammo multiplier and clip size multiplier every few kills. Evolves after enough kills.\n\n" +
+                "Created by the Greatest Swordsmith, Masamune, this sword increases the wielder's" +
                 " capacity for battle.\n\nLegends hint at the blade's true strength being sealed away.\n";
 
             ItemBuilder.SetupItem(item, shortDesc, longDesc, "LOLItems");
@@ -73,7 +79,7 @@ namespace LOLItems
                 player.OnAnyEnemyReceivedDamage += ManaflowStack;
             }
                
-            foreach (PassiveItem item in player.passiveItems)
+            /*foreach (PassiveItem item in player.passiveItems)
             {
                 if (item.PickupObjectId == TearOfTheGoddess.ID && item != null)
                 {
@@ -92,8 +98,7 @@ namespace LOLItems
                     }
                     player.RemovePassiveItem(TearOfTheGoddess.ID);
                 }
-
-            }
+            }*/
         }
 
         public override void DisableEffect(PlayerController player)
@@ -101,9 +106,65 @@ namespace LOLItems
             base.DisableEffect(player);
             Plugin.Log($"Player dropped or got rid of {this.EncounterNameOrDisplayName}");
 
-            //player.OnKilledEnemy -= ManaflowStack;
-            player.OnAnyEnemyReceivedDamage -= ManaflowStack;
-            //player.PostProcessProjectile -= MuramanaShock;
+            if (player != null)
+            {
+                //player.OnKilledEnemy -= ManaflowStack;
+                player.OnAnyEnemyReceivedDamage -= ManaflowStack;
+                //player.PostProcessProjectile -= MuramanaShock;
+            }
+        }
+
+        public override void Update()
+        {
+            if (Owner != null)
+            {
+                if (Owner.HasSynergy(Synergy.BUILDS_INTO_MANAMUNE))
+                {
+                    foreach (PassiveItem item in Owner.passiveItems)
+                    {
+                        if (item.PickupObjectId == TearOfTheGoddess.ID && item != null)
+                        {
+                            if (item.GetComponent<TearOfTheGoddess>().ManaflowMaxed)
+                            {
+                                UpgradeToMuramana(Owner);
+                            }
+                            else
+                            {
+                                ManaflowStackCount = item.GetComponent<TearOfTheGoddess>().ManaflowStackCount;
+                                CurrentManaflowKillCount = item.GetComponent<TearOfTheGoddess>().CurrentManaflowKillCount * (1f / 2f);
+                                ItemBuilder.AddPassiveStatModifier(this, PlayerStats.StatType.AdditionalClipCapacityMultiplier, 1f + ManaflowIncrementValue * ManaflowStackCount, StatModifier.ModifyMethod.MULTIPLICATIVE);
+                                ItemBuilder.AddPassiveStatModifier(this, PlayerStats.StatType.AmmoCapacityMultiplier, 1f + ManaflowIncrementValue * ManaflowStackCount, StatModifier.ModifyMethod.MULTIPLICATIVE);
+                                //Plugin.Log($"tear: {item.GetComponent<TearOfTheGoddess>().ManaflowStackCount}, {item.GetComponent<TearOfTheGoddess>().CurrentManaflowKillCount}" nmanamune: {ManaflowStackCount}, {CurrentManaflowKillCount}");
+
+                                LootEngine.SpawnCurrency(Owner.specRigidbody.UnitCenter, item.PurchasePrice);
+                            }
+                        }
+                    }
+                    Owner.RemovePassiveItem(TearOfTheGoddess.ID);
+                }
+
+                if (Owner != null)
+                {
+                    if (Owner.HasSynergy(Synergy.BLADE_OF_THE_ONI_MANAMUNE) && !BLADEOFTHEONIActivated)
+                    {
+                        ItemBuilder.RemovePassiveStatModifier(this, PlayerStats.StatType.Damage);
+                        ItemBuilder.AddPassiveStatModifier(this, PlayerStats.StatType.Damage, BLADEOFTHEONIDamageStat, StatModifier.ModifyMethod.MULTIPLICATIVE);
+                        Owner.stats.RecalculateStatsWithoutRebuildingGunVolleys(Owner);
+
+                        BLADEOFTHEONIActivated = true;
+                    }
+                    else if (!Owner.HasSynergy(Synergy.BLADE_OF_THE_ONI_MANAMUNE) && BLADEOFTHEONIActivated)
+                    {
+                        ItemBuilder.RemovePassiveStatModifier(this, PlayerStats.StatType.Damage);
+                        ItemBuilder.AddPassiveStatModifier(this, PlayerStats.StatType.Damage, DamageStat, StatModifier.ModifyMethod.MULTIPLICATIVE);
+                        Owner.stats.RecalculateStatsWithoutRebuildingGunVolleys(Owner);
+
+                        BLADEOFTHEONIActivated = false;
+                    }
+                }
+            }
+
+            base.Update();
         }
 
         private void ManaflowStack(float damage, bool fatal, HealthHaver enemyHealth)

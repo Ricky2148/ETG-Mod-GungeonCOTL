@@ -1,8 +1,8 @@
 ﻿{
   "name": "League_of_Legends_Items",
-  "version_number": "2.1.0",
+  "version_number": "3.0.0",
   "website_url": "https://github.com/Ricky2148/ETG-Mod-League-of-Legends-Items",
-  "description": "Adds various items from League of Legends. (I'm sorry)",
+  "description": "Adds a variety of Weapons and Items from League of Legends",
   "dependencies": [
     "MtG_API-Mod_the_Gungeon_API-1.9.2",
     "Alexandria-Alexandria-0.5.0"

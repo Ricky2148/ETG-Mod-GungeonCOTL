@@ -14,20 +14,35 @@ namespace LOLItems
 {
     internal class StatikkShiv : PassiveItem
     {
+        public static string ItemName = "Statikk Shiv";
+
         // stats pool for item
         private static float DamageStat = 1.2f;
         private static float RateOfFireStat = 1.1f;
 
-        private int ElectroSparkShotCount = 3;
+        public int BaseElectroSparkShotCount = 3;
         private static float ElectroSparkDamage = 5f;
         private static float ElectroSparkChainCount = 5f;
         private static float ElectroSparkChainRange = 5f;
+
+        private int ElectroSparkShotCount = 3;
+        private int ElectroSparkShotCountTracker = 0;
+
+        public bool STATIKKELECTRICITYActivated = false;
+        private static int STATIKKELECTRICITYElectroSparkShotCountInc = 4;
+        public bool MOLIGHTNINGActivated = false;
+        private static float MOLIGHTNINGElectroSparkDamageInc = 3f;
+        private static float MOLIGHTNINGElectroSparkChainCountInc = 3f;
+        private static float MOLIGHTNINGElectroSparkChainRangeInc = 2f;
+        public bool EMPEROROFLIGHTNINGActivated = false;
+        private static int EMPEROROFLIGHTNINGElectroSparkShotCountInc = 5;
+        private static float EMPEROROFLIGHTNINGElectroSparkDamageInc = 5f;
 
         public static int ID;
 
         public static void Init()
         {
-            string itemName = "Statikk Shiv";
+            string itemName = ItemName;
             string resourceName = "LOLItems/Resources/passive_item_sprites/statikk_shiv_pixelart_sprite";
 
             GameObject obj = new GameObject(itemName);
@@ -37,7 +52,8 @@ namespace LOLItems
             ItemBuilder.AddSpriteToObject(itemName, resourceName, obj);
 
             string shortDesc = "*shocks you*";
-            string longDesc = "Supposed to be a replica of Zeus's Lightning Bolt." +
+            string longDesc = "Increase damage and fire rate\nFirst 3 bullets of clip applies a chain lightning to enemies hit.\n\n" +
+                "Supposed to be a replica of Zeus's Lightning Bolt." +
                 "\njust a shiv with a taser\n";
 
             ItemBuilder.SetupItem(item, shortDesc, longDesc, "LOLItems");
@@ -57,7 +73,9 @@ namespace LOLItems
 
             player.PostProcessProjectile += OnPostProcessProjectile;
             player.OnReloadedGun += ResetElectroSpark;
-            ElectroSparkShotCount = 3;
+            //ElectroSparkShotCount = BaseElectroSparkShotCount;
+            ElectroSparkShotCountTracker = ElectroSparkShotCount;
+            //Plugin.Log($"pickup electrosparkshotcount: {ElectroSparkShotCount}");
         }
 
         public override void DisableEffect(PlayerController player)
@@ -65,15 +83,79 @@ namespace LOLItems
             base.DisableEffect(player);
             Plugin.Log($"Player dropped or got rid of {this.EncounterNameOrDisplayName}");
 
-            player.PostProcessProjectile -= OnPostProcessProjectile;
-            player.OnReloadedGun -= ResetElectroSpark;
+            if (player != null)
+            {
+                player.PostProcessProjectile -= OnPostProcessProjectile;
+                player.OnReloadedGun -= ResetElectroSpark;
+            }
+        }
+
+        public override void Update()
+        {
+            if (Owner != null)
+            {
+                if (Owner.HasSynergy(Synergy.STATIKK_ELECTRICITY) && !STATIKKELECTRICITYActivated)
+                {
+                    ElectroSparkShotCount += STATIKKELECTRICITYElectroSparkShotCountInc;
+                    //Plugin.Log($"statikk electricity on electrosparkshotcount: {ElectroSparkShotCount}");
+                    ResetElectroSpark(null, null);
+
+                    STATIKKELECTRICITYActivated = true;
+                }
+                else if (!Owner.HasSynergy(Synergy.STATIKK_ELECTRICITY) && STATIKKELECTRICITYActivated)
+                {
+                    ElectroSparkShotCount -= STATIKKELECTRICITYElectroSparkShotCountInc;
+                    //Plugin.Log($"statikk electricity off electrosparkshotcount: {ElectroSparkShotCount}");
+                    ResetElectroSpark(null, null);
+
+                    STATIKKELECTRICITYActivated = false;
+                }
+
+                if (Owner.HasSynergy(Synergy.MO_LIGHTNING) && !MOLIGHTNINGActivated)
+                {
+                    ElectroSparkDamage += MOLIGHTNINGElectroSparkDamageInc;
+                    ElectroSparkChainCount += MOLIGHTNINGElectroSparkChainCountInc;
+                    ElectroSparkChainRange += MOLIGHTNINGElectroSparkChainRangeInc;
+
+                    MOLIGHTNINGActivated = true;
+                }
+                else if (!Owner.HasSynergy(Synergy.MO_LIGHTNING) && MOLIGHTNINGActivated)
+                {
+                    ElectroSparkDamage -= MOLIGHTNINGElectroSparkDamageInc;
+                    ElectroSparkChainCount -= MOLIGHTNINGElectroSparkChainCountInc;
+                    ElectroSparkChainRange -= MOLIGHTNINGElectroSparkChainRangeInc;
+
+                    MOLIGHTNINGActivated = false;
+                }
+
+                if (Owner.HasSynergy(Synergy.EMPEROR_OF_LIGHTNING) && !EMPEROROFLIGHTNINGActivated)
+                {
+                    ElectroSparkShotCount += EMPEROROFLIGHTNINGElectroSparkShotCountInc;
+                    ElectroSparkDamage += EMPEROROFLIGHTNINGElectroSparkDamageInc;
+                    //Plugin.Log($"emperor on electrosparkshotcount: {ElectroSparkShotCount}");
+                    ResetElectroSpark(null, null);
+
+                    EMPEROROFLIGHTNINGActivated = true;
+                }
+                else if (!Owner.HasSynergy(Synergy.EMPEROR_OF_LIGHTNING) && EMPEROROFLIGHTNINGActivated)
+                {
+                    ElectroSparkShotCount -= EMPEROROFLIGHTNINGElectroSparkShotCountInc;
+                    ElectroSparkDamage -= EMPEROROFLIGHTNINGElectroSparkDamageInc;
+                    //Plugin.Log($"emperor off electrosparkshotcount: {ElectroSparkShotCount}");
+                    ResetElectroSpark(null, null);
+
+                    EMPEROROFLIGHTNINGActivated = false;
+                }
+            }
+
+            base.Update();
         }
 
         private void OnPostProcessProjectile(Projectile proj, float f)
         {
             if (proj.Owner is not PlayerController player) return;
             if (player.CurrentGun is not Gun gun) return;
-            if (proj.Shooter == proj.Owner.specRigidbody && ElectroSparkShotCount > 0)
+            if (proj.Shooter == proj.Owner.specRigidbody && ElectroSparkShotCountTracker > 0)
             {
                 //applies chain lightning effect to the projectile
                 ComplexProjectileModifier shockRounds = PickupObjectDatabase.GetById(298)
@@ -96,13 +178,13 @@ namespace LOLItems
                     "statikk_shiv_lightning_SFX_5"
                 };
                 chain.updateSFXList(sfxList);
-                ElectroSparkShotCount--;
+                ElectroSparkShotCountTracker--;
             }
         }
 
         private void ResetElectroSpark(PlayerController player, Gun gun)
         {
-            ElectroSparkShotCount = 3;
+            ElectroSparkShotCountTracker = ElectroSparkShotCount;
         }
     }
 }

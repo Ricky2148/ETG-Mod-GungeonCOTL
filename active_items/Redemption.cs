@@ -1,7 +1,9 @@
 ﻿using Alexandria;
 using Alexandria.ItemAPI;
+using Alexandria.Misc;
 using Alexandria.VisualAPI;
 using Dungeonator;
+using Steamworks;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,6 +18,8 @@ namespace LOLItems
 {
     internal class Redemption : TargetedAttackPlayerItem
     {
+        public static string ItemName = "Redemption";
+
         private static float HealthStat = 1f;
 
         private static float InterventionHealAmount = 0.5f;
@@ -99,11 +103,16 @@ namespace LOLItems
 
         private GameObject activeVFXObject;
 
+        public bool ENLIGHTENEDBULLETSActivated = false;
+        private static float ENLIGHTENEDBULLETSDamageStat = 1.15f;
+        public bool TERRORTOTHEGUNDEADActivated = false;
+        private static int TERRORTOTHEGUNDEADInterventionPerRoomCooldown = 5;
+
         public static int ID;
 
         public static void Init()
         {
-            string itemName = "Redemption";
+            string itemName = ItemName;
             string resourceName = "LOLItems/Resources/active_item_sprites/redemption_pixelart_sprite";
 
             GameObject obj = new GameObject(itemName);
@@ -113,7 +122,8 @@ namespace LOLItems
             ItemBuilder.AddSpriteToObject(itemName, resourceName, obj);
 
             string shortDesc = "Deus Ex Machina";
-            string longDesc = "A magical pendant with the power to call upon a beam of light at will. It's purifying light harms those it deems evil and " +
+            string longDesc = "+1 Heart\nActivates a circle where you target. The circle winds up for a short time, then harms enemies and heals players.\n\n" +
+                "A magical pendant with the power to call upon a beam of light at will. It's purifying light harms those it deems evil and " +
                 "heals those it deems good. The light's morals seem questionable if it deems the gungeoneers as good.\n";
 
             ItemBuilder.SetupItem(item, shortDesc, longDesc, "LOLItems");
@@ -265,6 +275,44 @@ namespace LOLItems
             Plugin.Log($"Player dropped or got rid of {this.EncounterNameOrDisplayName}");
 
             return base.Drop(player);
+        }
+
+        public override void Update()
+        {
+            if (LastOwner != null)
+            {
+                if (LastOwner.HasSynergy(Synergy.ENLIGHTENED_BULLETS) && !ENLIGHTENEDBULLETSActivated)
+                {
+                    ItemBuilder.AddPassiveStatModifier(this, PlayerStats.StatType.Damage, ENLIGHTENEDBULLETSDamageStat, StatModifier.ModifyMethod.MULTIPLICATIVE);
+                    LastOwner.stats.RecalculateStatsWithoutRebuildingGunVolleys(LastOwner);
+
+                    ENLIGHTENEDBULLETSActivated = true;
+                }
+                else if (!LastOwner.HasSynergy(Synergy.ENLIGHTENED_BULLETS) && ENLIGHTENEDBULLETSActivated)
+                {
+                    ItemBuilder.RemovePassiveStatModifier(this, PlayerStats.StatType.Damage);
+                    LastOwner.stats.RecalculateStatsWithoutRebuildingGunVolleys(LastOwner);
+
+                    ENLIGHTENEDBULLETSActivated = false;
+                }
+
+                if (LastOwner.HasSynergy(Synergy.TERROR_TO_THE_GUNDEAD) && !TERRORTOTHEGUNDEADActivated)
+                {
+                    roomCooldown -= TERRORTOTHEGUNDEADInterventionPerRoomCooldown;
+                    CurrentRoomCooldown -= TERRORTOTHEGUNDEADInterventionPerRoomCooldown;
+
+                    TERRORTOTHEGUNDEADActivated = true;
+                }
+                else if (!LastOwner.HasSynergy(Synergy.TERROR_TO_THE_GUNDEAD) && TERRORTOTHEGUNDEADActivated)
+                {
+                    roomCooldown += TERRORTOTHEGUNDEADInterventionPerRoomCooldown;
+                    CurrentRoomCooldown += TERRORTOTHEGUNDEADInterventionPerRoomCooldown;
+
+                    TERRORTOTHEGUNDEADActivated = false;
+                }
+            }
+
+            base.Update();
         }
 
         /*public override void DoEffect(PlayerController player)
@@ -493,7 +541,7 @@ namespace LOLItems
             yield return new WaitForSeconds(5f);
             if (activeVFXObject != null)
             {
-                //Destroy(activeVFXObject);
+                Destroy(activeVFXObject);
             }
         }
     }

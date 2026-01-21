@@ -10,6 +10,8 @@ namespace LOLItems.passive_items
 {
     internal class Sheen : PassiveItem
     {
+        public static string ItemName = "Sheen";
+
         private bool shouldApplySpellblade = false;
         private static float spellbladeDmg = 10f;
 
@@ -17,7 +19,7 @@ namespace LOLItems.passive_items
 
         public static void Init()
         {
-            string itemName = "Sheen";
+            string itemName = ItemName;
             string resourceName = "LOLItems/Resources/passive_item_sprites/sheen_pixelart_sprite";
 
             GameObject obj = new GameObject(itemName);
@@ -27,7 +29,8 @@ namespace LOLItems.passive_items
             ItemBuilder.AddSpriteToObject(itemName, resourceName, obj);
 
             string shortDesc = "who makes a sword out of ice?";
-            string longDesc = "A sword made out of ice... It's been magically enchanted to mend itself when shattered, but since it's made of ice, it always shatters...\n";
+            string longDesc = "First bullet of clip deals additional damage.\n\n" +
+                "A sword made out of ice... It's been magically enchanted to mend itself when shattered, but since it's made of ice, it always shatters...\n";
 
             ItemBuilder.SetupItem(item, shortDesc, longDesc, "LOLItems");
 
@@ -54,8 +57,12 @@ namespace LOLItems.passive_items
             base.DisableEffect(player);
             Plugin.Log($"Player dropped or got rid of {this.EncounterNameOrDisplayName}");
 
-            player.OnReloadedGun -= OnGunReloaded;
-            player.PostProcessProjectile -= OnPostProcessProjectile;
+            if (player != null)
+            {
+                player.OnReloadedGun -= OnGunReloaded;
+                player.PostProcessProjectile -= OnPostProcessProjectile;
+            }
+            
             shouldApplySpellblade = false;
         }
 

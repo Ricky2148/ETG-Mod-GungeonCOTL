@@ -59,3 +59,15 @@ added new items:
 - virtue forms 1,2,3
 
 added some synergies to some weapons, balance changes, some other stuff i likely forgot lol
+
+#2.1.1
+added new items:
+- detonation orb
+- silver bolts
+
+fixed a bug that caused bullet modification items like puppeteer and kraken slayer to stack too quickly with beams and cause too much noise
+fixed a bug that caused a high amount of errors when using puppeteer on an enemy with a beam weapon
+
+adjusted cull effect
+adjusted galeforce dash
+

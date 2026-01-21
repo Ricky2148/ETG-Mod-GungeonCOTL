@@ -17,7 +17,7 @@ namespace LOLItems.weapons
 {
     internal class HextechRifle : AdvancedGunBehavior
     {
-        public static string internalName; //Internal name of the gun as used by console commands
+        public static string internalName = "Hextech Rifle"; //Internal name of the gun as used by console commands
         public static int ID; //The Gun ID stored by the game.  Can be used by other functions to call your custom gun.
         public static string realName = "Hextech Rifle"; //The name that shows up in the Ammonomicon and the mod console.
 
@@ -62,7 +62,7 @@ namespace LOLItems.weapons
              * The default here is to use your mod's prefix then shortname so in this example it would come out as "twp:template_gun". */
             string FULLNAME = "Hextech Rifle"; //Full name of your gun 
             string SPRITENAME = "hextech"; //The name that prefixes your sprite files
-            internalName = $"LOLItems:{FULLNAME.ToID()}";
+            internalName = $"LOLItems:{internalName.ToID()}";
             Gun gun = ETGMod.Databases.Items.NewGun(FULLNAME, SPRITENAME);
             Game.Items.Rename($"outdated_gun_mods:{FULLNAME.ToID()}", internalName); //Renames the default internal name to your custom internal name
             gun.gameObject.AddComponent<HextechRifle>(); //AddComponent<[ClassName]>
@@ -438,7 +438,7 @@ namespace LOLItems.weapons
             //gun.AddToSubShop(ItemBuilder.ShopType.Flynt);
             ID = gun.PickupObjectId; //Sets the Gun ID. 
 
-            List<string> mandatoryConsoleIDs = new List<string>
+            /*List<string> mandatoryConsoleIDs = new List<string>
             {
                 "LOLItems:hextech_rifle",
             };
@@ -447,7 +447,7 @@ namespace LOLItems.weapons
                 "scope",
                 "laser_sight",
             };
-            AdvancedSynergyEntry ase = CustomSynergies.Add("\"Me, miss? Not by a long shot.\"", mandatoryConsoleIDs, optionalConsoleIDs, true);
+            AdvancedSynergyEntry ase = CustomSynergies.Add("\"Me, miss? Not by a long shot.\"", mandatoryConsoleIDs, optionalConsoleIDs, true);*/
         }
 
         public override void PostProcessProjectile(Projectile projectile)
@@ -462,7 +462,7 @@ namespace LOLItems.weapons
             {
                 //Plugin.Log("headshot sound");
                 HelpfulMethods.PlayRandomSFX(player.CurrentGun.gameObject, headshotSFXList);
-                if (Player.PlayerHasActiveSynergy("\"Me, miss? Not by a long shot.\""))
+                if (Player.HasSynergy(Synergy.ME_MISS_NOT_BY_A_LONG_SHOT))
                 {
                     projectile.baseData.damage *= 2f;
                 }

@@ -1,24 +1,32 @@
-﻿using System;
+﻿using Alexandria;
+using Alexandria.ItemAPI;
+using Alexandria.Misc;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Alexandria;
-using Alexandria.ItemAPI;
 using UnityEngine;
 
 namespace LOLItems
 {
     internal class Shadowflame : PassiveItem
     {
+        public static string ItemName = "Shadowflame";
+
         private static float DamageStat = 1.15f;
         private static float CinderbloomThreshold = 0.4f;
         private static float CinderbloomDamageAmp = 0.4f;
+
+        public bool HELLSSHADOWSActivated = false;
+        private static float HELLSSHADOWSCinderbloomDamageAmpInc = 0.2f;
+        public bool SOLARFLAMEActivated = false;
+        private static float SOLARFLAMECinderbloomThresholdInc = 0.2f;
 
         public static int ID;
 
         public static void Init()
         {
-            string itemName = "Shadowflame";
+            string itemName = ItemName;
             string resourceName = "LOLItems/Resources/passive_item_sprites/shadowflame_pixelart_sprite_outline";
 
             GameObject obj = new GameObject(itemName);
@@ -29,7 +37,8 @@ namespace LOLItems
 
             string shortDesc = "*hiring janitors*";
             // maybe add effect explanation?
-            string longDesc = "A magical necklace that empowers you to finish off targets quicker. " +
+            string longDesc = "Increase damage\nDeal increased damage to low health enemies.\n\n" +
+                "A magical necklace that empowers you to finish off targets quicker. " +
                 "You begin to feel like you like a character called \"Shadow\"? This cannot be good\n";
 
             ItemBuilder.SetupItem(item, shortDesc, longDesc, "LOLItems");
@@ -53,8 +62,45 @@ namespace LOLItems
             base.DisableEffect(player);
             Plugin.Log($"Player dropped or got rid of {this.EncounterNameOrDisplayName}");
 
-            player.PostProcessProjectile -= OnPostProcessProjectile;
-            player.PostProcessBeamTick -= OnPostProcessProjectile;
+            if (player != null)
+            {
+                player.PostProcessProjectile -= OnPostProcessProjectile;
+                player.PostProcessBeamTick -= OnPostProcessProjectile;
+            }
+        }
+
+        public override void Update()
+        {
+            if (Owner != null)
+            {
+                if (Owner.HasSynergy(Synergy.HELLS_SHADOWS) && !HELLSSHADOWSActivated)
+                {
+                    CinderbloomDamageAmp += HELLSSHADOWSCinderbloomDamageAmpInc;
+
+                    HELLSSHADOWSActivated = true;
+                }
+                else if (!Owner.HasSynergy(Synergy.HELLS_SHADOWS) && HELLSSHADOWSActivated)
+                {
+                    CinderbloomDamageAmp = 0.4f;
+
+                    HELLSSHADOWSActivated = false;
+                }
+
+                if (Owner.HasSynergy(Synergy.SOLAR_FLAME) && !SOLARFLAMEActivated)
+                {
+                    CinderbloomThreshold += SOLARFLAMECinderbloomThresholdInc;
+
+                    SOLARFLAMEActivated = true;
+                }
+                else if (!Owner.HasSynergy(Synergy.SOLAR_FLAME) && SOLARFLAMEActivated)
+                {
+                    CinderbloomThreshold = 0.4f;
+
+                    SOLARFLAMEActivated = false;
+                }
+            }
+
+            base.Update();
         }
 
         private void OnPostProcessProjectile (BeamController beam, SpeculativeRigidbody hitRigidbody, float tickrate)

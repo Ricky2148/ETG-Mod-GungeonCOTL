@@ -15,7 +15,7 @@ namespace LOLItems.weapons
 {
     internal class Crossblade : AdvancedGunBehavior
     {
-        public static string internalName;
+        public static string internalName = "Crossblade";
         public static int ID; 
         public static string realName = "Crossblade"; 
 
@@ -45,11 +45,13 @@ namespace LOLItems.weapons
             "boomerangblade_fire_sfx_007",
         };
 
+        public bool BOUNCEMAXXINGActivated;
+
         public static void Add()
         {
             string FULLNAME = realName;
             string SPRITENAME = "boomerangblade";
-            internalName = $"LOLItems:{FULLNAME.ToID()}";
+            internalName = $"LOLItems:{internalName.ToID()}";
             Gun gun = ETGMod.Databases.Items.NewGun(FULLNAME, SPRITENAME);
             Game.Items.Rename($"outdated_gun_mods:{FULLNAME.ToID()}", internalName);
             gun.gameObject.AddComponent<Crossblade>();
@@ -267,7 +269,7 @@ namespace LOLItems.weapons
             ETGMod.Databases.Items.Add(gun, false, "ANY");
             ID = gun.PickupObjectId;
 
-            List<string> mandatoryConsoleIDs = new List<string>
+            /*List<string> mandatoryConsoleIDs = new List<string>
             {
                 "LOLItems:crossblade",
             };
@@ -276,7 +278,7 @@ namespace LOLItems.weapons
                 "bouncy_bullets",
                 "boomerang"
             };
-            AdvancedSynergyEntry ase = CustomSynergies.Add("Bouncemaxxing", mandatoryConsoleIDs, optionalConsoleIDs, true);
+            AdvancedSynergyEntry ase = CustomSynergies.Add("Bouncemaxxing", mandatoryConsoleIDs, optionalConsoleIDs, true);*/
         }
 
         public override void OnInitializedWithOwner(GameActor actor)
@@ -284,15 +286,36 @@ namespace LOLItems.weapons
             base.OnInitializedWithOwner(actor);
             Plugin.Log($"Player picked up {internalName}");
 
-            if (Player.PlayerHasActiveSynergy("Bouncemaxxing"))
+            /*if (Player.PlayerHasActiveSynergy("Bouncemaxxing"))
             {
                 gun.DefaultModule.projectiles[0].gameObject.GetComponent<PierceProjModifier>().penetration = ricochetCount + 2;
-            }
+            }*/
         }
 
         public override void OnDropped()
         {
             base.OnDropped();
+        }
+
+        protected override void Update()
+        {
+            if (Owner != null)
+            {
+                if (Player.HasSynergy(Synergy.BOUNCEMAXXING) && !BOUNCEMAXXINGActivated)
+                {
+                    gun.DefaultModule.projectiles[0].gameObject.GetComponent<PierceProjModifier>().penetration = ricochetCount + 2;
+
+                    BOUNCEMAXXINGActivated = true;
+                }
+                else if (!Player.HasSynergy(Synergy.BOUNCEMAXXING) && BOUNCEMAXXINGActivated)
+                {
+                    gun.DefaultModule.projectiles[0].gameObject.GetComponent<PierceProjModifier>().penetration = ricochetCount;
+
+                    BOUNCEMAXXINGActivated = false;
+                }
+            }
+
+            base.Update();
         }
 
         public override void PostProcessProjectile(Projectile projectile)

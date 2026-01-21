@@ -67,7 +67,8 @@ namespace LOLItems.weapons
             Game.Items.Rename($"outdated_gun_mods:{FULLNAME.ToID()}", internalName);
             gun.gameObject.AddComponent<VirtueForm3>();
             gun.SetShortDescription("\"Drown in holy fire!\"");
-            gun.SetLongDescription("Virtue. \nDefinition: a quality considered morally good.\n\nA blade of celestial creation that are capable of burning evil. " +
+            gun.SetLongDescription("Permanently have max zealous stacks. Fires waves every attack. Gains increased movespeed. Gain wings.\n\n" +
+                "Virtue. Definition: a quality considered morally good.\n\nA blade of celestial creation that are capable of burning evil. " +
                 "The original wielder of this weapon was said to have tested whether one was virtuous by slashing at their neck. If they were truly virtuous, then the blade would cause them no harm. " +
                 "\n\nI have absolved myself of all mortal sin in order to serve judgement to the unworthy. " +
                 "\n\n\"To be human is to be imperfect, but I am not human.\"\n");
@@ -295,7 +296,7 @@ namespace LOLItems.weapons
 
             ItemBuilder.AddCurrentGunStatModifier(gun, PlayerStats.StatType.MovementSpeed, zealSpeedInc, StatModifier.ModifyMethod.MULTIPLICATIVE);
 
-            List<string> mandatoryConsoleIDs = new List<string>
+            /*List<string> mandatoryConsoleIDs = new List<string>
             {
                 "LOLItems:virtueform3",
             };
@@ -306,7 +307,7 @@ namespace LOLItems.weapons
                 "broccoli",
                 "life_orb"
             };
-            AdvancedSynergyEntry ase = CustomSynergies.Add("Exp. Share", mandatoryConsoleIDs, optionalConsoleIDs, true);
+            AdvancedSynergyEntry ase = CustomSynergies.Add("Exp. Share", mandatoryConsoleIDs, optionalConsoleIDs, true);*/
         }
 
         public override void OnPostFired(PlayerController player, Gun gun)

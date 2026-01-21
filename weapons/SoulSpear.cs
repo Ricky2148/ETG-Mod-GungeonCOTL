@@ -18,7 +18,7 @@ namespace LOLItems.weapons
 {
     internal class SoulSpear : AdvancedGunBehavior
     {
-        public static string internalName; //Internal name of the gun as used by console commands
+        public static string internalName = "Soul Spear"; //Internal name of the gun as used by console commands
         public static int ID; //The Gun ID stored by the game.  Can be used by other functions to call your custom gun.
         public static string realName = "Soul Spear"; //The name that shows up in the Ammonomicon and the mod console.
 
@@ -41,7 +41,6 @@ namespace LOLItems.weapons
         {
             "LOLItems/Resources/vfxs/vengencespear/vengencespear_vfx"
         };
-
 
         private static GameObject EffectVFX;
 
@@ -78,20 +77,23 @@ namespace LOLItems.weapons
             "rend5",
         };
 
+        public bool THREEPRONGEDSPEARSActivated = false;
+        private static float THREEPRONGEDSPEARSrendScaleInc = 0.4f;
+
         public static void Add()
         {
             string FULLNAME = "Soul Spear";
             string SPRITENAME = "vengencespear";
-            internalName = $"LOLItems:{FULLNAME.ToID()}";
+            internalName = $"LOLItems:{internalName.ToID()}";
             Gun gun = ETGMod.Databases.Items.NewGun(FULLNAME, SPRITENAME);
             Game.Items.Rename($"outdated_gun_mods:{FULLNAME.ToID()}", internalName);
             gun.gameObject.AddComponent<SoulSpear>();
             gun.SetShortDescription("\"Accept no contrition.\"");
-            gun.SetLongDescription("A ghostly weapon originally wielded by the nightmare wraith, Kalista, a being with the sole purpose of hunting deceivers " +
-                "and traitors. It was said that once you were made the focus of her wrath, there was nothing you could do but offer up your soul.\n" +
-                "These soul spears impale themselves onto the target and can be recalled out at will, inflicting even more suffering.\n\n" +
+            gun.SetLongDescription("These soul spears impale themselves onto the target and can be recalled out at will, inflicting even more suffering.\n\n" +
                 "Every attacks forces the player to either stay still or dash. You are invulnerable during the dash.\n" +
-                "Press reload to recall the spears and deal damage.\n");
+                "Press reload to recall the spears and deal damage based on number of spears.\n\n" + 
+                "A ghostly weapon originally wielded by the nightmare wraith, Kalista, a being with the sole purpose of hunting deceivers " +
+                "and traitors. It was said that once you were made the focus of her wrath, there was nothing you could do but offer up your soul.\n");
 
             gun.SetupSprite(null, $"{SPRITENAME}_idle_001", 8);
 
@@ -274,6 +276,27 @@ namespace LOLItems.weapons
             }
         }
 
+        protected override void Update()
+        {
+            if (Owner != null)
+            {
+                if (Player.HasSynergy(Synergy.THREE_PRONGED_SPEARS) && !THREEPRONGEDSPEARSActivated)
+                {
+                    rendScale += THREEPRONGEDSPEARSrendScaleInc;
+
+                    THREEPRONGEDSPEARSActivated = true;
+                }
+                else if (!Player.HasSynergy(Synergy.THREE_PRONGED_SPEARS) && THREEPRONGEDSPEARSActivated)
+                {
+                    rendScale -= THREEPRONGEDSPEARSrendScaleInc;
+
+                    THREEPRONGEDSPEARSActivated = false;
+                }
+            }
+
+            base.Update();
+        }
+
         public override void OnPostFired(PlayerController player, Gun gun)
         {
             HelpfulMethods.PlayRandomSFX(gun.gameObject, normalFiringSFXList);
@@ -412,7 +435,7 @@ namespace LOLItems.weapons
 
             foreach (KeyValuePair<AIActor, List<GameObject>> target in activeVFXObjectList)
             {
-                float damageToDeal = (target.Value.Count + 1) * rendDamagePerStack;
+                float damageToDeal = (target.Value.Count /* + 1 */) * rendDamagePerStack;
                 //Plugin.Log($"rend stacks: {target.Value.Count}, damage dealt: {damageToDeal}");
 
                 if (target.Key.healthHaver != null && target.Key.gameObject != null)

@@ -1,24 +1,27 @@
-﻿using System;
+﻿using Alexandria;
+using Alexandria.ItemAPI;
+using Alexandria.Misc;
+using LOLItems.custom_class_data;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Alexandria.ItemAPI;
 using UnityEngine;
-using Alexandria;
-using LOLItems.custom_class_data;
-using Alexandria.Misc;
+using static UnityEngine.UI.GridLayoutGroup;
 
 namespace LOLItems.active_items
 {
     internal class PerfectlyTimedStopwatch : PlayerItem
     {
+        public static string ItemName = "Perfectly Timed Stopwatch";
+
         private static float StasisDuration = 2.5f;
 
         public static int ID;
 
         public static void Init()
         {
-            string itemName = "Perfectly Timed Stopwatch";
+            string itemName = ItemName;
             string resourceName = "LOLItems/Resources/active_item_sprites/perfectly_timed_stopwatch_pixelart_sprite";
 
             GameObject obj = new GameObject(itemName);
@@ -28,7 +31,8 @@ namespace LOLItems.active_items
             ItemBuilder.AddSpriteToObject(itemName, resourceName, obj);
 
             string shortDesc = "\"yea, I got time.\"";
-            string longDesc = "A stopwatch that is stuck at 2:37:56. Activating it will affect time itself but it'll shatter instantly since it's been stuck for so long.\n";
+            string longDesc = "Enter a one-time stasis, where you're invulnerable but also can't do anything for a duration, then activates a blank.\n\n" +
+                "A stopwatch that is stuck at 2:37:56. Activating it will affect time itself but it'll shatter instantly since it's been stuck for so long.\n";
 
             ItemBuilder.SetupItem(item, shortDesc, longDesc, "LOLItems");
             ItemBuilder.SetCooldownType(item, ItemBuilder.CooldownType.None, 0);
@@ -54,6 +58,21 @@ namespace LOLItems.active_items
             Plugin.Log($"Player dropped or got rid of {this.EncounterNameOrDisplayName}");
 
             return base.Drop(player);
+        }
+
+        public override void Update()
+        {
+            if (LastOwner != null)
+            {
+                if (LastOwner.HasSynergy(Synergy.BUILDS_INTO_ZHONYAS_HOURGLASS))
+                {
+                    LastOwner.RemoveActiveItem(ID);
+
+                    LootEngine.SpawnCurrency(LastOwner.specRigidbody.UnitCenter, this.PurchasePrice);
+                }
+            }
+
+            base.Update();
         }
 
         public override void DoEffect(PlayerController player)

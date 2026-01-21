@@ -14,17 +14,21 @@ namespace LOLItems.passive_items
 {
     internal class CloakOfStarryNight : OnPreDamagedPassiveItem
     {
+        public static string ItemName = "Cloak of Starry Night";
+
         private static float HealthStat = 1f;
         private static int ArmorStat = 0;
 
         private static float preDamageProcChance = 0.1f;
         private static float synergyProcChance = 0.2f;
 
+        public bool HEAVENANDEARTHCOMBINEDActivated = false;
+
         public static int ID;
 
         public static void Init()
         {
-            string itemName = "Cloak of Starry Night";
+            string itemName = ItemName;
             string resourceName = "LOLItems/Resources/passive_item_sprites/cloak_of_starry_night_pixelart_sprite_outline";
 
             GameObject obj = new GameObject(itemName);
@@ -34,7 +38,8 @@ namespace LOLItems.passive_items
             ItemBuilder.AddSpriteToObject(itemName, resourceName, obj);
 
             string shortDesc = "Limitless as the Stars";
-            string longDesc = "This magical cloak imbues your body with great toughness and durability like that of a star. Sometimes prevents the player from taking damage.\n";
+            string longDesc = "+1 Heart\nSometimes prevents the player from taking damage.\n\n" +
+                "This magical cloak imbues your body with great toughness and durability like that of a star.\n";
 
             ItemBuilder.SetupItem(item, shortDesc, longDesc, "LOLItems");
 
@@ -57,7 +62,7 @@ namespace LOLItems.passive_items
             ID = item.PickupObjectId;
 
             // synergy with Shield of Molten Stone
-            List<string> mandatoryConsoleIDs = new List<string>
+            /*List<string> mandatoryConsoleIDs = new List<string>
             {
                 "LOLItems:shield_of_molten_stone",
                 "LOLItems:cloak_of_starry_night"
@@ -66,7 +71,7 @@ namespace LOLItems.passive_items
             {
                 ""
             };
-            CustomSynergies.Add("Heaven and Earth Combined", mandatoryConsoleIDs, null, true);
+            CustomSynergies.Add("Heaven and Earth Combined", mandatoryConsoleIDs, null, true);*/
         }
 
         public override void Pickup(PlayerController player)
@@ -75,7 +80,7 @@ namespace LOLItems.passive_items
             Plugin.Log($"Player picked up {this.EncounterNameOrDisplayName}");
 
             // updates stats for both items if synergy is active on pickup
-            if (player.PlayerHasActiveSynergy("Heaven and Earth Combined"))
+            /*if (player.PlayerHasActiveSynergy("Heaven and Earth Combined"))
             {
                 this.procChance = synergyProcChance;
                 Plugin.Log("Cloak of Starry Night's Synergy activated");
@@ -87,7 +92,7 @@ namespace LOLItems.passive_items
                         item.GetComponent<ShieldOfMoltenStone>().setProcChance(synergyProcChance);
                     }
                 }
-            }
+            }*/
         }
 
         // updates stats for both items if synergy is active on drop or destroy
@@ -96,14 +101,54 @@ namespace LOLItems.passive_items
             base.DisableEffect(player);
             Plugin.Log($"Player dropped or got rid of {this.EncounterNameOrDisplayName}");
 
-            this.procChance = preDamageProcChance;
-            foreach (PassiveItem item in player.passiveItems)
+            /*this.procChance = preDamageProcChance;
+            if (player != null)
             {
-                if (item.PickupObjectId == ShieldOfMoltenStone.ID && item != null)
+                foreach (PassiveItem item in player.passiveItems)
                 {
-                    item.GetComponent<ShieldOfMoltenStone>().setProcChance(preDamageProcChance);
+                    if (item.PickupObjectId == ShieldOfMoltenStone.ID && item != null)
+                    {
+                        item.GetComponent<ShieldOfMoltenStone>().setProcChance(preDamageProcChance);
+                    }
+                }
+            }*/
+        }
+
+        public override void Update()
+        {
+            if (Owner != null)
+            {
+                if (Owner.HasSynergy(Synergy.HEAVEN_AND_EARTH_COMBINED) && !HEAVENANDEARTHCOMBINEDActivated)
+                {
+                    procChance = synergyProcChance;
+                    foreach (PassiveItem item in Owner.passiveItems)
+                    {
+                        if (item.PickupObjectId == ShieldOfMoltenStone.ID && item != null)
+                        {
+                            item.GetComponent<ShieldOfMoltenStone>().setProcChance(synergyProcChance);
+                            //Plugin.Log($"Cloak: {procChance}, Shield: {item.GetComponent<ShieldOfMoltenStone>().procChance}");
+                        }
+                    }
+
+                    HEAVENANDEARTHCOMBINEDActivated = true;
+                }
+                else if (!Owner.HasSynergy(Synergy.HEAVEN_AND_EARTH_COMBINED) && HEAVENANDEARTHCOMBINEDActivated)
+                {
+                    procChance = preDamageProcChance;
+                    foreach (PassiveItem item in Owner.passiveItems)
+                    {
+                        if (item.PickupObjectId == ShieldOfMoltenStone.ID && item != null)
+                        {
+                            item.GetComponent<ShieldOfMoltenStone>().setProcChance(preDamageProcChance);
+                            //Plugin.Log($"Cloak: {procChance}, Shield: {item.GetComponent<ShieldOfMoltenStone>().procChance}");
+                        }
+                    }
+
+                    HEAVENANDEARTHCOMBINEDActivated = false;
                 }
             }
+
+            base.Update();
         }
     }
 }

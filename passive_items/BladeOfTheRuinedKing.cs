@@ -13,6 +13,8 @@ namespace LOLItems
 {
     internal class BladeOfTheRuinedKing : PassiveItem
     {
+        public static string ItemName = "Blade of the Ruined King";
+
         // stats pool for item
         private bool shouldApplySlow = false;
         private static float DamageStat = 1.25f;
@@ -25,17 +27,21 @@ namespace LOLItems
         {
             duration = slowDuration,
             effectIdentifier = "botrk_slow",
-            resistanceType = EffectResistanceType.Freeze,
+            resistanceType = EffectResistanceType.None,
             AppliesOutlineTint = true,
             OutlineTintColor = Color.cyan,
             SpeedMultiplier = slowPercent,
         };
 
+        public bool YOUDAREFACEAKINGActivated = false;
+        private static float YOUDAREFACEAKINGPercentCurrentHealthStat = 0.2f;
+        public bool FORISOLDEActivated = false;
+
         public static int ID;
 
         public static void Init()
         {
-            string itemName = "Blade of the Ruined King";
+            string itemName = ItemName;
             string resourceName = "LOLItems/Resources/passive_item_sprites/blade_of_the_ruined_king_pixelart_sprite_small";
 
             GameObject obj = new GameObject(itemName);
@@ -45,7 +51,8 @@ namespace LOLItems
             ItemBuilder.AddSpriteToObject(itemName, resourceName, obj);
 
             string shortDesc = "\"The mist devours all!\"";
-            string longDesc = "No price is too great.\n" +
+            string longDesc = "Increase damage and fire rate\nFirst bullet of clip slows enemies, every bullet deals %current health damage.\n\n" +
+                "No price is too great.\n" +
                 "No atrocity beyond my reach.\n" +
                 "For her, I will do anything.\n" +
                 "\n- King of Camavor\n";
@@ -77,10 +84,33 @@ namespace LOLItems
             Plugin.Log($"Player dropped or got rid of {this.EncounterNameOrDisplayName}");
 
             // unsubscribe from events
-            player.OnReloadedGun -= OnGunReloaded;
-            player.PostProcessProjectile -= OnPostProcessProjectile;
-            player.PostProcessBeamTick -= OnPostProcessProjectile;
+            if (player != null)
+            {
+                player.OnReloadedGun -= OnGunReloaded;
+                player.PostProcessProjectile -= OnPostProcessProjectile;
+                player.PostProcessBeamTick -= OnPostProcessProjectile;
+            }
             shouldApplySlow = false;
+        }
+
+        public override void Update()
+        {
+            if (Owner != null)
+            {
+                if (Owner.HasSynergy(Synergy.YOU_DARE_FACE_A_KING) && !YOUDAREFACEAKINGActivated)
+                {
+                    PercentCurrentHealthStat = YOUDAREFACEAKINGPercentCurrentHealthStat;
+
+                    YOUDAREFACEAKINGActivated = true;
+                }
+                else if (!Owner.HasSynergy(Synergy.YOU_DARE_FACE_A_KING) && YOUDAREFACEAKINGActivated)
+                {
+                    PercentCurrentHealthStat = 0.12f;
+
+                    YOUDAREFACEAKINGActivated = false;
+                }
+            }
+            base.Update();
         }
 
         // when gun is reloaded, set the flag to apply slow effect
@@ -122,7 +152,14 @@ namespace LOLItems
                 if (shouldApplySlow)
                 {
                     ApplySlowEffect(proj);
-                    shouldApplySlow = false;
+                    if (Owner.HasSynergy(Synergy.FOR_ISOLDE))
+                    {
+                        shouldApplySlow = true;
+                    }
+                    else
+                    {
+                        shouldApplySlow = false;
+                    }
                 }
                 //Apply 12% of current health damage to enemies hit by the projectile
                 //Seems to be an interaction with bosses where they only take the bonus damage every few frames

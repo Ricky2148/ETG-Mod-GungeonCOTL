@@ -1,0 +1,487 @@
+﻿using Alexandria.ItemAPI;
+using Alexandria.VisualAPI;
+using LOLItems.custom_class_data;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using UnityEngine;
+
+// might use a stack based system like puppeteer
+
+namespace LOLItems.passive_items
+{
+    internal class SilverBolts : PassiveItem
+    {
+        public static string ItemName =  "Silver Bolts";
+
+        private int silverBoltsCount = 0;
+        private static float silverBoltsPercentHealthDamage = 0.15f;
+        private static float silverBoltsBaseDamage = 5f;
+
+        private AIActor lastHitEnemy;
+
+        private static List<string> sfxList = new List<string>
+        {
+            "silverbolts_sfx_001",
+            "silverbolts_sfx_002",
+            "silverbolts_sfx_003",
+            "silverbolts_sfx_004",
+        };
+
+        private static List<string> VFXSpritePath = new List<string>
+            {
+                "LOLItems/Resources/vfxs/silver_bolts_vfx/ring_inner_001",
+            };
+
+        private static GameObject EffectVFX;
+
+        private static List<string> SecondVFXSpritePath = new List<string>
+            {
+                "LOLItems/Resources/vfxs/silver_bolts_vfx/ring_double_001",
+            };
+
+        private static GameObject SecondEffectVFX;
+
+        private GameObject activeVFXObject;
+
+        public static Vector3 vfxOffset = new Vector3(0 / 16f, 2 / 16f, 0);
+
+        public bool EXTRASILVERActivated = false;
+        private static float EXTRASILVERsilverBoltsPercentHealthDamageInc = 0.10f;
+        public bool THENIGHTHUNTERActivated = false;
+
+        public static int ID;
+
+        public static void Init()
+        {
+            string itemName = ItemName;
+            string resourceName = "LOLItems/Resources/passive_item_sprites/silver_bolts_pixelart_sprite";
+
+            GameObject obj = new GameObject(itemName);
+
+            var item = obj.AddComponent<SilverBolts>();
+
+            ItemBuilder.AddSpriteToObject(itemName, resourceName, obj);
+
+            string shortDesc = "\"Purge with silver.\"";
+            string longDesc = "Every 3rd bullet deals additional max health damage.\n\n" +
+                "Crossbow bolts tipped with baptized silver. Despite their small size, these bolts are said to purge demons back into hell. " +
+                "Thankfully the hell enemies are condemned to is different from Bullet Hell.\n";
+
+            ItemBuilder.SetupItem(item, shortDesc, longDesc, "LOLItems");
+
+            item.quality = PickupObject.ItemQuality.C;
+
+            ID = item.PickupObjectId;
+
+            EffectVFX = VFXBuilder.CreateVFX
+            (
+                "silver_bolts_ring_inner",
+                VFXSpritePath,
+                1,
+                new IntVector2(0, 0),
+                tk2dBaseSprite.Anchor.MiddleCenter,
+                false,
+                0,
+                -1,
+                Color.cyan,
+                tk2dSpriteAnimationClip.WrapMode.Loop,
+                true
+            );
+
+            var sprite = EffectVFX.GetComponent<tk2dSprite>();
+
+            if (sprite != null)
+            {
+                sprite.HeightOffGround = -50f;
+                sprite.UpdateZDepth();
+            }
+
+            VFXAnchorModule anchor1 = EffectVFX.GetOrAddComponent<VFXAnchorModule>();
+
+            SecondEffectVFX = VFXBuilder.CreateVFX
+            (
+                "silver_bolts_ring_double",
+                SecondVFXSpritePath,
+                1,
+                new IntVector2(0, 0),
+                tk2dBaseSprite.Anchor.MiddleCenter,
+                false,
+                0,
+                -1,
+                Color.cyan,
+                tk2dSpriteAnimationClip.WrapMode.Loop,
+                true
+            );
+
+            sprite = SecondEffectVFX.GetComponent<tk2dSprite>();
+
+            if (sprite != null)
+            {
+                sprite.HeightOffGround = -50f;
+                sprite.UpdateZDepth();
+            }
+
+            VFXAnchorModule anchor2 = SecondEffectVFX.GetOrAddComponent<VFXAnchorModule>();
+        }
+
+        public override void Pickup(PlayerController player)
+        {
+            base.Pickup(player);
+            Plugin.Log($"Player picked up {this.EncounterNameOrDisplayName}");
+
+            player.PostProcessProjectile += OnPostProcessProjectile;
+            //player.PostProcessBeamTick += OnPostProcessProjectile;
+        }
+
+        public override void DisableEffect(PlayerController player)
+        {
+            base.DisableEffect(player);
+            Plugin.Log($"Player dropped or got rid of {base.EncounterNameOrDisplayName}");
+
+            if (player != null)
+            {
+                player.PostProcessProjectile -= OnPostProcessProjectile;
+                //player.PostProcessBeamTick -= OnPostProcessProjectile;
+            }
+        }
+
+        public override void Update()
+        {
+            if (Owner != null)
+            {
+                if (Owner.HasSynergy(Synergy.EXTRA_SILVER) && !EXTRASILVERActivated)
+                {
+                    silverBoltsPercentHealthDamage += EXTRASILVERsilverBoltsPercentHealthDamageInc;
+
+                    EXTRASILVERActivated = true;
+                }
+                else if (!Owner.HasSynergy(Synergy.EXTRA_SILVER) && EXTRASILVERActivated)
+                {
+                    silverBoltsPercentHealthDamage -= EXTRASILVERsilverBoltsPercentHealthDamageInc;
+                    
+                    EXTRASILVERActivated = false;
+                }
+
+                if (Owner.HasSynergy(Synergy.THE_NIGHT_HUNTER) && !THENIGHTHUNTERActivated)
+                {
+                    THENIGHTHUNTERActivated = true;
+                }
+                else if (!Owner.HasSynergy(Synergy.THE_NIGHT_HUNTER) && THENIGHTHUNTERActivated)
+                {
+                    THENIGHTHUNTERActivated = false;
+                }
+            }
+
+            base.Update();
+        }
+
+        /*private void OnPostProcessProjectile(BeamController beam, SpeculativeRigidbody hitRigidbody, float tickrate)
+        {
+            float randomVal = UnityEngine.Random.value;
+            if (randomVal <= 0.04f)
+            {
+                //Plugin.Log($"randomVal: {randomVal}, silverboltscount: {silverBoltsCount}");
+
+                if (hitRigidbody == null) return;
+                AIActor targetEnemy = null;
+                if (hitRigidbody.aiActor != null)
+                {
+                    targetEnemy = hitRigidbody.aiActor;
+                }
+                else if (hitRigidbody.GetComponentInParent<AIActor>() != null)
+                {
+                    targetEnemy = hitRigidbody.GetComponentInParent<AIActor>();
+                }
+                else
+                {
+                    return;
+                }
+                if (hitRigidbody.healthHaver != null)
+                {
+                    if (targetEnemy != lastHitEnemy)
+                    {
+                        silverBoltsCount = 0;
+                        lastHitEnemy = targetEnemy;
+                    }
+
+                    if (activeVFXObject != null)
+                    {
+                        Destroy(activeVFXObject);
+                    }
+
+                    silverBoltsCount++;
+
+                    switch (silverBoltsCount)
+                    {
+                        case 1:
+                            //Plugin.Log($"{silverBoltsCount}");
+                            activeVFXObject = targetEnemy.PlayEffectOnActor(EffectVFX, new Vector3(0, 0, 0), true, false, false);
+                            break;
+                        case 2:
+                            //Plugin.Log($"{silverBoltsCount}");
+                            activeVFXObject = targetEnemy.PlayEffectOnActor(SecondEffectVFX, new Vector3(0, 0, 0), true, false, false);
+                            break;
+                        case 3:
+                            //Plugin.Log($"{silverBoltsCount}");
+                            float damageToDeal = (hitRigidbody.healthHaver.GetMaxHealth() * silverBoltsPercentHealthDamage) + silverBoltsBaseDamage;
+                            // damage is 1/4 against bosses and sub-bosses
+                            if (hitRigidbody.healthHaver.IsBoss || hitRigidbody.healthHaver.IsSubboss)
+                            {
+                                damageToDeal *= 0.25f;
+                            }
+
+                            // calculates additional extra damage to apply to enemy
+                            hitRigidbody.healthHaver.ApplyDamage(
+                                damageToDeal,
+                                Vector2.zero,
+                                "silver_bolts_damage",
+                                CoreDamageTypes.None,
+                                DamageCategory.Normal,
+                                false
+                            );
+                            //Plugin.Log($"damage dealt: {damageToDeal}");
+                            silverBoltsCount = 0;
+                            break;
+                    }
+                }
+            }
+            if (silverBoltsCount >= 3)
+            {
+                if (beam.sprite != null)
+                {
+                    beam.sprite.color = Color.Lerp(beam.sprite.color, Color.white, 0.8f);
+                }
+                //HelpfulMethods.PlayRandomSFX(beam.gameObject, sfxList);
+                if (hitRigidbody == null) return;
+                AIActor firstEnemy = null;
+                if (hitRigidbody.aiActor != null)
+                {
+                    firstEnemy = hitRigidbody.aiActor;
+                }
+                else if (hitRigidbody.GetComponentInParent<AIActor>() != null)
+                {
+                    firstEnemy = hitRigidbody.GetComponentInParent<AIActor>();
+                }
+                else
+                {
+                    return;
+                }
+                if (hitRigidbody.healthHaver != null)
+                {
+                    // scale damage down by tickrate
+                    float damageToDeal = (firstEnemy.healthHaver.GetMaxHealth() * silverBoltsPercentHealthDamage) + silverBoltsBaseDamage;
+                    // damage is 1/4 against bosses and sub-bosses
+                    if (firstEnemy.healthHaver.IsBoss || firstEnemy.healthHaver.IsSubboss)
+                    {
+                        damageToDeal *= 0.25f;
+                    }
+                    // calculates additional extra damage to apply to enemy
+                    firstEnemy.healthHaver.ApplyDamage(
+                        damageToDeal,
+                        Vector2.zero,
+                        "silver_bolts_damage",
+                        CoreDamageTypes.None,
+                        DamageCategory.Normal,
+                        false
+                    );
+                    Plugin.Log($"damage dealt: {damageToDeal}");
+                }
+                silverBoltsCount = 0;
+            }
+        }*/
+
+        // TESTING TESTING TESTING TESTING TESTING TESTING TESTING TESTING TESTING TESTING TESTING TESTING TESTING TESTING TESTING TESTING 
+        /*private static GameActorSpeedEffect slowEffect = new GameActorSpeedEffect
+        {
+            duration = 100f,
+            effectIdentifier = "botrk_slow",
+            resistanceType = EffectResistanceType.Freeze,
+            AppliesOutlineTint = true,
+            OutlineTintColor = Color.cyan,
+            SpeedMultiplier = 0f,
+        };*/
+
+        private void OnPostProcessProjectile(Projectile proj, float f)
+        {
+            if (proj.Shooter == proj.Owner.specRigidbody)
+            {
+                /*silverBoltsCount++;
+                if (silverBoltsCount >= 3)
+                {
+                    if (proj.sprite != null)
+                    {
+                        // doesnt seem to work for some strange reason
+                        //proj.sprite.color = Color.Lerp(proj.sprite.color, Color.white, 0.7f);
+                        proj.sprite.color = ExtendedColours.silver;
+                    }
+                    HelpfulMethods.PlayRandomSFX(proj.gameObject, sfxList);
+                    proj.OnHitEnemy += (projHit, enemy, fatal) =>
+                    {
+                        if (enemy == null) return;
+                        if (enemy.aiActor == null && enemy.GetComponentInParent<AIActor>() == null) return;
+                        if (enemy.healthHaver != null)
+                        {
+                            float damageToDeal = (enemy.healthHaver.GetMaxHealth() * silverBoltsPercentHealthDamage) + silverBoltsBaseDamage;
+                            // damage is 1/4 against bosses and sub-bosses
+                            if (enemy.healthHaver.IsBoss || enemy.healthHaver.IsSubboss)
+                            {
+                                damageToDeal *= 0.25f;
+                            }
+
+                            // calculates additional extra damage to apply to enemy
+                            enemy.healthHaver.ApplyDamage(
+                                damageToDeal,
+                                Vector2.zero,
+                                "silver_bolts_damage",
+                                CoreDamageTypes.None,
+                                DamageCategory.Normal,
+                                false
+                            );
+                            Plugin.Log($"damage dealt: {damageToDeal}");
+                        }
+                    };
+                    silverBoltsCount = 0;
+                }*/
+
+                proj.OnHitEnemy += (projHit, enemy, fatal) =>
+                {
+                    if (enemy == null) return;
+                    AIActor targetEnemy = null;
+                    if (enemy.aiActor != null)
+                    {
+                        targetEnemy = enemy.aiActor;
+                    }
+                    else if (enemy.GetComponentInParent<AIActor>() != null)
+                    {
+                        targetEnemy = enemy.GetComponentInParent<AIActor>();
+                    }
+                    else
+                    {
+                        return;
+                    }
+                    if (enemy.healthHaver != null && enemy.healthHaver.IsAlive)
+                    {
+                        if (targetEnemy != lastHitEnemy)
+                        {
+                            silverBoltsCount = 0;
+                            lastHitEnemy = targetEnemy;
+                        }
+
+                        if (activeVFXObject != null)
+                        {
+                            Destroy(activeVFXObject);
+                        }
+
+                        // TESTING TESTING TESTING TESTING TESTING TESTING TESTING TESTING TESTING TESTING TESTING TESTING TESTING TESTING TESTING TESTING TESTING TESTING TESTING TESTING 
+                        //targetEnemy.ApplyEffect(slowEffect);
+                        if (THENIGHTHUNTERActivated)
+                        {
+                            silverBoltsCount += 2;
+                        }
+                        else
+                        {
+                            silverBoltsCount++;
+                        }
+
+                        switch (silverBoltsCount)
+                        {
+                            case 1:
+                                //Plugin.Log($"{silverBoltsCount}");
+
+                                //activeVFXObject = targetEnemy.PlayEffectOnActor(EffectVFX, new Vector3(-500 / 16f, 4 / 16f, 0f), true, false, false);
+                                activeVFXObject = UnityEngine.Object.Instantiate(EffectVFX, targetEnemy.specRigidbody.UnitBottomCenter.ToVector3ZUp() + vfxOffset, Quaternion.identity);
+
+                                var sprite = activeVFXObject.GetComponent<tk2dSprite>();
+
+                                if (sprite != null)
+                                {
+                                    sprite.HeightOffGround = -10f;
+                                    sprite.UpdateZDepth();
+
+                                    sprite.scale *= Mathf.Max(1f, 1f + ((targetEnemy.specRigidbody.UnitDimensions.x - 1f) / 2f));
+                                    //Plugin.Log($"UnitDimensions.x: {targetEnemy.specRigidbody.UnitDimensions.x}, scale mult: {sprite.scale}");
+                                }
+
+                                activeVFXObject.GetComponent<VFXAnchorModule>().anchorAIActor = targetEnemy;
+                                activeVFXObject.GetComponent<VFXAnchorModule>().offset = vfxOffset;
+
+                                //Plugin.Log($"specRigidbody.UnitCenter: {targetEnemy.specRigidbody.UnitCenter.ToVector3ZUp()}, specRigidbody.UnitDimensions: {targetEnemy.specRigidbody.UnitDimensions}, specRigidbody.UnitBottomCenter: {targetEnemy.specRigidbody.UnitBottomCenter.ToVector3ZUp()}");
+
+                                /*GameObject gameObject = SpawnManager.SpawnVFX(EffectVFX);
+                                tk2dBaseSprite component = gameObject.GetComponent<tk2dBaseSprite>();
+                                component.transform.position = targetEnemy.sprite.WorldCenter.ToVector3ZUp() + new Vector3(0, -2f);
+                                //Plugin.Log($"sprite.worldCenter: {targetEnemy.sprite.WorldCenter.ToVector3ZUp()}, specRigidBody.HitBoxPicelCollider.unitCenter: {targetEnemy.specRigidbody.HitboxPixelCollider.UnitCenter.ToVector3ZUp()}, specRigidBody.UnitCenter: {targetEnemy.specRigidbody.UnitCenter}");
+                                //gameObject.transform.parent = targetEnemy.transform;
+                                component.HeightOffGround = -10f;
+                                targetEnemy.sprite.AttachRenderer(component);
+
+                                //component.attachParent = targetEnemy.sprite;
+                                //component.attachedRenderers.Add(component);
+
+                                activeVFXObject = gameObject;*/
+
+                                break;
+                            case 2:
+                                //Plugin.Log($"{silverBoltsCount}");
+                                //activeVFXObject = targetEnemy.PlayEffectOnActor(SecondEffectVFX, new Vector3(-500 / 16f, 4 / 16f, 0f), true, false, false);
+                                activeVFXObject = UnityEngine.Object.Instantiate(SecondEffectVFX, targetEnemy.specRigidbody.UnitBottomCenter.ToVector3ZUp() + vfxOffset, Quaternion.identity);
+
+                                sprite = activeVFXObject.GetComponent<tk2dSprite>();
+
+                                if (sprite != null)
+                                {
+                                    sprite.HeightOffGround = -10f;
+                                    sprite.UpdateZDepth();
+
+                                    sprite.scale *= Mathf.Max(1f, 1f + ((targetEnemy.specRigidbody.UnitDimensions.x - 1f) / 2f));
+                                    //Plugin.Log($"UnitDimensions.x: {targetEnemy.specRigidbody.UnitDimensions.x}, scale mult: {sprite.scale}");
+                                }
+
+                                activeVFXObject.GetComponent<VFXAnchorModule>().anchorAIActor = targetEnemy;
+                                activeVFXObject.GetComponent<VFXAnchorModule>().offset = vfxOffset;
+
+                                /*gameObject = SpawnManager.SpawnVFX(SecondEffectVFX);
+                                component = gameObject.GetComponent<tk2dBaseSprite>();
+                                component.transform.position = targetEnemy.sprite.WorldCenter.ToVector3ZUp() + new Vector3(0, -2f);
+                                //Plugin.Log($"sprite.worldCenter: {targetEnemy.sprite.WorldCenter.ToVector3ZUp()}, specRigidBody.HitBoxPicelCollider.unitCenter: {targetEnemy.specRigidbody.HitboxPixelCollider.UnitCenter.ToVector3ZUp()}, specRigidBody.UnitCenter: {targetEnemy.specRigidbody.UnitCenter}");
+                                //gameObject.transform.parent = targetEnemy.transform;
+                                component.HeightOffGround = -10f;
+                                targetEnemy.sprite.AttachRenderer(component);
+
+                                activeVFXObject = gameObject;*/
+
+                                break;
+                            case >= 3:
+                                //Plugin.Log($"{silverBoltsCount}");
+                                HelpfulMethods.PlayRandomSFX(targetEnemy.gameObject, sfxList);
+                                float damageToDeal = (enemy.healthHaver.GetMaxHealth() * silverBoltsPercentHealthDamage) + silverBoltsBaseDamage;
+                                // damage is 1/4 against bosses and sub-bosses
+                                if (enemy.healthHaver.IsBoss || enemy.healthHaver.IsSubboss)
+                                {
+                                    damageToDeal *= 0.25f;
+                                }
+
+                                //damageToDeal = 0;
+
+                                // calculates additional extra damage to apply to enemy
+                                enemy.healthHaver.ApplyDamage(
+                                    damageToDeal,
+                                    Vector2.zero,
+                                    "silver_bolts_damage",
+                                    CoreDamageTypes.None,
+                                    DamageCategory.Normal,
+                                    ignoreDamageCaps: true,
+                                    ignoreInvulnerabilityFrames: false
+                                );
+                                //Plugin.Log($"damage dealt: {damageToDeal}");
+                                silverBoltsCount = 0;
+                                break;
+                        }
+                    }
+                };
+            }
+        }
+    }
+}

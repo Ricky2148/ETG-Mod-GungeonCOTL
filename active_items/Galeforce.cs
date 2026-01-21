@@ -1,12 +1,14 @@
-﻿using System;
+﻿using Alexandria;
+using Alexandria.ItemAPI;
+using Alexandria.Misc;
+using JetBrains.Annotations;
+using LOLItems.custom_class_data;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using UnityEngine;
-using Alexandria;
-using Alexandria.ItemAPI;
-using Alexandria.Misc;
-using LOLItems.custom_class_data;
+using static UnityEngine.UI.GridLayoutGroup;
 
 // missles wont have missing health scaling (too fucking annoying)
 
@@ -14,11 +16,16 @@ namespace LOLItems.active_items
 {
     internal class Galeforce : PlayerItem
     {
+        public static string ItemName = "Galeforce";
+
         // stats pool for item
         private static float DamageStat = 1.25f;
         private static float RateOfFireStat = 1.2f;
         private static float CloudburstBaseDamage = 10f;
-        private static float CloudburstCooldown = 90f;
+        private static float CloudburstCooldown = 40f;
+
+        //private bool playerHasFlight = false;
+        private bool BOWMASTERYActivated = false;
 
         public Projectile CloudburstProjectile = (PickupObjectDatabase.GetById((int)Items.YariLauncher) as Gun)
             .DefaultModule.projectiles[0].InstantiateAndFakeprefab();
@@ -28,7 +35,7 @@ namespace LOLItems.active_items
 
         public static void Init()
         {
-            string itemName = "Galeforce";
+            string itemName = ItemName;
             string resourceName = "LOLItems/Resources/active_item_sprites/galeforce_pixelart_sprite";
             
             GameObject obj = new GameObject(itemName);
@@ -38,7 +45,8 @@ namespace LOLItems.active_items
             ItemBuilder.AddSpriteToObject(itemName, resourceName, obj);
             
             string shortDesc = "\"Hasagi!\"";
-            string longDesc = "A strangely crafted bow that seems to make the feet below you lighter. " +
+            string longDesc = "Increase damage and fire rate\nDash in a direction.\n\n" +
+                "A strangely crafted bow that seems to make the feet below you lighter. " +
                 "You can't help but feel that there's something hidden with this bow. Maybe there's something " +
                 "hidden in the bow?\n";
 
@@ -55,12 +63,32 @@ namespace LOLItems.active_items
             
             item.quality = PickupObject.ItemQuality.A;
             ID = item.PickupObjectId;
+
+            /*List<string> mandatoryConsoleIDs = new List<string>
+            {
+                "LOLItems:galeforce",
+                "LOLItems:whisper"
+            };
+            CustomSynergies.Add("FOUR!", mandatoryConsoleIDs, null, true);
+
+            List<string> mandatoryConsoleIDs2 = new List<string>
+            {
+                "LOLItems:galeforce"
+            };
+            List<string> optionalConsoleIDs2 = new List<string>
+            {
+                "bow",
+                "charmed_bow",
+                "gunbow"
+            };
+            CustomSynergies.Add("Bow Mastery", mandatoryConsoleIDs2, optionalConsoleIDs2, true);*/
         }
 
         public override void Pickup(PlayerController player)
         {
             base.Pickup(player);
             Plugin.Log($"Player picked up {this.EncounterNameOrDisplayName}");
+            //Plugin.Log($"isFlying: {player.IsFlying}");
         }
 
         public DebrisObject Drop(PlayerController player)
@@ -73,6 +101,28 @@ namespace LOLItems.active_items
             player.stats.RecalculateStatsWithoutRebuildingGunVolleys(player);
 
             return base.Drop(player);
+        }
+
+        public override void Update()
+        {
+            if (LastOwner != null)
+            {
+                if (LastOwner.HasSynergy(Synergy.BOW_MASTERY) && !BOWMASTERYActivated)
+                {
+                    this.timeCooldown = CloudburstCooldown / 2f;
+
+                    BOWMASTERYActivated = true;
+                }
+                else if (!LastOwner.HasSynergy(Synergy.BOW_MASTERY) && BOWMASTERYActivated)
+                {
+                    this.timeCooldown = CloudburstCooldown;
+                    //Plugin.Log($"{WintersCaressCrippleEffect.CrippleAmount}");
+
+                    BOWMASTERYActivated = false;
+                }
+            }
+
+            base.Update();
         }
 
         public override void DoEffect(PlayerController player)
@@ -118,6 +168,12 @@ namespace LOLItems.active_items
             // GetFloorPriceMod works instead of explicitly stating it like GetFloorDamageScale
             float currentCloudburstDamage = CloudburstBaseDamage * HelpfulMethods.GetFloorPriceMod();
             CloudburstProjectile.baseData.damage = currentCloudburstDamage * player.stats.GetStatValue(PlayerStats.StatType.Damage);
+
+            if (player.HasSynergy(Synergy.GALEFORCE_FOUR))
+            {
+                CloudburstProjectile.baseData.damage *= 2.5f;
+            }
+
             CloudburstProjectile.baseData.force = 5f;
             CloudburstProjectile.baseData.speed = 20f;
 
@@ -150,12 +206,21 @@ namespace LOLItems.active_items
             // set up explosion data
             ExplosionData explosion = CloudburstProjectile.GetComponent<ExplosiveModifier>().explosionData = new ExplosionData();
             explosion.doDamage = true;
-            explosion.damage = 0.1f;
+            explosion.damage = 10f;
             explosion.doForce = false;
 
             // dash in last input player direction
             Vector2 angle = player.m_lastNonzeroCommandedDirection.normalized;
             //float angle = player.CurrentGun.CurrentAngle;
+
+            player.healthHaver.TriggerInvulnerabilityPeriod(duration);
+
+            Material mat = SpriteOutlineManager.GetOutlineMaterial(player.sprite);
+            player.FallingProhibited = true;
+            if (mat)
+            {
+                mat.SetColor("_OverrideColor", new Color(102f * 0.3f, 255f * 0.3f, 255f * 0.3f));
+            }
             
             //for duration of dash, set player velocity to dash speed and angle to last input angle
             while (elapsed < duration)
@@ -164,6 +229,12 @@ namespace LOLItems.active_items
                 player.specRigidbody.Velocity = angle * adjSpeed;
                 //this.LastOwner.specRigidbody.Velocity = BraveMathCollege.DegreesToVector(angle).normalized * adjSpeed;
                 yield return null;
+            }
+                
+            player.FallingProhibited = false;
+            if (mat)
+            {
+                mat.SetColor("_OverrideColor", new Color(0f, 0f, 0f));
             }
 
             // make the projectiles spawn in a spread pattern

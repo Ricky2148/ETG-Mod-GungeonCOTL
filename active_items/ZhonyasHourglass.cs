@@ -1,12 +1,13 @@
-﻿using System;
+﻿using Alexandria;
+using Alexandria.ItemAPI;
+using Alexandria.Misc;
+using LOLItems.custom_class_data;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Alexandria.ItemAPI;
 using UnityEngine;
-using Alexandria;
-using LOLItems.custom_class_data;
-using Alexandria.Misc;
+using static UnityEngine.UI.GridLayoutGroup;
 
 //add vfx and sfx during revive duration
 
@@ -14,17 +15,24 @@ namespace LOLItems
 {
     internal class ZhonyasHourglass : PlayerItem
     {
+        public static string ItemName = "Zhonya's Hourglass";
+
         // stats pool for item
+        private static float DamageStat = 1.05f;
         private static float ArmorStat = 2.0f;
         private bool hasGainedArmor = false;
         private static float StasisDuration = 2.5f;
         private static float StasisCooldown = 120f;
 
+        public bool CHAOSCONTROLActivated = false;
+        private static float CHAOSCONTROLStasisCooldown = 100f;
+        public bool SEVENSECONDSREMAINActivated = false;
+
         public static int ID;
 
         public static void Init()
         {
-            string itemName = "Zhonya's Hourglass";
+            string itemName = ItemName;
             string resourceName = "LOLItems/Resources/active_item_sprites/zhonyas_hourglass_pixelart_sprite_small";
 
             GameObject obj = new GameObject(itemName);
@@ -34,12 +42,16 @@ namespace LOLItems
             ItemBuilder.AddSpriteToObject(itemName, resourceName, obj);
 
             string shortDesc = "Borrowed Time";
-            string longDesc = "A sand stopwatch that allows the user to suspend their life for a few moments. " +
+            string longDesc = "Slightly increase damage\nEnter stasis, where you're invulnerable but also can't do anything for a duration, then activates a blank.\n\n" +
+                "A sand stopwatch that allows the user to suspend their life for a few moments. " +
                 "It's believed that a pharaoh used it to reminisce his last moments during his empire's fall.\n";
 
             ItemBuilder.SetupItem(item, shortDesc, longDesc, "LOLItems");
             ItemBuilder.SetCooldownType(item, ItemBuilder.CooldownType.Timed, StasisCooldown);
             item.consumable = false;
+
+            ItemBuilder.AddPassiveStatModifier(item, PlayerStats.StatType.AdditionalItemCapacity, 1);
+            ItemBuilder.AddPassiveStatModifier(item, PlayerStats.StatType.Damage, DamageStat, StatModifier.ModifyMethod.MULTIPLICATIVE);
 
             item.usableDuringDodgeRoll = true;
             item.quality = PickupObject.ItemQuality.A;
@@ -63,6 +75,29 @@ namespace LOLItems
             return base.Drop(player);
         }
 
+        public override void Update()
+        {
+            if (LastOwner != null)
+            {
+                if (LastOwner.HasSynergy(Synergy.CHAOS_CONTROL) && !CHAOSCONTROLActivated)
+                {
+                    timeCooldown -= CHAOSCONTROLStasisCooldown;
+                    CurrentTimeCooldown -= CHAOSCONTROLStasisCooldown;
+
+                    CHAOSCONTROLActivated = true;
+                }
+                else if (!LastOwner.HasSynergy(Synergy.CHAOS_CONTROL) && CHAOSCONTROLActivated)
+                {
+                    timeCooldown += CHAOSCONTROLStasisCooldown;
+                    CurrentTimeCooldown += CHAOSCONTROLStasisCooldown;
+
+                    CHAOSCONTROLActivated = false;
+                }
+            }
+
+            base.Update();
+        }
+
         public override void DoEffect(PlayerController player)
         {
             player.StartCoroutine(StasisCoroutine(player));
@@ -72,7 +107,9 @@ namespace LOLItems
         private System.Collections.IEnumerator StasisCoroutine(PlayerController player)
         {
             player.healthHaver.TriggerInvulnerabilityPeriod(StasisDuration + 0.1f);
-            player.CurrentInputState = PlayerInputState.NoInput;
+
+            if (!player.HasSynergy(Synergy.SEVEN_SECONDS_REMAIN)) player.CurrentInputState = PlayerInputState.NoInput;
+            
             player.healthHaver.PreventAllDamage = true;
 
             Color originalPlayerColor = player.sprite.color;
@@ -124,7 +161,8 @@ namespace LOLItems
             //player.spriteAnimator.OverrideTimeScale = 1f;
 
             player.ForceBlank();
-            player.CurrentInputState = PlayerInputState.AllInput;
+
+            if (!player.HasSynergy(Synergy.SEVEN_SECONDS_REMAIN)) player.CurrentInputState = PlayerInputState.AllInput;
 
             AkSoundEngine.PostEvent("zhonyas_hourglass_ending_SFX", GameManager.Instance.gameObject);
             
