@@ -31,7 +31,7 @@ namespace LOLItems
     {
         public const string GUID = "Ricky2148.etg.LOLItems";
         public const string NAME = "League of legends Items";
-        public const string VERSION = "2.1.0";
+        public const string VERSION = "3.0.0";
         public const string TEXT_COLOR = "#F1C232";
 
         internal static Harmony _Harmony;
@@ -62,8 +62,8 @@ namespace LOLItems
             }
             */
 
-            Whisper.Add();
-
+            //Whisper.Add();
+            #region Items
             BladeOfTheRuinedKing.Init();
             ExperimentalHexplate.Init();
             GuardianAngel.Init();
@@ -93,26 +93,10 @@ namespace LOLItems
 
             //testing
             //CarefreeMelody.Init();
-            debugItem.Init();
+            //debugItem.Init();
 
             //guon stones
             BraumsShield.Init();
-
-            //weapons
-            //BasicGun.Add();
-            //TemplateGun.Add();
-            PowPow.Add();
-            PowPowAltForm.Add();
-            HextechRifle.Add();
-            ElectricRifle.Add();
-            PrayerBeads.Add();
-            //Whisper.Add();
-            Crossblade.Add();
-            VirtueForm1.Add();
-            VirtueForm2.Add();
-            VirtueForm3.Add();
-            SoulSpear.Add();
-
 
             //new items
             ShieldOfMoltenStone.Init();
@@ -128,10 +112,26 @@ namespace LOLItems
             TearOfTheGoddess.Init();
 
             //next update items
-            DetonationOrb.Init();
+            //DetonationOrb.Init();
             RefillablePotion.Init();
             TalismanOfAscension.Init();
             SilverBolts.Init();
+            #endregion
+
+            //weapons
+            //BasicGun.Add();
+            //TemplateGun.Add();
+            PowPow.Add();
+            PowPowAltForm.Add();
+            HextechRifle.Add();
+            ElectricRifle.Add();
+            PrayerBeads.Add();
+            Whisper.Add();
+            Crossblade.Add();
+            VirtueForm1.Add();
+            VirtueForm2.Add();
+            VirtueForm3.Add();
+            SoulSpear.Add();
 
             #region NPCs
             Bubbs.Init();

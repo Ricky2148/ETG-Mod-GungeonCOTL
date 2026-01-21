@@ -1,3 +1,5 @@
+# SYNERGIES FINALLY ADDED!
+
 # What it does:
 Adds various different items from ***League of Legends*** into Enter the Gungeon!
 ### [Google Form](https://forms.gle/ZyhbQFk5ms17oPHt8)
@@ -185,6 +187,12 @@ Shadowflame (A):
 Sheen (D):
 - Effect: The first bullet of player's clip will deal an additional 10 damage.
 
+Silver Bolts(C):
+- Effect: Deal 5 + 15% max health damage every 3rd bullet
+- Synergies:
+	+ Extra Silver [Silver Bullets]: +10% max health damage
+	+ The Night Hunter [Crossbow]: deal damage every 2nd bullet
+
 ![](https://i.ibb.co/yn60RZtt/statikk-shiv-pixelart-sprite.png)
 Statikk Shiv (A):
 - Stats: 1.2x DMG, 1.1x ROF
@@ -233,6 +241,9 @@ Galeforce (A):
 Redemption (A):
 - Stats: 1 Heart
 - Effect: Activate to call down a circle of healing that heals players for half a heart and damages enemies for 10% max health damage. Goes on a 10 room cooldown.
+- Synergies:
+	+ Enlightened Bullets [Silver Bullets]: +15% damage buff
+	+ Terror to the Gundead [Mourning Star]: Halved cooldown
 
 ![](https://i.ibb.co/8g7bBtLt/refillable-potion.png)
 Refillable Potion (C):
@@ -244,7 +255,9 @@ Refillable Potion (C):
 ![](https://i.ibb.co/ZR5sZTJ5/stridebreaker-pixelart-sprite-small.png)
 Stridebreaker (A):
 - Stats: 1.1x DMG, 1.1x ROF, 1 Heart
-- Effect: Activate to damage all enemies for 10 dmg in a radius around the player. Damage scales with player's damage modifiers. Hit enemies are slowed by 30% for 3s. Goes on a 15s cooldown.
+- Effect: Activate to damage all enemies for 10 dmg in a radius around the player. Damage scales with player's damage modifiers. Hit enemies are slowed by 70% for 3s. Goes on a 15s cooldown.
+- Synergies:
+	+ Demacian Traitor [Betrayer's Shield]: doubled damage and increased slow duration
 
 ![](https://i.ibb.co/XrYKDrXv/Talismanof-Ascension9.png)
 Talisman of Ascension (A):
@@ -264,6 +277,9 @@ Perfectly Timed Stopwatch (D):
 Zhonya's Hourglass (A):
 - Stats: 2 Armor
 - Effect: Activate to enter a stasis for 2.5s. During stasis, you are invulnerable, cannot move, and cannot fire your weapon. After the stasis, activate a blank. Goes on a 120s cooldown.
+- Synergies:
+	+ Chaos Control [Chaos Ammolet & Chaos Bullets]: Cooldown decreased to 20s
+	+ Seven seconds remain... [Super Hot Watch]: Can move and attack in stasis
 
 ## Guon Stones:
 ![](https://i.ibb.co/mC12Bb8q/braumshield-icon-001.png)
@@ -276,28 +292,31 @@ Crossblade (C):
 - Stats: Fire rate: 0.6s, 10 dmg, 250 ammo
 - Fires boomerangs that chain to other nearby enemies on hit. Boomerang deals 40% damage after 1st enemy hit and bounce 8 times.
 - Synergy:
-	+ Bouncemaxxing [Bouncy Bullets, Boomerang]: boomerangs bounce 3 more times.
+	+ Bouncemaxxing [Bouncy Bullets/Boomerang]: boomerangs bounce 3 more times.
 
 ![](https://i.ibb.co/ZzY5mZgJ/shock-SMG-idle-001.png)
 Zaunite Rifle (B):
 - Stats: Fire rate: 0.67s, 3.5 dmg, 7 bullets per burst, 1000 ammo, reload: 1.0s
 - Fires a burst of 7 bullets per shot.
 - Synergies:
-	+ Passive Charge [Battery Bullets, Shock Rounds, Thunderclap, Shock Rifle, Laser Lotus]: regains 2 ammo per second while not in use.
+	+ Passive Charge [Battery Bullets/Shock Rifle]: regains 2 ammo per second while not in use.
 
 ![](https://i.ibb.co/bgGzMTHr/hextech-idle-001.png)
 Hextech Rifle (C):
 - Stats: Fire rate: 0.8s, 20 dmg, 3 pierce, 120 ammo, reload: 1.6s
 - Fires fast traveling piercing sniper shots. The last bullet of the clip headshots for 2.5x damage.
-- Synergy: "Me, miss? Not by a long shot." [Scope, Laser Sight]: headshots deal double damage.
+- Synergies: 
+	+ "Me, miss? Not by a long shot." [Scope/Laser Sight]: headshots deal double damage.
 
 ![](https://i.ibb.co/GfkvPyTg/powpow-idle-001.png)/
 ![](https://i.ibb.co/BK7c9K6h/fishbones-idle-001.png)
 Pow-Pow/Fishbones (B):
-- Stats: Fire rate: 0.3s, 6 dmg, 450 ammo
+- Stats: Fire rate: 0.3s, 6 dmg, 600 ammo
 - Firing Pow-Pow gains a stack of Rev'd up. Each stack increases your fire rate by 10%. At max stacks of 20, fires 3x faster. Stacks start falling off when not firing.
 - Fishbones fires a small rocket that deals double damage but fires 25% slower and consumes 3 ammo per shot.
 - Pressing reload swaps between Pow-Pow and Fishbones. Using Fishbones will consider Pow-Pow not in use and Rev'd up stacks will begin falling off.
+- Synergies:
+	+ Runaan's Bullets [Scattershot]: Pow-Pow/Fishbones's split projectiles still deal full damage.
 
 ![](https://i.ibb.co/6c0C70F5/prayerbeads-idle-001.png)
 Aion Er'na (B):
@@ -308,8 +327,10 @@ Aion Er'na (B):
 Soul Spear (A):
 - Stats: Fire rate: 0.6s, 12 dmg, 254 ammo
 - Fires spears that lodge themselves in the enemy
-- Pressing reload will damage targets with spears lodged in their body. Damage = ((# of spears) + 1) * original projectile damage * 0.4
+- Pressing reload will damage targets with spears lodged in their body. Damage = ((# of spears)) * original projectile damage * 0.4
 - When attacking, does an invincible dash in the direction player is inputting. If player is not inputting a direction, does not perform dash.
+- Synergies:
+	+ Three-Pronged Spears [Trident/Pitchfork]: doubled spear recall damage
 
 ![](https://i.ibb.co/wFM4hVj4/virtue-form1-idle-001.png)
 Virtue [Form 1] (C):

@@ -91,8 +91,8 @@ namespace LOLItems
                         {
                             HeartOfIceObject = item.GetComponent<SpawnProjectileOnDamagedItem>();
 
-                            Plugin.Log($"minNumToSpawn: {HeartOfIceObject.minNumToSpawn}");
-                            Plugin.Log($"maxNumToSpawn: {HeartOfIceObject.maxNumToSpawn}");
+                            //Plugin.Log($"minNumToSpawn: {HeartOfIceObject.minNumToSpawn}");
+                            //Plugin.Log($"maxNumToSpawn: {HeartOfIceObject.maxNumToSpawn}");
 
                             HeartOfIceObject.minNumToSpawn *= ICECOLDTHORNSHeartOfIceNumToSpawnMultiplier;
                             HeartOfIceObject.maxNumToSpawn *= ICECOLDTHORNSHeartOfIceNumToSpawnMultiplier;
@@ -105,8 +105,8 @@ namespace LOLItems
                 {
                     if (HeartOfIceObject != null)
                     {
-                        Plugin.Log($"minNumToSpawn: {HeartOfIceObject.minNumToSpawn}");
-                        Plugin.Log($"maxNumToSpawn: {HeartOfIceObject.maxNumToSpawn}");
+                        //Plugin.Log($"minNumToSpawn: {HeartOfIceObject.minNumToSpawn}");
+                        //Plugin.Log($"maxNumToSpawn: {HeartOfIceObject.maxNumToSpawn}");
 
                         HeartOfIceObject.minNumToSpawn /= ICECOLDTHORNSHeartOfIceNumToSpawnMultiplier;
                         HeartOfIceObject.maxNumToSpawn /= ICECOLDTHORNSHeartOfIceNumToSpawnMultiplier;
@@ -120,7 +120,7 @@ namespace LOLItems
                     ThornsDamage += THORNMAELSTROMThornsDamageInc;
                     ThornsRadius += THORNMAELSTROMThornsRadiusInc;
 
-                    Plugin.Log($"dmg: {ThornsDamage}, rad: {ThornsRadius}");
+                    //Plugin.Log($"dmg: {ThornsDamage}, rad: {ThornsRadius}");
 
                     THORNMAELSTROMActivated = true;
                 }
@@ -129,7 +129,7 @@ namespace LOLItems
                     ThornsDamage -= THORNMAELSTROMThornsDamageInc;
                     ThornsRadius -= THORNMAELSTROMThornsRadiusInc;
 
-                    Plugin.Log($"dmg: {ThornsDamage}, rad: {ThornsRadius}");
+                    //Plugin.Log($"dmg: {ThornsDamage}, rad: {ThornsRadius}");
 
                     THORNMAELSTROMActivated = false;
                 }
@@ -138,7 +138,7 @@ namespace LOLItems
                 {
                     ThornsDamage += OWSPLINTERThornsDamageInc;
 
-                    Plugin.Log($"dmg: {ThornsDamage}, rad: {ThornsRadius}");
+                    //Plugin.Log($"dmg: {ThornsDamage}, rad: {ThornsRadius}");
 
                     OWSPLINTERActivated = true;
                 }
@@ -146,7 +146,7 @@ namespace LOLItems
                 {
                     ThornsDamage -= OWSPLINTERThornsDamageInc;
 
-                    Plugin.Log($"dmg: {ThornsDamage}, rad: {ThornsRadius}");
+                    //Plugin.Log($"dmg: {ThornsDamage}, rad: {ThornsRadius}");
 
                     OWSPLINTERActivated = false;
                 }

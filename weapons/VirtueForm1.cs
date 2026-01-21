@@ -279,7 +279,7 @@ namespace LOLItems.weapons
         {
             currentOwner.OnAnyEnemyReceivedDamage -= KillEnemyCount;
 
-            Plugin.Log($"dropped up {realName}");
+            Plugin.Log($"dropped {realName}");
 
             base.OnDropped();
         }

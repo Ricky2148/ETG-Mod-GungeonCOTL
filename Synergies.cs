@@ -140,6 +140,11 @@ namespace LOLItems
             NewSynergy(LOLItems.Synergy.HELLS_SHADOWS, "Hell's Shadows", new[] { IName(Shadowflame.ItemName) }, new[] { "pitchfork", "demon_head" });
             NewSynergy(LOLItems.Synergy.SOLAR_FLAME, "Solar Flame", new[] { IName(Shadowflame.ItemName), "sunlight_javelin" });
 
+            //Silver Bolts
+            NewSynergy(LOLItems.Synergy.EXTRA_SILVER, "Extra Silver", new[] { IName(SilverBolts.ItemName), "silver_bullets" });
+            NewSynergy(LOLItems.Synergy.THE_NIGHT_HUNTER, "The Night Hunter", new[] { IName(SilverBolts.ItemName), "crossbow" });
+
+
             //Statikk Shiv
             NewSynergy(LOLItems.Synergy.STATIKK_ELECTRICITY, "statikk electricity", new[] { IName(StatikkShiv.ItemName) }, new[] { "thunderclap", "laser_lotus" });
             NewSynergy(LOLItems.Synergy.MO_LIGHTNING, "Mo' Lightning!", new[] { IName(StatikkShiv.ItemName), "shock_rounds" });
@@ -167,17 +172,29 @@ namespace LOLItems
             NewSynergy(LOLItems.Synergy.GALEFORCE_FOUR, "FOUR!", new[] { IName(Galeforce.ItemName), Whisper.internalName });
             NewSynergy(LOLItems.Synergy.BOW_MASTERY, "Bow Mastery", new[] { IName(Galeforce.ItemName) }, new[] { "bow", "charmed_bow", "gunbow" });
 
-            //Perfectly Timed Stopwatch
-            NewSynergy(LOLItems.Synergy.BUILDS_INTO_ZHONYAS_HOURGLASS, "builds into Zhonya's Hourglass", new[] { IName(PerfectlyTimedStopwatch.ItemName), IName(ZhonyasHourglass.ItemName) });
+            //Redemption
+            NewSynergy(LOLItems.Synergy.ENLIGHTENED_BULLETS, "Enlightened Bullets", new[] { IName(Redemption.ItemName), "silver_bullets" });
+            NewSynergy(LOLItems.Synergy.TERROR_TO_THE_GUNDEAD, "Terror to the Gundead", new[] { IName(Redemption.ItemName), "mourning_star" });
 
             //Refillable Potion
             NewSynergy(LOLItems.Synergy.BUNCH_O_POTIONS, "BunchO Potions", new[] { IName(RefillablePotion.ItemName), "old_knights_flask" });
             NewSynergy(LOLItems.Synergy.COCKTAIL_POTION, "Cocktail Potion", new[] { IName(RefillablePotion.ItemName) }, new[] { "potion_of_lead_skin", "potion_of_gun_friendship" });
 
-            
+            //Stridebreaker
+            NewSynergy(LOLItems.Synergy.DEMACIAN_TRAITOR, "Demacian Traitor", new[] { IName(Stridebreaker.ItemName), "betrayers_shield" });
+
+            //Perfectly Timed Stopwatch
+            NewSynergy(LOLItems.Synergy.BUILDS_INTO_ZHONYAS_HOURGLASS, "builds into Zhonya's Hourglass", new[] { IName(PerfectlyTimedStopwatch.ItemName), IName(ZhonyasHourglass.ItemName) });
+
+            //Zhonya's Hourglass
+            NewSynergy(LOLItems.Synergy.CHAOS_CONTROL, "CHAOS CONTROL!", new[] { IName(ZhonyasHourglass.ItemName), "chaos_bullets", "chaos_bullets" });
+            NewSynergy(LOLItems.Synergy.SEVEN_SECONDS_REMAIN, "Seven seconds remain...", new[] { IName(ZhonyasHourglass.ItemName), "super_hot_watch" });
+
+
+
             //WEAPONS ====================================================================================================================================================================================================================================================
-            
-            
+
+
             //Crossblade
             NewSynergy(LOLItems.Synergy.BOUNCEMAXXING, "Bouncemaxxing", new[] { Crossblade.internalName }, new[] { "bouncy_bullets", "boomerang" });
             
@@ -187,6 +204,12 @@ namespace LOLItems
 
             //Hextech Rifle
             NewSynergy(LOLItems.Synergy.ME_MISS_NOT_BY_A_LONG_SHOT, "\"Me, miss? Not by a long shot.\"", new[] { HextechRifle.internalName }, new[] { "scope", "laser_sight" });
+
+            //Pow-Pow/Fishbones
+            NewSynergy(LOLItems.Synergy.RUNAANS_BULLETS, "Runaan's Bullets", new[] { PowPow.internalName, "scattershot" });
+
+            //Soul Spear
+            NewSynergy(LOLItems.Synergy.THREE_PRONGED_SPEARS, "Three-pronged spears", new[] { SoulSpear.internalName }, new[] { "trident", "pitchfork" });
 
             //Virtue
             NewSynergy(LOLItems.Synergy.EXP_SHARE_FORM_1, "EXP. Share", new[] { VirtueForm1.internalName }, new[] { "macho_brace", "scouter", "life_orb" });
@@ -344,6 +367,15 @@ namespace LOLItems
         ABSOLUTE_CONVERGENCE,
         FLAME_OVER_ICE,
         ICE_OVER_FLAME,
+        ENLIGHTENED_BULLETS,
+        TERROR_TO_THE_GUNDEAD,
+        DEMACIAN_TRAITOR,
+        CHAOS_CONTROL,
+        SEVEN_SECONDS_REMAIN,
+        THREE_PRONGED_SPEARS,
+        RUNAANS_BULLETS,
+        EXTRA_SILVER,
+        THE_NIGHT_HUNTER,
 
     };
 }

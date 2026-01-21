@@ -65,6 +65,11 @@ namespace LOLItems
 
         private GameObject activeVFXObject;
 
+        public bool DEMACIANTRAITORActivated = false;
+        private static float DEMACIANTRAITORShockwaveDamageMultiplier = 2f;
+        private static float DEMACIANTRAITORslowPercent = 0.05f;
+        private static float DEMACIANTRAITORslowDuration = 8f;
+
         public static int ID;
 
         public static void Init()
@@ -130,6 +135,26 @@ namespace LOLItems
             player.stats.RecalculateStatsWithoutRebuildingGunVolleys(player);
             
             return base.Drop(player);
+        }
+
+        public override void Update()
+        {
+            if (LastOwner.HasSynergy(Synergy.DEMACIAN_TRAITOR) && !DEMACIANTRAITORActivated)
+            {
+                slowEffect.duration = DEMACIANTRAITORslowDuration;
+                //slowEffect.SpeedMultiplier = DEMACIANTRAITORslowPercent;
+
+                DEMACIANTRAITORActivated = true;
+            }
+            else if (!LastOwner.HasSynergy(Synergy.DEMACIAN_TRAITOR) && DEMACIANTRAITORActivated)
+            {
+                slowEffect.duration = slowDuration;
+                //slowEffect.SpeedMultiplier = slowPercent;
+
+                DEMACIANTRAITORActivated = false;
+            }
+
+            base.Update();
         }
 
         /*
@@ -217,6 +242,11 @@ namespace LOLItems
             }
 
             float ShockwaveDamage = ShockwaveBaseDamage * player.stats.GetStatValue(PlayerStats.StatType.Damage);
+
+            if (player.HasSynergy(Synergy.DEMACIAN_TRAITOR))
+            {
+                ShockwaveDamage *= DEMACIANTRAITORShockwaveDamageMultiplier;
+            }
 
             // checks for all enemies in the room that are in range, applies damage, slow effect, and plays sound
             List<AIActor> enemyList = player.CurrentRoom.GetActiveEnemies(RoomHandler.ActiveEnemyType.All);

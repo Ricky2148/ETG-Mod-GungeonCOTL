@@ -1,5 +1,6 @@
 ﻿using Alexandria;
 using Alexandria.ItemAPI;
+using Alexandria.VisualAPI;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -26,6 +27,52 @@ namespace LOLItems.passive_items
 
         private Dictionary<AIActor, Coroutine> enemyTheBombCoroutine = new Dictionary<AIActor, Coroutine>();
 
+        private static List<string> IdleVFXSpritePath = new List<string>
+        {
+            "LOLItems/Resources/vfxs/detOrb_effect/detOrb_effect_idle_001",
+            "LOLItems/Resources/vfxs/detOrb_effect/detOrb_effect_idle_002",
+            "LOLItems/Resources/vfxs/detOrb_effect/detOrb_effect_idle_003",
+            "LOLItems/Resources/vfxs/detOrb_effect/detOrb_effect_idle_004",
+            "LOLItems/Resources/vfxs/detOrb_effect/detOrb_effect_idle_005",
+            "LOLItems/Resources/vfxs/detOrb_effect/detOrb_effect_idle_006",
+            "LOLItems/Resources/vfxs/detOrb_effect/detOrb_effect_idle_007",
+            "LOLItems/Resources/vfxs/detOrb_effect/detOrb_effect_idle_008",
+            "LOLItems/Resources/vfxs/detOrb_effect/detOrb_effect_idle_009",
+            "LOLItems/Resources/vfxs/detOrb_effect/detOrb_effect_idle_010",
+            "LOLItems/Resources/vfxs/detOrb_effect/detOrb_effect_idle_011",
+            "LOLItems/Resources/vfxs/detOrb_effect/detOrb_effect_idle_012",
+            "LOLItems/Resources/vfxs/detOrb_effect/detOrb_effect_idle_013",
+            "LOLItems/Resources/vfxs/detOrb_effect/detOrb_effect_idle_014",
+            "LOLItems/Resources/vfxs/detOrb_effect/detOrb_effect_idle_015",
+            "LOLItems/Resources/vfxs/detOrb_effect/detOrb_effect_idle_016",
+            "LOLItems/Resources/vfxs/detOrb_effect/detOrb_effect_idle_017",
+            "LOLItems/Resources/vfxs/detOrb_effect/detOrb_effect_idle_018",
+            "LOLItems/Resources/vfxs/detOrb_effect/detOrb_effect_idle_019",
+            "LOLItems/Resources/vfxs/detOrb_effect/detOrb_effect_idle_020",
+        };
+
+        private static GameObject IdleEffectVFX;
+
+        private static List<string> ExplodeVFXSpritePath = new List<string>
+        {
+            "LOLItems/Resources/vfxs/detOrb_effect/detOrb_effect_explode_001",
+            "LOLItems/Resources/vfxs/detOrb_effect/detOrb_effect_explode_002",
+            "LOLItems/Resources/vfxs/detOrb_effect/detOrb_effect_explode_003",
+            "LOLItems/Resources/vfxs/detOrb_effect/detOrb_effect_explode_004",
+            "LOLItems/Resources/vfxs/detOrb_effect/detOrb_effect_explode_005",
+            "LOLItems/Resources/vfxs/detOrb_effect/detOrb_effect_explode_006",
+            "LOLItems/Resources/vfxs/detOrb_effect/detOrb_effect_explode_007",
+            "LOLItems/Resources/vfxs/detOrb_effect/detOrb_effect_explode_008",
+            "LOLItems/Resources/vfxs/detOrb_effect/detOrb_effect_explode_009",
+            "LOLItems/Resources/vfxs/detOrb_effect/detOrb_effect_explode_010",
+            "LOLItems/Resources/vfxs/detOrb_effect/detOrb_effect_explode_011",
+            "LOLItems/Resources/vfxs/detOrb_effect/detOrb_effect_explode_012",
+        };
+
+        private static GameObject ExplodeEffectVFX;
+
+        private Dictionary<AIActor, GameObject> activeVFXObjectList = new Dictionary<AIActor, GameObject>();
+
         public static int ID;
 
         public static void Init()
@@ -45,6 +92,36 @@ namespace LOLItems.passive_items
             ItemBuilder.SetupItem(item, shortDesc, longDesc, "LOLItems");
 
             ItemBuilder.AddPassiveStatModifier(item, PlayerStats.StatType.Damage, DamageStat, StatModifier.ModifyMethod.MULTIPLICATIVE);
+
+            IdleEffectVFX = VFXBuilder.CreateVFX
+            (
+                "the_bomb_idle_vfx",
+                IdleVFXSpritePath,
+                10,
+                new IntVector2(0, 0),
+                tk2dBaseSprite.Anchor.MiddleCenter,
+                false,
+                0,
+                -1,
+                Color.cyan,
+                tk2dSpriteAnimationClip.WrapMode.Loop,
+                true
+            );
+
+            ExplodeEffectVFX = VFXBuilder.CreateVFX
+            (
+                "the_bomb_explode_vfx",
+                IdleVFXSpritePath,
+                10,
+                new IntVector2(0, 0),
+                tk2dBaseSprite.Anchor.MiddleCenter,
+                false,
+                0,
+                -1,
+                Color.cyan,
+                tk2dSpriteAnimationClip.WrapMode.Loop,
+                true
+            );
 
             item.quality = PickupObject.ItemQuality.A;
             ID = item.PickupObjectId;

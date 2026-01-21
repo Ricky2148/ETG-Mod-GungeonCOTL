@@ -617,7 +617,7 @@ namespace LOLItems.weapons
 
             //StopFlight();
 
-            Plugin.Log($"dropped up {realName}");
+            Plugin.Log($"dropped {realName}");
 
             base.OnDropped();
         }

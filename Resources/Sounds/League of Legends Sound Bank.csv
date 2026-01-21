@@ -112,3 +112,7 @@ Play_WPN_virtue6_impact_01, 0, 1, sound, 0
 Health_Potion_active_SFX, 0, 1, sound, 0
 chrTrg_gainMp_SFX, 5, 1, sound, 0
 chrTrg_gainHp_SFX, 5, 1, sound, 0
+silverbolts_sfx_001, 10, 1, sound, 0
+silverbolts_sfx_002, 10, 1, sound, 0
+silverbolts_sfx_003, 10, 1, sound, 0
+silverbolts_sfx_004, 10, 1, sound, 0

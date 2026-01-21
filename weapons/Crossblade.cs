@@ -314,6 +314,8 @@ namespace LOLItems.weapons
                     BOUNCEMAXXINGActivated = false;
                 }
             }
+
+            base.Update();
         }
 
         public override void PostProcessProjectile(Projectile projectile)

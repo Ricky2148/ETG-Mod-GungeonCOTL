@@ -226,7 +226,7 @@ namespace LOLItems
                         DamageCategory.Normal,
                         false
                     );
-                    Plugin.Log($"damage dealt: {damageToDeal}");
+                    //Plugin.Log($"damage dealt: {damageToDeal}");
                 }
                 bringItDownCount = 0;
             }

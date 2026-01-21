@@ -83,7 +83,7 @@ namespace LOLItems
             base.Pickup(player);
             Plugin.Log($"Player picked up {this.EncounterNameOrDisplayName}");
 
-            Plugin.Log($"{EternityActivated}");
+            //Plugin.Log($"{EternityActivated}");
 
             // Start the Timeless buff coroutine
             TimelessStackTrackerCoroutine = StartCoroutine(TimelessStackingTracker(player));
@@ -95,7 +95,7 @@ namespace LOLItems
             Plugin.Log($"Player dropped or got rid of {this.EncounterNameOrDisplayName}");
             // Stop all coroutines when the item is dropped
 
-            Plugin.Log($"{EternityActivated}");
+            //Plugin.Log($"{EternityActivated}");
 
             if (player != null)
             {

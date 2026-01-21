@@ -1,12 +1,13 @@
-﻿using System;
+﻿using Alexandria;
+using Alexandria.ItemAPI;
+using Alexandria.Misc;
+using LOLItems.custom_class_data;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Alexandria.ItemAPI;
 using UnityEngine;
-using Alexandria;
-using LOLItems.custom_class_data;
-using Alexandria.Misc;
+using static UnityEngine.UI.GridLayoutGroup;
 
 //add vfx and sfx during revive duration
 
@@ -22,6 +23,10 @@ namespace LOLItems
         private bool hasGainedArmor = false;
         private static float StasisDuration = 2.5f;
         private static float StasisCooldown = 120f;
+
+        public bool CHAOSCONTROLActivated = false;
+        private static float CHAOSCONTROLStasisCooldown = 100f;
+        public bool SEVENSECONDSREMAINActivated = false;
 
         public static int ID;
 
@@ -70,6 +75,29 @@ namespace LOLItems
             return base.Drop(player);
         }
 
+        public override void Update()
+        {
+            if (LastOwner != null)
+            {
+                if (LastOwner.HasSynergy(Synergy.CHAOS_CONTROL) && !CHAOSCONTROLActivated)
+                {
+                    timeCooldown -= CHAOSCONTROLStasisCooldown;
+                    CurrentTimeCooldown -= CHAOSCONTROLStasisCooldown;
+
+                    CHAOSCONTROLActivated = true;
+                }
+                else if (!LastOwner.HasSynergy(Synergy.CHAOS_CONTROL) && CHAOSCONTROLActivated)
+                {
+                    timeCooldown += CHAOSCONTROLStasisCooldown;
+                    CurrentTimeCooldown += CHAOSCONTROLStasisCooldown;
+
+                    CHAOSCONTROLActivated = false;
+                }
+            }
+
+            base.Update();
+        }
+
         public override void DoEffect(PlayerController player)
         {
             player.StartCoroutine(StasisCoroutine(player));
@@ -79,7 +107,9 @@ namespace LOLItems
         private System.Collections.IEnumerator StasisCoroutine(PlayerController player)
         {
             player.healthHaver.TriggerInvulnerabilityPeriod(StasisDuration + 0.1f);
-            player.CurrentInputState = PlayerInputState.NoInput;
+
+            if (!player.HasSynergy(Synergy.SEVEN_SECONDS_REMAIN)) player.CurrentInputState = PlayerInputState.NoInput;
+            
             player.healthHaver.PreventAllDamage = true;
 
             Color originalPlayerColor = player.sprite.color;
@@ -131,7 +161,8 @@ namespace LOLItems
             //player.spriteAnimator.OverrideTimeScale = 1f;
 
             player.ForceBlank();
-            player.CurrentInputState = PlayerInputState.AllInput;
+
+            if (!player.HasSynergy(Synergy.SEVEN_SECONDS_REMAIN)) player.CurrentInputState = PlayerInputState.AllInput;
 
             AkSoundEngine.PostEvent("zhonyas_hourglass_ending_SFX", GameManager.Instance.gameObject);
             

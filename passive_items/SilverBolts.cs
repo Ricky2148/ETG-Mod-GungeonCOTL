@@ -23,9 +23,10 @@ namespace LOLItems.passive_items
 
         private static List<string> sfxList = new List<string>
         {
-            "kraken_slayer_passive_SFX_1",
-            "kraken_slayer_passive_SFX_2",
-            "kraken_slayer_passive_SFX_3"
+            "silverbolts_sfx_001",
+            "silverbolts_sfx_002",
+            "silverbolts_sfx_003",
+            "silverbolts_sfx_004",
         };
 
         private static List<string> VFXSpritePath = new List<string>
@@ -46,6 +47,10 @@ namespace LOLItems.passive_items
 
         public static Vector3 vfxOffset = new Vector3(0 / 16f, 2 / 16f, 0);
 
+        public bool EXTRASILVERActivated = false;
+        private static float EXTRASILVERsilverBoltsPercentHealthDamageInc = 0.10f;
+        public bool THENIGHTHUNTERActivated = false;
+
         public static int ID;
 
         public static void Init()
@@ -59,8 +64,10 @@ namespace LOLItems.passive_items
 
             ItemBuilder.AddSpriteToObject(itemName, resourceName, obj);
 
-            string shortDesc = "idk";
-            string longDesc = "idk";
+            string shortDesc = "\"Purge with silver.\"";
+            string longDesc = "Every 3rd bullet deals additional max health damage.\n\n" +
+                "Crossbow bolts tipped with baptized silver. Despite their small size, these bolts are said to purge demons back into hell. " +
+                "Thankfully the hell enemies are condemned to is different from Bullet Hell.\n";
 
             ItemBuilder.SetupItem(item, shortDesc, longDesc, "LOLItems");
 
@@ -125,7 +132,7 @@ namespace LOLItems.passive_items
             Plugin.Log($"Player picked up {this.EncounterNameOrDisplayName}");
 
             player.PostProcessProjectile += OnPostProcessProjectile;
-            player.PostProcessBeamTick += OnPostProcessProjectile;
+            //player.PostProcessBeamTick += OnPostProcessProjectile;
         }
 
         public override void DisableEffect(PlayerController player)
@@ -136,11 +143,41 @@ namespace LOLItems.passive_items
             if (player != null)
             {
                 player.PostProcessProjectile -= OnPostProcessProjectile;
-                player.PostProcessBeamTick -= OnPostProcessProjectile;
+                //player.PostProcessBeamTick -= OnPostProcessProjectile;
             }
         }
 
-        private void OnPostProcessProjectile(BeamController beam, SpeculativeRigidbody hitRigidbody, float tickrate)
+        public override void Update()
+        {
+            if (Owner != null)
+            {
+                if (Owner.HasSynergy(Synergy.EXTRA_SILVER) && !EXTRASILVERActivated)
+                {
+                    silverBoltsPercentHealthDamage += EXTRASILVERsilverBoltsPercentHealthDamageInc;
+
+                    EXTRASILVERActivated = true;
+                }
+                else if (!Owner.HasSynergy(Synergy.EXTRA_SILVER) && EXTRASILVERActivated)
+                {
+                    silverBoltsPercentHealthDamage -= EXTRASILVERsilverBoltsPercentHealthDamageInc;
+                    
+                    EXTRASILVERActivated = false;
+                }
+
+                if (Owner.HasSynergy(Synergy.THE_NIGHT_HUNTER) && !THENIGHTHUNTERActivated)
+                {
+                    THENIGHTHUNTERActivated = true;
+                }
+                else if (!Owner.HasSynergy(Synergy.THE_NIGHT_HUNTER) && THENIGHTHUNTERActivated)
+                {
+                    THENIGHTHUNTERActivated = false;
+                }
+            }
+
+            base.Update();
+        }
+
+        /*private void OnPostProcessProjectile(BeamController beam, SpeculativeRigidbody hitRigidbody, float tickrate)
         {
             float randomVal = UnityEngine.Random.value;
             if (randomVal <= 0.04f)
@@ -210,7 +247,7 @@ namespace LOLItems.passive_items
                     }
                 }
             }
-            /*if (silverBoltsCount >= 3)
+            if (silverBoltsCount >= 3)
             {
                 if (beam.sprite != null)
                 {
@@ -252,11 +289,11 @@ namespace LOLItems.passive_items
                     Plugin.Log($"damage dealt: {damageToDeal}");
                 }
                 silverBoltsCount = 0;
-            }*/
-        }
+            }
+        }*/
 
         // TESTING TESTING TESTING TESTING TESTING TESTING TESTING TESTING TESTING TESTING TESTING TESTING TESTING TESTING TESTING TESTING 
-        private static GameActorSpeedEffect slowEffect = new GameActorSpeedEffect
+        /*private static GameActorSpeedEffect slowEffect = new GameActorSpeedEffect
         {
             duration = 100f,
             effectIdentifier = "botrk_slow",
@@ -264,7 +301,8 @@ namespace LOLItems.passive_items
             AppliesOutlineTint = true,
             OutlineTintColor = Color.cyan,
             SpeedMultiplier = 0f,
-        };
+        };*/
+
         private void OnPostProcessProjectile(Projectile proj, float f)
         {
             if (proj.Shooter == proj.Owner.specRigidbody)
@@ -338,8 +376,14 @@ namespace LOLItems.passive_items
 
                         // TESTING TESTING TESTING TESTING TESTING TESTING TESTING TESTING TESTING TESTING TESTING TESTING TESTING TESTING TESTING TESTING TESTING TESTING TESTING TESTING 
                         //targetEnemy.ApplyEffect(slowEffect);
-
-                        silverBoltsCount++;
+                        if (THENIGHTHUNTERActivated)
+                        {
+                            silverBoltsCount += 2;
+                        }
+                        else
+                        {
+                            silverBoltsCount++;
+                        }
 
                         switch (silverBoltsCount)
                         {
@@ -357,7 +401,7 @@ namespace LOLItems.passive_items
                                     sprite.UpdateZDepth();
 
                                     sprite.scale *= Mathf.Max(1f, 1f + ((targetEnemy.specRigidbody.UnitDimensions.x - 1f) / 2f));
-                                    Plugin.Log($"UnitDimensions.x: {targetEnemy.specRigidbody.UnitDimensions.x}, scale mult: {sprite.scale}");
+                                    //Plugin.Log($"UnitDimensions.x: {targetEnemy.specRigidbody.UnitDimensions.x}, scale mult: {sprite.scale}");
                                 }
 
                                 activeVFXObject.GetComponent<VFXAnchorModule>().anchorAIActor = targetEnemy;
@@ -392,7 +436,7 @@ namespace LOLItems.passive_items
                                     sprite.UpdateZDepth();
 
                                     sprite.scale *= Mathf.Max(1f, 1f + ((targetEnemy.specRigidbody.UnitDimensions.x - 1f) / 2f));
-                                    Plugin.Log($"UnitDimensions.x: {targetEnemy.specRigidbody.UnitDimensions.x}, scale mult: {sprite.scale}");
+                                    //Plugin.Log($"UnitDimensions.x: {targetEnemy.specRigidbody.UnitDimensions.x}, scale mult: {sprite.scale}");
                                 }
 
                                 activeVFXObject.GetComponent<VFXAnchorModule>().anchorAIActor = targetEnemy;
@@ -409,9 +453,9 @@ namespace LOLItems.passive_items
                                 activeVFXObject = gameObject;*/
 
                                 break;
-                            case 3:
+                            case >= 3:
                                 //Plugin.Log($"{silverBoltsCount}");
-                                HelpfulMethods.PlayRandomSFX(this.gameObject, sfxList);
+                                HelpfulMethods.PlayRandomSFX(targetEnemy.gameObject, sfxList);
                                 float damageToDeal = (enemy.healthHaver.GetMaxHealth() * silverBoltsPercentHealthDamage) + silverBoltsBaseDamage;
                                 // damage is 1/4 against bosses and sub-bosses
                                 if (enemy.healthHaver.IsBoss || enemy.healthHaver.IsSubboss)

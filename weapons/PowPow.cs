@@ -25,7 +25,7 @@ namespace LOLItems.weapons
 
         private static float rampUpIncCap = 5f;
         private static float rampUpIncPerSecond = 0.5f;
-        private static int ammoStat = 450;
+        private static int ammoStat = 600;
         private static float reloadDuration = 1.6f;
         private static float fireRateStat = 0.3f;
         private static int spreadAngle = 8;
@@ -56,6 +56,9 @@ namespace LOLItems.weapons
         };
 
         private static int firingAnimationFPS = 10;
+
+        public bool RUNAANSBULLETSActivated = false;
+        private static float RUNAANSBULLETSDamageStat = 1.82f;
 
         private bool isFishbones = false;
 
@@ -427,6 +430,30 @@ namespace LOLItems.weapons
             ID = gun.PickupObjectId; //Sets the Gun ID. 
             ItemBuilder.AddCurrentGunStatModifier(gun, PlayerStats.StatType.RateOfFire, 1.0f, StatModifier.ModifyMethod.MULTIPLICATIVE);
         }
+
+        protected override void Update()
+        {
+            if (Player != null)
+            {
+                if (Player.HasSynergy(Synergy.RUNAANS_BULLETS) && !RUNAANSBULLETSActivated)
+                {
+                    ItemBuilder.AddCurrentGunStatModifier(gun, PlayerStats.StatType.Damage, RUNAANSBULLETSDamageStat, StatModifier.ModifyMethod.MULTIPLICATIVE);
+                    Player.stats.RecalculateStatsWithoutRebuildingGunVolleys(Player);
+
+                    RUNAANSBULLETSActivated = true;
+                }
+                else if (!Player.HasSynergy(Synergy.RUNAANS_BULLETS) && RUNAANSBULLETSActivated)
+                {
+                    ItemBuilder.RemoveCurrentGunStatModifier(gun, PlayerStats.StatType.Damage);
+                    Player.stats.RecalculateStatsWithoutRebuildingGunVolleys(Player);
+
+                    RUNAANSBULLETSActivated = false;
+                }
+            }
+
+            base.Update();
+        }
+
         /*
         public override void OnInitializedWithOwner(GameActor actor)
         {

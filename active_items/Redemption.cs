@@ -1,7 +1,9 @@
 ﻿using Alexandria;
 using Alexandria.ItemAPI;
+using Alexandria.Misc;
 using Alexandria.VisualAPI;
 using Dungeonator;
+using Steamworks;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -100,6 +102,11 @@ namespace LOLItems
         private static GameObject ReticleVFX;
 
         private GameObject activeVFXObject;
+
+        public bool ENLIGHTENEDBULLETSActivated = false;
+        private static float ENLIGHTENEDBULLETSDamageStat = 1.15f;
+        public bool TERRORTOTHEGUNDEADActivated = false;
+        private static int TERRORTOTHEGUNDEADInterventionPerRoomCooldown = 5;
 
         public static int ID;
 
@@ -268,6 +275,44 @@ namespace LOLItems
             Plugin.Log($"Player dropped or got rid of {this.EncounterNameOrDisplayName}");
 
             return base.Drop(player);
+        }
+
+        public override void Update()
+        {
+            if (LastOwner != null)
+            {
+                if (LastOwner.HasSynergy(Synergy.ENLIGHTENED_BULLETS) && !ENLIGHTENEDBULLETSActivated)
+                {
+                    ItemBuilder.AddPassiveStatModifier(this, PlayerStats.StatType.Damage, ENLIGHTENEDBULLETSDamageStat, StatModifier.ModifyMethod.MULTIPLICATIVE);
+                    LastOwner.stats.RecalculateStatsWithoutRebuildingGunVolleys(LastOwner);
+
+                    ENLIGHTENEDBULLETSActivated = true;
+                }
+                else if (!LastOwner.HasSynergy(Synergy.ENLIGHTENED_BULLETS) && ENLIGHTENEDBULLETSActivated)
+                {
+                    ItemBuilder.RemovePassiveStatModifier(this, PlayerStats.StatType.Damage);
+                    LastOwner.stats.RecalculateStatsWithoutRebuildingGunVolleys(LastOwner);
+
+                    ENLIGHTENEDBULLETSActivated = false;
+                }
+
+                if (LastOwner.HasSynergy(Synergy.TERROR_TO_THE_GUNDEAD) && !TERRORTOTHEGUNDEADActivated)
+                {
+                    roomCooldown -= TERRORTOTHEGUNDEADInterventionPerRoomCooldown;
+                    CurrentRoomCooldown -= TERRORTOTHEGUNDEADInterventionPerRoomCooldown;
+
+                    TERRORTOTHEGUNDEADActivated = true;
+                }
+                else if (!LastOwner.HasSynergy(Synergy.TERROR_TO_THE_GUNDEAD) && TERRORTOTHEGUNDEADActivated)
+                {
+                    roomCooldown += TERRORTOTHEGUNDEADInterventionPerRoomCooldown;
+                    CurrentRoomCooldown += TERRORTOTHEGUNDEADInterventionPerRoomCooldown;
+
+                    TERRORTOTHEGUNDEADActivated = false;
+                }
+            }
+
+            base.Update();
         }
 
         /*public override void DoEffect(PlayerController player)

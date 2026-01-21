@@ -77,6 +77,9 @@ namespace LOLItems.weapons
             "rend5",
         };
 
+        public bool THREEPRONGEDSPEARSActivated = false;
+        private static float THREEPRONGEDSPEARSrendScaleInc = 0.4f;
+
         public static void Add()
         {
             string FULLNAME = "Soul Spear";
@@ -273,6 +276,27 @@ namespace LOLItems.weapons
             }
         }
 
+        protected override void Update()
+        {
+            if (Owner != null)
+            {
+                if (Player.HasSynergy(Synergy.THREE_PRONGED_SPEARS) && !THREEPRONGEDSPEARSActivated)
+                {
+                    rendScale += THREEPRONGEDSPEARSrendScaleInc;
+
+                    THREEPRONGEDSPEARSActivated = true;
+                }
+                else if (!Player.HasSynergy(Synergy.THREE_PRONGED_SPEARS) && THREEPRONGEDSPEARSActivated)
+                {
+                    rendScale -= THREEPRONGEDSPEARSrendScaleInc;
+
+                    THREEPRONGEDSPEARSActivated = false;
+                }
+            }
+
+            base.Update();
+        }
+
         public override void OnPostFired(PlayerController player, Gun gun)
         {
             HelpfulMethods.PlayRandomSFX(gun.gameObject, normalFiringSFXList);
@@ -411,7 +435,7 @@ namespace LOLItems.weapons
 
             foreach (KeyValuePair<AIActor, List<GameObject>> target in activeVFXObjectList)
             {
-                float damageToDeal = (target.Value.Count + 1) * rendDamagePerStack;
+                float damageToDeal = (target.Value.Count /* + 1 */) * rendDamagePerStack;
                 //Plugin.Log($"rend stacks: {target.Value.Count}, damage dealt: {damageToDeal}");
 
                 if (target.Key.healthHaver != null && target.Key.gameObject != null)

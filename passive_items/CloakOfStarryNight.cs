@@ -126,7 +126,7 @@ namespace LOLItems.passive_items
                         if (item.PickupObjectId == ShieldOfMoltenStone.ID && item != null)
                         {
                             item.GetComponent<ShieldOfMoltenStone>().setProcChance(synergyProcChance);
-                            Plugin.Log($"Cloak: {procChance}, Shield: {item.GetComponent<ShieldOfMoltenStone>().procChance}");
+                            //Plugin.Log($"Cloak: {procChance}, Shield: {item.GetComponent<ShieldOfMoltenStone>().procChance}");
                         }
                     }
 
@@ -140,7 +140,7 @@ namespace LOLItems.passive_items
                         if (item.PickupObjectId == ShieldOfMoltenStone.ID && item != null)
                         {
                             item.GetComponent<ShieldOfMoltenStone>().setProcChance(preDamageProcChance);
-                            Plugin.Log($"Cloak: {procChance}, Shield: {item.GetComponent<ShieldOfMoltenStone>().procChance}");
+                            //Plugin.Log($"Cloak: {procChance}, Shield: {item.GetComponent<ShieldOfMoltenStone>().procChance}");
                         }
                     }
 

@@ -234,7 +234,7 @@ namespace LOLItems
         // updates the immolate stats based on the player's current health
         private void UpdateImmolateStats(float oldHealth, float newHealth)
         {
-            Plugin.Log($"updated immolate stats: {newHealth}");
+            //Plugin.Log($"updated immolate stats: {newHealth}");
             this.DamagePerSecond = (newHealth) * ImmolateDamagePerHeart;
             this.AuraRadius = ImmolateBaseRadius + (newHealth) * ImmolateRadiusPerHeart;
             this.Update();

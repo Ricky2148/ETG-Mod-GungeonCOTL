@@ -134,8 +134,7 @@ namespace LOLItems
                                 CurrentManaflowKillCount = item.GetComponent<TearOfTheGoddess>().CurrentManaflowKillCount * (1f / 2f);
                                 ItemBuilder.AddPassiveStatModifier(this, PlayerStats.StatType.AdditionalClipCapacityMultiplier, 1f + ManaflowIncrementValue * ManaflowStackCount, StatModifier.ModifyMethod.MULTIPLICATIVE);
                                 ItemBuilder.AddPassiveStatModifier(this, PlayerStats.StatType.AmmoCapacityMultiplier, 1f + ManaflowIncrementValue * ManaflowStackCount, StatModifier.ModifyMethod.MULTIPLICATIVE);
-                                Plugin.Log($"tear: {item.GetComponent<TearOfTheGoddess>().ManaflowStackCount}, {item.GetComponent<TearOfTheGoddess>().CurrentManaflowKillCount}" +
-                                    $"\nmanamune: {ManaflowStackCount}, {CurrentManaflowKillCount}");
+                                //Plugin.Log($"tear: {item.GetComponent<TearOfTheGoddess>().ManaflowStackCount}, {item.GetComponent<TearOfTheGoddess>().CurrentManaflowKillCount}" nmanamune: {ManaflowStackCount}, {CurrentManaflowKillCount}");
 
                                 LootEngine.SpawnCurrency(Owner.specRigidbody.UnitCenter, item.PurchasePrice);
                             }
