@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace LOLItems.custom_class_data
+namespace GungeonCOTL.custom_class_data
 {
     public class RicochetProjectileModule : BraveBehaviour
     {

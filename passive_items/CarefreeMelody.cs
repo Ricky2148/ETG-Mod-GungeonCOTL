@@ -9,7 +9,7 @@ using UnityEngine;
 
 //uses custom class data to roll a chance to prevent damage when the player is hit
 
-namespace LOLItems
+namespace GungeonCOTL.passive_items
 {
     internal class CarefreeMelody : OnPreDamagedPassiveItem
     {
@@ -40,7 +40,7 @@ namespace LOLItems
 
             item.procChance = preDamageProcChance;
             item.triggersInvulnerability = true;
-            item.invulnerabilityDuration = 1f;
+            item.effectDuration = 1f;
             item.playsSFX = true;
             string[] sfxList = { "carefree_melody_SFX" };
             item.updateSFXList(sfxList);

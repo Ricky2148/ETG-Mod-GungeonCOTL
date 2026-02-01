@@ -6,7 +6,7 @@ using System;
 using System.Collections;
 using UnityEngine;
 
-namespace LOLItems
+namespace GungeonCOTL.weapons
 {
     internal class BasicGun : GunBehaviour
     {

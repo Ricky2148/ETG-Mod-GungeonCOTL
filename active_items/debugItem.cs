@@ -3,10 +3,6 @@ using Alexandria.ItemAPI;
 using Alexandria.Misc;
 using Alexandria.VisualAPI;
 using Dungeonator;
-using LOLItems.custom_class_data;
-using LOLItems.guon_stones;
-using LOLItems.passive_items;
-using LOLItems.weapons;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -15,7 +11,7 @@ using System.Reflection;
 using System.Text;
 using UnityEngine;
 
-namespace LOLItems
+namespace GungeonCOTL.active_items
 {
     internal class debugItem : PlayerItem
     {

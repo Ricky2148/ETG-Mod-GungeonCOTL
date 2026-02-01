@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 
-namespace LOLItems.custom_class_data
+namespace GungeonCOTL.custom_class_data
 {
     public class TrueWallPiercingRounds : MonoBehaviour
     {

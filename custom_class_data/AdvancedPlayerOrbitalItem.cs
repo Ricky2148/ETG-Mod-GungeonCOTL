@@ -6,7 +6,7 @@ using Alexandria;
 using Alexandria.ItemAPI;
 using UnityEngine;
 
-namespace LOLItems
+namespace GungeonCOTL.custom_class_data
 {
     internal class AdvancedPlayerOrbitalItem : PassiveItem
     {

@@ -6,7 +6,7 @@ using UnityEngine;
 using Alexandria.Misc;
 using Alexandria.ItemAPI;
 
-namespace LOLItems
+namespace GungeonCOTL.custom_class_data
 {
     public class EasyTrailBullet : BraveBehaviour
     {

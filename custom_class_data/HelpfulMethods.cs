@@ -8,7 +8,7 @@ using System.Text;
 using UnityEngine;
 using static GlobalSparksDoer;
 
-namespace LOLItems
+namespace GungeonCOTL.custom_class_data
 {
     public static class HelpfulMethods
     {

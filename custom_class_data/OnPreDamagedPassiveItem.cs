@@ -1,7 +1,7 @@
 ﻿// Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
 // AutoblankVestItem
 using Alexandria.Misc;
-using LOLItems;
+using GungeonCOTL.custom_class_data;
 using System;
 using System.Collections.Generic;
 using UnityEngine;

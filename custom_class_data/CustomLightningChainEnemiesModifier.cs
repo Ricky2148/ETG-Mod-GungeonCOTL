@@ -1,7 +1,7 @@
 ﻿// Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
 // ChainLightningModifier
 using HutongGames.PlayMaker.Actions;
-using LOLItems;
+using GungeonCOTL.custom_class_data;
 using System;
 using System.Collections;
 using System.Collections.Generic;
