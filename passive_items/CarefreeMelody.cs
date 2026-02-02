@@ -20,7 +20,7 @@ namespace GungeonCOTL.passive_items
         public static void Init()
         {
             string itemName = "Carefree Melody";
-            string resourceName = "LOLItems/Resources/carefree_melody_sprite";
+            string resourceName = "GungeonCOTL/Resources/passive_item_sprites/carefree_melody_sprite";
 
             GameObject obj = new GameObject(itemName);
 
@@ -31,7 +31,7 @@ namespace GungeonCOTL.passive_items
             string shortDesc = "rnjesus";
             string longDesc = "Contains a song of protection that may defend the bearer from damage.";
 
-            ItemBuilder.SetupItem(item, shortDesc, longDesc, "LOLItems");
+            ItemBuilder.SetupItem(item, shortDesc, longDesc, Plugin.ITEM_PREFIX);
 
             //ItemBuilder.AddPassiveStatModifier(item, PlayerStats.StatType.Health, HealthStat, StatModifier.ModifyMethod.ADDITIVE);
             //item.ArmorToGainOnInitialPickup = ArmorStat;
@@ -41,9 +41,9 @@ namespace GungeonCOTL.passive_items
             item.procChance = preDamageProcChance;
             item.triggersInvulnerability = true;
             item.effectDuration = 1f;
-            item.playsSFX = true;
-            string[] sfxList = { "carefree_melody_SFX" };
-            item.updateSFXList(sfxList);
+            item.playsSFX = false;
+            string[] sfxList = null;
+            //item.updateSFXList(sfxList);
             ID = item.PickupObjectId;
         }
 

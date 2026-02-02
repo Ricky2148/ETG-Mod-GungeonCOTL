@@ -26,6 +26,7 @@ namespace GungeonCOTL
     [BepInPlugin(GUID, NAME, VERSION)]
     public class Plugin : BaseUnityPlugin
     {
+        public const string ITEM_PREFIX = "GungeonCOTL";
         public const string GUID = "Ricky2148.etg.GungeonCOTL";
         public const string NAME = "Gungeon Cult of the Lamb";
         public const string VERSION = "1.0.0";
@@ -46,6 +47,9 @@ namespace GungeonCOTL
             _Harmony = new Harmony(GUID);
 
             CarefreeMelody.Init();
+            RedCrown.Init();
+            CrownUpgradeResurrection.Init();
+            CrownUpgradeDarknessWithin.Init();
 
             Log($"{NAME} v{VERSION} started successfully.", TEXT_COLOR);
         }

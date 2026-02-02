@@ -73,6 +73,9 @@
     <Compile Include="custom_class_data\CustomLightningChainEnemiesModifier.cs" />
     <Compile Include="custom_class_data\HelpfulMethods.cs" />
     <Compile Include="passive_items\CarefreeMelody.cs" />
+    <Compile Include="passive_items\CrownUpgradeDarknessWithin.cs" />
+    <Compile Include="passive_items\CrownUpgradeResurrection.cs" />
+    <Compile Include="passive_items\RedCrown.cs" />
     <Compile Include="Plugin.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="weapons\BasicGun.cs" />
@@ -677,6 +680,10 @@
     <Content Include="packages\Newtonsoft.Json.13.0.1\lib\netstandard2.0\Newtonsoft.Json.dll" />
     <Content Include="packages\Newtonsoft.Json.13.0.1\lib\netstandard2.0\Newtonsoft.Json.xml" />
     <Content Include="packages\Newtonsoft.Json.13.0.1\packageIcon.png" />
+    <EmbeddedResource Include="Resources\passive_item_sprites\carefree_melody_sprite.png" />
+    <EmbeddedResource Include="Resources\passive_item_sprites\red_crown_pixelart_sprite.png" />
+    <EmbeddedResource Include="Resources\passive_item_sprites\darkness_within_placeholder_sprite.png" />
+    <EmbeddedResource Include="Resources\passive_item_sprites\resurrection_placeholder_sprite.png" />
     <Content Include="Resources\Sounds\gen-gungeon-audio-bank.py" />
   </ItemGroup>
   <ItemGroup>
@@ -686,7 +693,6 @@
     <Folder Include="Resources\guon_sprites\" />
     <Folder Include="Resources\npc_sprites\shopkeeper\" />
     <Folder Include="Resources\one_off_sprites\" />
-    <Folder Include="Resources\passive_item_sprites\" />
     <Folder Include="Resources\weapon_sprites\Ammonomicon Encounter Icon Collection\" />
     <Folder Include="Resources\weapon_sprites\CustomGunAmmoTypes\" />
     <Folder Include="Resources\weapon_sprites\ProjectileCollection\" />
