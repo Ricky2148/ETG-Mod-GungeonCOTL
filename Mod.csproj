@@ -60,6 +60,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="active_items\debugItem.cs" />
+    <Compile Include="active_items\AscendGunRitual.cs" />
+    <Compile Include="active_items\FeastingRitual.cs" />
+    <Compile Include="active_items\SacrificeOfTheGun.cs" />
     <Compile Include="custom_class_data\AdvancedPlayerOrbitalItem.cs" />
     <Compile Include="custom_class_data\CustomLightningChainEnemiesModifierAOE.cs" />
     <Compile Include="custom_class_data\Databases.cs" />
@@ -75,9 +78,16 @@
     <Compile Include="passive_items\CarefreeMelody.cs" />
     <Compile Include="passive_items\CrownUpgradeDarknessWithin.cs" />
     <Compile Include="passive_items\CrownUpgradeResurrection.cs" />
+    <Compile Include="passive_items\DoctrineOfMaterialism.cs" />
+    <Compile Include="passive_items\DoctrineOfSin.cs" />
+    <Compile Include="passive_items\HeartOfTheFaithful2.cs" />
+    <Compile Include="passive_items\HeartOfTheFaithful1.cs" />
+    <Compile Include="passive_items\MightOfTheDevout.cs" />
     <Compile Include="passive_items\RedCrown.cs" />
+    <Compile Include="passive_items\RitualOfEnrichment.cs" />
     <Compile Include="Plugin.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Synergies.cs" />
     <Compile Include="weapons\BasicGun.cs" />
   </ItemGroup>
   <ItemGroup>

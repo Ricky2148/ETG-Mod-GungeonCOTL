@@ -45,6 +45,7 @@ namespace GungeonCOTL.passive_items
             string[] sfxList = null;
             //item.updateSFXList(sfxList);
             ID = item.PickupObjectId;
+            //Plugin.Log($"ID: {ID}, pickupID: {item.PickupObjectId}");
         }
 
         public override void Pickup(PlayerController player)

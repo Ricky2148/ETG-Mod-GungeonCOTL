@@ -2,6 +2,7 @@
 using Alexandria.ItemAPI;
 using Alexandria.SoundAPI;
 using BepInEx;
+using GungeonCOTL.active_items;
 using GungeonCOTL.passive_items;
 using HarmonyLib;
 using Mono.Cecil.Cil;
@@ -30,7 +31,7 @@ namespace GungeonCOTL
         public const string GUID = "Ricky2148.etg.GungeonCOTL";
         public const string NAME = "Gungeon Cult of the Lamb";
         public const string VERSION = "1.0.0";
-        public const string TEXT_COLOR = "#F1C232";
+        public const string TEXT_COLOR = "#690709";
 
         internal static Harmony _Harmony;
 
@@ -46,10 +47,32 @@ namespace GungeonCOTL
 
             _Harmony = new Harmony(GUID);
 
-            CarefreeMelody.Init();
-            RedCrown.Init();
+            //Crown upgrades
             CrownUpgradeResurrection.Init();
             CrownUpgradeDarknessWithin.Init();
+            
+            //Rituals
+            AscendGunRitual.Init();
+            SacrificeOfTheGun.Init();
+            FeastingRitual.Init();
+            RitualOfEnrichment.Init();
+
+            //Doctrines
+            DoctrineOfMaterialism.Init();
+            DoctrineOfSin.Init();
+
+            //Sermon Upgrades
+            HeartOfTheFaithful1.Init();
+            HeartOfTheFaithful2.Init();
+            MightOfTheDevout.Init();
+
+            CarefreeMelody.Init();
+            
+            // always initialized last
+            debugItem.Init();
+            RedCrown.Init();
+
+            GungeonCOTLSynergies.Init();
 
             Log($"{NAME} v{VERSION} started successfully.", TEXT_COLOR);
         }

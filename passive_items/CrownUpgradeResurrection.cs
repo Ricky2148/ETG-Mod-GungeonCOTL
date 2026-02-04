@@ -39,6 +39,7 @@ namespace GungeonCOTL.passive_items
             item.quality = PickupObject.ItemQuality.SPECIAL;
             item.SetName("Resurrection");
             ID = item.PickupObjectId;
+            //Plugin.Log($"ID: {ID}, pickupID: {item.PickupObjectId}");
         }
 
         public override void Pickup(PlayerController player)
