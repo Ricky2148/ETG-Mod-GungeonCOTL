@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace GungeonCOTL.passive_items
 {
-    internal class HeartOfTheFaithful1 : PassiveItem
+    internal class HeartOfTheFaithful1 : TieredPassiveItem
     {
         public static string ItemName = "Heart of the Faithful I";
 
@@ -35,6 +35,10 @@ namespace GungeonCOTL.passive_items
             ItemBuilder.AddPassiveStatModifier(item, PlayerStats.StatType.Health, HealthStat, StatModifier.ModifyMethod.ADDITIVE);
 
             item.quality = PickupObject.ItemQuality.SPECIAL;
+
+            item.itemTier = 1;
+            item.TierGroupIdentifier = "heart_of_the_faithful_tiered_item";
+
             ID = item.PickupObjectId;
         }
 

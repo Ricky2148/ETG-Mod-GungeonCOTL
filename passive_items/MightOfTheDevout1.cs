@@ -1,5 +1,4 @@
 ﻿using Alexandria.ItemAPI;
-using GungeonCOTL.active_items;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,14 +7,14 @@ using UnityEngine;
 
 namespace GungeonCOTL.passive_items
 {
-    internal class HeartOfTheFaithful2 : TieredPassiveItem
+    internal class MightOfTheDevout1 : TieredPassiveItem
     {
-        public static string ItemName = "Heart of the Faithful II";
+        public static string ItemName = "Might of the Devout I";
 
-        private static float HealthStat = 2f;
+        private static float DamageStat = 1.1f;
 
         public static int ID;
-        public static bool isHeartOfTheFaithful = true;
+        public static bool isMightOfTheDevout = true;
 
         public static void Init()
         {
@@ -24,7 +23,7 @@ namespace GungeonCOTL.passive_items
 
             GameObject obj = new GameObject(itemName);
 
-            var item = obj.AddComponent<HeartOfTheFaithful2>();
+            var item = obj.AddComponent<MightOfTheDevout1>();
 
             ItemBuilder.AddSpriteToObject(itemName, resourceName, obj);
 
@@ -33,12 +32,12 @@ namespace GungeonCOTL.passive_items
 
             ItemBuilder.SetupItem(item, shortDesc, longDesc, Plugin.ITEM_PREFIX);
 
-            ItemBuilder.AddPassiveStatModifier(item, PlayerStats.StatType.Health, HealthStat, StatModifier.ModifyMethod.ADDITIVE);
+            ItemBuilder.AddPassiveStatModifier(item, PlayerStats.StatType.Damage, DamageStat, StatModifier.ModifyMethod.MULTIPLICATIVE);
 
             item.quality = PickupObject.ItemQuality.SPECIAL;
 
-            item.itemTier = 2;
-            item.TierGroupIdentifier = "heart_of_the_faithful_tiered_item";
+            item.itemTier = 1;
+            item.TierGroupIdentifier = "might_of_the_devout_tiered_item";
 
             ID = item.PickupObjectId;
         }
@@ -53,20 +52,6 @@ namespace GungeonCOTL.passive_items
         {
             base.DisableEffect(player);
             Plugin.Log($"Player dropped or got rid of {this.EncounterNameOrDisplayName}");
-        }
-
-        public override void Update()
-        {
-            if (Owner != null)
-            {
-                if (Owner.HasSynergy(Synergy.HEARTOFTHEFAITHFUL_TWO))
-                {
-                    //Plugin.Log($"synergy event");
-                    Owner.RemovePassiveItem(HeartOfTheFaithful1.ID);
-                }
-            }
-
-            base.Update();
         }
     }
 }

@@ -7,13 +7,14 @@ using UnityEngine;
 
 namespace GungeonCOTL.passive_items
 {
-    internal class MightOfTheDevout : PassiveItem
+    internal class MightOfTheDevout5 : TieredPassiveItem
     {
-        public static string ItemName = "Might of the Devout";
+        public static string ItemName = "Might of the Devout V";
 
-        private static float DamageStat = 1.1f;
+        private static float DamageStat = 1.3f;
 
         public static int ID;
+        public static bool isMightOfTheDevout = true;
 
         public static void Init()
         {
@@ -22,7 +23,7 @@ namespace GungeonCOTL.passive_items
 
             GameObject obj = new GameObject(itemName);
 
-            var item = obj.AddComponent<HeartOfTheFaithful1>();
+            var item = obj.AddComponent<MightOfTheDevout5>();
 
             ItemBuilder.AddSpriteToObject(itemName, resourceName, obj);
 
@@ -34,6 +35,10 @@ namespace GungeonCOTL.passive_items
             ItemBuilder.AddPassiveStatModifier(item, PlayerStats.StatType.Damage, DamageStat, StatModifier.ModifyMethod.MULTIPLICATIVE);
 
             item.quality = PickupObject.ItemQuality.SPECIAL;
+
+            item.itemTier = 5;
+            item.TierGroupIdentifier = "might_of_the_devout_tiered_item";
+
             ID = item.PickupObjectId;
         }
 
@@ -47,6 +52,23 @@ namespace GungeonCOTL.passive_items
         {
             base.DisableEffect(player);
             Plugin.Log($"Player dropped or got rid of {this.EncounterNameOrDisplayName}");
+        }
+
+        public override void Update()
+        {
+            if (Owner != null)
+            {
+                if (Owner.HasSynergy(Synergy.MIGHTOFTHEDEVOUT_FIVE))
+                {
+                    //Plugin.Log($"synergy event");
+                    Owner.RemovePassiveItem(MightOfTheDevout1.ID);
+                    Owner.RemovePassiveItem(MightOfTheDevout2.ID);
+                    Owner.RemovePassiveItem(MightOfTheDevout3.ID);
+                    Owner.RemovePassiveItem(MightOfTheDevout4.ID);
+                }
+            }
+
+            base.Update();
         }
     }
 }

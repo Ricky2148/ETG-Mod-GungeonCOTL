@@ -64,7 +64,12 @@ namespace GungeonCOTL
             //Sermon Upgrades
             HeartOfTheFaithful1.Init();
             HeartOfTheFaithful2.Init();
-            MightOfTheDevout.Init();
+            MightOfTheDevout1.Init();
+            MightOfTheDevout2.Init();
+            MightOfTheDevout3.Init();
+            MightOfTheDevout4.Init();
+            MightOfTheDevout5.Init();
+            MightOfTheDevout6.Init();
 
             CarefreeMelody.Init();
             

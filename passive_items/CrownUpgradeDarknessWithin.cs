@@ -6,6 +6,8 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 
+//vfx concept: like a dark wave that goes outwards (can be pretty big, ideally with some kind of dark black and grey vine theming)
+
 namespace GungeonCOTL.passive_items
 {
     internal class CrownUpgradeDarknessWithin : OnDamagedPassiveItem

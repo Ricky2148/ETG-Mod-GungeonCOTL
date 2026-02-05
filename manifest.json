@@ -1,7 +1,7 @@
 ﻿{
   "name": "GungeonCOTL",
   "version_number": "1.0.0",
-  "website_url": "https://github.com/Ricky2148/ETG-Mod-League-of-Legends-Items",
+  "website_url": "https://github.com/Ricky2148/ETG-Mod-GungeonCOTL",
   "description": "addsd stuffs",
   "dependencies": [
     "MtG_API-Mod_the_Gungeon_API-1.9.2",

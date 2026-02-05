@@ -71,6 +71,7 @@
     <Compile Include="custom_class_data\LootTableTools.cs" />
     <Compile Include="custom_class_data\OnPreDamagedPassiveItem.cs" />
     <Compile Include="custom_class_data\RicochetProjectileModule.cs" />
+    <Compile Include="custom_class_data\TieredPassiveItem.cs" />
     <Compile Include="custom_class_data\TrueWallPiercingRounds.cs" />
     <Compile Include="custom_class_data\VFXAnchorModule.cs" />
     <Compile Include="custom_class_data\CustomLightningChainEnemiesModifier.cs" />
@@ -82,7 +83,12 @@
     <Compile Include="passive_items\DoctrineOfSin.cs" />
     <Compile Include="passive_items\HeartOfTheFaithful2.cs" />
     <Compile Include="passive_items\HeartOfTheFaithful1.cs" />
-    <Compile Include="passive_items\MightOfTheDevout.cs" />
+    <Compile Include="passive_items\MightOfTheDevout3.cs" />
+    <Compile Include="passive_items\MightOfTheDevout4.cs" />
+    <Compile Include="passive_items\MightOfTheDevout6.cs" />
+    <Compile Include="passive_items\MightOfTheDevout5.cs" />
+    <Compile Include="passive_items\MightOfTheDevout2.cs" />
+    <Compile Include="passive_items\MightOfTheDevout1.cs" />
     <Compile Include="passive_items\RedCrown.cs" />
     <Compile Include="passive_items\RitualOfEnrichment.cs" />
     <Compile Include="Plugin.cs" />
@@ -358,7 +364,6 @@
     <Content Include=".gitattributes" />
     <Content Include=".gitignore" />
     <Content Include="icon.ico" />
-    <Content Include="LOLItemsModIcon.png" />
     <Content Include="packages\BepInEx.BaseLib.5.4.21\images\icon.png" />
     <Content Include="packages\BepInEx.BaseLib.5.4.21\lib\net35\BepInEx.dll" />
     <Content Include="packages\BepInEx.BaseLib.5.4.21\lib\netstandard2.0\BepInEx.dll" />

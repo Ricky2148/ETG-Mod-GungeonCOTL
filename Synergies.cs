@@ -42,6 +42,11 @@ namespace GungeonCOTL
 
             NewSynergy(GungeonCOTL.Synergy.HEARTOFTHEFAITHFUL_TWO, "Heart of the Faithful II", new[] { IName(HeartOfTheFaithful1.ItemName), IName(HeartOfTheFaithful2.ItemName) });
 
+            NewSynergy(GungeonCOTL.Synergy.MIGHTOFTHEDEVOUT_TWO, "Might of the Devout II", new[] { IName(MightOfTheDevout1.ItemName), IName(MightOfTheDevout2.ItemName) });
+            NewSynergy(GungeonCOTL.Synergy.MIGHTOFTHEDEVOUT_THREE, "Might of the Devout III", new[] { IName(MightOfTheDevout2.ItemName), IName(MightOfTheDevout3.ItemName) });
+            NewSynergy(GungeonCOTL.Synergy.MIGHTOFTHEDEVOUT_FOUR, "Might of the Devout IV", new[] { IName(MightOfTheDevout3.ItemName), IName(MightOfTheDevout4.ItemName) });
+            NewSynergy(GungeonCOTL.Synergy.MIGHTOFTHEDEVOUT_FIVE, "Might of the Devout V", new[] { IName(MightOfTheDevout4.ItemName), IName(MightOfTheDevout5.ItemName) });
+            NewSynergy(GungeonCOTL.Synergy.MIGHTOFTHEDEVOUT_SIX, "Might of the Devout VI", new[] { IName(MightOfTheDevout5.ItemName), IName(MightOfTheDevout6.ItemName) });
         }
 
         private static AdvancedSynergyEntry NewSynergy(Synergy synergy, string name, string[] mandatory, string[] optional = null, bool ignoreLichEyeBullets = false)
@@ -123,5 +128,6 @@ namespace GungeonCOTL
         MIGHTOFTHEDEVOUT_THREE,
         MIGHTOFTHEDEVOUT_FOUR,
         MIGHTOFTHEDEVOUT_FIVE,
+        MIGHTOFTHEDEVOUT_SIX,
     };
 }

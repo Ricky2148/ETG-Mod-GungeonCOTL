@@ -10,6 +10,8 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 
+//currently breaks when trying to access 3 items when the available choices pool is less than 3, likely will be avoided by not allowing it to go over 10 uses
+
 namespace GungeonCOTL.passive_items
 {
     internal class RedCrown : PassiveItem
@@ -24,16 +26,16 @@ namespace GungeonCOTL.passive_items
 
         public List<float> DevotionExpThresholdList = new List<float>
         {
-            1000f,
-            2000f,
-            3000f,
-            4000f,
-            5000f,
-            6000f,
-            7000f,
-            8000f,
-            9000f,
-            10000f
+            1f, //1000
+            1f, //2000
+            1f, //3000
+            1f, //4000
+            1f, //5000
+            1f, //6000
+            1f, //7000
+            1f, //8000
+            1f, //9000
+            1f, //10000
         };
 
         private Vector3 DivineInspirationChoiceDecisionLocation = Vector3.zero;
@@ -43,8 +45,7 @@ namespace GungeonCOTL.passive_items
         {
             //sermon upgrades
             PickupObjectDatabase.GetById(HeartOfTheFaithful1.ID),
-            PickupObjectDatabase.GetById(MightOfTheDevout.ID),
-            PickupObjectDatabase.GetById(MightOfTheDevout.ID),
+            PickupObjectDatabase.GetById(MightOfTheDevout1.ID),
             
             //rituals
             PickupObjectDatabase.GetById(AscendGunRitual.ID),
@@ -57,14 +58,13 @@ namespace GungeonCOTL.passive_items
             PickupObjectDatabase.GetById(DoctrineOfSin.ID),
         };
 
+        private bool tierTwoActivated = false;
+
         private static List<PickupObject> tierTwoPossibleChoiceTable = new List<PickupObject>
         {
             //sermon upgrades
-            PickupObjectDatabase.GetById(HeartOfTheFaithful1.ID),
-            PickupObjectDatabase.GetById(MightOfTheDevout.ID),
-            PickupObjectDatabase.GetById(MightOfTheDevout.ID),
-            PickupObjectDatabase.GetById(MightOfTheDevout.ID),
-            PickupObjectDatabase.GetById(MightOfTheDevout.ID),
+            //PickupObjectDatabase.GetById(HeartOfTheFaithful2.ID),
+            //PickupObjectDatabase.GetById(MightOfTheDevout2.ID),
             
             //rituals
             PickupObjectDatabase.GetById(AscendGunRitual.ID),
@@ -75,6 +75,22 @@ namespace GungeonCOTL.passive_items
             //crown upgrades
             PickupObjectDatabase.GetById(CrownUpgradeDarknessWithin.ID),
             PickupObjectDatabase.GetById(CrownUpgradeResurrection.ID),
+        };
+
+        private static List<PickupObject> tierTwoHeartOfTheFaithfulList = new List<PickupObject>
+        {
+            PickupObjectDatabase.GetById(HeartOfTheFaithful1.ID),
+            PickupObjectDatabase.GetById(HeartOfTheFaithful2.ID),
+        };
+
+        private static List<PickupObject> tierTwoMightOfTheDevoutList = new List<PickupObject>
+        {
+            PickupObjectDatabase.GetById(MightOfTheDevout1.ID),
+            PickupObjectDatabase.GetById(MightOfTheDevout2.ID),
+            PickupObjectDatabase.GetById(MightOfTheDevout3.ID),
+            PickupObjectDatabase.GetById(MightOfTheDevout4.ID),
+            PickupObjectDatabase.GetById(MightOfTheDevout5.ID),
+            PickupObjectDatabase.GetById(MightOfTheDevout6.ID),
         };
 
         private static List<PickupObject> availableChoicesPool = new List<PickupObject>
@@ -123,7 +139,7 @@ namespace GungeonCOTL.passive_items
             Plugin.Log($"Player picked up {this.EncounterNameOrDisplayName}");
             
             //testing
-            DevotionExpTracker = 10000f;
+            //DevotionExpTracker = 10000f;
 
             if (NumOfDivineInspirations > DevotionExpThresholdList.Count)
             {
@@ -166,7 +182,7 @@ namespace GungeonCOTL.passive_items
                 }
 
                 DevotionExpTracker += expToGain;
-                Plugin.Log($"Gained {expToGain} Devotion! Current Devotion: {DevotionExpTracker}/{DevotionCurrentThreshold}");
+                //Plugin.Log($"Gained {expToGain} Devotion! Current Devotion: {DevotionExpTracker}/{DevotionCurrentThreshold}");
                 /*if (DivineAscentExpTracker >= DivineAscentThreshold[DivineAscentFormTracker] && DivineAscentFormTracker < DivineAscentThreshold.Length)
                 {
                     TriggerAscent();
@@ -183,16 +199,17 @@ namespace GungeonCOTL.passive_items
         {
             DevotionExpTracker = 0;
             DevotionCurrentThreshold = 0;
-            if (NumOfDivineInspirations < DevotionExpThresholdList.Count)
+            if (NumOfDivineInspirations < DevotionExpThresholdList.Count - 1)
             {
                 NumOfDivineInspirations++;
             }
             DevotionCurrentThreshold = DevotionExpThresholdList[NumOfDivineInspirations];
             Plugin.Log($"DevotionExpTracker: {DevotionExpTracker}, CurrentThreshold: {DevotionCurrentThreshold}, InspirationCount: {NumOfDivineInspirations}");
             
-            if (NumOfDivineInspirations >= 6)
+            if (NumOfDivineInspirations >= 6 && !tierTwoActivated)
             {
                 availableChoicesPool.AddRange(tierTwoPossibleChoiceTable);
+                tierTwoActivated = true;
                 DisplayTables();
             }
 
@@ -405,6 +422,21 @@ namespace GungeonCOTL.passive_items
                     if (choicePoolItem.PickupObjectId == playerOwnedItem.PickupObjectId)
                     {
                         Plugin.Log($"removing item: {choicePoolItem.EncounterNameOrDisplayName}");
+
+                        if (choicePoolItem.GetComponent<TieredPassiveItem>() != null)
+                        {
+                            TieredPassiveItem tieredItem = choicePoolItem.GetComponent<TieredPassiveItem>();
+                            Plugin.Log($"is tiered passive item: {tieredItem.TierGroupIdentifier}");
+                            if (tieredItem.TierGroupIdentifier.Equals("heart_of_the_faithful_tiered_item") && tieredItem.itemTier < tierTwoHeartOfTheFaithfulList.Count)
+                            {
+                                availableChoicesPool.Add(tierTwoHeartOfTheFaithfulList[tieredItem.itemTier]);
+                            }
+                            else if (tieredItem.TierGroupIdentifier.Equals("might_of_the_devout_tiered_item") && tieredItem.itemTier < tierTwoMightOfTheDevoutList.Count)
+                            {
+                                availableChoicesPool.Add(tierTwoMightOfTheDevoutList[tieredItem.itemTier]);
+                            }
+                        }
+
                         availableChoicesPool.Remove(choicePoolItem);
                         break;
                     }
