@@ -1,10 +1,13 @@
 ﻿using Alexandria.ItemAPI;
 using Brave.BulletScript;
+using GungeonCOTL.custom_class_data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using UnityEngine;
+
+//try reworking the spawning to be a circle instead of a square
 
 namespace GungeonCOTL.passive_items
 {
@@ -19,7 +22,7 @@ namespace GungeonCOTL.passive_items
         public static void Init()
         {
             string itemName = ItemName;
-            string resourceName = "GungeonCOTL/Resources/example_item_sprite";
+            string resourceName = "GungeonCOTL/Resources/active_item_sprites/ritual_of_enrichment_pixelart_sprite";
 
             GameObject obj = new GameObject(itemName);
 
@@ -34,6 +37,8 @@ namespace GungeonCOTL.passive_items
 
             ItemBuilder.SetCooldownType(item, ItemBuilder.CooldownType.None, 100);
 
+            ItemBuilder.AddPassiveStatModifier(item, PlayerStats.StatType.AdditionalItemCapacity, 1, StatModifier.ModifyMethod.ADDITIVE);
+
             item.consumable = false;
             item.consumableOnActiveUse = false;
             item.usableDuringDodgeRoll = false;
@@ -43,6 +48,11 @@ namespace GungeonCOTL.passive_items
 
         public override void Pickup(PlayerController player)
         {
+            if (!m_pickedUpThisRun)
+            {
+                AkSoundEngine.PostEvent("start_ritual", player.gameObject);
+            }
+
             base.Pickup(player);
             Plugin.Log($"Player picked up {this.EncounterNameOrDisplayName}");
         }
@@ -57,7 +67,7 @@ namespace GungeonCOTL.passive_items
         {
             base.DoEffect(player);
 
-            player.StartCoroutine(SpawnMoney(player, MoneyGiven));
+            player.StartCoroutine(HelpfulMethods.SpawnMoney(player, MoneyGiven, 0.05f));
 
             player.RemoveActiveItem(ID);
         }
@@ -70,7 +80,7 @@ namespace GungeonCOTL.passive_items
                 //Plugin.Log($"i: {i}, count: {count}");
                 Vector3 idk = player.specRigidbody.UnitDimensions;
                 float num = ((idk.x + idk.y) / 2);
-                Vector2 offset = new Vector3(num * UnityEngine.Random.Range(-3f, 3f), num * UnityEngine.Random.Range(-3f, 3f));
+                Vector2 offset = new Vector3(num * UnityEngine.Random.Range(-3f, 3f), (num * UnityEngine.Random.Range(-3f, 3f)) + -1f);
                 LootEngine.SpawnCurrency(player.specRigidbody.UnitBottomCenter + offset, 1);
                 yield return new WaitForSeconds(0.05f);
             }

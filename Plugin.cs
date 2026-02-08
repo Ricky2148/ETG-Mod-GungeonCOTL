@@ -56,10 +56,12 @@ namespace GungeonCOTL
             SacrificeOfTheGun.Init();
             FeastingRitual.Init();
             RitualOfEnrichment.Init();
+            RiteOfWrath.Init();
 
             //Doctrines
             DoctrineOfMaterialism.Init();
             DoctrineOfSin.Init();
+            DoctrineOfSustenance.Init();
 
             //Sermon Upgrades
             HeartOfTheFaithful1.Init();
@@ -71,7 +73,7 @@ namespace GungeonCOTL
             MightOfTheDevout5.Init();
             MightOfTheDevout6.Init();
 
-            CarefreeMelody.Init();
+            //CarefreeMelody.Init();
             
             // always initialized last
             debugItem.Init();

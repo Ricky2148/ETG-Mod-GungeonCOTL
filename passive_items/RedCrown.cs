@@ -26,16 +26,17 @@ namespace GungeonCOTL.passive_items
 
         public List<float> DevotionExpThresholdList = new List<float>
         {
-            1f, //1000
-            1f, //2000
-            1f, //3000
-            1f, //4000
-            1f, //5000
-            1f, //6000
-            1f, //7000
-            1f, //8000
-            1f, //9000
-            1f, //10000
+            500f, //1000
+            750f, //2000
+            1000f, //3000
+            1250f, //4000
+            1500f, //5000
+            1750f, //6000
+            2000f, //7000
+            2250f, //8000
+            2500f, //9000
+            2750f, //10000
+            3000f,
         };
 
         private Vector3 DivineInspirationChoiceDecisionLocation = Vector3.zero;
@@ -52,10 +53,12 @@ namespace GungeonCOTL.passive_items
             PickupObjectDatabase.GetById(SacrificeOfTheGun.ID),
             PickupObjectDatabase.GetById(FeastingRitual.ID),
             PickupObjectDatabase.GetById(RitualOfEnrichment.ID),
+            PickupObjectDatabase.GetById(RiteOfWrath.ID),
             
             //doctrines
             PickupObjectDatabase.GetById(DoctrineOfMaterialism.ID),
             PickupObjectDatabase.GetById(DoctrineOfSin.ID),
+            PickupObjectDatabase.GetById(DoctrineOfSustenance.ID),
         };
 
         private bool tierTwoActivated = false;
@@ -67,10 +70,11 @@ namespace GungeonCOTL.passive_items
             //PickupObjectDatabase.GetById(MightOfTheDevout2.ID),
             
             //rituals
-            PickupObjectDatabase.GetById(AscendGunRitual.ID),
-            PickupObjectDatabase.GetById(SacrificeOfTheGun.ID),
-            PickupObjectDatabase.GetById(FeastingRitual.ID),
-            PickupObjectDatabase.GetById(RitualOfEnrichment.ID),
+            //PickupObjectDatabase.GetById(AscendGunRitual.ID),
+            //PickupObjectDatabase.GetById(SacrificeOfTheGun.ID),
+            //PickupObjectDatabase.GetById(FeastingRitual.ID),
+            //PickupObjectDatabase.GetById(RitualOfEnrichment.ID),
+            //PickupObjectDatabase.GetById(RiteOfWrath.ID),
             
             //crown upgrades
             PickupObjectDatabase.GetById(CrownUpgradeDarknessWithin.ID),
@@ -112,7 +116,7 @@ namespace GungeonCOTL.passive_items
         public static void Init()
         {
             string itemName = ItemName;
-            string resourceName = "GungeonCOTL/Resources/passive_item_sprites/red_crown_pixelart_sprite";
+            string resourceName = "GungeonCOTL/Resources/passive_item_sprites/red_crown_alt_pixelart_sprite";
 
             GameObject obj = new GameObject(itemName);
 
@@ -199,9 +203,13 @@ namespace GungeonCOTL.passive_items
         {
             DevotionExpTracker = 0;
             DevotionCurrentThreshold = 0;
-            if (NumOfDivineInspirations < DevotionExpThresholdList.Count - 1)
+            if (NumOfDivineInspirations < DevotionExpThresholdList.Count + 5)
             {
                 NumOfDivineInspirations++;
+            }
+            else
+            {
+                Owner.OnAnyEnemyReceivedDamage -= KillEnemyCount;
             }
             DevotionCurrentThreshold = DevotionExpThresholdList[NumOfDivineInspirations];
             Plugin.Log($"DevotionExpTracker: {DevotionExpTracker}, CurrentThreshold: {DevotionCurrentThreshold}, InspirationCount: {NumOfDivineInspirations}");
@@ -214,8 +222,10 @@ namespace GungeonCOTL.passive_items
             }
 
             choicesSpawnLocation = Owner.CenterPosition;
-            choices = GenerateChoices(3);
-            StartCoroutine(PresentItem());
+            choices = GenerateChoices(Math.Min(3, availableChoicesPool.Count));
+            AkSoundEngine.PostEvent("select_upgrade", Owner.gameObject);
+            AkSoundEngine.PostEvent("select_upgrade_loop", Owner.gameObject);
+            Owner.StartCoroutine(PresentItem());
             //choices.Add(PickupObjectDatabase.GetById((int)Items.PrototypeRailgun));
             //Plugin.Log($"{choices}");
         }
@@ -405,6 +415,7 @@ namespace GungeonCOTL.passive_items
                     {
                         //LootEngine.SpawnBowlerNote(GameManager.Instance.RewardManager.BowlerNotePostRainbow, choicesSpawnLocation, choicesSpawnLocation.GetAbsoluteRoom(), doPoof: true);
                         Plugin.Log($"chose an item");
+                        AkSoundEngine.PostEvent("select_upgrade_loop" + "_stop", Owner.gameObject);
                         UpdateChoices();
                     }
                     yield break;

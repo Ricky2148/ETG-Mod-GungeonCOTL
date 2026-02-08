@@ -5,6 +5,8 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 
+// make there be some kind of cool vfx for when the gun actually gets sacrificed
+
 namespace GungeonCOTL.active_items
 {
     internal class SacrificeOfTheGun : PlayerItem
@@ -16,7 +18,7 @@ namespace GungeonCOTL.active_items
         public static void Init()
         {
             string itemName = ItemName;
-            string resourceName = "GungeonCOTL/Resources/example_item_sprite";
+            string resourceName = "GungeonCOTL/Resources/active_item_sprites/sacrifice_of_the_gun_alt_pixelart_sprite";
 
             GameObject obj = new GameObject(itemName);
 
@@ -31,6 +33,8 @@ namespace GungeonCOTL.active_items
 
             ItemBuilder.SetCooldownType(item, ItemBuilder.CooldownType.None, 100);
 
+            ItemBuilder.AddPassiveStatModifier(item, PlayerStats.StatType.AdditionalItemCapacity, 1, StatModifier.ModifyMethod.ADDITIVE);
+
             item.consumable = false;
             item.consumableOnActiveUse = false;
             item.usableDuringDodgeRoll = false;
@@ -40,6 +44,11 @@ namespace GungeonCOTL.active_items
 
         public override void Pickup(PlayerController player)
         {
+            if (!m_pickedUpThisRun)
+            {
+                AkSoundEngine.PostEvent("start_ritual", player.gameObject);
+            }
+
             base.Pickup(player);
             Plugin.Log($"Player picked up {this.EncounterNameOrDisplayName}");
         }
@@ -57,6 +66,8 @@ namespace GungeonCOTL.active_items
             IsCurrentlyActive = true;
 
             Plugin.Log($"initial activation");
+            AkSoundEngine.PostEvent("sacrifice_start", player.gameObject);
+            AkSoundEngine.PostEvent("sacrifice_loop", player.gameObject);
         }
 
         public override void DoActiveEffect(PlayerController player)
@@ -88,6 +99,10 @@ namespace GungeonCOTL.active_items
                 PickupObject newGunToSpawn = PickupObjectDatabase.GetRandomGunOfQualities(new System.Random(), new List<int>(), qual + 1);
                 LootEngine.SpewLoot(newGunToSpawn.gameObject, player.CenterPosition);
             }
+
+
+            AkSoundEngine.PostEvent("sacrifice_gun_activated", player.gameObject);
+            AkSoundEngine.PostEvent("sacrifice_loop" + "_stop", player.gameObject);
 
             IsCurrentlyActive = false;
 

@@ -1,4 +1,5 @@
 ﻿using Alexandria.ItemAPI;
+using Alexandria.Misc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,14 +12,15 @@ namespace GungeonCOTL.passive_items
     {
         public static string ItemName = "Doctrine of Materialism";
 
-        private static float DiscountValue = 0.80f;
+        private int NumItemsPurchased = 0;
+        private static float DiscountIncPerStack = 0.05f;
 
         public static int ID;
 
         public static void Init()
         {
             string itemName = ItemName;
-            string resourceName = "GungeonCOTL/Resources/example_item_sprite";
+            string resourceName = "GungeonCOTL/Resources/passive_item_sprites/doctrine_of_materialism_pixelart_sprite";
 
             GameObject obj = new GameObject(itemName);
 
@@ -31,7 +33,7 @@ namespace GungeonCOTL.passive_items
 
             ItemBuilder.SetupItem(item, shortDesc, longDesc, Plugin.ITEM_PREFIX);
 
-            ItemBuilder.AddPassiveStatModifier(item, PlayerStats.StatType.GlobalPriceMultiplier, DiscountValue, StatModifier.ModifyMethod.MULTIPLICATIVE);
+            //ItemBuilder.AddPassiveStatModifier(item, PlayerStats.StatType.GlobalPriceMultiplier, DiscountValue, StatModifier.ModifyMethod.MULTIPLICATIVE);
 
             item.quality = PickupObject.ItemQuality.SPECIAL;
             ID = item.PickupObjectId;
@@ -41,12 +43,34 @@ namespace GungeonCOTL.passive_items
         {
             base.Pickup(player);
             Plugin.Log($"Player picked up {this.EncounterNameOrDisplayName}");
+
+            if (player != null)
+            {
+                player.OnItemPurchased += ShopItemPurchased;
+            }
         }
 
         public override void DisableEffect(PlayerController player)
         {
             base.DisableEffect(player);
             Plugin.Log($"Player dropped or got rid of {this.EncounterNameOrDisplayName}");
+
+            if (player != null)
+            {
+                player.OnItemPurchased -= ShopItemPurchased;
+            }
+        }
+
+        public void ShopItemPurchased(PlayerController player, ShopItemController itemController)
+        {
+            ItemBuilder.RemovePassiveStatModifier(this, PlayerStats.StatType.GlobalPriceMultiplier);
+
+            NumItemsPurchased++;
+            //float actualDiscountVal = 1f - (DiscountIncPerStack * NumItemsPurchased);
+            float actualDiscountVal = Mathf.Pow((1f - DiscountIncPerStack), NumItemsPurchased);
+            Plugin.Log($"discountVal: {actualDiscountVal}, num of items purchased: {NumItemsPurchased}");
+            ItemBuilder.AddPassiveStatModifier(this, PlayerStats.StatType.GlobalPriceMultiplier, actualDiscountVal, StatModifier.ModifyMethod.MULTIPLICATIVE);
+            player.stats.RecalculateStatsWithoutRebuildingGunVolleys(player);
         }
     }
 }

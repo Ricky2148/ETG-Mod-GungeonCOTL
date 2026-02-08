@@ -12,7 +12,7 @@ namespace GungeonCOTL.passive_items
     {
         public static string ItemName = "Crown Upgrade Resurrection";
 
-        private static bool ConsumedOnUse = true;
+        private static bool ConsumedOnUse = false;
 
         private static float ReviveDuration = 2f;
 
@@ -23,7 +23,7 @@ namespace GungeonCOTL.passive_items
         public static void Init()
         {
             string itemName = ItemName;
-            string resourceName = "GungeonCOTL/Resources/passive_item_sprites/resurrection_placeholder_sprite";
+            string resourceName = "GungeonCOTL/Resources/passive_item_sprites/resurrection_pixelart_sprite";
 
             GameObject obj = new GameObject(itemName);
 
@@ -47,7 +47,7 @@ namespace GungeonCOTL.passive_items
             base.Pickup(player);
             Plugin.Log($"Player picked up {this.EncounterNameOrDisplayName}");
 
-            player.healthHaver.OnPreDeath += Rebirth;
+            player.healthHaver.OnPreDeath += Resurrection;
         }
 
         public override void DisableEffect(PlayerController player)
@@ -57,11 +57,11 @@ namespace GungeonCOTL.passive_items
 
             if (player != null)
             {
-                player.healthHaver.OnPreDeath -= Rebirth;
+                player.healthHaver.OnPreDeath -= Resurrection;
             }
         }
 
-        private void Rebirth(Vector2 DeathPositon)
+        private void Resurrection(Vector2 DeathPositon)
         {
             if (!hasRevived && this.Owner is PlayerController player)
             {
@@ -78,7 +78,7 @@ namespace GungeonCOTL.passive_items
             //player.TriggerInvulnerableFrames(4.1f);
             player.healthHaver.ForceSetCurrentHealth(player.healthHaver.GetMaxHealth());
             player.CurrentInputState = PlayerInputState.NoInput;
-            player.healthHaver.OnPreDeath -= Rebirth;
+            player.healthHaver.OnPreDeath -= Resurrection;
 
             Color originalPlayerColor = player.sprite.color;
             Color originalGunColor = player.CurrentGun.sprite.color;

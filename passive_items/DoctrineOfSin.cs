@@ -22,7 +22,7 @@ namespace GungeonCOTL.passive_items
         public static void Init()
         {
             string itemName = ItemName;
-            string resourceName = "GungeonCOTL/Resources/example_item_sprite";
+            string resourceName = "GungeonCOTL/Resources/passive_item_sprites/doctrine_of_sin_pixelart_sprite";
 
             GameObject obj = new GameObject(itemName);
 

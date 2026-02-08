@@ -20,7 +20,7 @@ namespace GungeonCOTL.passive_items
         public static void Init()
         {
             string itemName = ItemName;
-            string resourceName = "GungeonCOTL/Resources/example_item_sprite";
+            string resourceName = "GungeonCOTL/Resources/passive_item_sprites/heart_of_the_faithful_2_pixelart_sprite";
 
             GameObject obj = new GameObject(itemName);
 

@@ -21,7 +21,7 @@ namespace GungeonCOTL.passive_items
         public static void Init()
         {
             string itemName = ItemName;
-            string resourceName = "GungeonCOTL/Resources/passive_item_sprites/darkness_within_placeholder_sprite";
+            string resourceName = "GungeonCOTL/Resources/passive_item_sprites/darkness_within_pixelart_sprite";
 
             GameObject obj = new GameObject(itemName);
 

@@ -175,6 +175,35 @@ namespace GungeonCOTL.custom_class_data
                 false);
         }
 
+        public static System.Collections.IEnumerator SpawnMoney(PlayerController player, int count, float spawnDelay)
+        {
+            //Plugin.Log($"start spawning");
+            for (int i = 0; i < count; i++)
+            {
+                //Plugin.Log($"i: {i}, count: {count}");
+                Vector3 idk = player.specRigidbody.UnitDimensions;
+                float num = ((idk.x + idk.y) / 2);
+                Vector2 offset = new Vector3(num * UnityEngine.Random.Range(-3f, 3f), (num * UnityEngine.Random.Range(-3f, 3f)) + -1f);
+                LootEngine.SpawnCurrency(player.specRigidbody.UnitBottomCenter + offset, 1);
+                yield return new WaitForSeconds(spawnDelay);
+            }
+            //Plugin.Log($"finish spawning");
+            yield return null;
+        }
+
+        public static void RestorePercentAmmo(PlayerController source, float ammoRestorePercent)
+        {
+            for (int i = 0; i < source.inventory.AllGuns.Count; i++)
+            {
+                Gun gun = source.inventory.AllGuns[i];
+                if (!gun.InfiniteAmmo && gun.CanGainAmmo)
+                {
+                    int ammoToGain = Mathf.CeilToInt((float)gun.AdjustedMaxAmmo * ammoRestorePercent);
+                    gun.GainAmmo(ammoToGain);
+                }
+            }
+        }
+
         public static void AddItemToSynergy(this PickupObject obj, CustomSynergyType type)
         {
             AddItemToSynergy(type, obj.PickupObjectId);

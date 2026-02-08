@@ -26,7 +26,7 @@ namespace GungeonCOTL.active_items
         public static void Init()
         {
             string itemName = ItemName;
-            string resourceName = "GungeonCOTL/Resources/example_item_sprite";
+            string resourceName = "GungeonCOTL/Resources/active_item_sprites/ascend_gun_ritual_alt_pixelart_sprite";
 
             GameObject obj = new GameObject(itemName);
 
@@ -41,6 +41,8 @@ namespace GungeonCOTL.active_items
 
             ItemBuilder.SetCooldownType(item, ItemBuilder.CooldownType.None, 100);
 
+            ItemBuilder.AddPassiveStatModifier(item, PlayerStats.StatType.AdditionalItemCapacity, 1, StatModifier.ModifyMethod.ADDITIVE);
+
             item.consumable = false;
             item.consumableOnActiveUse = false;
             item.usableDuringDodgeRoll = false;
@@ -50,6 +52,13 @@ namespace GungeonCOTL.active_items
 
         public override void Pickup(PlayerController player)
         {
+            //Plugin.Log($"{m_pickedUpThisRun}");
+            if (!m_pickedUpThisRun)
+            {
+                //Plugin.Log($"initial pickup");
+                AkSoundEngine.PostEvent("start_ritual", player.gameObject);
+            }
+
             base.Pickup(player);
             Plugin.Log($"Player picked up {this.EncounterNameOrDisplayName}");
         }

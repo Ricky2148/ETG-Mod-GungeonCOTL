@@ -17,7 +17,7 @@ namespace GungeonCOTL.active_items
         public static void Init()
         {
             string itemName = ItemName;
-            string resourceName = "GungeonCOTL/Resources/example_item_sprite";
+            string resourceName = "GungeonCOTL/Resources/active_item_sprites/feasting_ritual_pixelart_sprite";
 
             GameObject obj = new GameObject(itemName);
 
@@ -32,6 +32,8 @@ namespace GungeonCOTL.active_items
 
             ItemBuilder.SetCooldownType(item, ItemBuilder.CooldownType.None, 100);
 
+            ItemBuilder.AddPassiveStatModifier(item, PlayerStats.StatType.AdditionalItemCapacity, 1, StatModifier.ModifyMethod.ADDITIVE);
+
             item.healVFX = (PickupObjectDatabase.GetById((int)Items.Meatbun) as HealPlayerItem).healVFX;
             item.healingAmount = 30f;
 
@@ -43,6 +45,11 @@ namespace GungeonCOTL.active_items
 
         public override void Pickup(PlayerController player)
         {
+            if (!m_pickedUpThisRun)
+            {
+                AkSoundEngine.PostEvent("start_ritual", player.gameObject);
+            }
+
             base.Pickup(player);
             Plugin.Log($"Player picked up {this.EncounterNameOrDisplayName}");
         }
