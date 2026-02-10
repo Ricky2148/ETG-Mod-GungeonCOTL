@@ -698,6 +698,8 @@
     <Content Include="packages\Newtonsoft.Json.13.0.1\lib\netstandard2.0\Newtonsoft.Json.dll" />
     <Content Include="packages\Newtonsoft.Json.13.0.1\lib\netstandard2.0\Newtonsoft.Json.xml" />
     <Content Include="packages\Newtonsoft.Json.13.0.1\packageIcon.png" />
+    <EmbeddedResource Include="Resources\passive_item_sprites\doctrine_of_sustenance_alt_pixelart_sprite.png" />
+    <EmbeddedResource Include="Resources\passive_item_sprites\doctrine_of_sustenance_pixelart_sprite.png" />
     <EmbeddedResource Include="Resources\passive_item_sprites\carefree_melody_sprite.png" />
     <EmbeddedResource Include="Resources\passive_item_sprites\red_crown_pixelart_sprite.png" />
     <EmbeddedResource Include="Resources\active_item_sprites\ascend_gun_ritual_pixelart_sprite.png" />

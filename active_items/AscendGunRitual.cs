@@ -76,6 +76,8 @@ namespace GungeonCOTL.active_items
             IsCurrentlyActive = true;
 
             Plugin.Log($"initial activation");
+            AkSoundEngine.PostEvent("sacrifice_start", player.gameObject);
+            AkSoundEngine.PostEvent("sacrifice_loop", player.gameObject);
         }
 
         public override void DoActiveEffect(PlayerController player)
@@ -111,7 +113,10 @@ namespace GungeonCOTL.active_items
             player.stats.RecalculateStatsWithoutRebuildingGunVolleys(player);
 
             Plugin.Log($"final activation: {player.CurrentGun}");
-            
+
+            AkSoundEngine.PostEvent("ascend_start", player.gameObject);
+            AkSoundEngine.PostEvent("sacrifice_loop" + "_stop", player.gameObject);
+
             IsCurrentlyActive = false;
 
             player.RemoveActiveItem(ID);

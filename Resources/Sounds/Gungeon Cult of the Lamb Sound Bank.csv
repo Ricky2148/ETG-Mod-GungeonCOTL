@@ -7,3 +7,5 @@ sacrifice_start, 0, 1, sound, 0
 sacrifice_end, 0, 1, sound, 0
 sacrifice_gun_activated, 0, 1, sound, 0
 sacrifice_loop, -5, 50, sound, 0
+resurrection, 0, 1, sound, 0
+ascend_start, 0, 1, sound, 0
