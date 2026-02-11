@@ -1,11 +1,21 @@
 name,volume,loops,channel,limit
 choose_ritual, 0, 1, sound, 0
 start_ritual, 0, 1, sound, 0
-select_upgrade, 5, 1, sound, 0
-select_upgrade_loop, 5, 50, sound, 0
+select_upgrade, 8, 1, sound, 0
+select_upgrade_loop, 3, 50, sound, 0
 sacrifice_start, 0, 1, sound, 0
 sacrifice_end, 0, 1, sound, 0
 sacrifice_gun_activated, 0, 1, sound, 0
 sacrifice_loop, -5, 50, sound, 0
 resurrection, 0, 1, sound, 0
 ascend_start, 0, 1, sound, 0
+pop_1, -5, 1, sound, 0
+pop_2, -5, 1, sound, 0
+pop_3, -5, 1, sound, 0
+pop_4, -5, 1, sound, 0
+pop_5, -5, 1, sound, 0
+pop_6, -5, 1, sound, 0
+pop_7, -5, 1, sound, 0
+feasting_ritual_activation, -3, 1, sound, 0
+feasting_ritual_finish, 0, 1, sound, 0
+doctrine_piece, 0, 1, sound, 0

@@ -92,7 +92,7 @@
     <Compile Include="passive_items\MightOfTheDevout2.cs" />
     <Compile Include="passive_items\MightOfTheDevout1.cs" />
     <Compile Include="passive_items\RedCrown.cs" />
-    <Compile Include="passive_items\RitualOfEnrichment.cs" />
+    <Compile Include="active_items\RitualOfEnrichment.cs" />
     <Compile Include="Plugin.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Synergies.cs" />

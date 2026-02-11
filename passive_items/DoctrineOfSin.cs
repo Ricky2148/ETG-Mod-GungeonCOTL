@@ -43,6 +43,11 @@ namespace GungeonCOTL.passive_items
 
         public override void Pickup(PlayerController player)
         {
+            if (!m_pickedUpThisRun)
+            {
+                AkSoundEngine.PostEvent("doctrine_piece", player.gameObject);
+            }
+
             base.Pickup(player);
             Plugin.Log($"Player picked up {this.EncounterNameOrDisplayName}");
 

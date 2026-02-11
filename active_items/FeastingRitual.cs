@@ -35,6 +35,7 @@ namespace GungeonCOTL.active_items
             ItemBuilder.AddPassiveStatModifier(item, PlayerStats.StatType.AdditionalItemCapacity, 1, StatModifier.ModifyMethod.ADDITIVE);
 
             item.healVFX = (PickupObjectDatabase.GetById((int)Items.Meatbun) as HealPlayerItem).healVFX;
+            //item.healVFX = null;
             item.healingAmount = 30f;
 
             item.consumable = true;
@@ -62,7 +63,12 @@ namespace GungeonCOTL.active_items
 
         public override void DoEffect(PlayerController player)
         {
-            base.DoEffect(player);
+            player.healthHaver.ApplyHealing(GetHealingAmount(player));
+            if (healVFX != null)
+            {
+                player.PlayEffectOnActor(healVFX, Vector3.zero);
+            }
+            AkSoundEngine.PostEvent("feasting_ritual_finish", base.gameObject);
         }
     }
 }

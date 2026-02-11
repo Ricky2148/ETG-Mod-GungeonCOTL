@@ -54,6 +54,11 @@ namespace GungeonCOTL.passive_items
 
         public override void Pickup(PlayerController player)
         {
+            if (!m_pickedUpThisRun)
+            {
+                AkSoundEngine.PostEvent("doctrine_piece", player.gameObject);
+            }
+
             if (!m_pickedUp)
             {
                 HealthHaver obj = player.healthHaver;
@@ -87,6 +92,7 @@ namespace GungeonCOTL.passive_items
 
         private void ModifyIncomingHealing(HealthHaver source, HealthHaver.ModifyHealingEventArgs args)
         {
+            //find sfx for each event
             if (args != EventArgs.Empty && UnityEngine.Random.value < ChanceToImproveHealing)
             {
                 if (OnImprovedHealingVFX != null)

@@ -175,9 +175,11 @@ namespace GungeonCOTL.custom_class_data
                 false);
         }
 
-        public static System.Collections.IEnumerator SpawnMoney(PlayerController player, int count, float spawnDelay)
+        //randRatio = +/- range
+        public static System.Collections.IEnumerator SpawnMoney(PlayerController player, int count, float spawnDelay, bool randSpawn = false, float randRatio = 0f, bool playSFX = false, List<string> SFXList = null)
         {
             //Plugin.Log($"start spawning");
+            float timeDelayUsed = spawnDelay;
             for (int i = 0; i < count; i++)
             {
                 //Plugin.Log($"i: {i}, count: {count}");
@@ -185,7 +187,17 @@ namespace GungeonCOTL.custom_class_data
                 float num = ((idk.x + idk.y) / 2);
                 Vector2 offset = new Vector3(num * UnityEngine.Random.Range(-3f, 3f), (num * UnityEngine.Random.Range(-3f, 3f)) + -1f);
                 LootEngine.SpawnCurrency(player.specRigidbody.UnitBottomCenter + offset, 1);
-                yield return new WaitForSeconds(spawnDelay);
+
+                if (playSFX)
+                {
+                    PlayRandomSFX(player.gameObject, SFXList);
+                }
+
+                if (randSpawn)
+                {
+                    timeDelayUsed = spawnDelay * (UnityEngine.Random.Range(1f - randRatio, 1f + randRatio));
+                }
+                yield return new WaitForSeconds(timeDelayUsed);
             }
             //Plugin.Log($"finish spawning");
             yield return null;
