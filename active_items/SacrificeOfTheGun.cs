@@ -46,7 +46,7 @@ namespace GungeonCOTL.active_items
         {
             if (!m_pickedUpThisRun)
             {
-                AkSoundEngine.PostEvent("start_ritual", player.gameObject);
+                AkSoundEngine.PostEvent("ritual_pickup", player.gameObject);
             }
 
             base.Pickup(player);
@@ -89,14 +89,14 @@ namespace GungeonCOTL.active_items
 
             if (qual == ItemQuality.S)
             {
-                PickupObject newGunToSpawn = PickupObjectDatabase.GetRandomGunOfQualities(new System.Random(1342), new List<int>(), qual);
-                PickupObject newGunToSpawn2 = PickupObjectDatabase.GetRandomGunOfQualities(new System.Random(63540), new List<int>(), qual);
+                PickupObject newGunToSpawn = PickupObjectDatabase.GetRandomGunOfQualities(rand, new List<int>(), qual);
+                PickupObject newGunToSpawn2 = PickupObjectDatabase.GetRandomGunOfQualities(new System.Random(rand.Next()), new List<int>(), qual);
                 LootEngine.SpewLoot(newGunToSpawn.gameObject, player.CenterPosition + new Vector2(-2f, 0));
                 LootEngine.SpewLoot(newGunToSpawn2.gameObject, player.CenterPosition + new Vector2(2f, 0));
             }
             else
             {
-                PickupObject newGunToSpawn = PickupObjectDatabase.GetRandomGunOfQualities(new System.Random(), new List<int>(), qual + 1);
+                PickupObject newGunToSpawn = PickupObjectDatabase.GetRandomGunOfQualities(rand, new List<int>(), qual + 1);
                 LootEngine.SpewLoot(newGunToSpawn.gameObject, player.CenterPosition);
             }
 

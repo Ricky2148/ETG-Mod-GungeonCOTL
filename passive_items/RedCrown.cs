@@ -25,18 +25,18 @@ namespace GungeonCOTL.passive_items
         public int NumOfDivineInspirations = 0;
 
         public List<float> DevotionExpThresholdList = new List<float>
-        {
-            500f, //1000
-            750f, //2000
-            1000f, //3000
-            1250f, //4000
-            1500f, //5000
-            1750f, //6000
-            2000f, //7000
-            2250f, //8000
-            2500f, //9000
-            2750f, //10000
-            3000f,
+        { 
+            500f,  //0
+            750f,  //1
+            1000f, //2
+            1250f, //3
+            1500f, //4
+            1750f, //5
+            2000f, //6
+            2250f, //7
+            2500f, //8
+            2750f, //9
+            3000f, //10
         };
 
         private Vector3 DivineInspirationChoiceDecisionLocation = Vector3.zero;
@@ -139,6 +139,11 @@ namespace GungeonCOTL.passive_items
 
         public override void Pickup(PlayerController player)
         {
+            if (!m_pickedUpThisRun)
+            {
+                AkSoundEngine.PostEvent("red_crown_pickup", player.gameObject);
+            }
+
             base.Pickup(player);
             Plugin.Log($"Player picked up {this.EncounterNameOrDisplayName}");
             
@@ -203,15 +208,16 @@ namespace GungeonCOTL.passive_items
         {
             DevotionExpTracker = 0;
             DevotionCurrentThreshold = 0;
-            if (NumOfDivineInspirations < DevotionExpThresholdList.Count + 5)
+            if (NumOfDivineInspirations < DevotionExpThresholdList.Count)
             {
                 NumOfDivineInspirations++;
             }
             else
             {
                 Owner.OnAnyEnemyReceivedDamage -= KillEnemyCount;
+                Plugin.Log($"No more divine inspirations\n\n\n\n\n\n\n\n\n\n\n\n");
             }
-            DevotionCurrentThreshold = DevotionExpThresholdList[NumOfDivineInspirations];
+            DevotionCurrentThreshold = DevotionExpThresholdList[Math.Min(DevotionExpThresholdList.Count - 1 ,NumOfDivineInspirations)];
             Plugin.Log($"DevotionExpTracker: {DevotionExpTracker}, CurrentThreshold: {DevotionCurrentThreshold}, InspirationCount: {NumOfDivineInspirations}");
             
             if (NumOfDivineInspirations >= 6 && !tierTwoActivated)

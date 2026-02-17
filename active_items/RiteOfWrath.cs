@@ -7,6 +7,8 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 
+//needs an activation sfx
+
 namespace GungeonCOTL.active_items
 {
     internal class RiteOfWrath : PlayerItem
@@ -52,7 +54,7 @@ namespace GungeonCOTL.active_items
         {
             if (!m_pickedUpThisRun)
             {
-                AkSoundEngine.PostEvent("start_ritual", player.gameObject);
+                AkSoundEngine.PostEvent("ritual_pickup", player.gameObject);
             }
 
             base.Pickup(player);

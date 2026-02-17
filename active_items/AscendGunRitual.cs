@@ -56,7 +56,7 @@ namespace GungeonCOTL.active_items
             if (!m_pickedUpThisRun)
             {
                 //Plugin.Log($"initial pickup");
-                AkSoundEngine.PostEvent("start_ritual", player.gameObject);
+                AkSoundEngine.PostEvent("ritual_pickup", player.gameObject);
             }
 
             base.Pickup(player);

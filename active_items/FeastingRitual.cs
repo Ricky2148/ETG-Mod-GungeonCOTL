@@ -48,7 +48,7 @@ namespace GungeonCOTL.active_items
         {
             if (!m_pickedUpThisRun)
             {
-                AkSoundEngine.PostEvent("start_ritual", player.gameObject);
+                AkSoundEngine.PostEvent("ritual_pickup", player.gameObject);
             }
 
             base.Pickup(player);
@@ -68,7 +68,7 @@ namespace GungeonCOTL.active_items
             {
                 player.PlayEffectOnActor(healVFX, Vector3.zero);
             }
-            AkSoundEngine.PostEvent("feasting_ritual_finish", base.gameObject);
+            AkSoundEngine.PostEvent("feasting_ritual_activation", base.gameObject);
         }
     }
 }

@@ -8,6 +8,7 @@ using System.Text;
 using UnityEngine;
 
 //try reworking the spawning to be a circle instead of a square
+//add activation sfx and vfx
 
 namespace GungeonCOTL.active_items
 {
@@ -63,7 +64,7 @@ namespace GungeonCOTL.active_items
         {
             if (!m_pickedUpThisRun)
             {
-                AkSoundEngine.PostEvent("start_ritual", player.gameObject);
+                AkSoundEngine.PostEvent("ritual_pickup", player.gameObject);
             }
 
             base.Pickup(player);
