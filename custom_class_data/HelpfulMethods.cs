@@ -162,6 +162,14 @@ namespace GungeonCOTL.custom_class_data
             return 0f;
         }
 
+        public static List<string> GetResourceFrames(this string baseString, int length)
+        {
+            List<string> theList = new(length);
+            for (int i = 1; i <= length; ++i)
+                theList.Add($"{baseString}_{i:D3}");
+            return theList;
+        }
+
         public static void CustomNotification(string header, string text, tk2dBaseSprite sprite = null, UINotificationController.NotificationColor? color = null)
         {
             sprite ??= GameUIRoot.Instance.notificationController.notificationObjectSprite;

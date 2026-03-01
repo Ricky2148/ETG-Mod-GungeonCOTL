@@ -1,5 +1,7 @@
 ﻿using Alexandria.ItemAPI;
 using Alexandria.Misc;
+using Alexandria.VisualAPI;
+using GungeonCOTL.custom_class_data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,6 +16,8 @@ namespace GungeonCOTL.passive_items
 
         private int NumItemsPurchased = 0;
         private static float DiscountIncPerStack = 0.05f;
+
+        private GameObject activeVFXObject;
 
         public static int ID;
 
@@ -43,7 +47,13 @@ namespace GungeonCOTL.passive_items
         {
             if (!m_pickedUpThisRun)
             {
+                if (activeVFXObject != null)
+                {
+                    Destroy(activeVFXObject);
+                }
+
                 AkSoundEngine.PostEvent("doctrine_piece", player.gameObject);
+                activeVFXObject = VFXPlayerCOTL.PlayDoctrineEffectOnActor(player, true, false, false);
             }
 
             base.Pickup(player);
@@ -59,6 +69,11 @@ namespace GungeonCOTL.passive_items
         {
             base.DisableEffect(player);
             Plugin.Log($"Player dropped or got rid of {this.EncounterNameOrDisplayName}");
+
+            if (activeVFXObject != null)
+            {
+                Destroy(activeVFXObject);
+            }
 
             if (player != null)
             {

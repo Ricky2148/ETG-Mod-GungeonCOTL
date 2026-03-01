@@ -8,6 +8,7 @@ using System.Text;
 using UnityEngine;
 
 //needs an activation sfx
+// likely has bugs, bug test this
 
 namespace GungeonCOTL.active_items
 {
@@ -19,7 +20,9 @@ namespace GungeonCOTL.active_items
         private static float WrathRateOfFireStat = 1.5f;
         private static float WrathCurseStat = 3f;
 
-        private static float WrathDuration = 20 * 60f; 
+        private static float WrathDuration = 20 * 60f;
+
+        private GameObject activeVFXObject;
 
         public static int ID;
 
@@ -54,7 +57,13 @@ namespace GungeonCOTL.active_items
         {
             if (!m_pickedUpThisRun)
             {
+                if (activeVFXObject != null)
+                {
+                    Destroy(activeVFXObject);
+                }
+
                 AkSoundEngine.PostEvent("ritual_pickup", player.gameObject);
+                activeVFXObject = VFXPlayerCOTL.PlayRitualActivationEffectOnActor(player, true, false, false);
             }
 
             base.Pickup(player);
@@ -64,6 +73,10 @@ namespace GungeonCOTL.active_items
         public DebrisObject Drop(PlayerController player)
         {
             Plugin.Log($"Player dropped or got rid of {this.EncounterNameOrDisplayName}");
+            if (activeVFXObject != null)
+            {
+                Destroy(activeVFXObject);
+            }
             return base.Drop(player);
         }
 

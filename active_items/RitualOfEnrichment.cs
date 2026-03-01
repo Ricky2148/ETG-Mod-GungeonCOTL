@@ -31,6 +31,8 @@ namespace GungeonCOTL.active_items
             "pop_7",
         };
 
+        private GameObject activeVFXObject;
+
         public static int ID;
 
         public static void Init()
@@ -64,7 +66,13 @@ namespace GungeonCOTL.active_items
         {
             if (!m_pickedUpThisRun)
             {
+                if (activeVFXObject != null)
+                {
+                    Destroy(activeVFXObject);
+                }
+
                 AkSoundEngine.PostEvent("ritual_pickup", player.gameObject);
+                activeVFXObject = VFXPlayerCOTL.PlayRitualActivationEffectOnActor(player, true, false, false);
             }
 
             base.Pickup(player);
@@ -74,6 +82,10 @@ namespace GungeonCOTL.active_items
         public DebrisObject Drop(PlayerController player)
         {
             Plugin.Log($"Player dropped or got rid of {this.EncounterNameOrDisplayName}");
+            if (activeVFXObject != null)
+            {
+                Destroy(activeVFXObject);
+            }
             return base.Drop(player);
         }
 

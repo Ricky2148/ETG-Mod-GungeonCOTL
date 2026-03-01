@@ -1,5 +1,7 @@
 ﻿using Alexandria.ItemAPI;
+using Alexandria.VisualAPI;
 using Dungeonator;
+using GungeonCOTL.custom_class_data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,6 +18,8 @@ namespace GungeonCOTL.passive_items
         private static float CurseToGive = 3f;
 
         public bool ChestSpawned = false;
+
+        private GameObject activeVFXObject;
 
         public static int ID;
 
@@ -45,7 +49,13 @@ namespace GungeonCOTL.passive_items
         {
             if (!m_pickedUpThisRun)
             {
+                if (activeVFXObject != null)
+                {
+                    Destroy(activeVFXObject);
+                }
+
                 AkSoundEngine.PostEvent("doctrine_piece", player.gameObject);
+                activeVFXObject = VFXPlayerCOTL.PlayDoctrineEffectOnActor(player, true, false, false);
             }
 
             base.Pickup(player);
@@ -61,6 +71,10 @@ namespace GungeonCOTL.passive_items
         {
             base.DisableEffect(player);
             Plugin.Log($"Player dropped or got rid of {this.EncounterNameOrDisplayName}");
+            if (activeVFXObject != null)
+            {
+                Destroy(activeVFXObject);
+            }
         }
 
         private void SpawnSinChest()

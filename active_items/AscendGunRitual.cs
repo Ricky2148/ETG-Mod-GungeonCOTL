@@ -1,5 +1,6 @@
 ﻿using Alexandria.ItemAPI;
 using Alexandria.Misc;
+using GungeonCOTL.custom_class_data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,6 +21,8 @@ namespace GungeonCOTL.active_items
         private static float ClipAndAmmoCapacityStat = 1.2f;
         private static float ChargeAmountStat = 1.5f;
         private static float RangeMultiplier = 1.2f;
+
+        private GameObject activeVFXObject;
 
         public static int ID;
 
@@ -55,8 +58,14 @@ namespace GungeonCOTL.active_items
             //Plugin.Log($"{m_pickedUpThisRun}");
             if (!m_pickedUpThisRun)
             {
+                if (activeVFXObject != null)
+                {
+                    Destroy(activeVFXObject);
+                }
+
                 //Plugin.Log($"initial pickup");
                 AkSoundEngine.PostEvent("ritual_pickup", player.gameObject);
+                activeVFXObject = VFXPlayerCOTL.PlayRitualActivationEffectOnActor(player, true, false, false);
             }
 
             base.Pickup(player);
@@ -66,6 +75,10 @@ namespace GungeonCOTL.active_items
         public DebrisObject Drop(PlayerController player)
         {
             Plugin.Log($"Player dropped or got rid of {this.EncounterNameOrDisplayName}");
+            if (activeVFXObject != null)
+            {
+                Destroy(activeVFXObject);
+            }
             return base.Drop(player);
         }
 

@@ -12,12 +12,14 @@ namespace GungeonCOTL.active_items
     {
         public static string ItemName = "Feasting Ritual";
 
+        private GameObject activeVFXObject;
+
         public static int ID;
 
         public static void Init()
         {
             string itemName = ItemName;
-            string resourceName = "GungeonCOTL/Resources/active_item_sprites/feasting_ritual_pixelart_sprite";
+            string resourceName = "GungeonCOTL/Resources/active_item_sprites/feasting_ritual_pixelart_sprite_corpse";
 
             GameObject obj = new GameObject(itemName);
 
@@ -48,7 +50,13 @@ namespace GungeonCOTL.active_items
         {
             if (!m_pickedUpThisRun)
             {
+                if (activeVFXObject != null)
+                {
+                    Destroy(activeVFXObject);
+                }
+
                 AkSoundEngine.PostEvent("ritual_pickup", player.gameObject);
+                activeVFXObject = VFXPlayerCOTL.PlayRitualActivationEffectOnActor(player, true, false, false);
             }
 
             base.Pickup(player);
@@ -58,6 +66,10 @@ namespace GungeonCOTL.active_items
         public DebrisObject Drop(PlayerController player)
         {
             Plugin.Log($"Player dropped or got rid of {this.EncounterNameOrDisplayName}");
+            if (activeVFXObject != null)
+            {
+                Destroy(activeVFXObject);
+            }
             return base.Drop(player);
         }
 

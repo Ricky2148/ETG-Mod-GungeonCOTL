@@ -1,4 +1,5 @@
 ﻿using Alexandria.ItemAPI;
+using GungeonCOTL.custom_class_data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +13,8 @@ namespace GungeonCOTL.active_items
     internal class SacrificeOfTheGun : PlayerItem
     {
         public static string ItemName = "Sacrifice of the Gun";
+
+        private GameObject activeVFXObject;
 
         public static int ID;
 
@@ -46,7 +49,13 @@ namespace GungeonCOTL.active_items
         {
             if (!m_pickedUpThisRun)
             {
+                if (activeVFXObject != null)
+                {
+                    Destroy(activeVFXObject);
+                }
+
                 AkSoundEngine.PostEvent("ritual_pickup", player.gameObject);
+                activeVFXObject = VFXPlayerCOTL.PlayRitualActivationEffectOnActor(player, true, false, false);
             }
 
             base.Pickup(player);
@@ -56,6 +65,10 @@ namespace GungeonCOTL.active_items
         public DebrisObject Drop(PlayerController player)
         {
             Plugin.Log($"Player dropped or got rid of {this.EncounterNameOrDisplayName}");
+            if (activeVFXObject != null)
+            {
+                Destroy(activeVFXObject);
+            }
             return base.Drop(player);
         }
 

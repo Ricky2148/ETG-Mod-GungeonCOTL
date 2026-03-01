@@ -1,4 +1,5 @@
 ﻿using Alexandria.ItemAPI;
+using Alexandria.VisualAPI;
 using Dungeonator;
 using GungeonCOTL.active_items;
 using GungeonCOTL.custom_class_data;
@@ -111,6 +112,24 @@ namespace GungeonCOTL.passive_items
 
         public Vector2 choicesSpawnLocation;
 
+        private static List<string> VFXSpritePath = new List<string>
+        {
+            "GungeonCOTL/Resources/vfxs/divine_intervention_vfx/aureole_aura_001",
+            "GungeonCOTL/Resources/vfxs/divine_intervention_vfx/aureole_aura_002",
+            "GungeonCOTL/Resources/vfxs/divine_intervention_vfx/aureole_aura_003",
+            "GungeonCOTL/Resources/vfxs/divine_intervention_vfx/aureole_aura_004",
+            "GungeonCOTL/Resources/vfxs/divine_intervention_vfx/aureole_aura_005",
+            "GungeonCOTL/Resources/vfxs/divine_intervention_vfx/aureole_aura_006",
+            "GungeonCOTL/Resources/vfxs/divine_intervention_vfx/aureole_aura_007",
+            "GungeonCOTL/Resources/vfxs/divine_intervention_vfx/aureole_aura_008"
+        };
+
+        private static GameObject EffectVFX;
+
+        private GameObject activeVFXObject;
+
+        private GameObject redCrownVFXObject;
+
         public static int ID;
 
         public static void Init()
@@ -129,7 +148,23 @@ namespace GungeonCOTL.passive_items
 
             ItemBuilder.SetupItem(item, shortDesc, longDesc, Plugin.ITEM_PREFIX);
 
-            item.quality = PickupObject.ItemQuality.SPECIAL;
+            EffectVFX = VFXBuilder.CreateVFX
+            (
+                "divine_intervention_vfx",
+                VFXSpritePath,
+                10,
+                new IntVector2(0, 0),
+                tk2dBaseSprite.Anchor.MiddleCenter,
+                false,
+                0,
+                -1,
+                Color.cyan,
+                tk2dSpriteAnimationClip.WrapMode.Loop,
+                false
+            );
+
+            //item.ItemSpansBaseQualityTiers = true;
+            item.quality = PickupObject.ItemQuality.A;
 
             ID = item.PickupObjectId;
             //Plugin.Log($"ID: {ID}, pickupID: {item.PickupObjectId}");
@@ -142,6 +177,7 @@ namespace GungeonCOTL.passive_items
             if (!m_pickedUpThisRun)
             {
                 AkSoundEngine.PostEvent("red_crown_pickup", player.gameObject);
+                player.StartCoroutine(PlayRedCrownVFX(player));
             }
 
             base.Pickup(player);
@@ -204,6 +240,22 @@ namespace GungeonCOTL.passive_items
             }
         }
 
+        private System.Collections.IEnumerator PlayRedCrownVFX(PlayerController player)
+        {
+            if (redCrownVFXObject != null)
+            {
+                Destroy(redCrownVFXObject);
+            }
+            redCrownVFXObject = VFXPlayerCOTL.PlayRedCrownEffectOnActor(player, true, false, false);
+
+            yield return new WaitForSeconds(5f);
+
+            if (redCrownVFXObject != null)
+            {
+                Destroy(redCrownVFXObject);
+            }
+        }
+
         private void TriggerDivineInspiration()
         {
             DevotionExpTracker = 0;
@@ -225,12 +277,32 @@ namespace GungeonCOTL.passive_items
                 availableChoicesPool.AddRange(tierTwoPossibleChoiceTable);
                 tierTwoActivated = true;
                 DisplayTables();
+                //Owner.StartCoroutine(PlayRedCrownVFX(Owner));
             }
 
             choicesSpawnLocation = Owner.CenterPosition;
             choices = GenerateChoices(Math.Min(3, availableChoicesPool.Count));
             AkSoundEngine.PostEvent("select_upgrade", Owner.gameObject);
             AkSoundEngine.PostEvent("select_upgrade_loop", Owner.gameObject);
+
+            activeVFXObject = Owner.PlayEffectOnActor(EffectVFX, new Vector3(17 / 16f, 20 / 16f, -2f), true, false, false);
+
+            var sprite = activeVFXObject.GetComponent<tk2dSprite>();
+
+            if (sprite != null)
+            {
+                sprite.HeightOffGround = -5f;
+
+                //sprite.scale = new Vector3(2.5f, 2.5f, 0f);
+
+                sprite.UpdateZDepth();
+
+                sprite.usesOverrideMaterial = true;
+
+                sprite.renderer.material.shader = ShaderCache.Acquire("Brave/Internal/SimpleAlphaFadeUnlit");
+                sprite.renderer.material.SetFloat("_Fade", 0.9f);
+            }
+
             Owner.StartCoroutine(PresentItem());
             //choices.Add(PickupObjectDatabase.GetById((int)Items.PrototypeRailgun));
             //Plugin.Log($"{choices}");
@@ -422,6 +494,12 @@ namespace GungeonCOTL.passive_items
                         //LootEngine.SpawnBowlerNote(GameManager.Instance.RewardManager.BowlerNotePostRainbow, choicesSpawnLocation, choicesSpawnLocation.GetAbsoluteRoom(), doPoof: true);
                         Plugin.Log($"chose an item");
                         AkSoundEngine.PostEvent("select_upgrade_loop" + "_stop", Owner.gameObject);
+
+                        if (activeVFXObject != null)
+                        {
+                            Destroy(activeVFXObject);
+                        }
+
                         UpdateChoices();
                     }
                     yield break;

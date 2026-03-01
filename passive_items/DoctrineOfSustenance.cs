@@ -1,4 +1,5 @@
 ﻿using Alexandria.ItemAPI;
+using Alexandria.VisualAPI;
 using GungeonCOTL.custom_class_data;
 using System;
 using System.Collections.Generic;
@@ -25,6 +26,8 @@ namespace GungeonCOTL.passive_items
         public float ChanceToGainAmmo = 0.15f;
 
         public float AmmoRestorePercentage = 0.10f;
+
+        private GameObject activeVFXObject;
 
         public static int ID;
 
@@ -56,7 +59,13 @@ namespace GungeonCOTL.passive_items
         {
             if (!m_pickedUpThisRun)
             {
+                if (activeVFXObject != null)
+                {
+                    Destroy(activeVFXObject);
+                }
+
                 AkSoundEngine.PostEvent("doctrine_piece", player.gameObject);
+                activeVFXObject = VFXPlayerCOTL.PlayDoctrineEffectOnActor(player, true, false, false);
             }
 
             if (!m_pickedUp)
@@ -72,6 +81,11 @@ namespace GungeonCOTL.passive_items
         public override DebrisObject Drop(PlayerController player)
         {
             Plugin.Log($"Player dropped or got rid of {this.EncounterNameOrDisplayName}");
+
+            if (activeVFXObject != null)
+            {
+                Destroy(activeVFXObject);
+            }
 
             DebrisObject debrisObject = base.Drop(player);
             HealthHaver obj = player.healthHaver;

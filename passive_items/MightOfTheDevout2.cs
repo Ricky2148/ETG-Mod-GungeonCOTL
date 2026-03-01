@@ -34,7 +34,7 @@ namespace GungeonCOTL.passive_items
 
             ItemBuilder.AddPassiveStatModifier(item, PlayerStats.StatType.Damage, DamageStat, StatModifier.ModifyMethod.MULTIPLICATIVE);
 
-            item.quality = PickupObject.ItemQuality.SPECIAL;
+            item.quality = PickupObject.ItemQuality.EXCLUDED;
 
             item.itemTier = 2;
             item.TierGroupIdentifier = "might_of_the_devout_tiered_item";

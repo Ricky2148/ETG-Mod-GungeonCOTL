@@ -34,7 +34,7 @@ namespace GungeonCOTL.passive_items
 
             ItemBuilder.AddPassiveStatModifier(item, PlayerStats.StatType.Health, HealthStat, StatModifier.ModifyMethod.ADDITIVE);
 
-            item.quality = PickupObject.ItemQuality.SPECIAL;
+            item.quality = PickupObject.ItemQuality.EXCLUDED;
 
             item.itemTier = 1;
             item.TierGroupIdentifier = "heart_of_the_faithful_tiered_item";
