@@ -176,8 +176,27 @@ namespace GungeonCOTL.passive_items
         {
             if (!m_pickedUpThisRun)
             {
+                if (activeVFXObject != null)
+                {
+                    Destroy(activeVFXObject);
+                }
+
                 AkSoundEngine.PostEvent("red_crown_pickup", player.gameObject);
-                player.StartCoroutine(PlayRedCrownVFX(player));
+                //player.StartCoroutine(PlayRedCrownVFX(player));
+                activeVFXObject = VFXPlayerCOTL.PlayBlackfireEffectOnActor(player, true, false, false);
+
+                //Vector2 unitDimensions = player.specRigidbody.HitboxPixelCollider.UnitDimensions;
+                //Vector2 a = unitDimensions / 2f;
+                
+                Vector2 vector = player.specRigidbody.UnitBottomLeft;
+                Vector2 vector2 = player.specRigidbody.UnitBottomRight;
+                //vector += Vector2.Min(a * 0.15f, new Vector2(0.25f, 0.25f));
+                //vector2 -= Vector2.Min(a * 0.15f, new Vector2(0.25f, 0.25f));
+                //vector2.y -= Mathf.Min(a.y * 0.1f, 0.1f);
+
+                HelpfulMethods.DoRandomParticleBurst(15, vector, vector2, 1f, 1f, 0.2f, 4, ExtendedColours.carrionRed, GlobalSparksDoer.SparksType.BLACK_PHANTOM_SMOKE);
+
+                //GlobalSparksDoer.EmitFromRegion(GlobalSparksDoer.EmitRegionStyle.RANDOM, 5, 5, player.specRigidbody.UnitBottomLeft, player.specRigidbody.UnitBottomRight, Vector3.up, 1f, 1f, 0.2f, 3, ExtendedColours.carrionRed, GlobalSparksDoer.SparksType.BLACK_PHANTOM_SMOKE);
             }
 
             base.Pickup(player);
@@ -203,6 +222,11 @@ namespace GungeonCOTL.passive_items
         {
             base.DisableEffect(player);
             Plugin.Log($"Player dropped or got rid of {this.EncounterNameOrDisplayName}");
+
+            if (activeVFXObject != null)
+            {
+                Destroy(activeVFXObject);
+            }
 
             if (player != null)
             {
@@ -246,9 +270,9 @@ namespace GungeonCOTL.passive_items
             {
                 Destroy(redCrownVFXObject);
             }
-            redCrownVFXObject = VFXPlayerCOTL.PlayRedCrownEffectOnActor(player, true, false, false);
+            redCrownVFXObject = VFXPlayerCOTL.PlayBlackfireEffectOnActor(player, true, false, false);
 
-            yield return new WaitForSeconds(5f);
+            yield return new WaitForSeconds(7f);
 
             if (redCrownVFXObject != null)
             {
@@ -498,6 +522,10 @@ namespace GungeonCOTL.passive_items
                         if (activeVFXObject != null)
                         {
                             Destroy(activeVFXObject);
+
+                            //Vector2 vector = Owner.specRigidbody.UnitBottomLeft;
+                            //Vector2 vector2 = Owner.specRigidbody.UnitBottomRight;
+                            //HelpfulMethods.DoRandomParticleBurst(15, vector, vector2, 0.5f, 0.5f, 0.2f, 2, ExtendedColours.pink, GlobalSparksDoer.SparksType.);
                         }
 
                         UpdateChoices();

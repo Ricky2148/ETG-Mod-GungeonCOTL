@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using UnityEngine;
+using static UnityEngine.UI.GridLayoutGroup;
 
 namespace GungeonCOTL.custom_class_data
 {
@@ -126,6 +127,48 @@ namespace GungeonCOTL.custom_class_data
             return vfxObject;
         }
 
+        private static List<string> BlackfireVFXSpritePath = "GungeonCOTL/Resources/vfxs/blackfire_fadeaway_vfx/blackfire_aura".GetResourceFrames(41);
+
+        private static GameObject BlackfireEffectVFX = VFXBuilder.CreateVFX
+        (
+            "blackfire_fadeaway_vfx",
+            BlackfireVFXSpritePath,
+            8,
+            new IntVector2(0, 0),
+            tk2dBaseSprite.Anchor.MiddleCenter,
+            false,
+            0,
+            -1,
+            Color.cyan,
+            tk2dSpriteAnimationClip.WrapMode.Once,
+            true
+        );
+
+        public static GameObject PlayBlackfireEffectOnActor(PlayerController player, bool attached = true, bool alreadyMiddleCenter = false, bool useHitbox = false)
+        {
+            Vector3 offset = new Vector3(11 / 16f, 36 / 16f, 0f);
+
+            GameObject vfxObject = player.PlayEffectOnActor(BlackfireEffectVFX, offset, attached, alreadyMiddleCenter, useHitbox);
+
+            var sprite = vfxObject.GetComponent<tk2dSprite>();
+
+            if (sprite != null)
+            {
+                sprite.HeightOffGround = -3f;
+
+                //sprite.scale = new Vector3(2.5f, 2.5f, 0f);
+
+                sprite.UpdateZDepth();
+
+                sprite.usesOverrideMaterial = true;
+
+                sprite.renderer.material.shader = ShaderCache.Acquire("Brave/Internal/SimpleAlphaFadeUnlit");
+                sprite.renderer.material.SetFloat("_Fade", 0.85f);
+            }
+
+            return vfxObject;
+        }
+
         private static List<string> RitualActivationVFXSpritePath = "GungeonCOTL/Resources/vfxs/ritual_activation_vfx/pentacle_aura".GetResourceFrames(71);
 
         private static GameObject RitualActivationEffectVFX = VFXBuilder.CreateVFX
@@ -166,6 +209,94 @@ namespace GungeonCOTL.custom_class_data
             }
 
             return vfxObject;
+        }
+
+        private static List<string> CrownUpgradeVFXSpritePath = "GungeonCOTL/Resources/vfxs/crown_upgrade_vfx/upgrade_aura".GetResourceFrames(45);
+
+        private static GameObject CrownUpgradeEffectVFX = VFXBuilder.CreateVFX
+        (
+            "crown_upgrade_vfx",
+            CrownUpgradeVFXSpritePath,
+            15,
+            new IntVector2(0, 0),
+            tk2dBaseSprite.Anchor.MiddleCenter,
+            false,
+            0,
+            -1,
+            Color.cyan,
+            tk2dSpriteAnimationClip.WrapMode.Once,
+            true
+        );
+
+        public static GameObject PlayCrownUpgradeEffectOnActor(PlayerController player, bool attached = true, bool alreadyMiddleCenter = false, bool useHitbox = false)
+        {
+            Vector3 offset = new Vector3(64 / 16f, 60 / 16f, 0f);
+
+            GameObject vfxObject = player.PlayEffectOnActor(CrownUpgradeEffectVFX, offset, attached, alreadyMiddleCenter, useHitbox);
+
+            var sprite = vfxObject.GetComponent<tk2dSprite>();
+
+            if (sprite != null)
+            {
+                sprite.HeightOffGround = 2f;
+
+                //sprite.scale = new Vector3(2.5f, 2.5f, 0f);
+
+                sprite.UpdateZDepth();
+
+                /*sprite.usesOverrideMaterial = true;
+
+                sprite.renderer.material.shader = ShaderCache.Acquire("Brave/Internal/SimpleAlphaFadeUnlit");
+                sprite.renderer.material.SetFloat("_Fade", 1f);*/
+            }
+
+            return vfxObject;
+        }
+
+        public static System.Collections.IEnumerator HardCodedCrownUpgradeEffectSFXPlayer(PlayerController player)
+        {
+            List<string> SFXList = new List<string>
+            {
+                "pop_1",
+                "pop_2",
+                "pop_3",
+                "pop_4",
+                "pop_5",
+                "pop_6",
+                "pop_7",
+            };
+
+            yield return new WaitForSeconds(10 * (1 / 15f));
+
+            HelpfulMethods.PlayRandomSFX(player.gameObject, SFXList);
+
+            yield return new WaitForSeconds(1 * (1 / 15f));
+
+            HelpfulMethods.PlayRandomSFX(player.gameObject, SFXList);
+
+            yield return new WaitForSeconds(7 * (1 / 15f));
+
+            HelpfulMethods.PlayRandomSFX(player.gameObject, SFXList);
+
+            yield return new WaitForSeconds(4 * (1 / 15f));
+
+            HelpfulMethods.PlayRandomSFX(player.gameObject, SFXList);
+
+            yield return new WaitForSeconds(3 * (1 / 15f));
+
+            HelpfulMethods.PlayRandomSFX(player.gameObject, SFXList);
+
+            yield return new WaitForSeconds(4 * (1 / 15f));
+
+            HelpfulMethods.PlayRandomSFX(player.gameObject, SFXList);
+
+            yield return new WaitForSeconds(3 * (1 / 15f));
+
+            HelpfulMethods.PlayRandomSFX(player.gameObject, SFXList);
+
+            yield return new WaitForSeconds(8 * (1 / 15f));
+
+            HelpfulMethods.PlayRandomSFX(player.gameObject, SFXList);
         }
     }
 }

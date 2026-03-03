@@ -1,5 +1,6 @@
 ﻿using Alexandria.ItemAPI;
 using Dungeonator;
+using GungeonCOTL.custom_class_data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,6 +16,8 @@ namespace GungeonCOTL.passive_items
         public static string ItemName = "Crown Upgrade Darkness Within";
 
         private static float DarknessWithinDamage = 15f;
+
+        private GameObject activeVFXObject;
 
         public static int ID;
 
@@ -44,7 +47,14 @@ namespace GungeonCOTL.passive_items
         {
             if (!m_pickedUpThisRun)
             {
+                if (activeVFXObject != null)
+                {
+                    Destroy(activeVFXObject);
+                }
+
                 AkSoundEngine.PostEvent("crown_upgrade_pickup", player.gameObject);
+                activeVFXObject = VFXPlayerCOTL.PlayCrownUpgradeEffectOnActor(player);
+                player.StartCoroutine(VFXPlayerCOTL.HardCodedCrownUpgradeEffectSFXPlayer(player));
             }
 
             base.Pickup(player);
@@ -57,6 +67,10 @@ namespace GungeonCOTL.passive_items
         {
             base.DisableEffect(player);
             Plugin.Log($"Player dropped or got rid of {this.EncounterNameOrDisplayName}");
+            if (activeVFXObject != null)
+            {
+                Destroy(activeVFXObject);
+            }
 
             if (player != null)
             {
