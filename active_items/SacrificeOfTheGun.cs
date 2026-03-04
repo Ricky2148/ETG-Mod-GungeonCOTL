@@ -60,11 +60,14 @@ namespace GungeonCOTL.active_items
 
             base.Pickup(player);
             Plugin.Log($"Player picked up {this.EncounterNameOrDisplayName}");
+
+            player.GunChanged += ReattachSacrificeVFX;
         }
 
         public DebrisObject Drop(PlayerController player)
         {
             Plugin.Log($"Player dropped or got rid of {this.EncounterNameOrDisplayName}");
+            player.GunChanged -= ReattachSacrificeVFX;
             if (activeVFXObject != null)
             {
                 Destroy(activeVFXObject);
@@ -81,6 +84,22 @@ namespace GungeonCOTL.active_items
             Plugin.Log($"initial activation");
             AkSoundEngine.PostEvent("sacrifice_start", player.gameObject);
             AkSoundEngine.PostEvent("sacrifice_loop", player.gameObject);
+
+            if (activeVFXObject != null)
+            {
+                Destroy(activeVFXObject);
+            }
+
+            activeVFXObject = VFXPlayerCOTL.PlaySacrificeEventEffectOnGun(player.CurrentGun);
+        }
+
+        private void ReattachSacrificeVFX(Gun previous, Gun current, bool newGun)
+        {
+            //activeVFXObject.transform.SetParent(current.transform, false);
+
+            if (IsCurrentlyActive) activeVFXObject.GetComponent<VFXAnchorOnGunModule>().gun = current;
+
+            //Plugin.Log($"gun name: {current.EncounterNameOrDisplayName}, , {current.gameObject}, , {current.sprite}, {current.transform}");
         }
 
         public override void DoActiveEffect(PlayerController player)
@@ -116,6 +135,11 @@ namespace GungeonCOTL.active_items
 
             AkSoundEngine.PostEvent("sacrifice_gun_activated", player.gameObject);
             AkSoundEngine.PostEvent("sacrifice_loop" + "_stop", player.gameObject);
+
+            if (activeVFXObject != null)
+            {
+                Destroy(activeVFXObject);
+            }
 
             IsCurrentlyActive = false;
 

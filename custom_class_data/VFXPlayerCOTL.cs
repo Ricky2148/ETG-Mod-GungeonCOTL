@@ -188,6 +188,8 @@ namespace GungeonCOTL.custom_class_data
 
         public static GameObject PlayRitualActivationEffectOnActor(PlayerController player, bool attached = true, bool alreadyMiddleCenter = false, bool useHitbox = false)
         {
+            AkSoundEngine.PostEvent("pentacle_synced_audio", player.gameObject);
+
             Vector3 offset = new Vector3(18 / 16f, 28 / 16f, 0f);
 
             GameObject vfxObject = player.PlayEffectOnActor(RitualActivationEffectVFX, offset, attached, alreadyMiddleCenter, useHitbox);
@@ -297,6 +299,78 @@ namespace GungeonCOTL.custom_class_data
             yield return new WaitForSeconds(8 * (1 / 15f));
 
             HelpfulMethods.PlayRandomSFX(player.gameObject, SFXList);
+        }
+
+        private static List<string> SacrificeEventVFXSpritePath = "GungeonCOTL/Resources/vfxs/sacrifice_event_vfx/sacrifice_aura".GetResourceFrames(21);
+
+        private static GameObject SacrificeEventEffectVFX = VFXBuilder.CreateVFX
+        (
+            "sacrifice_event_vfx",
+            SacrificeEventVFXSpritePath,
+            15,
+            new IntVector2(0, 0),
+            tk2dBaseSprite.Anchor.MiddleCenter,
+            false,
+            0,
+            -1,
+            Color.cyan,
+            tk2dSpriteAnimationClip.WrapMode.Loop,
+            true
+        );
+
+        public static GameObject PlaySacrificeEventEffectOnActor(PlayerController player, bool attached = true, bool alreadyMiddleCenter = false, bool useHitbox = false)
+        {
+            Vector3 offset = new Vector3(32 / 16f, 32 / 16f, -2f);
+
+            GameObject vfxObject = player.PlayEffectOnActor(SacrificeEventEffectVFX, offset, attached, alreadyMiddleCenter, useHitbox);
+
+            var sprite = vfxObject.GetComponent<tk2dSprite>();
+
+            if (sprite != null)
+            {
+                sprite.HeightOffGround = -2f;
+
+                //sprite.scale = new Vector3(2.5f, 2.5f, 0f);
+
+                sprite.UpdateZDepth();
+
+                /*sprite.usesOverrideMaterial = true;
+
+                sprite.renderer.material.shader = ShaderCache.Acquire("Brave/Internal/SimpleAlphaFadeUnlit");
+                sprite.renderer.material.SetFloat("_Fade", 1f);*/
+            }
+
+            return vfxObject;
+        }
+
+        public static GameObject PlaySacrificeEventEffectOnGun(Gun gun)
+        {
+            Vector3 vfxOffset = new Vector3(0 / 16f, 0 / 16f, -2f);
+
+            GameObject vfxObject = UnityEngine.Object.Instantiate(SacrificeEventEffectVFX, gun.sprite.WorldCenter.ToVector3ZUp() + vfxOffset, Quaternion.identity);
+
+            var sprite = vfxObject.GetComponent<tk2dSprite>();
+
+            if (sprite != null)
+            {
+                sprite.HeightOffGround = -2f;
+
+                //sprite.scale = new Vector3(2.5f, 2.5f, 0f);
+
+                sprite.UpdateZDepth();
+
+                /*sprite.usesOverrideMaterial = true;
+
+                sprite.renderer.material.shader = ShaderCache.Acquire("Brave/Internal/SimpleAlphaFadeUnlit");
+                sprite.renderer.material.SetFloat("_Fade", 1f);*/
+            }
+
+            VFXAnchorOnGunModule anchor = vfxObject.AddComponent<VFXAnchorOnGunModule>();
+
+            anchor.gun = gun;
+            anchor.offset = vfxOffset + new Vector3(0, 0);
+
+            return vfxObject;
         }
     }
 }
