@@ -95,6 +95,8 @@ namespace GungeonCOTL.active_items
 
             player.StartCoroutine(HelpfulMethods.SpawnMoney(player, MoneyGiven, timeDelay, true, timeDelayRandRatio, true, moneySFXList));
 
+            AkSoundEngine.PostEvent("enrichment_activation", player.gameObject);
+
             player.RemoveActiveItem(ID);
         }
 

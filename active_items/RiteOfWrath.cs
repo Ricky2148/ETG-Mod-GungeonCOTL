@@ -24,6 +24,8 @@ namespace GungeonCOTL.active_items
 
         private GameObject activeVFXObject;
 
+        private Coroutine activeParticleEmitter;
+
         public static int ID;
 
         public static void Init()
@@ -84,12 +86,14 @@ namespace GungeonCOTL.active_items
         {
             base.DoEffect(player);
 
-            player.StartCoroutine(ApplyWrathBuff(player));
+            player.StartCoroutine(ApplyWrathBuff(player, WrathDuration));
+
+            AkSoundEngine.PostEvent("wrath_activation", player.gameObject);
 
             player.RemoveActiveItem(ID);
         }
 
-        private System.Collections.IEnumerator ApplyWrathBuff(PlayerController player)
+        private System.Collections.IEnumerator ApplyWrathBuff(PlayerController player, float duration)
         {
             ItemBuilder.AddPassiveStatModifier(this, PlayerStats.StatType.Damage, WrathDamageStat, StatModifier.ModifyMethod.MULTIPLICATIVE);
             ItemBuilder.AddPassiveStatModifier(this, PlayerStats.StatType.RateOfFire, WrathRateOfFireStat, StatModifier.ModifyMethod.MULTIPLICATIVE);
@@ -105,18 +109,33 @@ namespace GungeonCOTL.active_items
                 mat.SetColor("_OverrideColor", new Color(105f * 0.4f, 7f * 0.4f, 9f * 0.4f));
             }
 
-            //AkSoundEngine.PostEvent("experimental_hexplate_passive_triggered_SFX", player.gameObject);
-            //AkSoundEngine.PostEvent("experimental_hexplate_passive_effect_SFX", player.gameObject);
+            //HelpfulMethods.EmitFromAttachedPlayer(GlobalSparksDoer.EmitRegionStyle.RANDOM, 5f, WrathDuration, player, 1f, 1f, 0.15f, 3f, ExtendedColours.maroon, GlobalSparksDoer.SparksType.BLACK_PHANTOM_SMOKE);
 
-            yield return new WaitForSeconds(WrathDuration);
+            //activeParticleEmitter = player.StartCoroutine(HelpfulMethods.HandleEmitFromAttachedPlayer(GlobalSparksDoer.EmitRegionStyle.RANDOM, 5f, duration, player, 1f, 1f, 0.15f, 3f, ExtendedColours.maroon, GlobalSparksDoer.SparksType.BLACK_PHANTOM_SMOKE));
+
+            float elapsed = 0f;
+            while (elapsed < duration)
+            {
+                elapsed += BraveTime.DeltaTime;
+
+                if (activeParticleEmitter == null)
+                {
+                    //Plugin.Log($"elapsed: {elapsed}, started emitting for: {duration - elapsed}");
+
+                    activeParticleEmitter = player.StartCoroutine(HelpfulMethods.HandleEmitFromAttachedPlayer(GlobalSparksDoer.EmitRegionStyle.RANDOM, 5f, duration - elapsed, player, 1f, 1f, 0.15f, 3f, ExtendedColours.maroon, GlobalSparksDoer.SparksType.BLACK_PHANTOM_SMOKE));
+                }
+
+                yield return null;
+            }
+
+            //yield return new WaitForSeconds(WrathDuration);
 
             // removes all stat buffs for both base item and overdrive effect
+            ItemBuilder.RemovePassiveStatModifier(this, PlayerStats.StatType.Damage);
             ItemBuilder.RemovePassiveStatModifier(this, PlayerStats.StatType.RateOfFire);
-            ItemBuilder.RemovePassiveStatModifier(this, PlayerStats.StatType.MovementSpeed);
 
             ItemBuilder.AddPassiveStatModifier(this, PlayerStats.StatType.Curse, WrathCurseStat);
 
-            //player.stats.RecalculateStats(player, false, false);
             player.stats.RecalculateStatsWithoutRebuildingGunVolleys(player);
 
             player.sprite.color = originalPlayerColor;

@@ -2,6 +2,7 @@
 using Alexandria.ItemAPI;
 using Alexandria.Misc;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -40,6 +41,37 @@ namespace GungeonCOTL.custom_class_data
                 Vector3 position = new Vector3(UnityEngine.Random.Range(minPosition.x, maxPosition.x), UnityEngine.Random.Range(minPosition.y, maxPosition.y), UnityEngine.Random.Range(minPosition.z, maxPosition.z));
                 Vector3 direction2 = Quaternion.Euler(0f, 0f, UnityEngine.Random.Range(0f - angleVariance, angleVariance)) * (direction.normalized * UnityEngine.Random.Range(direction.magnitude - magnitudeVariance, direction.magnitude + magnitudeVariance));
                 GlobalSparksDoer.DoSingleParticle(position, direction2, startSize, startLifetime, startColor, systemType);
+            }
+        }
+        public static void EmitFromAttachedPlayer(EmitRegionStyle emitStyle, float numPerSecond, float duration, PlayerController player, float angleVariance, float magnitudeVariance, float? startSize = null, float? startLifetime = null, Color? startColor = null, SparksType systemType = SparksType.SPARKS_ADDITIVE_DEFAULT)
+        {
+            GameUIRoot.Instance.StartCoroutine(HelpfulMethods.HandleEmitFromAttachedPlayer(emitStyle, numPerSecond, duration, player, angleVariance, magnitudeVariance, startSize, startLifetime, startColor, systemType));
+        }
+
+        public static IEnumerator HandleEmitFromAttachedPlayer(EmitRegionStyle emitStyle, float numPerSecond, float duration, PlayerController player, float angleVariance, float magnitudeVariance, float? startSize = null, float? startLifetime = null, Color? startColor = null, SparksType systemType = SparksType.SPARKS_ADDITIVE_DEFAULT)
+        {
+            float elapsed = 0f;
+            float numReqToSpawn = 0f;
+            while (elapsed < duration)
+            {
+                elapsed += BraveTime.DeltaTime;
+                numReqToSpawn += numPerSecond * BraveTime.DeltaTime;
+                if (numReqToSpawn > 1f)
+                {
+                    int num = Mathf.FloorToInt(numReqToSpawn);
+                    /*switch (emitStyle)
+                    {
+                        case EmitRegionStyle.RANDOM:
+                            HelpfulMethods.DoRandomParticleBurst(num, player.sprite.WorldBottomLeft.ToVector3ZUp(), player.sprite.WorldTopRight.ToVector3ZUp(), angleVariance, magnitudeVariance, startSize, startLifetime, startColor, systemType);
+                            break;
+                        case EmitRegionStyle.RADIAL:
+                            GlobalSparksDoer.DoRadialParticleBurst(num, player.sprite.WorldBottomLeft.ToVector3ZUp(), player.sprite.WorldTopRight.ToVector3ZUp(), angleVariance, direction.magnitude, magnitudeVariance, startSize, startLifetime, startColor, systemType);
+                            break;
+                    }*/
+                    HelpfulMethods.DoRandomParticleBurst(num, player.sprite.WorldBottomLeft.ToVector3ZUp(), player.sprite.WorldTopRight.ToVector3ZUp(), angleVariance, magnitudeVariance, startSize, startLifetime, startColor, systemType);
+                }
+                numReqToSpawn %= 1f;
+                yield return null;
             }
         }
 

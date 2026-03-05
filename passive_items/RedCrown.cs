@@ -283,7 +283,7 @@ namespace GungeonCOTL.passive_items
         private void TriggerDivineInspiration()
         {
             DevotionExpTracker = 0;
-            DevotionCurrentThreshold = 0;
+            DevotionCurrentThreshold = 9999999999f;
             if (NumOfDivineInspirations < DevotionExpThresholdList.Count)
             {
                 NumOfDivineInspirations++;
@@ -446,10 +446,12 @@ namespace GungeonCOTL.passive_items
                     }
                 }
             }
-            if (choicesSpawnLocation.GetAbsoluteRoom() == GameManager.Instance.Dungeon.data.Entrance)
+            /*if (choicesSpawnLocation.GetAbsoluteRoom() == GameManager.Instance.Dungeon.data.Entrance)
             {
                 GameManager.Instance.Dungeon.StartCoroutine(HandleRainbowRunLootProcessing(list));
-            }
+            }*/
+
+            GameManager.Instance.Dungeon.StartCoroutine(HandleRainbowRunLootProcessing(list));
         }
 
         private bool CheckPresentedItemTheoreticalPosition(Vector3 targetPosition, Vector3 objectOffset)
@@ -601,11 +603,11 @@ namespace GungeonCOTL.passive_items
 
         private void DisplayTables()
         {
-            Plugin.Log($"\npossible choice table");
+            /*Plugin.Log($"\npossible choice table");
             foreach (PickupObject a in possibleChoiceTable)
             {
                 Plugin.Log($"{possibleChoiceTable.IndexOf(a)}: {a.EncounterNameOrDisplayName}");
-            }
+            }*/
 
             Plugin.Log($"\navailable choices pool");
             foreach (PickupObject b in availableChoicesPool)
@@ -613,11 +615,11 @@ namespace GungeonCOTL.passive_items
                 Plugin.Log($"{availableChoicesPool.IndexOf(b)}: {b.EncounterNameOrDisplayName}");
             }
 
-            Plugin.Log($"\nchoices");
+            /*Plugin.Log($"\nchoices");
             foreach (PickupObject c in choices)
             {
                 Plugin.Log($"{choices.IndexOf(c)}: {c.EncounterNameOrDisplayName}");
-            }
+            }*/
         }
     }
 }
