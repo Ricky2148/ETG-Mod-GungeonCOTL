@@ -12,6 +12,8 @@ namespace GungeonCOTL.active_items
     {
         public static string ItemName = "Feasting Ritual";
 
+        private static StatModifier ownerlessCurseModifier = StatModifier.Create(PlayerStats.StatType.Curse, StatModifier.ModifyMethod.ADDITIVE, 1.0f);
+
         private GameObject activeVFXObject;
 
         public static int ID;
@@ -73,6 +75,16 @@ namespace GungeonCOTL.active_items
             return base.Drop(player);
         }
 
+        public override bool CanBeUsed(PlayerController player)
+        {
+            //Plugin.Log($"hp %: {player.healthHaver.GetCurrentHealthPercentage()}");
+            if (player.healthHaver.GetCurrentHealthPercentage() >= 1.0)
+            {
+                return false;
+            }
+            return base.CanBeUsed(player);
+        }
+
         public override void DoEffect(PlayerController player)
         {
             player.healthHaver.ApplyHealing(GetHealingAmount(player));
@@ -81,6 +93,8 @@ namespace GungeonCOTL.active_items
                 player.PlayEffectOnActor(healVFX, Vector3.zero);
             }
             AkSoundEngine.PostEvent("feasting_ritual_activation", base.gameObject);
+
+            player.ownerlessStatModifiers.Add(ownerlessCurseModifier);
         }
     }
 }

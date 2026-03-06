@@ -74,9 +74,19 @@ namespace GungeonCOTL.active_items
         public override void DoEffect(PlayerController player)
         {
             choicesSpawnLocation = player.CenterPosition;
-            StartCoroutine(PresentItem());
+            //StartCoroutine(PresentItem());
 
-            Plugin.Log("debug item finished");
+            float a = player.stats.GetStatValue(PlayerStats.StatType.Curse);
+            float b = player.stats.GetBaseStatValue(PlayerStats.StatType.Curse);
+            Plugin.Log($"curse stat: {a} | base curse stat:{b}");
+
+            StatModifier customModifier = StatModifier.Create(PlayerStats.StatType.Curse, StatModifier.ModifyMethod.ADDITIVE, 1.3f);
+            //player.stats.ApplyStatModifier(customModifier, [], []);
+            //player.stats.RecalculateStatsWithoutRebuildingGunVolleys(player);
+
+            player.ownerlessStatModifiers.Add(customModifier);
+            Plugin.Log($"curse stat: {a} | base curse stat:{b}");
+            //Plugin.Log("debug item finished");
         }
 
         private IEnumerator PresentItem()

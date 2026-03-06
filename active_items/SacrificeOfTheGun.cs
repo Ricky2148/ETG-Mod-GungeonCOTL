@@ -81,7 +81,7 @@ namespace GungeonCOTL.active_items
 
             IsCurrentlyActive = true;
 
-            Plugin.Log($"initial activation");
+            //Plugin.Log($"initial activation");
             AkSoundEngine.PostEvent("sacrifice_start", player.gameObject);
             AkSoundEngine.PostEvent("sacrifice_loop", player.gameObject);
 

@@ -11,7 +11,7 @@ namespace GungeonCOTL.passive_items
     {
         public static string ItemName = "Might of the Devout IV";
 
-        private static float DamageStat = 1.25f;
+        private static float DamageStat = 1.4f;
 
         public static int ID;
         public static bool isMightOfTheDevout = true;

@@ -12,7 +12,7 @@ namespace GungeonCOTL.passive_items
     {
         public static string ItemName = "Heart of the Faithful II";
 
-        private static float HealthStat = 2f;
+        private static float HealthStat = 1f;
 
         public static int ID;
         public static bool isHeartOfTheFaithful = true;

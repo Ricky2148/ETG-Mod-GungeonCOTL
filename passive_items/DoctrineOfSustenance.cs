@@ -14,18 +14,26 @@ namespace GungeonCOTL.passive_items
         public static string ItemName = "Doctrine of Sustenance";
     	
         public float ChanceToImproveHealing = 0.15f;
-
         public float HealingImprovedBy = 0.5f;
-
         public GameObject OnImprovedHealingVFX;
 
         public float ChanceToGainMoney = 0.15f;
-
-        public int MoneyGiven = 10;
+        public int MoneyGiven = 15;
+        private static float timeDelay = 0.15f;
+        private static float timeDelayRandRatio = 0.5f;
+        private static List<string> moneySFXList = new List<string>
+        {
+            "pop_1",
+            "pop_2",
+            "pop_3",
+            "pop_4",
+            "pop_5",
+            "pop_6",
+            "pop_7",
+        };
 
         public float ChanceToGainAmmo = 0.15f;
-
-        public float AmmoRestorePercentage = 0.10f;
+        public float AmmoRestorePercentage = 0.15f;
 
         private GameObject activeVFXObject;
 
@@ -107,22 +115,26 @@ namespace GungeonCOTL.passive_items
         private void ModifyIncomingHealing(HealthHaver source, HealthHaver.ModifyHealingEventArgs args)
         {
             //find sfx for each event
-            if (args != EventArgs.Empty && UnityEngine.Random.value < ChanceToImproveHealing)
+            float rand = UnityEngine.Random.value;
+            Plugin.Log($"rand: {rand}");
+
+            if (args != EventArgs.Empty && rand < ChanceToImproveHealing)
             {
+                Plugin.Log($"rand: {rand}, heal");
                 if (OnImprovedHealingVFX != null)
                 {
                     source.GetComponent<PlayerController>().PlayEffectOnActor(OnImprovedHealingVFX, Vector3.zero);
                 }
                 args.ModifiedHealing += HealingImprovedBy;
             }
-            else if (args != EventArgs.Empty && UnityEngine.Random.value < (ChanceToImproveHealing + ChanceToGainMoney))
+            else if (args != EventArgs.Empty && rand < (ChanceToImproveHealing + ChanceToGainMoney))
             {
-                //Plugin.Log($"spawn money");
-                Owner.StartCoroutine(HelpfulMethods.SpawnMoney(Owner, MoneyGiven, 0.1f));
+                Plugin.Log($"rand: {rand}, money");
+                Owner.StartCoroutine(HelpfulMethods.SpawnMoney(Owner, MoneyGiven, timeDelay, true, timeDelayRandRatio, true, moneySFXList));
             }
-            else if (args != EventArgs.Empty && UnityEngine.Random.value < (ChanceToImproveHealing + ChanceToGainMoney + ChanceToGainAmmo))
+            else if (args != EventArgs.Empty && rand < (ChanceToImproveHealing + ChanceToGainMoney + ChanceToGainAmmo))
             {
-                //Plugin.Log($"restore ammo");
+                Plugin.Log($"rand: {rand}, ammo");
                 HelpfulMethods.RestorePercentAmmo(Owner, AmmoRestorePercentage);
             }
         }
