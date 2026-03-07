@@ -7,6 +7,8 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 
+// add additional sfx for heal and ammo restoration
+
 namespace GungeonCOTL.passive_items
 {
     internal class DoctrineOfSustenance : PassiveItem

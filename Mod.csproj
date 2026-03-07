@@ -82,6 +82,7 @@
     <Compile Include="passive_items\CarefreeMelody.cs" />
     <Compile Include="passive_items\CrownUpgradeDarknessWithin.cs" />
     <Compile Include="passive_items\CrownUpgradeResurrection.cs" />
+    <Compile Include="passive_items\DoctrineOfLawAndOrder.cs" />
     <Compile Include="passive_items\DoctrineOfMaterialism.cs" />
     <Compile Include="passive_items\DoctrineOfSin.cs" />
     <Compile Include="passive_items\DoctrineOfSustenance.cs" />
@@ -929,7 +930,7 @@
     <EmbeddedResource Include="Resources\active_item_sprites\feasting_ritual_pixelart_sprite.png" />
     <EmbeddedResource Include="Resources\active_item_sprites\ritual_of_enrichment_pixelart_sprite.png" />
     <EmbeddedResource Include="Resources\active_item_sprites\sacrifice_of_the_gun_pixelart_sprite.png" />
-    <EmbeddedResource Include="Resources\passive_item_sprites\beliefinOriginalSin_idle_001.png" />
+    <EmbeddedResource Include="Resources\passive_item_sprites\doctrine_of_law_and_order_pixelart_sprite.png" />
     <EmbeddedResource Include="Resources\passive_item_sprites\darkness_within_pixelart_sprite.png" />
     <EmbeddedResource Include="Resources\passive_item_sprites\doctrine_of_materialism_pixelart_sprite.png" />
     <EmbeddedResource Include="Resources\passive_item_sprites\heart_of_the_faithful_1_pixelart_sprite.png" />

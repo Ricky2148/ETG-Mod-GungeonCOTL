@@ -63,6 +63,8 @@ namespace GungeonCOTL
             DoctrineOfSin.Init();
             DoctrineOfSustenance.Init();
 
+            DoctrineOfLawAndOrder.Init();
+
             //Sermon Upgrades
             HeartOfTheFaithful1.Init();
             HeartOfTheFaithful2.Init();

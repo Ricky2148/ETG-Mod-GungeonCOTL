@@ -60,6 +60,7 @@ namespace GungeonCOTL.passive_items
             PickupObjectDatabase.GetById(DoctrineOfMaterialism.ID),
             PickupObjectDatabase.GetById(DoctrineOfSin.ID),
             PickupObjectDatabase.GetById(DoctrineOfSustenance.ID),
+            PickupObjectDatabase.GetById(DoctrineOfLawAndOrder.ID),
         };
 
         private bool tierTwoActivated = false;
@@ -321,10 +322,10 @@ namespace GungeonCOTL.passive_items
 
                 sprite.UpdateZDepth();
 
-                sprite.usesOverrideMaterial = true;
+                //sprite.usesOverrideMaterial = true;
 
-                sprite.renderer.material.shader = ShaderCache.Acquire("Brave/Internal/SimpleAlphaFadeUnlit");
-                sprite.renderer.material.SetFloat("_Fade", 0.9f);
+                //sprite.renderer.material.shader = ShaderCache.Acquire("Brave/Internal/SimpleAlphaFadeUnlit");
+                //sprite.renderer.material.SetFloat("_Fade", 0.9f);
             }
 
             Owner.StartCoroutine(PresentItem());

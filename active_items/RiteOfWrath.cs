@@ -16,11 +16,11 @@ namespace GungeonCOTL.active_items
     {
         public static string ItemName = "Rite of Wrath";
 
-        private static float WrathDamageStat = 1.75f;
+        private static float WrathDamageStat = 2.0f;
         private static float WrathRateOfFireStat = 1.25f;
         private static float WrathCurseStat = 4f;
 
-        private static float WrathDuration = 4 * 60f;
+        private static float WrathDuration = 20 * 60f;
 
         private static StatModifier ownerlessCurseModifier = StatModifier.Create(PlayerStats.StatType.Curse, StatModifier.ModifyMethod.ADDITIVE, 1.0f);
         private bool FirstCurseGiven = false;
