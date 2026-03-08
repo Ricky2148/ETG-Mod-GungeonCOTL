@@ -27,8 +27,9 @@ namespace GungeonCOTL.passive_items
 
             ItemBuilder.AddSpriteToObject(itemName, resourceName, obj);
 
-            string shortDesc = "idk";
-            string longDesc = "idk";
+            string shortDesc = "+Power";
+            string longDesc = "1.4x damage\n" +
+                "Immense strength of belief from your followers increase your power greatly.\n";
 
             ItemBuilder.SetupItem(item, shortDesc, longDesc, Plugin.ITEM_PREFIX);
 

@@ -52,8 +52,10 @@ namespace GungeonCOTL.passive_items
 
             ItemBuilder.AddSpriteToObject(itemName, resourceName, obj);
 
-            string shortDesc = "idk";
-            string longDesc = "idk";
+            string shortDesc = "DEVOUR";
+            string longDesc = "Every heal has a chance to heal more, give casings, or restore ammo.\n\n" +
+                "\"Instruct them on the liturgies surrounding their daily bread.\"\n\n" +
+                "Learn how to be more thankful for the crops which feed you. Every meal makes you grateful.\n";
 
             ItemBuilder.SetupItem(item, shortDesc, longDesc, Plugin.ITEM_PREFIX);
 

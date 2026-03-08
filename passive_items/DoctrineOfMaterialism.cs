@@ -32,8 +32,10 @@ namespace GungeonCOTL.passive_items
 
             ItemBuilder.AddSpriteToObject(itemName, resourceName, obj);
 
-            string shortDesc = "idk";
-            string longDesc = "idk";
+            string shortDesc = "CONSUME";
+            string longDesc = "Each purchase decreases current shop prices by 5%\n\n" +
+                "\"Preach on the value of earthly goods.\"\n\n" +
+                "With each purchase made, making your next purchase gets easier.\n";
 
             ItemBuilder.SetupItem(item, shortDesc, longDesc, Plugin.ITEM_PREFIX);
 

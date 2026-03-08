@@ -29,8 +29,10 @@ namespace GungeonCOTL.passive_items
 
             ItemBuilder.AddSpriteToObject(itemName, resourceName, obj);
 
-            string shortDesc = "idk";
-            string longDesc = "idk";
+            string shortDesc = "OBEY";
+            string longDesc = "Decreases hp of all enemies by 10%\n\n" +
+                "\"Teach them the true meaning of obedience.\"\n\n" +
+                "Manipulate the justice system to instill fear into the bulletkin. From now on, they're quicker to give up on their lives.\n";
 
             ItemBuilder.SetupItem(item, shortDesc, longDesc, Plugin.ITEM_PREFIX);
 

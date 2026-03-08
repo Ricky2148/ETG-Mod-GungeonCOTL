@@ -21,7 +21,7 @@ Sacrifice of the Gun:
 
 ![](https://i.ibb.co/tT31KW77/feasting-ritual-pixelart-sprite-corpse.png)
 Feasting Ritual:
-- Fully heals the player
+- Fully heals the player and +1 curse on use
 
 ![](https://i.ibb.co/KzGzCLRv/ritual-of-enrichment-pixelart-sprite.png)
 Ritual of Enrichment:
@@ -50,7 +50,7 @@ Doctrine of Sustenance:
 
 ![](https://i.ibb.co/Ps4MRRPp/doctrine-of-law-and-order-pixelart-sprite.png)
 Doctrine of Law & Order:
-- All enemies -10% hp
+- All enemies -10% HP
 
 ## Sermon Upgrades:
 Heart of the Faithful:
@@ -63,7 +63,7 @@ Might of the Devout:
 ## Crown Upgrades:
 ![](https://i.ibb.co/kV83yKkP/resurrection-pixelart-sprite.png)
 Resurrection:
-- Revives the player with 1 half heart
+- Revives the player with 1 heart
 
 ![](https://i.ibb.co/DDDMgdj9/darkness-within-pixelart-sprite.png)
 Darkness Within:

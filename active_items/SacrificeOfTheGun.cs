@@ -29,8 +29,10 @@ namespace GungeonCOTL.active_items
 
             ItemBuilder.AddSpriteToObject(itemName, resourceName, obj);
 
-            string shortDesc = "idk";
-            string longDesc = "idk";
+            string shortDesc = "to appease the Gods";
+            string longDesc = "Sacrifice your current gun and obtains a new weapon of higher rarity.\n\n" +
+                "Sacrifices a weapon to the gods in honor of their benevolence. In return, they shall reward you accordingly. " +
+                "Many devout weapons are happy to give their lives for the good of us all, or so they say...\n";
 
             ItemBuilder.SetupItem(item, shortDesc, longDesc, Plugin.ITEM_PREFIX);
 

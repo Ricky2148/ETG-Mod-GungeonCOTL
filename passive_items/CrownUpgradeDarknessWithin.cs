@@ -32,8 +32,9 @@ namespace GungeonCOTL.passive_items
 
             ItemBuilder.AddSpriteToObject(itemName, resourceName, obj);
 
-            string shortDesc = "idk";
-            string longDesc = "idk";
+            string shortDesc = "Blackened Heart";
+            string longDesc = "Deal damage to all enemies every time you take damage.\n\n" +
+                "Bearing the sins of your followers has caused your heart and soul to become blackened with darkness. It leaks out with ill will and lashes out against any who harm them.\n";
 
             ItemBuilder.SetupItem(item, shortDesc, longDesc, Plugin.ITEM_PREFIX);
 

@@ -29,8 +29,9 @@ namespace GungeonCOTL.active_items
 
             ItemBuilder.AddSpriteToObject(itemName, resourceName, obj);
 
-            string shortDesc = "idk";
-            string longDesc = "idk";
+            string shortDesc = "yum...";
+            string longDesc = "Fully heals the player and +1 curse on use\n\n" +
+                "A freshly prepared c*r**e, cooked and seasoned to perfection. It tastes really good, however each bite makes you feel more and more guilty.\n";
 
             ItemBuilder.SetupItem(item, shortDesc, longDesc, Plugin.ITEM_PREFIX);
 

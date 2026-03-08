@@ -144,8 +144,10 @@ namespace GungeonCOTL.passive_items
 
             ItemBuilder.AddSpriteToObject(itemName, resourceName, obj);
 
-            string shortDesc = "idk";
-            string longDesc = "idk";
+            string shortDesc = "Bear the Crown";
+            string longDesc = "Gain EXP from killing enemies. Level up and get rewards via Divine Inspiration.\n\n" +
+                "\"Take the Red Crown which I once wore. With it you shall command the loyalty of Gungeoneers and strike fear into the hearts of bulletkin.\"\n\n" +
+                "              -The One Who Waits\n";
 
             ItemBuilder.SetupItem(item, shortDesc, longDesc, Plugin.ITEM_PREFIX);
 

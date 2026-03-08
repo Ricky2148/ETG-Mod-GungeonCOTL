@@ -37,8 +37,9 @@ namespace GungeonCOTL.active_items
 
             ItemBuilder.AddSpriteToObject(itemName, resourceName, obj);
 
-            string shortDesc = "idk";
-            string longDesc = "idk";
+            string shortDesc = "Bestow Divine Power";
+            string longDesc = "Upgrades your current weapon with various buffs\n\n" +
+                "Ascends a weapon to the heavens, granting it divine strength and knowledge. No matter how much you pry, the weapon will never tell you what knowledge it received.\n";
 
             ItemBuilder.SetupItem(item, shortDesc, longDesc, Plugin.ITEM_PREFIX);
 

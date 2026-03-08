@@ -34,8 +34,10 @@ namespace GungeonCOTL.passive_items
 
             ItemBuilder.AddSpriteToObject(itemName, resourceName, obj);
 
-            string shortDesc = "idk";
-            string longDesc = "idk";
+            string shortDesc = "INDULGE";
+            string longDesc = "Summons a free chest in exchange for +3 curse\n\n" +
+                "\"Give in to your sinful desires and embrace your filthy nature.\"\n\n" +
+                "Despite what others may say, the reward you received appears worth it to you\n";
 
             ItemBuilder.SetupItem(item, shortDesc, longDesc, Plugin.ITEM_PREFIX);
 

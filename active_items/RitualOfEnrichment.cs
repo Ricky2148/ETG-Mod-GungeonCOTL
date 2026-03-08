@@ -46,8 +46,9 @@ namespace GungeonCOTL.active_items
 
             ItemBuilder.AddSpriteToObject(itemName, resourceName, obj);
 
-            string shortDesc = "idk";
-            string longDesc = "idk";
+            string shortDesc = "received a donation!";
+            string longDesc = "Command your followers to \"donate\" their casings for the gods. You assure them that the funds will go towards all things divine.\n\n" +
+                "somehow it ends up in your pockets...\n";
 
             ItemBuilder.SetupItem(item, shortDesc, longDesc, Plugin.ITEM_PREFIX);
 

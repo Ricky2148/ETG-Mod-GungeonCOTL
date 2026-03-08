@@ -44,8 +44,9 @@ namespace GungeonCOTL.active_items
 
             ItemBuilder.AddSpriteToObject(itemName, resourceName, obj);
 
-            string shortDesc = "idk";
-            string longDesc = "idk";
+            string shortDesc = "RAGE!!!";
+            string longDesc = "Grants a powerful buff for a duration. Gain permanent curse throughout the duration.\n\n" +
+                "Unleash your innate desires for havoc and violence. Allow yourself to be consumed by the thirst for WRATH! Pay no heed to the consequences of these actions.\n";
 
             ItemBuilder.SetupItem(item, shortDesc, longDesc, Plugin.ITEM_PREFIX);
 

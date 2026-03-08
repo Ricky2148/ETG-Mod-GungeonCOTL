@@ -33,8 +33,10 @@ namespace GungeonCOTL.passive_items
 
             ItemBuilder.AddSpriteToObject(itemName, resourceName, obj);
 
-            string shortDesc = "idk";
-            string longDesc = "idk";
+            string shortDesc = "Another Try";
+            string longDesc = "Revives the player with 1 heart.\n\n" +
+                "\"Death is of little consequence. Rise once more, vessel of mine.\"\n\n" +
+                "Harness the power to defy death once after lengthy and devoted worship.\n";
 
             ItemBuilder.SetupItem(item, shortDesc, longDesc, Plugin.ITEM_PREFIX);
 
@@ -101,7 +103,7 @@ namespace GungeonCOTL.passive_items
                 player.healthHaver.TriggerInvulnerabilityPeriod(ReviveDuration + 0.1f);
                 //player.TriggerInvulnerableFrames(4.1f);
                 //player.healthHaver.ForceSetCurrentHealth(Mathf.Max((player.healthHaver.GetMaxHealth() / 4f), 0.5f));
-                player.healthHaver.ForceSetCurrentHealth(0.5f);
+                player.healthHaver.ForceSetCurrentHealth(1f);
                 player.CurrentInputState = PlayerInputState.NoInput;
                 player.healthHaver.OnPreDeath -= Resurrection;
 
