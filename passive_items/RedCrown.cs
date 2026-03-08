@@ -40,6 +40,8 @@ namespace GungeonCOTL.passive_items
             3000f, //10
         };
 
+        private static int CapNumDivineInspirations = 17;
+
         private Vector3 DivineInspirationChoiceDecisionLocation = Vector3.zero;
 
         //initial pool
@@ -287,7 +289,12 @@ namespace GungeonCOTL.passive_items
         {
             DevotionExpTracker = 0;
             DevotionCurrentThreshold = 9999999999f;
-            if (NumOfDivineInspirations < DevotionExpThresholdList.Count)
+            /*if (NumOfDivineInspirations < DevotionExpThresholdList.Count)
+            {
+                NumOfDivineInspirations++;
+            }*/
+
+            if (NumOfDivineInspirations < CapNumDivineInspirations)
             {
                 NumOfDivineInspirations++;
             }

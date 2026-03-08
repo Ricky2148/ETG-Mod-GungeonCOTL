@@ -1,6 +1,6 @@
 # What it does:
 Adds the Red Crown from ***The Cult of the Lamb*** into Enter the Gungeon!
-### [Google Form]()
+### [Google Form](https://forms.gle/1RpMjJm8ptFGdE2r5)
 If you have any questions, requests, or thoughts, you can let me know through here.
 
 ## ![](https://i.ibb.co/YTD0Lf6d/red-crown-alt-pixelart-sprite.png) Red Crown:
@@ -58,7 +58,7 @@ Heart of the Faithful:
 - ![](https://i.ibb.co/8LYLPM6c/heart-of-the-faithful-2-pixelart-sprite.png) II: +1 Heart
 
 Might of the Devout:
-- ![](https://i.ibb.co/5X9Hfk3R/might-of-the-devout-1-pixelart-sprite.png) - ![](https://i.ibb.co/qMSkPQw3/might-of-the-devout-6-pixelart-sprite.png) I - VI: 1.1x - 1.6x damage buff
+- ![](https://i.ibb.co/5X9Hfk3R/might-of-the-devout-1-pixelart-sprite.png) - ![](https://i.ibb.co/qMSkPQw3/might-of-the-devout-6-pixelart-sprite.png) I - VI: 1.1x - 1.75x damage buff
 
 ## Crown Upgrades:
 ![](https://i.ibb.co/kV83yKkP/resurrection-pixelart-sprite.png)
