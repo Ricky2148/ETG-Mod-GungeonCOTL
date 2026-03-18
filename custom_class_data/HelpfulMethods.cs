@@ -215,7 +215,6 @@ namespace GungeonCOTL.custom_class_data
                 false);
         }
 
-        //randRatio = +/- range
         public static System.Collections.IEnumerator SpawnMoney(PlayerController player, int count, float spawnDelay, bool randSpawn = false, float randRatio = 0f, bool playSFX = false, List<string> SFXList = null)
         {
             //Plugin.Log($"start spawning");
@@ -241,6 +240,63 @@ namespace GungeonCOTL.custom_class_data
             }
             //Plugin.Log($"finish spawning");
             yield return null;
+        }
+
+        //randRatio = +/- range
+        //one day make this a random range within a cir
+        public static System.Collections.IEnumerator SpawnMoneyInDonut(PlayerController player, int count, float spawnDelay, bool randSpawn = false, float randRatio = 0f, bool playSFX = false, List<string> SFXList = null)
+        {
+            //Plugin.Log($"start spawning");
+            float timeDelayUsed = spawnDelay;
+            for (int i = 0; i < count; i++)
+            {
+                //Plugin.Log($"i: {i}, count: {count}");
+                Vector3 idk = player.specRigidbody.UnitDimensions;
+                float num = ((idk.x + idk.y) / 2);
+
+                //Vector2 offset = new Vector3(num * UnityEngine.Random.Range(-4f, 4f), (num * UnityEngine.Random.Range(-4f, 4f)) + -0.5f);
+
+                /*Vector2 offset = UnityEngine.Random.insideUnitCircle;
+                offset.Scale(new Vector3(num * 6f, num * 5f, 0));
+                offset.y -= 0.5f;
+
+                Vector2 offsetExclusionMin = new Vector3(num * -3f, (num * -2.5f) + -1f);
+                Vector2 offsetExclusionMax = new Vector3(num * 3f, (num * 2.5f) + -1f);
+
+                while (offset.IsWithin(offsetExclusionMin, offsetExclusionMax))
+                {
+                    offset = UnityEngine.Random.insideUnitCircle;
+                    offset.Scale(new Vector3(num * 6f, num * 5f, 0));
+                    offset.y -= 0.5f;
+                }*/
+
+                Vector2 offset = RandomPointInDonut(Vector2.zero, (num * 3f), (num * 5f), 1.3f, 1);
+                Plugin.Log($"offset: {offset}, min: {num * 1.5f}, max: {num * 3f}");
+                offset.y -= 0.5f;
+
+                LootEngine.SpawnCurrency(player.specRigidbody.UnitBottomCenter + offset, 1);
+
+                if (playSFX && SFXList != null && SFXList.Count > 0)
+                {
+                    PlayRandomSFX(player.gameObject, SFXList);
+                }
+
+                if (randSpawn)
+                {
+                    timeDelayUsed = spawnDelay * (UnityEngine.Random.Range(1f - randRatio, 1f + randRatio));
+                }
+                yield return new WaitForSeconds(timeDelayUsed);
+            }
+            //Plugin.Log($"finish spawning");
+            yield return null;
+        }
+
+        public static Vector2 RandomPointInDonut(Vector2 center, float innerRadius, float outerRadius, float xStretch = 1.0f, float yStretch = 1.0f)
+        {
+            float angle = UnityEngine.Random.Range(0f, 2f * Mathf.PI);
+            float displacement = Mathf.Sqrt(UnityEngine.Random.value);
+            float distance = innerRadius + displacement * (outerRadius - innerRadius);
+            return center + new Vector2(distance * xStretch * Mathf.Cos(angle), distance * yStretch * Mathf.Sin(angle));
         }
 
         public static void RestorePercentAmmo(PlayerController source, float ammoRestorePercent)

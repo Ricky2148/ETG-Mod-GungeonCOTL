@@ -119,12 +119,13 @@ namespace GungeonCOTL.active_items
             DebrisObject droppedGun = player.ForceDropGun(sacrificedGun);
             UnityEngine.Object.Destroy(droppedGun.gameObject);
 
+            //use UnityEngine.random
             System.Random rand = new System.Random();
 
             if (qual == ItemQuality.S)
             {
                 PickupObject newGunToSpawn = PickupObjectDatabase.GetRandomGunOfQualities(rand, new List<int>(), qual);
-                PickupObject newGunToSpawn2 = PickupObjectDatabase.GetRandomGunOfQualities(new System.Random(rand.Next()), new List<int>(), qual);
+                PickupObject newGunToSpawn2 = PickupObjectDatabase.GetRandomPassiveOfQualities(new System.Random(rand.Next()), new List<int>(), [qual - 1, qual]);
                 LootEngine.SpewLoot(newGunToSpawn.gameObject, player.CenterPosition + new Vector2(-2f, 0));
                 LootEngine.SpewLoot(newGunToSpawn2.gameObject, player.CenterPosition + new Vector2(2f, 0));
             }

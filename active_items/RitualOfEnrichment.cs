@@ -1,4 +1,5 @@
 ﻿using Alexandria.ItemAPI;
+using Alexandria.VisualAPI;
 using Brave.BulletScript;
 using GungeonCOTL.custom_class_data;
 using System;
@@ -31,6 +32,10 @@ namespace GungeonCOTL.active_items
             "pop_7",
         };
 
+        private static List<string> EnrichmentActivationVFXSpritePath = "GungeonCOTL/Resources/vfxs/casing_vanish_vfx/casingVanish".GetResourceFrames(62);
+
+        private static GameObject EnrichmentActivationVFX;
+
         private GameObject activeVFXObject;
 
         public static int ID;
@@ -61,6 +66,21 @@ namespace GungeonCOTL.active_items
             item.usableDuringDodgeRoll = false;
             item.quality = PickupObject.ItemQuality.SPECIAL;
             ID = item.PickupObjectId;
+
+            EnrichmentActivationVFX = VFXBuilder.CreateVFX
+            (
+                "enrichment_activation_vfx",
+                EnrichmentActivationVFXSpritePath,
+                18,
+                new IntVector2(0, 0),
+                tk2dBaseSprite.Anchor.MiddleCenter,
+                false,
+                0,
+                -1,
+                Color.cyan,
+                tk2dSpriteAnimationClip.WrapMode.Once,
+                true
+            );
         }
 
         public override void Pickup(PlayerController player)
@@ -75,6 +95,9 @@ namespace GungeonCOTL.active_items
                 AkSoundEngine.PostEvent("ritual_pickup", player.gameObject);
                 activeVFXObject = VFXPlayerCOTL.PlayRitualActivationEffectOnActor(player, true, false, false);
             }
+
+            //testing
+            //player.PlayEffectOnActor(EnrichmentActivationVFX, new Vector3(19 / 16f, 25 / 16f, 1f), true, false, false);
 
             base.Pickup(player);
             Plugin.Log($"Player picked up {this.EncounterNameOrDisplayName}");
@@ -94,7 +117,9 @@ namespace GungeonCOTL.active_items
         {
             base.DoEffect(player);
 
-            player.StartCoroutine(HelpfulMethods.SpawnMoney(player, MoneyGiven, timeDelay, true, timeDelayRandRatio, true, moneySFXList));
+            player.StartCoroutine(HelpfulMethods.SpawnMoneyInDonut(player, MoneyGiven, timeDelay, true, timeDelayRandRatio, true, moneySFXList));
+
+            player.PlayEffectOnActor(EnrichmentActivationVFX, new Vector3(19 / 16f, 25 / 16f, 1f), true, false, false);
 
             AkSoundEngine.PostEvent("enrichment_activation", player.gameObject);
 
