@@ -244,7 +244,7 @@ namespace GungeonCOTL.custom_class_data
 
         //randRatio = +/- range
         //one day make this a random range within a cir
-        public static System.Collections.IEnumerator SpawnMoneyInDonut(PlayerController player, int count, float spawnDelay, bool randSpawn = false, float randRatio = 0f, bool playSFX = false, List<string> SFXList = null)
+        public static System.Collections.IEnumerator SpawnMoneyInDonut(PlayerController player, int count, float spawnDelay, bool randSpawn = false, float randRatio = 0f, bool playSFX = false, List<string> SFXList = null, int casingValue = 1)
         {
             //Plugin.Log($"start spawning");
             float timeDelayUsed = spawnDelay;
@@ -271,10 +271,10 @@ namespace GungeonCOTL.custom_class_data
                 }*/
 
                 Vector2 offset = RandomPointInDonut(Vector2.zero, (num * 3f), (num * 5f), 1.3f, 1);
-                Plugin.Log($"offset: {offset}, min: {num * 1.5f}, max: {num * 3f}");
+                //Plugin.Log($"offset: {offset}, min: {num * 1.5f}, max: {num * 3f}");
                 offset.y -= 0.5f;
 
-                LootEngine.SpawnCurrency(player.specRigidbody.UnitBottomCenter + offset, 1);
+                LootEngine.SpawnCurrency(player.specRigidbody.UnitBottomCenter + offset, casingValue);
 
                 if (playSFX && SFXList != null && SFXList.Count > 0)
                 {

@@ -17,7 +17,9 @@ namespace GungeonCOTL.active_items
         public static string ItemName = "Rite of Wrath";
 
         private static float WrathDamageStat = 2.0f;
+        private static StatModifier ownerlessDamageModifier = StatModifier.Create(PlayerStats.StatType.Damage, StatModifier.ModifyMethod.MULTIPLICATIVE, 2.0f);
         private static float WrathRateOfFireStat = 1.25f;
+        private static StatModifier ownerlessRateOfFireModifier = StatModifier.Create(PlayerStats.StatType.RateOfFire, StatModifier.ModifyMethod.MULTIPLICATIVE, 1.25f);
         private static float WrathCurseStat = 4f;
 
         private static float WrathDuration = 20 * 60f;
@@ -99,8 +101,11 @@ namespace GungeonCOTL.active_items
 
         private System.Collections.IEnumerator ApplyWrathBuff(PlayerController player, float duration)
         {
-            ItemBuilder.AddPassiveStatModifier(this, PlayerStats.StatType.Damage, WrathDamageStat, StatModifier.ModifyMethod.MULTIPLICATIVE);
-            ItemBuilder.AddPassiveStatModifier(this, PlayerStats.StatType.RateOfFire, WrathRateOfFireStat, StatModifier.ModifyMethod.MULTIPLICATIVE);
+            //ItemBuilder.AddPassiveStatModifier(this, PlayerStats.StatType.Damage, WrathDamageStat, StatModifier.ModifyMethod.MULTIPLICATIVE);
+            //ItemBuilder.AddPassiveStatModifier(this, PlayerStats.StatType.RateOfFire, WrathRateOfFireStat, StatModifier.ModifyMethod.MULTIPLICATIVE);
+
+            player.ownerlessStatModifiers.Add(ownerlessDamageModifier);
+            player.ownerlessStatModifiers.Add(ownerlessRateOfFireModifier);
 
             player.stats.RecalculateStatsWithoutRebuildingGunVolleys(player);
 
@@ -163,8 +168,11 @@ namespace GungeonCOTL.active_items
             //yield return new WaitForSeconds(WrathDuration);
 
             // removes all stat buffs for both base item and overdrive effect
-            ItemBuilder.RemovePassiveStatModifier(this, PlayerStats.StatType.Damage);
-            ItemBuilder.RemovePassiveStatModifier(this, PlayerStats.StatType.RateOfFire);
+            //ItemBuilder.RemovePassiveStatModifier(this, PlayerStats.StatType.Damage);
+            //ItemBuilder.RemovePassiveStatModifier(this, PlayerStats.StatType.RateOfFire);
+
+            player.ownerlessStatModifiers.Remove(ownerlessDamageModifier);
+            player.ownerlessStatModifiers.Remove(ownerlessRateOfFireModifier);
 
             //ItemBuilder.AddPassiveStatModifier(this, PlayerStats.StatType.Curse, WrathCurseStat);
             player.ownerlessStatModifiers.Add(ownerlessCurseModifier);
