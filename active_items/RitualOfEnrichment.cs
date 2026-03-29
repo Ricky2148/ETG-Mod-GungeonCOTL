@@ -174,14 +174,17 @@ namespace GungeonCOTL.active_items
         {
             base.DoEffect(player);
 
-            float randVal = UnityEngine.Random.value;
-            Plugin.Log($"rand val: {randVal}");
+            //float GeneratedRandomValue = UnityEngine.Random.value;
+
+            float randVal = Mathf.Pow(UnityEngine.Random.value, Mathf.Max(1f, (player.stats.GetStatValue(PlayerStats.StatType.Coolness) / 4f) + 1f));
+
+            //Plugin.Log($"rand val: {randVal}, Random.value: {GeneratedRandomValue}, exponent: {Mathf.Min(1f, (player.stats.GetStatValue(PlayerStats.StatType.Coolness) / 4f) + 1f)}");
 
             switch (randVal)
             {
                 //gold (5 loops at 1s) = 5s
-                case < 0.01f:
-                    Plugin.Log($"gold: {randVal}");
+                case < 0.03f:
+                    //Plugin.Log($"gold: {randVal}");
                     //player.StartCoroutine(HelpfulMethods.SpawnMoneyInDonut(player, (MoneyGiven / 50) * 5, timeDelay * 20f, false, timeDelayRandRatio, true, moneySFXList, 50));
 
                     //bronze casing spam ver
@@ -189,8 +192,8 @@ namespace GungeonCOTL.active_items
                     player.PlayEffectOnActor(GoldEnrichmentActivationVFX, new Vector3(19 / 16f, 25 / 16f, 1f), true, false, false);
                     break;
                 //mix (30 loops at 0.1.25s) 3.75s
-                case < 0.10f:
-                    Plugin.Log($"mix: {randVal}");
+                case < 0.15f:
+                    //Plugin.Log($"mix: {randVal}");
                     //player.StartCoroutine(SpawnRandomCasingsInDonut(player, (int)((MoneyGiven / 2) * 1.2f), timeDelay * 2.5f, true, timeDelayRandRatio, true, moneySFXList));
 
                     //bronze casing spam ver
@@ -198,8 +201,8 @@ namespace GungeonCOTL.active_items
                     player.PlayEffectOnActor(MixEnrichmentActivationVFX, new Vector3(19 / 16f, 25 / 16f, 1f), true, false, false);
                     break;
                 //silver (15 loops at 0.20s) = 3.0s
-                case < 0.30f:
-                    Plugin.Log($"silver: {randVal}");
+                case < 0.40f:
+                    //Plugin.Log($"silver: {randVal}");
                     //player.StartCoroutine(HelpfulMethods.SpawnMoneyInDonut(player, (int)((MoneyGiven / 5) * 1.5f), timeDelay * 4f, true, timeDelayRandRatio, true, moneySFXList, 5));
 
                     //bronze casing spam ver
@@ -208,7 +211,7 @@ namespace GungeonCOTL.active_items
                     break;
                 //bronze (50 loops at 0.05s) = 2.5s
                 default:
-                    Plugin.Log($"bronze: {randVal}");
+                    //Plugin.Log($"bronze: {randVal}");
                     player.StartCoroutine(HelpfulMethods.SpawnMoneyInDonut(player, MoneyGiven, timeDelay, true, timeDelayRandRatio, true, moneySFXList));
                     player.PlayEffectOnActor(BronzeEnrichmentActivationVFX, new Vector3(19 / 16f, 25 / 16f, 1f), true, false, false);
                     break;

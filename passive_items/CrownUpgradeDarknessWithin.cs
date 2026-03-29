@@ -1,4 +1,5 @@
 ﻿using Alexandria.ItemAPI;
+using Alexandria.VisualAPI;
 using Dungeonator;
 using GungeonCOTL.custom_class_data;
 using System;
@@ -106,6 +107,7 @@ namespace GungeonCOTL.passive_items
         private void OnPlayerDamaged(float resultValue, float maxValue, CoreDamageTypes damageTypes, DamageCategory damageCategory, Vector2 damageDirection)
         {
             //Owner.ForceBlank();
+            activeVFXObject = UnityEngine.Object.Instantiate(VFXPlayerCOTL.DarknessWithinActivationEffectVFX, Owner.CenterPosition, Quaternion.identity);
 
             DoBlankDamage(Owner);
         }

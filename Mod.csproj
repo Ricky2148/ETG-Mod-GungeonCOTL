@@ -705,6 +705,17 @@
     <Content Include="packages\Newtonsoft.Json.13.0.1\lib\netstandard2.0\Newtonsoft.Json.dll" />
     <Content Include="packages\Newtonsoft.Json.13.0.1\lib\netstandard2.0\Newtonsoft.Json.xml" />
     <Content Include="packages\Newtonsoft.Json.13.0.1\packageIcon.png" />
+    <EmbeddedResource Include="Resources\vfxs\darkness_within_activation_vfx\smokeBurstSmall_001.png" />
+    <EmbeddedResource Include="Resources\vfxs\darkness_within_activation_vfx\smokeBurstSmall_002.png" />
+    <EmbeddedResource Include="Resources\vfxs\darkness_within_activation_vfx\smokeBurstSmall_003.png" />
+    <EmbeddedResource Include="Resources\vfxs\darkness_within_activation_vfx\smokeBurstSmall_004.png" />
+    <EmbeddedResource Include="Resources\vfxs\darkness_within_activation_vfx\smokeBurstSmall_005.png" />
+    <EmbeddedResource Include="Resources\vfxs\darkness_within_activation_vfx\smokeBurstSmall_006.png" />
+    <EmbeddedResource Include="Resources\vfxs\darkness_within_activation_vfx\smokeBurstSmall_007.png" />
+    <EmbeddedResource Include="Resources\vfxs\darkness_within_activation_vfx\smokeBurstSmall_008.png" />
+    <EmbeddedResource Include="Resources\vfxs\darkness_within_activation_vfx\smokeBurstSmall_009.png" />
+    <EmbeddedResource Include="Resources\vfxs\darkness_within_activation_vfx\smokeBurstSmall_010.png" />
+    <EmbeddedResource Include="Resources\vfxs\darkness_within_activation_vfx\smokeBurstSmall_011.png" />
     <EmbeddedResource Include="Resources\vfxs\casing_vanish_vfxs\casingVanish_bronze\casingVanish_001.png" />
     <EmbeddedResource Include="Resources\vfxs\casing_vanish_vfxs\casingVanish_bronze\casingVanish_002.png" />
     <EmbeddedResource Include="Resources\vfxs\casing_vanish_vfxs\casingVanish_bronze\casingVanish_003.png" />

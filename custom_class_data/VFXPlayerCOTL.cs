@@ -372,5 +372,47 @@ namespace GungeonCOTL.custom_class_data
 
             return vfxObject;
         }
+
+        private static List<string> DarknessWithinActivationVFXSpritePath = "GungeonCOTL/Resources/vfxs/darkness_within_activation_vfx/smokeBurstSmall".GetResourceFrames(11);
+
+        public static GameObject DarknessWithinActivationEffectVFX = VFXBuilder.CreateVFX
+        (
+            "darkness_within_activation_effect_vfx",
+            DarknessWithinActivationVFXSpritePath,
+            15,
+            new IntVector2(0, 0),
+            tk2dBaseSprite.Anchor.MiddleCenter,
+            false,
+            0,
+            -1,
+            Color.cyan,
+            tk2dSpriteAnimationClip.WrapMode.Once,
+            true
+        );
+
+        public static GameObject PlayDarknessWithinActivationEffectOnActor(PlayerController player, bool attached = true, bool alreadyMiddleCenter = false, bool useHitbox = false)
+        {
+            Vector3 offset = new Vector3(0 / 16f, 0 / 16f, 0f);
+
+            GameObject vfxObject = player.PlayEffectOnActor(DarknessWithinActivationEffectVFX, offset, attached, alreadyMiddleCenter, useHitbox);
+
+            var sprite = vfxObject.GetComponent<tk2dSprite>();
+
+            if (sprite != null)
+            {
+                sprite.HeightOffGround = 2f;
+
+                //sprite.scale = new Vector3(2.5f, 2.5f, 0f);
+
+                sprite.UpdateZDepth();
+
+                /*sprite.usesOverrideMaterial = true;
+
+                sprite.renderer.material.shader = ShaderCache.Acquire("Brave/Internal/SimpleAlphaFadeUnlit");
+                sprite.renderer.material.SetFloat("_Fade", 1f);*/
+            }
+
+            return vfxObject;
+        }
     }
 }
