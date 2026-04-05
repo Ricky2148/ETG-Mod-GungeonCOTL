@@ -5,6 +5,8 @@
   "description": "addsd stuffs",
   "dependencies": [
     "MtG_API-Mod_the_Gungeon_API-1.9.2",
-    "Alexandria-Alexandria-0.5.0"
+    "Alexandria-Alexandria-0.5.0",
+    "KyleTheScientist-Custom_Characters_Mod-2.2.8",
+    "SpecialAPI-No_Base_Specific_CC_Breach_Effects-1.0.2"
   ]
 }
