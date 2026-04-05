@@ -18,6 +18,22 @@ namespace GungeonCOTL.passive_items
 
         private static float DarknessWithinDamage = 15f;
 
+        private static List<string> DiseasedHeartVFXPath = new List<string>
+        {
+            "GungeonCOTL/Resources/vfxs/test_vfx/test_vfx_01",
+            "GungeonCOTL/Resources/vfxs/test_vfx/test_vfx_02",
+            "GungeonCOTL/Resources/vfxs/test_vfx/test_vfx_03",
+            "GungeonCOTL/Resources/vfxs/test_vfx/test_vfx_04",
+            "GungeonCOTL/Resources/vfxs/test_vfx/test_vfx_05",
+            "GungeonCOTL/Resources/vfxs/test_vfx/test_vfx_06",
+            "GungeonCOTL/Resources/vfxs/test_vfx/test_vfx_07",
+            "GungeonCOTL/Resources/vfxs/test_vfx/test_vfx_08",
+            "GungeonCOTL/Resources/vfxs/test_vfx/test_vfx_09",
+            "GungeonCOTL/Resources/one_off_sprites/blank_sprite",
+        };
+
+        private static GameObject DiseasedHeartVFXEffect;
+
         private GameObject activeVFXObject;
 
         public static int ID;
@@ -43,6 +59,21 @@ namespace GungeonCOTL.passive_items
             item.SetName("Darkness Within");
             ID = item.PickupObjectId;
             //Plugin.Log($"ID: {ID}, pickupID: {item.PickupObjectId}");
+
+            DiseasedHeartVFXEffect = VFXBuilder.CreateVFX
+            (
+                "diseased_heart_vfx_effect",
+                DiseasedHeartVFXPath,
+                10,
+                new IntVector2(0, 0),
+                tk2dBaseSprite.Anchor.MiddleCenter,
+                false,
+                0,
+                -1,
+                Color.cyan,
+                tk2dSpriteAnimationClip.WrapMode.Once,
+                true
+            );
         }
 
         public override void Pickup(PlayerController player)
@@ -109,7 +140,49 @@ namespace GungeonCOTL.passive_items
             //Owner.ForceBlank();
             activeVFXObject = UnityEngine.Object.Instantiate(VFXPlayerCOTL.DarknessWithinActivationEffectVFX, Owner.CenterPosition, Quaternion.identity);
 
-            DoBlankDamage(Owner);
+            //DoBlankDamage(Owner);
+
+            if (Owner.CurrentRoom == null) return;
+
+            List<AIActor> enemyList = Owner.CurrentRoom.GetActiveEnemies(RoomHandler.ActiveEnemyType.All);
+            if (enemyList != null)
+            {
+                foreach (AIActor enemy in enemyList)
+                {
+                    enemy.StartCoroutine(DelayDamage(enemy));
+
+                    /*if (enemy != null && enemy.healthHaver != null && enemy.healthHaver.IsVulnerable)
+                    {
+                        enemy.healthHaver.ApplyDamage(
+                            DarknessWithinDamage,
+                            Vector2.zero,
+                            "darkness_within_blank_damage",
+                            CoreDamageTypes.None,
+                            DamageCategory.Normal,
+                            false
+                        );
+                    }*/
+                }
+            }
+        }
+
+        private System.Collections.IEnumerator DelayDamage(AIActor enemy)
+        {
+            enemy.PlayEffectOnActor(DiseasedHeartVFXEffect, new Vector3(0f, 0f, 0f), true, false, false);
+
+            yield return new WaitForSeconds(1f);
+
+            if (enemy != null && enemy.healthHaver != null && enemy.healthHaver.IsVulnerable)
+            {
+                enemy.healthHaver.ApplyDamage(
+                    DarknessWithinDamage,
+                    Vector2.zero,
+                    "darkness_within_diseased_heart_damage",
+                    CoreDamageTypes.None,
+                    DamageCategory.Normal,
+                    false
+                );
+            }
         }
     }
 }
