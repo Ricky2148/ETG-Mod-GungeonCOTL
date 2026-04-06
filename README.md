@@ -1,7 +1,9 @@
-# What it does:
-Adds the Red Crown from ***The Cult of the Lamb*** into Enter the Gungeon!
+# Adds *The Lamb* and a unique version of the *Red Crown* from ***The Cult of the Lamb*** into Enter the Gungeon!
 ### [Google Form](https://forms.gle/1RpMjJm8ptFGdE2r5)
 If you have any questions, requests, or thoughts, you can let me know through here.
+
+## The Lamb:
+- Just like the mobile port, it starts with the Crusader's Blade and the Red Crown
 
 ## ![](https://i.ibb.co/YTD0Lf6d/red-crown-alt-pixelart-sprite.png) Red Crown:
 - Gains EXP from killing enemies equal to their HP, spawns a selection of items at each exp checkpoint
