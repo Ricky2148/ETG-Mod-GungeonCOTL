@@ -20,7 +20,6 @@ namespace GungeonCOTL.active_items
         {
             PickupObjectDatabase.GetById(CrownUpgradeResurrection.ID),
             PickupObjectDatabase.GetById(CrownUpgradeDarknessWithin.ID),
-            PickupObjectDatabase.GetById(CarefreeMelody.ID)
         };
 
         public AnimationCurve spawnCurve = new AnimationCurve
@@ -53,7 +52,7 @@ namespace GungeonCOTL.active_items
 
             item.usableDuringDodgeRoll = true;
             item.quality = PickupObject.ItemQuality.EXCLUDED;
-            ID = item.PickupObjectId;
+            item.CanBeDropped = false; ID = item.PickupObjectId;
             //Plugin.Log($"ID: {ID}, pickupID: {item.PickupObjectId}");
         }
 

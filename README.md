@@ -7,7 +7,7 @@ If you have any questions, requests, or thoughts, you can let me know through he
 
 ## ![](https://i.ibb.co/YTD0Lf6d/red-crown-alt-pixelart-sprite.png) Red Crown:
 - Gains EXP from killing enemies equal to their HP, spawns a selection of items at each exp checkpoint
-- Lv 1: 500 - Lv 11: 3000
+- Lv 1: 500 - Lv 11+: 3000 
 - At level 6, gain access to Crown Upgrades
 
 ## Rituals:
@@ -18,7 +18,7 @@ Ascend Gun Ritual:
 
 ![](https://i.ibb.co/2YfxYDxN/sacrifice-of-the-gun-alt-pixelart-sprite.png)
 Sacrifice of the Gun:
-- Sacrifices your current gun for a random gun of higher rarity. S Tier guns spawn 2 S Tier guns.
+- Sacrifices your current gun for a random gun of higher rarity. +1 Curse on use. S Tier guns spawn 1 S Tier gun and a S Tier passive.
 - Does not work on starter weapons
 
 ![](https://i.ibb.co/tT31KW77/feasting-ritual-pixelart-sprite-corpse.png)
@@ -27,11 +27,11 @@ Feasting Ritual:
 
 ![](https://i.ibb.co/KzGzCLRv/ritual-of-enrichment-pixelart-sprite.png)
 Ritual of Enrichment:
-- Gain 50 casings
+- Spawn in casings on use. Can roll bronze, silver, mix, or gold. Chance improves with coolness.
 
 ![](https://i.ibb.co/DHQRdQz5/rite-of-wrath-nobrown-pixelart-sprite.png)
 Rite of Wrath:
-- Grants a 20 minute buff that gives 2x damage and 1.25x fire rate. Gradually increases your curse until the buff expires
+- Grants a 20 minute buff that gives 2x damage and 1.25x fire rate. +0.75 Curse every 5 minutes. +3 Curse in Total
 
 ## Doctrines:
 ![](https://i.ibb.co/d45BsCvW/doctrine-of-materialism-pixelart-sprite.png)
@@ -40,7 +40,7 @@ Doctrine of Materialism:
 
 ![](https://i.ibb.co/35Ymv1bZ/doctrine-of-sin-pixelart-sprite.png)
 Doctrine of Sin:
-- Spawns a free chest, gives 3 curse
+- Spawns a free chest, gives +2 curse
 - 70% Black, 25% Gold, 4% Synergy, 1% Rainbow
 
 ![](https://i.ibb.co/NgXPg26Y/doctrine-of-sustenance-pixelart-sprite.png)
@@ -69,4 +69,4 @@ Resurrection:
 
 ![](https://i.ibb.co/DDDMgdj9/darkness-within-pixelart-sprite.png)
 Darkness Within:
-- Damages all enemies in the room when player takes damage
+- Deals 15 damage to all enemies in the room when player takes damage

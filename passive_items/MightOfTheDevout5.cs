@@ -40,7 +40,7 @@ namespace GungeonCOTL.passive_items
             item.itemTier = 5;
             item.TierGroupIdentifier = "might_of_the_devout_tiered_item";
 
-            ID = item.PickupObjectId;
+            item.CanBeDropped = false; ID = item.PickupObjectId;
         }
 
         public override void Pickup(PlayerController player)

@@ -24,7 +24,7 @@ namespace GungeonCOTL.active_items
 
         private static float WrathDuration = 20 * 60f;
 
-        private static StatModifier ownerlessCurseModifier = StatModifier.Create(PlayerStats.StatType.Curse, StatModifier.ModifyMethod.ADDITIVE, 1.0f);
+        private static StatModifier ownerlessCurseModifier = StatModifier.Create(PlayerStats.StatType.Curse, StatModifier.ModifyMethod.ADDITIVE, 0.75f);
         private bool FirstCurseGiven = false;
         private bool SecondCurseGiven = false;
         private bool ThirdCurseGiven = false;
@@ -60,7 +60,7 @@ namespace GungeonCOTL.active_items
             item.consumableOnActiveUse = false;
             item.usableDuringDodgeRoll = false;
             item.quality = PickupObject.ItemQuality.SPECIAL;
-            ID = item.PickupObjectId;
+            item.CanBeDropped = false; ID = item.PickupObjectId;
         }
 
         public override void Pickup(PlayerController player)

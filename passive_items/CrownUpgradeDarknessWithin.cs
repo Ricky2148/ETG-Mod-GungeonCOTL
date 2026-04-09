@@ -9,6 +9,7 @@ using System.Text;
 using UnityEngine;
 
 //vfx concept: like a dark wave that goes outwards (can be pretty big, ideally with some kind of dark black and grey vine theming)
+// damage enemies in sequence using +0.1s in coroutine start
 
 namespace GungeonCOTL.passive_items
 {
@@ -20,19 +21,40 @@ namespace GungeonCOTL.passive_items
 
         private static List<string> DiseasedHeartVFXPath = new List<string>
         {
-            "GungeonCOTL/Resources/vfxs/test_vfx/test_vfx_01",
-            "GungeonCOTL/Resources/vfxs/test_vfx/test_vfx_02",
-            "GungeonCOTL/Resources/vfxs/test_vfx/test_vfx_03",
-            "GungeonCOTL/Resources/vfxs/test_vfx/test_vfx_04",
-            "GungeonCOTL/Resources/vfxs/test_vfx/test_vfx_05",
-            "GungeonCOTL/Resources/vfxs/test_vfx/test_vfx_06",
-            "GungeonCOTL/Resources/vfxs/test_vfx/test_vfx_07",
-            "GungeonCOTL/Resources/vfxs/test_vfx/test_vfx_08",
-            "GungeonCOTL/Resources/vfxs/test_vfx/test_vfx_09",
+            "GungeonCOTL/Resources/vfxs/diseased_heart_vfx/badheart_001",
+            "GungeonCOTL/Resources/vfxs/diseased_heart_vfx/badheart_002",
+            "GungeonCOTL/Resources/vfxs/diseased_heart_vfx/badheart_003",
+            "GungeonCOTL/Resources/vfxs/diseased_heart_vfx/badheart_004",
+            "GungeonCOTL/Resources/vfxs/diseased_heart_vfx/badheart_005",
+            "GungeonCOTL/Resources/vfxs/diseased_heart_vfx/badheart_006",
+            "GungeonCOTL/Resources/vfxs/diseased_heart_vfx/badheart_007",
+            "GungeonCOTL/Resources/vfxs/diseased_heart_vfx/badheart_008",
+            "GungeonCOTL/Resources/vfxs/diseased_heart_vfx/badheart_009",
+            "GungeonCOTL/Resources/vfxs/diseased_heart_vfx/badheart_010",
+            "GungeonCOTL/Resources/vfxs/diseased_heart_vfx/badheart_011",
+            "GungeonCOTL/Resources/vfxs/diseased_heart_vfx/badheart_012",
+            "GungeonCOTL/Resources/vfxs/diseased_heart_vfx/badheart_013",
+            "GungeonCOTL/Resources/vfxs/diseased_heart_vfx/badheart_014",
+            "GungeonCOTL/Resources/vfxs/diseased_heart_vfx/badheart_015",
+            "GungeonCOTL/Resources/vfxs/diseased_heart_vfx/badheart_016",
+            "GungeonCOTL/Resources/vfxs/diseased_heart_vfx/badheart_017",
+            "GungeonCOTL/Resources/vfxs/diseased_heart_vfx/badheart_018",
             "GungeonCOTL/Resources/one_off_sprites/blank_sprite",
         };
 
         private static GameObject DiseasedHeartVFXEffect;
+
+        public static Vector3 vfxOffset = new Vector3(-1 / 16f, 6 / 16f, 0);
+
+        private static List<string> sfxList = new List<string>
+        {
+            "punchy_blessed_choir1",
+            "punchy_blessed_choir2",
+            "punchy_blessed_choir3",
+            "punchy_blessed_choir4",
+            "punchy_blessed_choir5",
+            "punchy_blessed_choir6",
+        };
 
         private GameObject activeVFXObject;
 
@@ -57,14 +79,14 @@ namespace GungeonCOTL.passive_items
 
             item.quality = PickupObject.ItemQuality.SPECIAL;
             item.SetName("Darkness Within");
-            ID = item.PickupObjectId;
+            item.CanBeDropped = false; ID = item.PickupObjectId;
             //Plugin.Log($"ID: {ID}, pickupID: {item.PickupObjectId}");
 
             DiseasedHeartVFXEffect = VFXBuilder.CreateVFX
             (
                 "diseased_heart_vfx_effect",
                 DiseasedHeartVFXPath,
-                10,
+                12,
                 new IntVector2(0, 0),
                 tk2dBaseSprite.Anchor.MiddleCenter,
                 false,
@@ -74,6 +96,8 @@ namespace GungeonCOTL.passive_items
                 tk2dSpriteAnimationClip.WrapMode.Once,
                 true
             );
+
+            VFXAnchorModule anchor = DiseasedHeartVFXEffect.GetOrAddComponent<VFXAnchorModule>();
         }
 
         public override void Pickup(PlayerController player)
@@ -139,7 +163,7 @@ namespace GungeonCOTL.passive_items
         {
             //Owner.ForceBlank();
             activeVFXObject = UnityEngine.Object.Instantiate(VFXPlayerCOTL.DarknessWithinActivationEffectVFX, Owner.CenterPosition, Quaternion.identity);
-
+            HelpfulMethods.PlayRandomSFX(Owner.gameObject, sfxList);
             //DoBlankDamage(Owner);
 
             if (Owner.CurrentRoom == null) return;
@@ -147,10 +171,11 @@ namespace GungeonCOTL.passive_items
             List<AIActor> enemyList = Owner.CurrentRoom.GetActiveEnemies(RoomHandler.ActiveEnemyType.All);
             if (enemyList != null)
             {
+                float initialTimeDelay = 0f;
                 foreach (AIActor enemy in enemyList)
                 {
-                    enemy.StartCoroutine(DelayDamage(enemy));
-
+                    enemy.StartCoroutine(DelayDamage(enemy, initialTimeDelay));
+                    initialTimeDelay += 0.1f;
                     /*if (enemy != null && enemy.healthHaver != null && enemy.healthHaver.IsVulnerable)
                     {
                         enemy.healthHaver.ApplyDamage(
@@ -166,9 +191,31 @@ namespace GungeonCOTL.passive_items
             }
         }
 
-        private System.Collections.IEnumerator DelayDamage(AIActor enemy)
+        private System.Collections.IEnumerator DelayDamage(AIActor enemy, float initialTimeDelay)
         {
-            enemy.PlayEffectOnActor(DiseasedHeartVFXEffect, new Vector3(0f, 0f, 0f), true, false, false);
+            yield return new WaitForSeconds(initialTimeDelay);
+
+            //Vector3 effectOffset = (enemy.sprite.WorldTopCenter - enemy.sprite.WorldCenter).ToVector3ZUp() + new Vector3(0 / 16f, 0 / 16f, 0f);
+            //enemy.PlayEffectOnActor(DiseasedHeartVFXEffect, effectOffset, true, false, false);
+
+            //Plugin.Log($"effectOffset: ({enemy.sprite.WorldTopCenter} - {enemy.sprite.WorldCenter}) + {new Vector3(0 / 16f, 0 / 16f, 0f)} = {(enemy.sprite.WorldTopCenter - enemy.sprite.WorldCenter).ToVector3ZUp()}");
+            //Plugin.Log($"anchor: {enemy.sprite.WorldCenter.ToVector3ZUp()}");
+            
+            GameObject vfxObject = UnityEngine.Object.Instantiate(DiseasedHeartVFXEffect, enemy.specRigidbody.UnitBottomCenter.ToVector3ZUp() + vfxOffset, Quaternion.identity);
+
+            var sprite = vfxObject.GetComponent<tk2dSprite>();
+
+            if (sprite != null)
+            {
+                sprite.HeightOffGround = 10f;
+                sprite.UpdateZDepth();
+
+                sprite.scale *= Mathf.Max(1f, 1f + ((enemy.specRigidbody.UnitDimensions.x - 1f) / 2f));
+                //Plugin.Log($"UnitDimensions.x: {targetEnemy.specRigidbody.UnitDimensions.x}, scale mult: {sprite.scale}");
+            }
+
+            vfxObject.GetComponent<VFXAnchorModule>().anchorAIActor = enemy;
+            vfxObject.GetComponent<VFXAnchorModule>().offset = vfxOffset + new Vector3(0, enemy.specRigidbody.HitboxPixelCollider.UnitDimensions.y);
 
             yield return new WaitForSeconds(1f);
 
@@ -182,6 +229,8 @@ namespace GungeonCOTL.passive_items
                     DamageCategory.Normal,
                     false
                 );
+
+                HelpfulMethods.PlayRandomSFX(enemy.gameObject, sfxList);
             }
         }
     }

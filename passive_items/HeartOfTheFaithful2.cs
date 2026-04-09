@@ -41,7 +41,7 @@ namespace GungeonCOTL.passive_items
             item.itemTier = 2;
             item.TierGroupIdentifier = "heart_of_the_faithful_tiered_item";
 
-            ID = item.PickupObjectId;
+            item.CanBeDropped = false; ID = item.PickupObjectId;
         }
 
         public override void Pickup(PlayerController player)

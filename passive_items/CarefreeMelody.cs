@@ -44,7 +44,7 @@ namespace GungeonCOTL.passive_items
             item.playsSFX = false;
             string[] sfxList = null;
             //item.updateSFXList(sfxList);
-            ID = item.PickupObjectId;
+            item.CanBeDropped = false; ID = item.PickupObjectId;
             //Plugin.Log($"ID: {ID}, pickupID: {item.PickupObjectId}");
         }
 

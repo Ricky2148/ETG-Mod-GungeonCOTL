@@ -78,7 +78,7 @@ namespace GungeonCOTL
             //CarefreeMelody.Init();
             
             // always initialized last
-            debugItem.Init();
+            //debugItem.Init();
             RedCrown.Init();
 
             GungeonCOTLSynergies.Init();

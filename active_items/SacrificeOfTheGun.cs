@@ -1,4 +1,5 @@
 ﻿using Alexandria.ItemAPI;
+using Alexandria.Misc;
 using GungeonCOTL.custom_class_data;
 using System;
 using System.Collections.Generic;
@@ -16,6 +17,8 @@ namespace GungeonCOTL.active_items
 
         private GameObject activeVFXObject;
 
+        private static StatModifier ownerlessCurseModifier = StatModifier.Create(PlayerStats.StatType.Curse, StatModifier.ModifyMethod.ADDITIVE, 1.0f);
+
         public static int ID;
 
         public static void Init()
@@ -30,7 +33,7 @@ namespace GungeonCOTL.active_items
             ItemBuilder.AddSpriteToObject(itemName, resourceName, obj);
 
             string shortDesc = "to appease the Gods";
-            string longDesc = "Sacrifice your current gun and obtains a new weapon of higher rarity.\n\n" +
+            string longDesc = "Sacrifice your current gun and obtains a new weapon of higher rarity. +1 Curse on use\n\n" +
                 "Sacrifices a weapon to the gods in honor of their benevolence. In return, they shall reward you accordingly. " +
                 "Many devout weapons are happy to give their lives for the good of us all, or so they say...\n";
 
@@ -44,7 +47,8 @@ namespace GungeonCOTL.active_items
             item.consumableOnActiveUse = false;
             item.usableDuringDodgeRoll = false;
             item.quality = PickupObject.ItemQuality.SPECIAL;
-            ID = item.PickupObjectId;
+            item.CanBeDropped = false;
+            item.CanBeDropped = false; ID = item.PickupObjectId;
         }
 
         public override void Pickup(PlayerController player)
@@ -125,7 +129,7 @@ namespace GungeonCOTL.active_items
             if (qual == ItemQuality.S)
             {
                 PickupObject newGunToSpawn = PickupObjectDatabase.GetRandomGunOfQualities(rand, new List<int>(), qual);
-                PickupObject newGunToSpawn2 = PickupObjectDatabase.GetRandomPassiveOfQualities(new System.Random(rand.Next()), new List<int>(), [qual - 1, qual]);
+                PickupObject newGunToSpawn2 = PickupObjectDatabase.GetRandomPassiveOfQualities(new System.Random(rand.Next()), new List<int>(), [qual, qual]);
                 LootEngine.SpewLoot(newGunToSpawn.gameObject, player.CenterPosition + new Vector2(-2f, 0));
                 LootEngine.SpewLoot(newGunToSpawn2.gameObject, player.CenterPosition + new Vector2(2f, 0));
             }
@@ -143,6 +147,9 @@ namespace GungeonCOTL.active_items
             {
                 Destroy(activeVFXObject);
             }
+
+            player.ownerlessStatModifiers.Add(ownerlessCurseModifier);
+            player.stats.RecalculateStatsWithoutRebuildingGunVolleys(player);
 
             IsCurrentlyActive = false;
 

@@ -3,7 +3,7 @@
 
 #You HAVE to include these.
 #List of bases: Bullet, Convict, Gunslinger, Hunter, Marine / Soldier, Paradox / Eevee, Pilot / Rogue, Robot.
-base: Bullet
+base: Hunter
 name short: The Lamb
 name: TheLamb
 

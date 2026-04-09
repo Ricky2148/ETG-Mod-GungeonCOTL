@@ -51,7 +51,7 @@ namespace GungeonCOTL.active_items
             item.consumableOnActiveUse = false;
             item.usableDuringDodgeRoll = false;
             item.quality = PickupObject.ItemQuality.SPECIAL;
-            ID = item.PickupObjectId;
+            item.CanBeDropped = false; ID = item.PickupObjectId;
         }
 
         public override void Pickup(PlayerController player)

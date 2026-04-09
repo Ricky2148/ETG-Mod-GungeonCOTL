@@ -40,7 +40,7 @@ namespace GungeonCOTL.passive_items
             3000f, //10
         };
 
-        private static int CapNumDivineInspirations = 17;
+        private static int CapNumDivineInspirations = 19;
 
         private Vector3 DivineInspirationChoiceDecisionLocation = Vector3.zero;
 
@@ -171,7 +171,7 @@ namespace GungeonCOTL.passive_items
             //item.ItemSpansBaseQualityTiers = true;
             item.quality = PickupObject.ItemQuality.A;
 
-            ID = item.PickupObjectId;
+            item.CanBeDropped = false; ID = item.PickupObjectId;
             //Plugin.Log($"ID: {ID}, pickupID: {item.PickupObjectId}");
 
             availableChoicesPool.AddRange(possibleChoiceTable);

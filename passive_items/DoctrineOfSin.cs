@@ -15,7 +15,7 @@ namespace GungeonCOTL.passive_items
     {
         public static string ItemName = "Doctrine of Sin";
 
-        private static float CurseToGive = 3f;
+        private static float CurseToGive = 2f;
 
         public bool ChestSpawned = false;
 
@@ -35,7 +35,7 @@ namespace GungeonCOTL.passive_items
             ItemBuilder.AddSpriteToObject(itemName, resourceName, obj);
 
             string shortDesc = "INDULGE";
-            string longDesc = "Summons a free chest in exchange for +3 curse\n\n" +
+            string longDesc = $"Summons a free chest in exchange for +2 curse\n\n" +
                 "\"Give in to your sinful desires and embrace your filthy nature.\"\n\n" +
                 "Despite what others may say, the reward you received appears worth it to you\n";
 
@@ -44,7 +44,7 @@ namespace GungeonCOTL.passive_items
             ItemBuilder.AddPassiveStatModifier(item, PlayerStats.StatType.Curse, CurseToGive, StatModifier.ModifyMethod.ADDITIVE);
 
             item.quality = PickupObject.ItemQuality.SPECIAL;
-            ID = item.PickupObjectId;
+            item.CanBeDropped = false; ID = item.PickupObjectId;
         }
 
         public override void Pickup(PlayerController player)
