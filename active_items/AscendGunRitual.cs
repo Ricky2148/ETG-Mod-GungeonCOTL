@@ -39,7 +39,9 @@ namespace GungeonCOTL.active_items
 
             string shortDesc = "Bestow Divine Power";
             string longDesc = "Upgrades your current weapon with various buffs\n\n" +
-                "Ascends a weapon to the heavens, granting it divine strength and knowledge. No matter how much you pry, the weapon will never tell you what knowledge it received.\n";
+                "Ascends a weapon to the heavens, granting it divine strength and knowledge. No matter how much you pry, the weapon will never tell you what knowledge it received.\n" +
+                "\nInitial item use starts the ritual. Press the item use button again while holding the weapon you wish to select. " +
+                "If you try to activate the ritual on a starter weapon, it will cancel the ritual without being consumed.\n";
 
             ItemBuilder.SetupItem(item, shortDesc, longDesc, Plugin.ITEM_PREFIX);
 
@@ -121,6 +123,18 @@ namespace GungeonCOTL.active_items
                 return;
             }
 
+            if (player.CurrentGun.quality == ItemQuality.SPECIAL)
+            {
+                AkSoundEngine.PostEvent("sacrifice_loop" + "_stop", player.gameObject);
+
+                if (activeVFXObject != null)
+                {
+                    Destroy(activeVFXObject);
+                }
+                IsCurrentlyActive = false;
+                return;
+            }
+
             base.DoActiveEffect(player);
 
             /*
@@ -146,7 +160,7 @@ namespace GungeonCOTL.active_items
 
             player.stats.RecalculateStatsWithoutRebuildingGunVolleys(player);
 
-            Plugin.Log($"final activation: {player.CurrentGun}");
+            //Plugin.Log($"final activation: {player.CurrentGun}");
 
             AkSoundEngine.PostEvent("ascend_start", player.gameObject);
             AkSoundEngine.PostEvent("sacrifice_loop" + "_stop", player.gameObject);

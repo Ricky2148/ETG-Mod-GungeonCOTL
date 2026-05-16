@@ -1,0 +1,94 @@
+{
+  "metadata": {
+    "name": "Gungeon Cult of the Lamb",
+    "version": "1.0.0",
+    "url": ""
+  },
+  "items": {
+    "gungeoncotl:red_crown": {
+      "name": "Red Crown",
+      "notes": "Gains EXP from killing enemies equal to their HP, spawns a selection of items upon level up"
+    },
+
+    "gungeoncotl:ascend_gun_ritual": {
+      "name": "Ascend Gun Ritual",
+      "notes": "Buffs your current gun with various buffs"
+    },
+    "gungeoncotl:sacrifice_of_the_gun": {
+      "name": "Sacrifice of the Gun",
+      "notes": "Trade your current gun for a random gun of higher rarity. +1 Curse on use"
+    },
+    "gungeoncotl:feasting_ritual": {
+      "name": "Feasting Ritual",
+      "notes": "Fully heals the player and +1 curse on use"
+    },
+    "gungeoncotl:ritual_of_enrichment": {
+      "name": "Ritual of Enrichment",
+      "notes": "Spawn in casings on use. Can roll bronze, silver, mix, or gold. Chance improves with coolness."
+    },
+    "gungeoncotl:rite_of_wrath": {
+      "name": "Rite of Wrath",
+      "notes": "Grants a 20 minute buff that gives increased damage and fire rate. Gradually increases your curse until the buff expires"
+    },
+
+    "gungeoncotl:doctrine_of_materialism": {
+      "name": "Doctrine of Materialism",
+      "notes": "Decreases shop prices by 5% with each purchase"
+    },
+    "gungeoncotl:doctrine_of_sin": {
+      "name": "Doctrine of Sin",
+      "notes": "Spawns a free chest, gives +2 curse"
+    },
+    "gungeoncotl:doctrine_of_sustenance": {
+      "name": "Doctrine of Sustenance",
+      "notes": "Healing has a chance to trigger an extra heal, free casings, or restore ammo"
+    },
+    "gungeoncotl:doctrine_of_law_and_order": {
+      "name": "Doctrine of Law & Order",
+      "notes": "All enemies -10% HP"
+    },
+
+    "gungeoncotl:heart_of_the_faithful_i": {
+      "name": "Heart of the Faithful I",
+      "notes": "+1 Heart"
+    },
+    "gungeoncotl:heart_of_the_faithful_ii": {
+      "name": "Heart of the Faithful II",
+      "notes": "+2 Heart"
+    },
+    "gungeoncotl:might_of_the_devout_i": {
+      "name": "Might of the Devout I",
+      "notes": "1.1x Damage"
+    },
+    "gungeoncotl:might_of_the_devout_ii": {
+      "name": "Might of the Devout II",
+      "notes": "1.2x Damage"
+    },
+    "gungeoncotl:might_of_the_devout_iii": {
+      "name": "Might of the Devout III",
+      "notes": "1.3x Damage"
+    },
+    "gungeoncotl:might_of_the_devout_iv": {
+      "name": "Might of the Devout IV",
+      "notes": "1.4x Damage"
+    },
+    "gungeoncotl:might_of_the_devout_v": {
+      "name": "Might of the Devout V",
+      "notes": "1.5x Damage"
+    },
+    "gungeoncotl:might_of_the_devout_vi": {
+      "name": "Might of the Devout VI",
+      "notes": "1.75x Damage"
+    },
+
+    
+    "gungeoncotl:crown_upgrade_darkness_within": {
+      "name": "Darkness Within",
+      "notes": "Damages all enemies when player takes damage"
+    },
+    "gungeoncotl:crown_upgrade_resurrection": {
+      "name": "Resurrection",
+      "notes": "Revives the player with 1 heart"
+    },
+  }
+}

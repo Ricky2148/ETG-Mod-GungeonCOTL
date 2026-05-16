@@ -28,13 +28,13 @@ namespace GungeonCOTL.passive_items
             ItemBuilder.AddSpriteToObject(itemName, resourceName, obj);
 
             string shortDesc = "+Defense";
-            string longDesc = "+1 Armor\n" +
+            string longDesc = "+1 Heart\n" +
                 "Strength of faith from your followers increase your defenses.\n";
 
             ItemBuilder.SetupItem(item, shortDesc, longDesc, Plugin.ITEM_PREFIX);
 
-            //ItemBuilder.AddPassiveStatModifier(item, PlayerStats.StatType.Health, HealthStat, StatModifier.ModifyMethod.ADDITIVE);
-            item.ArmorToGainOnInitialPickup = 1;
+            ItemBuilder.AddPassiveStatModifier(item, PlayerStats.StatType.Health, HealthStat, StatModifier.ModifyMethod.ADDITIVE);
+            //item.ArmorToGainOnInitialPickup = 1;
 
             item.quality = PickupObject.ItemQuality.EXCLUDED;
 

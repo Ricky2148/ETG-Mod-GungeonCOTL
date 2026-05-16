@@ -35,7 +35,9 @@ namespace GungeonCOTL.active_items
             string shortDesc = "to appease the Gods";
             string longDesc = "Sacrifice your current gun and obtains a new weapon of higher rarity. +1 Curse on use\n\n" +
                 "Sacrifices a weapon to the gods in honor of their benevolence. In return, they shall reward you accordingly. " +
-                "Many devout weapons are happy to give their lives for the good of us all, or so they say...\n";
+                "Many devout weapons are happy to give their lives for the good of us all, or so they say...\n" +
+                "\nInitial item use starts the ritual. Press the item use button again while holding the weapon you wish to select. " +
+                "If you try to activate the ritual on a starter, excluded, or special rarity weapon, it will cancel the ritual without being consumed.\n";
 
             ItemBuilder.SetupItem(item, shortDesc, longDesc, Plugin.ITEM_PREFIX);
 
@@ -110,8 +112,20 @@ namespace GungeonCOTL.active_items
 
         public override void DoActiveEffect(PlayerController player)
         {
+            if (player == null || player.CurrentGun == null)
+            {
+                return;
+            }
+
             if (player.CurrentGun.quality == ItemQuality.EXCLUDED || player.CurrentGun.quality == ItemQuality.SPECIAL)
             {
+                AkSoundEngine.PostEvent("sacrifice_loop" + "_stop", player.gameObject);
+
+                if (activeVFXObject != null)
+                {
+                    Destroy(activeVFXObject);
+                }
+                IsCurrentlyActive = false;
                 return;
             }
 
