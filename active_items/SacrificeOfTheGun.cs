@@ -70,12 +70,16 @@ namespace GungeonCOTL.active_items
             Plugin.Log($"Player picked up {this.EncounterNameOrDisplayName}");
 
             player.GunChanged += ReattachSacrificeVFX;
+            //player.OnDidUnstealthyAction += ResetRitual;
+            player.OnNewFloorLoaded += ResetRitual;
         }
 
         public DebrisObject Drop(PlayerController player)
         {
             Plugin.Log($"Player dropped or got rid of {this.EncounterNameOrDisplayName}");
             player.GunChanged -= ReattachSacrificeVFX;
+            //player.OnDidUnstealthyAction -= ResetRitual;
+            player.OnNewFloorLoaded -= ResetRitual;
             if (activeVFXObject != null)
             {
                 Destroy(activeVFXObject);
@@ -119,13 +123,7 @@ namespace GungeonCOTL.active_items
 
             if (player.CurrentGun.quality == ItemQuality.EXCLUDED || player.CurrentGun.quality == ItemQuality.SPECIAL)
             {
-                AkSoundEngine.PostEvent("sacrifice_loop" + "_stop", player.gameObject);
-
-                if (activeVFXObject != null)
-                {
-                    Destroy(activeVFXObject);
-                }
-                IsCurrentlyActive = false;
+                ResetRitual(player);
                 return;
             }
 
@@ -168,6 +166,17 @@ namespace GungeonCOTL.active_items
             IsCurrentlyActive = false;
 
             player.RemoveActiveItem(ID);
+        }
+
+        private void ResetRitual(PlayerController player)
+        {
+            AkSoundEngine.PostEvent("sacrifice_loop" + "_stop", player.gameObject);
+
+            if (activeVFXObject != null)
+            {
+                Destroy(activeVFXObject);
+            }
+            IsCurrentlyActive = false;
         }
     }
 }
