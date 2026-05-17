@@ -96,7 +96,7 @@ namespace GungeonCOTL.passive_items
 
             if (!player.healthHaver.IsAlive)
             {
-                Plugin.Log($"{this.EncounterNameOrDisplayName} activated");
+                //Plugin.Log($"{this.EncounterNameOrDisplayName} activated");
                 hasRevived = true;
 
                 // makes player character invulnerable, reset health, take no inputs from player, and remove revive effect

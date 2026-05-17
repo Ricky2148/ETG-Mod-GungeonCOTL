@@ -29,7 +29,7 @@ namespace GungeonCOTL.passive_items
 
             string shortDesc = "+Power";
             string longDesc = "1.75x damage\n" +
-                "Complete and absolute belief from your followers increase your power on par with the gods.\n";
+                "Complete and absolute devotion from your followers bestows you power on par with the gods.\n";
 
             ItemBuilder.SetupItem(item, shortDesc, longDesc, Plugin.ITEM_PREFIX);
 

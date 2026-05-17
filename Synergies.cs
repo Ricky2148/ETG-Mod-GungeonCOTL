@@ -41,6 +41,10 @@ namespace GungeonCOTL
             //example: NewSynergy(LOLItems.Synergy., "", new[] { IName(MainItem.ItemName) }, new[] { });
 
             NewSynergy(GungeonCOTL.Synergy.HEARTOFTHEFAITHFUL_TWO, "Heart of the Faithful II", new[] { IName(HeartOfTheFaithful1.ItemName), IName(HeartOfTheFaithful2.ItemName) });
+            NewSynergy(GungeonCOTL.Synergy.HEARTOFTHEFAITHFUL_THREE, "Heart of the Faithful III", new[] { IName(HeartOfTheFaithful2.ItemName), IName(HeartOfTheFaithful3.ItemName) });
+            NewSynergy(GungeonCOTL.Synergy.HEARTOFTHEFAITHFUL_FOUR, "Heart of the Faithful IV", new[] { IName(HeartOfTheFaithful3.ItemName), IName(HeartOfTheFaithful4.ItemName) });
+            NewSynergy(GungeonCOTL.Synergy.HEARTOFTHEFAITHFUL_FIVE, "Heart of the Faithful V", new[] { IName(HeartOfTheFaithful4.ItemName), IName(HeartOfTheFaithful5.ItemName) });
+            NewSynergy(GungeonCOTL.Synergy.HEARTOFTHEFAITHFUL_SIX, "Heart of the Faithful VI", new[] { IName(HeartOfTheFaithful5.ItemName), IName(HeartOfTheFaithful6.ItemName) });
 
             NewSynergy(GungeonCOTL.Synergy.MIGHTOFTHEDEVOUT_TWO, "Might of the Devout II", new[] { IName(MightOfTheDevout1.ItemName), IName(MightOfTheDevout2.ItemName) });
             NewSynergy(GungeonCOTL.Synergy.MIGHTOFTHEDEVOUT_THREE, "Might of the Devout III", new[] { IName(MightOfTheDevout2.ItemName), IName(MightOfTheDevout3.ItemName) });
@@ -124,6 +128,10 @@ namespace GungeonCOTL
     {
         // Synergies
         HEARTOFTHEFAITHFUL_TWO,
+        HEARTOFTHEFAITHFUL_THREE,
+        HEARTOFTHEFAITHFUL_FOUR,
+        HEARTOFTHEFAITHFUL_FIVE,
+        HEARTOFTHEFAITHFUL_SIX,
         MIGHTOFTHEDEVOUT_TWO,
         MIGHTOFTHEDEVOUT_THREE,
         MIGHTOFTHEDEVOUT_FOUR,

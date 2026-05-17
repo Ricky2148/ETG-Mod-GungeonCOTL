@@ -56,8 +56,7 @@ Doctrine of Law & Order:
 
 ## Sermon Upgrades:
 Heart of the Faithful:
-- ![](https://i.ibb.co/sv70tK86/heart-of-the-faithful-1-pixelart-sprite.png) I: +1 Heart
-- ![](https://i.ibb.co/8LYLPM6c/heart-of-the-faithful-2-pixelart-sprite.png) II: +2 Heart
+- ![](https://i.ibb.co/hxRjxwhC/heart-of-the-faithful-1-pixelart-sprite.png) - ![](https://i.ibb.co/h1cK2p1C/heart-of-the-faithful-6-pixelart-sprite.png) I - VI: +1-6 Hearts
 
 Might of the Devout:
 - ![](https://i.ibb.co/5X9Hfk3R/might-of-the-devout-1-pixelart-sprite.png) - ![](https://i.ibb.co/qMSkPQw3/might-of-the-devout-6-pixelart-sprite.png) I - VI: 1.1x - 1.75x damage buff

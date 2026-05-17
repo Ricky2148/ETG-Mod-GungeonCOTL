@@ -85,6 +85,10 @@
     <Compile Include="passive_items\DoctrineOfMaterialism.cs" />
     <Compile Include="passive_items\DoctrineOfSin.cs" />
     <Compile Include="passive_items\DoctrineOfSustenance.cs" />
+    <Compile Include="passive_items\HeartOfTheFaithful4.cs" />
+    <Compile Include="passive_items\HeartOfTheFaithful5.cs" />
+    <Compile Include="passive_items\HeartOfTheFaithful6.cs" />
+    <Compile Include="passive_items\HeartOfTheFaithful3.cs" />
     <Compile Include="passive_items\HeartOfTheFaithful2.cs" />
     <Compile Include="passive_items\HeartOfTheFaithful1.cs" />
     <Compile Include="passive_items\MightOfTheDevout3.cs" />
@@ -704,6 +708,10 @@
     <Content Include="packages\Newtonsoft.Json.13.0.1\lib\netstandard2.0\Newtonsoft.Json.dll" />
     <Content Include="packages\Newtonsoft.Json.13.0.1\lib\netstandard2.0\Newtonsoft.Json.xml" />
     <Content Include="packages\Newtonsoft.Json.13.0.1\packageIcon.png" />
+    <EmbeddedResource Include="Resources\passive_item_sprites\heart_of_the_faithful_3_pixelart_sprite.png" />
+    <EmbeddedResource Include="Resources\passive_item_sprites\heart_of_the_faithful_4_pixelart_sprite.png" />
+    <EmbeddedResource Include="Resources\passive_item_sprites\heart_of_the_faithful_5_pixelart_sprite.png" />
+    <EmbeddedResource Include="Resources\passive_item_sprites\heart_of_the_faithful_6_pixelart_sprite.png" />
     <EmbeddedResource Include="Resources\vfxs\diseased_heart_vfx\badheart_001.png" />
     <EmbeddedResource Include="Resources\vfxs\diseased_heart_vfx\badheart_002.png" />
     <EmbeddedResource Include="Resources\vfxs\diseased_heart_vfx\badheart_003.png" />

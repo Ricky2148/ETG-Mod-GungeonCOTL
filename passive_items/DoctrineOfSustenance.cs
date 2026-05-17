@@ -120,11 +120,11 @@ namespace GungeonCOTL.passive_items
         {
             //find sfx for each event
             float rand = UnityEngine.Random.value;
-            Plugin.Log($"rand: {rand}");
+            //Plugin.Log($"rand: {rand}");
 
             if (args != EventArgs.Empty && rand < ChanceToImproveHealing)
             {
-                Plugin.Log($"rand: {rand}, heal");
+                //Plugin.Log($"rand: {rand}, heal");
                 if (OnImprovedHealingVFX != null)
                 {
                     source.GetComponent<PlayerController>().PlayEffectOnActor(OnImprovedHealingVFX, Vector3.zero);
@@ -133,12 +133,12 @@ namespace GungeonCOTL.passive_items
             }
             else if (args != EventArgs.Empty && rand < (ChanceToImproveHealing + ChanceToGainMoney))
             {
-                Plugin.Log($"rand: {rand}, money");
+                //Plugin.Log($"rand: {rand}, money");
                 Owner.StartCoroutine(HelpfulMethods.SpawnMoney(Owner, MoneyGiven, timeDelay, true, timeDelayRandRatio, true, moneySFXList));
             }
             else if (args != EventArgs.Empty && rand < (ChanceToImproveHealing + ChanceToGainMoney + ChanceToGainAmmo))
             {
-                Plugin.Log($"rand: {rand}, ammo");
+                //Plugin.Log($"rand: {rand}, ammo");
                 HelpfulMethods.RestorePercentAmmo(Owner, AmmoRestorePercentage);
             }
         }

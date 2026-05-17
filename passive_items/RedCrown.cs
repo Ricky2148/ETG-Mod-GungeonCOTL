@@ -40,7 +40,7 @@ namespace GungeonCOTL.passive_items
             3000f, //10
         };
 
-        private static int CapNumDivineInspirations = 19;
+        private static int CapNumDivineInspirations = 22;
 
         private Vector3 DivineInspirationChoiceDecisionLocation = Vector3.zero;
 
@@ -89,6 +89,10 @@ namespace GungeonCOTL.passive_items
         {
             PickupObjectDatabase.GetById(HeartOfTheFaithful1.ID),
             PickupObjectDatabase.GetById(HeartOfTheFaithful2.ID),
+            PickupObjectDatabase.GetById(HeartOfTheFaithful3.ID),
+            PickupObjectDatabase.GetById(HeartOfTheFaithful4.ID),
+            PickupObjectDatabase.GetById(HeartOfTheFaithful5.ID),
+            PickupObjectDatabase.GetById(HeartOfTheFaithful6.ID),
         };
 
         private static List<PickupObject> tierTwoMightOfTheDevoutList = new List<PickupObject>
@@ -149,7 +153,7 @@ namespace GungeonCOTL.passive_items
             string shortDesc = "Bear the Crown";
             string longDesc = "Gain EXP from killing enemies. Level up and get rewards via Divine Inspiration.\n\n" +
                 "\"Take the Red Crown which I once wore. With it you shall command the loyalty of Gungeoneers and strike fear into the hearts of bulletkin.\"\n\n" +
-                "              -The One Who Waits\n";
+                "             -The One Who Waits\n";
 
             ItemBuilder.SetupItem(item, shortDesc, longDesc, Plugin.ITEM_PREFIX);
 
@@ -310,7 +314,7 @@ namespace GungeonCOTL.passive_items
             {
                 availableChoicesPool.AddRange(tierTwoPossibleChoiceTable);
                 tierTwoActivated = true;
-                DisplayTables();
+                //DisplayTables();
                 //Owner.StartCoroutine(PlayRedCrownVFX(Owner));
             }
 
@@ -591,7 +595,7 @@ namespace GungeonCOTL.passive_items
                 }
             }
 
-            DisplayTables();
+            //DisplayTables();
         }
 
         // update this later to selectively remove entries from availableChoicesPool
@@ -607,7 +611,7 @@ namespace GungeonCOTL.passive_items
                 tempChoiceTable.RemoveAt(randValue);
             }
 
-            DisplayTables();
+            //DisplayTables();
             return choices;
         }
 

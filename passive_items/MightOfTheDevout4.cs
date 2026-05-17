@@ -29,7 +29,7 @@ namespace GungeonCOTL.passive_items
 
             string shortDesc = "+Power";
             string longDesc = "1.4x damage\n" +
-                "Immense strength of belief from your followers increase your power greatly.\n";
+                "Immense strength of devotion from your followers increase your power greatly.\n";
 
             ItemBuilder.SetupItem(item, shortDesc, longDesc, Plugin.ITEM_PREFIX);
 

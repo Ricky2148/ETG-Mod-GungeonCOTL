@@ -56,6 +56,22 @@
       "name": "Heart of the Faithful II",
       "notes": "+2 Heart"
     },
+    "gungeoncotl:heart_of_the_faithful_iii": {
+      "name": "Heart of the Faithful III",
+      "notes": "+3 Heart"
+    },
+    "gungeoncotl:heart_of_the_faithful_iv": {
+      "name": "Heart of the Faithful IV",
+      "notes": "+4 Heart"
+    },
+    "gungeoncotl:heart_of_the_faithful_v": {
+      "name": "Heart of the Faithful V",
+      "notes": "+5 Heart"
+    },
+    "gungeoncotl:heart_of_the_faithful_vi": {
+      "name": "Heart of the Faithful VI",
+      "notes": "+6 Heart"
+    },
     "gungeoncotl:might_of_the_devout_i": {
       "name": "Might of the Devout I",
       "notes": "1.1x Damage"
@@ -81,7 +97,7 @@
       "notes": "1.75x Damage"
     },
 
-    
+
     "gungeoncotl:crown_upgrade_darkness_within": {
       "name": "Darkness Within",
       "notes": "Damages all enemies when player takes damage"
@@ -89,6 +105,6 @@
     "gungeoncotl:crown_upgrade_resurrection": {
       "name": "Resurrection",
       "notes": "Revives the player with 1 heart"
-    },
+    }
   }
 }

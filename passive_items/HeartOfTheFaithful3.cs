@@ -8,11 +8,11 @@ using UnityEngine;
 
 namespace GungeonCOTL.passive_items
 {
-    internal class HeartOfTheFaithful1 : TieredPassiveItem
+    internal class HeartOfTheFaithful3 : TieredPassiveItem
     {
-        public static string ItemName = "Heart of the Faithful I";
+        public static string ItemName = "Heart of the Faithful III";
 
-        private static float HealthStat = 1f;
+        private static float HealthStat = 3f;
 
         public static int ID;
         public static bool isHeartOfTheFaithful = true;
@@ -20,17 +20,17 @@ namespace GungeonCOTL.passive_items
         public static void Init()
         {
             string itemName = ItemName;
-            string resourceName = "GungeonCOTL/Resources/passive_item_sprites/heart_of_the_faithful_1_pixelart_sprite";
+            string resourceName = "GungeonCOTL/Resources/passive_item_sprites/heart_of_the_faithful_3_pixelart_sprite";
 
             GameObject obj = new GameObject(itemName);
 
-            var item = obj.AddComponent<HeartOfTheFaithful1>();
+            var item = obj.AddComponent<HeartOfTheFaithful3>();
 
             ItemBuilder.AddSpriteToObject(itemName, resourceName, obj);
 
             string shortDesc = "+Defense";
-            string longDesc = "+1 Heart\n" +
-                "Strength of faith from your followers increase your defenses.\n";
+            string longDesc = "+3 Heart\n" +
+                "Further increased strength of faith from your followers increase your defenses even further.\n";
 
             ItemBuilder.SetupItem(item, shortDesc, longDesc, Plugin.ITEM_PREFIX);
 
@@ -38,7 +38,7 @@ namespace GungeonCOTL.passive_items
 
             item.quality = PickupObject.ItemQuality.EXCLUDED;
 
-            item.itemTier = 1;
+            item.itemTier = 3;
             item.TierGroupIdentifier = "heart_of_the_faithful_tiered_item";
 
             item.CanBeDropped = false; ID = item.PickupObjectId;
@@ -59,6 +59,21 @@ namespace GungeonCOTL.passive_items
         {
             base.DisableEffect(player);
             Plugin.Log($"Player dropped or got rid of {this.EncounterNameOrDisplayName}");
+        }
+
+        public override void Update()
+        {
+            if (Owner != null)
+            {
+                if (Owner.HasSynergy(Synergy.HEARTOFTHEFAITHFUL_THREE))
+                {
+                    //Plugin.Log($"synergy event");
+                    Owner.RemovePassiveItem(HeartOfTheFaithful1.ID);
+                    Owner.RemovePassiveItem(HeartOfTheFaithful2.ID);
+                }
+            }
+
+            base.Update();
         }
     }
 }

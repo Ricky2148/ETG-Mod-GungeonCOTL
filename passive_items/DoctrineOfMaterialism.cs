@@ -90,7 +90,7 @@ namespace GungeonCOTL.passive_items
             NumItemsPurchased++;
             //float actualDiscountVal = 1f - (DiscountIncPerStack * NumItemsPurchased);
             float actualDiscountVal = Mathf.Pow((1f - DiscountIncPerStack), NumItemsPurchased);
-            Plugin.Log($"discountVal: {actualDiscountVal}, num of items purchased: {NumItemsPurchased}");
+            //Plugin.Log($"discountVal: {actualDiscountVal}, num of items purchased: {NumItemsPurchased}");
             ItemBuilder.AddPassiveStatModifier(this, PlayerStats.StatType.GlobalPriceMultiplier, actualDiscountVal, StatModifier.ModifyMethod.MULTIPLICATIVE);
             player.stats.RecalculateStatsWithoutRebuildingGunVolleys(player);
         }
