@@ -1,8 +1,8 @@
 ﻿{
-  "name": "GungeonCOTL",
-  "version_number": "1.0.0",
+  "name": "The Cult of the Lamb Mod",
+  "version_number": "1.0.1",
   "website_url": "https://github.com/Ricky2148/ETG-Mod-GungeonCOTL",
-  "description": "addsd stuffs",
+  "description": "Adds The Lamb and a unique version of the Red Crown from The Cult of the Lamb into Enter the Gungeon!",
   "dependencies": [
     "MtG_API-Mod_the_Gungeon_API-1.9.2",
     "Alexandria-Alexandria-0.5.0",

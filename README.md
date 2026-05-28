@@ -69,3 +69,10 @@ Resurrection:
 ![](https://i.ibb.co/DDDMgdj9/darkness-within-pixelart-sprite.png)
 Darkness Within:
 - Deals 15 damage to all enemies in the room when player takes damage
+
+## Contributors:
+- Dallan - ALL item and vfx artwork (*don't check what they were before he helped out*)
+
+## Credits:
+- Cult of the Lamb - The game from which all items originate from and are based on. Most sfx is also taken from this.
+- Enter the Gungeon Mobile - The original Lamb Gungeoneer sprites are taken from this.
