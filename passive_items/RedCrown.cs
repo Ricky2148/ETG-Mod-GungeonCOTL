@@ -220,11 +220,11 @@ namespace GungeonCOTL.passive_items
             }
             DevotionCurrentThreshold = DevotionExpThresholdList[NumOfDivineInspirations];
 
-            Plugin.Log($"DevotionExpTracker: {DevotionExpTracker}, CurrentThreshold: {DevotionCurrentThreshold}, InspirationCount: {NumOfDivineInspirations}");
+            //Plugin.Log($"DevotionExpTracker: {DevotionExpTracker}, CurrentThreshold: {DevotionCurrentThreshold}, InspirationCount: {NumOfDivineInspirations}");
 
             player.OnAnyEnemyReceivedDamage += KillEnemyCount;
 
-            DisplayTables();
+            //DisplayTables();
         }
 
         public override void DisableEffect(PlayerController player)
@@ -308,7 +308,7 @@ namespace GungeonCOTL.passive_items
                 Plugin.Log($"No more divine inspirations\n\n\n\n\n\n\n\n\n\n\n\n");
             }
             DevotionCurrentThreshold = DevotionExpThresholdList[Math.Min(DevotionExpThresholdList.Count - 1 ,NumOfDivineInspirations)];
-            Plugin.Log($"DevotionExpTracker: {DevotionExpTracker}, CurrentThreshold: {DevotionCurrentThreshold}, InspirationCount: {NumOfDivineInspirations}");
+            //Plugin.Log($"DevotionExpTracker: {DevotionExpTracker}, CurrentThreshold: {DevotionCurrentThreshold}, InspirationCount: {NumOfDivineInspirations}");
             
             if (NumOfDivineInspirations >= 6 && !tierTwoActivated)
             {
@@ -532,7 +532,7 @@ namespace GungeonCOTL.passive_items
                     if ((bool)this)
                     {
                         //LootEngine.SpawnBowlerNote(GameManager.Instance.RewardManager.BowlerNotePostRainbow, choicesSpawnLocation, choicesSpawnLocation.GetAbsoluteRoom(), doPoof: true);
-                        Plugin.Log($"chose an item");
+                        //Plugin.Log($"chose an item");
                         AkSoundEngine.PostEvent("select_upgrade_loop" + "_stop", Owner.gameObject);
 
                         if (activeVFXObject != null)
@@ -565,7 +565,7 @@ namespace GungeonCOTL.passive_items
                         if (choicePoolItem.GetComponent<TieredPassiveItem>() != null)
                         {
                             TieredPassiveItem tieredItem = choicePoolItem.GetComponent<TieredPassiveItem>();
-                            Plugin.Log($"is tiered passive item: {tieredItem.TierGroupIdentifier}");
+                            //Plugin.Log($"is tiered passive item: {tieredItem.TierGroupIdentifier}");
                             if (tieredItem.TierGroupIdentifier.Equals("heart_of_the_faithful_tiered_item") && tieredItem.itemTier < tierTwoHeartOfTheFaithfulList.Count)
                             {
                                 availableChoicesPool.Add(tierTwoHeartOfTheFaithfulList[tieredItem.itemTier]);
@@ -588,7 +588,7 @@ namespace GungeonCOTL.passive_items
                 {
                     if (choicePoolItem.PickupObjectId == playerOwnedItem.PickupObjectId)
                     {
-                        Plugin.Log($"removing item: {choicePoolItem.EncounterNameOrDisplayName}");
+                        //Plugin.Log($"removing item: {choicePoolItem.EncounterNameOrDisplayName}");
                         availableChoicesPool.Remove(choicePoolItem);
                         break;
                     }
