@@ -1,5 +1,6 @@
 ﻿using Alexandria.ItemAPI;
 using Alexandria.VisualAPI;
+using Alexandria.Misc;
 using Dungeonator;
 using GungeonCOTL.active_items;
 using GungeonCOTL.custom_class_data;
@@ -22,6 +23,8 @@ namespace GungeonCOTL.passive_items
         public float DevotionExpTracker = 0f;
 
         public float DevotionCurrentThreshold = 1000f;
+
+        public bool ItemDeactivated = false;
 
         public int NumOfDivineInspirations = 0;
 
@@ -185,6 +188,8 @@ namespace GungeonCOTL.passive_items
         {
             if (!m_pickedUpThisRun)
             {
+                CustomActions.OnRunStart += ResetProgression;
+
                 if (activeVFXObject != null)
                 {
                     Destroy(activeVFXObject);
@@ -225,6 +230,17 @@ namespace GungeonCOTL.passive_items
             player.OnAnyEnemyReceivedDamage += KillEnemyCount;
 
             //DisplayTables();
+        }
+
+        public void ResetProgression(PlayerController player1, PlayerController player2, GameManager.GameMode gameMode)
+        {
+            /*if (ItemDeactivated)
+            {
+                Owner.OnAnyEnemyReceivedDamage += KillEnemyCount;
+            }
+            tierTwoActivated = false;*/
+            availableChoicesPool.Clear();
+            availableChoicesPool.AddRange(possibleChoiceTable);
         }
 
         public override void DisableEffect(PlayerController player)
@@ -305,6 +321,7 @@ namespace GungeonCOTL.passive_items
             else
             {
                 Owner.OnAnyEnemyReceivedDamage -= KillEnemyCount;
+                ItemDeactivated = true;
                 Plugin.Log($"No more divine inspirations\n\n\n\n\n\n\n\n\n\n\n\n");
             }
             DevotionCurrentThreshold = DevotionExpThresholdList[Math.Min(DevotionExpThresholdList.Count - 1 ,NumOfDivineInspirations)];

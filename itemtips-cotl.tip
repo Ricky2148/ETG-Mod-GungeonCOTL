@@ -50,27 +50,27 @@
 
     "gungeoncotl:heart_of_the_faithful_i": {
       "name": "Heart of the Faithful I",
-      "notes": "+1 Heart"
+      "notes": "+1 Blank per floor"
     },
     "gungeoncotl:heart_of_the_faithful_ii": {
       "name": "Heart of the Faithful II",
-      "notes": "+2 Heart"
+      "notes": "+1 Blank per floor, +1 Armor per floor"
     },
     "gungeoncotl:heart_of_the_faithful_iii": {
       "name": "Heart of the Faithful III",
-      "notes": "+3 Heart"
+      "notes": "+1 Blank per floor, +1 Armor per floor, +1 Heart"
     },
     "gungeoncotl:heart_of_the_faithful_iv": {
       "name": "Heart of the Faithful IV",
-      "notes": "+4 Heart"
+      "notes": "+2 Blanks per floor, +1 Armor per floor, +1 Heart"
     },
     "gungeoncotl:heart_of_the_faithful_v": {
       "name": "Heart of the Faithful V",
-      "notes": "+5 Heart"
+      "notes": "+2 Blanks per floor, +2 Armor per floor, +1 Heart"
     },
     "gungeoncotl:heart_of_the_faithful_vi": {
       "name": "Heart of the Faithful VI",
-      "notes": "+6 Heart"
+      "notes": "+2 Blanks per floor, +2 Armor per floor, +2 Hearts"
     },
     "gungeoncotl:might_of_the_devout_i": {
       "name": "Might of the Devout I",

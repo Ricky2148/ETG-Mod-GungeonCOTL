@@ -12,7 +12,7 @@ namespace GungeonCOTL.passive_items
     {
         public static string ItemName = "Heart of the Faithful I";
 
-        private static float HealthStat = 1f;
+        private static float BlankStat = 1f;
 
         public static int ID;
         public static bool isHeartOfTheFaithful = true;
@@ -29,12 +29,13 @@ namespace GungeonCOTL.passive_items
             ItemBuilder.AddSpriteToObject(itemName, resourceName, obj);
 
             string shortDesc = "+Defense";
-            string longDesc = "+1 Heart\n" +
+            string longDesc = "+1 Blank per floor\n" +
                 "Strength of faith from your followers increase your defenses.\n";
 
             ItemBuilder.SetupItem(item, shortDesc, longDesc, Plugin.ITEM_PREFIX);
 
-            ItemBuilder.AddPassiveStatModifier(item, PlayerStats.StatType.Health, HealthStat, StatModifier.ModifyMethod.ADDITIVE);
+            //ItemBuilder.AddPassiveStatModifier(item, PlayerStats.StatType.Health, HealthStat, StatModifier.ModifyMethod.ADDITIVE);
+            ItemBuilder.AddPassiveStatModifier(item, PlayerStats.StatType.AdditionalBlanksPerFloor, BlankStat, StatModifier.ModifyMethod.ADDITIVE);
 
             item.quality = PickupObject.ItemQuality.EXCLUDED;
 

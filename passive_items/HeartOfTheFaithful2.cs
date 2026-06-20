@@ -12,7 +12,8 @@ namespace GungeonCOTL.passive_items
     {
         public static string ItemName = "Heart of the Faithful II";
 
-        private static float HealthStat = 2f;
+        private static float BlankStat = 1f;
+        private static float ArmorStat = 1f;
 
         public static int ID;
         public static bool isHeartOfTheFaithful = true;
@@ -29,12 +30,12 @@ namespace GungeonCOTL.passive_items
             ItemBuilder.AddSpriteToObject(itemName, resourceName, obj);
 
             string shortDesc = "+Defense";
-            string longDesc = "+2 Heart\n" +
+            string longDesc = "+1 Blank per floor, +1 Armor per floor\n" +
                 "Increased strength of faith from your followers increase your defenses further.\n";
 
             ItemBuilder.SetupItem(item, shortDesc, longDesc, Plugin.ITEM_PREFIX);
 
-            ItemBuilder.AddPassiveStatModifier(item, PlayerStats.StatType.Health, HealthStat, StatModifier.ModifyMethod.ADDITIVE);
+            ItemBuilder.AddPassiveStatModifier(item, PlayerStats.StatType.AdditionalBlanksPerFloor, BlankStat, StatModifier.ModifyMethod.ADDITIVE);
 
             item.quality = PickupObject.ItemQuality.EXCLUDED;
 
@@ -52,6 +53,7 @@ namespace GungeonCOTL.passive_items
             }
 
             base.Pickup(player);
+            GameManager.Instance.OnNewLevelFullyLoaded += GainArmorOnLevelLoad;
             Plugin.Log($"Player picked up {this.EncounterNameOrDisplayName}");
         }
 
@@ -59,6 +61,10 @@ namespace GungeonCOTL.passive_items
         {
             base.DisableEffect(player);
             Plugin.Log($"Player dropped or got rid of {this.EncounterNameOrDisplayName}");
+        }
+        public void GainArmorOnLevelLoad()
+        {
+            Owner.healthHaver.Armor += ArmorStat;
         }
 
         public override void Update()
