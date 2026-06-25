@@ -12,8 +12,8 @@ namespace GungeonCOTL.passive_items
     {
         public static string ItemName = "Heart of the Faithful V";
 
-        private static float BlankStat = 2f;
-        private static float ArmorStat = 2f;
+        private static int BlankStat = 2;
+        private static int ArmorStat = 2;
         private static float HealthStat = 1f;
 
         public static int ID;
@@ -38,6 +38,7 @@ namespace GungeonCOTL.passive_items
 
             ItemBuilder.AddPassiveStatModifier(item, PlayerStats.StatType.AdditionalBlanksPerFloor, BlankStat, StatModifier.ModifyMethod.ADDITIVE);
             ItemBuilder.AddPassiveStatModifier(item, PlayerStats.StatType.Health, HealthStat, StatModifier.ModifyMethod.ADDITIVE);
+            item.ArmorToGainOnInitialPickup = ArmorStat;
 
             item.quality = PickupObject.ItemQuality.EXCLUDED;
 
@@ -62,6 +63,7 @@ namespace GungeonCOTL.passive_items
         public override void DisableEffect(PlayerController player)
         {
             base.DisableEffect(player);
+            GameManager.Instance.OnNewLevelFullyLoaded -= GainArmorOnLevelLoad;
             Plugin.Log($"Player dropped or got rid of {this.EncounterNameOrDisplayName}");
         }
         public void GainArmorOnLevelLoad()

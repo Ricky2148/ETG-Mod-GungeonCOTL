@@ -12,8 +12,8 @@ namespace GungeonCOTL.passive_items
     {
         public static string ItemName = "Heart of the Faithful IV";
 
-        private static float BlankStat = 2f;
-        private static float ArmorStat = 1f;
+        private static int BlankStat = 2;
+        private static int ArmorStat = 1;
         private static float HealthStat = 1f;
 
         public static int ID;
@@ -52,6 +52,7 @@ namespace GungeonCOTL.passive_items
             if (!m_pickedUpThisRun)
             {
                 AkSoundEngine.PostEvent("tarot_rune_draw", player.gameObject);
+                player.m_blanks += BlankStat;
             }
 
             base.Pickup(player);
@@ -62,6 +63,7 @@ namespace GungeonCOTL.passive_items
         public override void DisableEffect(PlayerController player)
         {
             base.DisableEffect(player);
+            GameManager.Instance.OnNewLevelFullyLoaded -= GainArmorOnLevelLoad;
             Plugin.Log($"Player dropped or got rid of {this.EncounterNameOrDisplayName}");
         }
         public void GainArmorOnLevelLoad()

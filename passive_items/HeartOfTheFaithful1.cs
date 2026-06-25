@@ -12,7 +12,7 @@ namespace GungeonCOTL.passive_items
     {
         public static string ItemName = "Heart of the Faithful I";
 
-        private static float BlankStat = 1f;
+        private static int BlankStat = 1;
 
         public static int ID;
         public static bool isHeartOfTheFaithful = true;
@@ -50,6 +50,7 @@ namespace GungeonCOTL.passive_items
             if (!m_pickedUpThisRun)
             {
                 AkSoundEngine.PostEvent("tarot_rune_draw", player.gameObject);
+                player.m_blanks += BlankStat;
             }
 
             base.Pickup(player);

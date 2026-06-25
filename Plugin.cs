@@ -30,7 +30,7 @@ namespace GungeonCOTL
         public const string ITEM_PREFIX = "gungeoncotl";
         public const string GUID = "Ricky2148.etg.GungeonCOTL";
         public const string NAME = "Gungeon Cult of the Lamb";
-        public const string VERSION = "1.0.2";
+        public const string VERSION = "1.0.3";
         public const string TEXT_COLOR = "#690709";
 
         internal static Harmony _Harmony;

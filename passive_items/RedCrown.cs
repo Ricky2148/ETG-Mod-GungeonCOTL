@@ -29,18 +29,24 @@ namespace GungeonCOTL.passive_items
         public int NumOfDivineInspirations = 0;
 
         public List<float> DevotionExpThresholdList = new List<float>
-        { 
+        {
             500f,  //0
             750f,  //1
             1000f, //2
-            1250f, //3
-            1500f, //4
-            1750f, //5
-            2000f, //6
-            2250f, //7
-            2500f, //8
-            2750f, //9
-            3000f, //10
+            1500f, //3
+            2000f, //4
+            2500f, //5
+            3000f, //6
+            3500f, //7
+            4000f, //8
+            4500f, //9
+            5000f, //10
+            5750f, //11
+            6500f, //12
+            7250f, //13
+            8000f, //14
+            9000f, //15
+            10000f,//16
         };
 
         private static int CapNumDivineInspirations = 22;
