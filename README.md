@@ -7,7 +7,7 @@ If you have any questions, requests, or thoughts, you can let me know through he
 
 ## ![](https://i.ibb.co/YTD0Lf6d/red-crown-alt-pixelart-sprite.png) Red Crown:
 - Gains EXP from killing enemies equal to their HP, spawns a selection of items at each exp checkpoint
-- Lv 1: 500 - Lv 11+: 3000 
+- Lv 1: 500 - Lv 11: 5000 - Lv 17: 10000 
 - At level 6, gain access to Crown Upgrades
 
 ## Rituals:
