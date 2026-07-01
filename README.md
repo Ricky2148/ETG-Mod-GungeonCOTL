@@ -78,7 +78,7 @@ Golden Fleece:
 
 ![](https://i.ibb.co/LDP8Bbwv/fleece-of-the-diseased-heart.png)
 Fleece of the Diseased Heart:
-- Picking up a new item gives you 1 armor NOT IMPLEMENTED YET
+- Picking up a Divine Inspiration buff gives you 1 armor
 - Taking damage spawns a harmful goop below you
 
 ![](https://i.ibb.co/Xx1tk4Bq/fleece-of-the-hobbled-heels.png)

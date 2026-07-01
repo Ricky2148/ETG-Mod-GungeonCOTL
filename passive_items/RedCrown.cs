@@ -151,6 +151,8 @@ namespace GungeonCOTL.passive_items
 
         private GameObject redCrownVFXObject;
 
+        private static bool FleeceDiseasedHeartHeld = false;
+
         public static int ID;
 
         public static void Init()
@@ -255,6 +257,7 @@ namespace GungeonCOTL.passive_items
             tierTwoActivated = false;*/
             availableChoicesPool.Clear();
             availableChoicesPool.AddRange(possibleChoiceTable);
+            FleeceDiseasedHeartHeld = false;
         }
 
         public override void DisableEffect(PlayerController player)
@@ -327,6 +330,11 @@ namespace GungeonCOTL.passive_items
             {
                 NumOfDivineInspirations++;
             }*/
+
+            if (Owner.HasPassiveItem(FleeceOfTheDiseasedHeart.ID))
+            {
+                FleeceDiseasedHeartHeld = true;
+            }
 
             if (NumOfDivineInspirations < CapNumDivineInspirations)
             {
@@ -564,6 +572,12 @@ namespace GungeonCOTL.passive_items
                     {
                         //LootEngine.SpawnBowlerNote(GameManager.Instance.RewardManager.BowlerNotePostRainbow, choicesSpawnLocation, choicesSpawnLocation.GetAbsoluteRoom(), doPoof: true);
                         //Plugin.Log($"chose an item");
+
+                        if (FleeceDiseasedHeartHeld)
+                        {
+                            Owner.healthHaver.currentArmor += 1;
+                        }
+
                         AkSoundEngine.PostEvent("select_upgrade_loop" + "_stop", Owner.gameObject);
 
                         if (activeVFXObject != null)
@@ -607,9 +621,6 @@ namespace GungeonCOTL.passive_items
                             }
                         }
 
-                        Plugin.Log($"{playerOwnedItem.PickupObjectId == GoldenFleece.ID}, " +
-                            $"{playerOwnedItem.PickupObjectId == FleeceOfTheDiseasedHeart.ID}, " +
-                            $"{playerOwnedItem.PickupObjectId == FleeceOfTheHobbledHeels.ID}");
                         if (playerOwnedItem.PickupObjectId == GoldenFleece.ID || 
                             playerOwnedItem.PickupObjectId == FleeceOfTheDiseasedHeart.ID || 
                             playerOwnedItem.PickupObjectId == FleeceOfTheHobbledHeels.ID)
@@ -642,7 +653,6 @@ namespace GungeonCOTL.passive_items
                             availableChoicesPool.Remove(choicePoolItem);
                             break;
                         }
-                        break;
                     }
                 }
             }

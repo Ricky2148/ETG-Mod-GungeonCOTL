@@ -43,6 +43,8 @@ namespace GungeonCOTL.passive_items
 
         public static bool isFleece = true;
 
+        private GameObject activeVFXObject;
+
         public static int ID;
 
         public static void Init()
@@ -56,8 +58,10 @@ namespace GungeonCOTL.passive_items
 
             ItemBuilder.AddSpriteToObject(itemName, resourceName, obj);
 
-            string shortDesc = "idk";
-            string longDesc = "idk";
+            string shortDesc = "Embrace Greed!";
+            string longDesc = "Increased damage per kill, stacking until the cap. Taking damage hurts more and resets the buff.\n\n" +
+                "The Fleece of a revered Golden Lamb. Despite its \"holiness,\" this Golden Fleece was procured from The Lamb's own follower. " +
+                "Those born with a golden fleece are always treated with favor and praise; that is, until the cult murders them for their precious skin.\n";
 
             ItemBuilder.SetupItem(item, shortDesc, longDesc, Plugin.ITEM_PREFIX);
 
@@ -90,6 +94,18 @@ namespace GungeonCOTL.passive_items
 
         public override void Pickup(PlayerController player)
         {
+            if (!m_pickedUpThisRun)
+            {
+                if (activeVFXObject != null)
+                {
+                    Destroy(activeVFXObject);
+                }
+
+                AkSoundEngine.PostEvent("crown_upgrade_pickup", player.gameObject);
+                activeVFXObject = VFXPlayerCOTL.PlayCrownUpgradeEffectOnActor(player);
+                player.StartCoroutine(VFXPlayerCOTL.HardCodedCrownUpgradeEffectSFXPlayer(player));
+            }
+
             base.Pickup(player);
             Plugin.Log($"Player picked up {this.EncounterNameOrDisplayName}");
             
@@ -111,6 +127,10 @@ namespace GungeonCOTL.passive_items
         {
             base.DisableEffect(player);
             Plugin.Log($"Player dropped or got rid of {this.EncounterNameOrDisplayName}");
+            if (activeVFXObject != null)
+            {
+                Destroy(activeVFXObject);
+            }
 
             if (player != null)
             {

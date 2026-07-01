@@ -26,6 +26,8 @@ namespace GungeonCOTL.passive_items
 
         public static bool isFleece = true;
 
+        private GameObject activeVFXObject;
+
         public static int ID;
 
         public static void Init()
@@ -39,8 +41,11 @@ namespace GungeonCOTL.passive_items
 
             ItemBuilder.AddSpriteToObject(itemName, resourceName, obj);
 
-            string shortDesc = "idk";
-            string longDesc = "idk";
+            string shortDesc = "Embrace Rollerskates?";
+            string longDesc = "Increases fire rate and movement speed. Heal for a half heart upon room clear. Can no longer dodge roll.\n\n" +
+                "The fleece of a weirdly spiky enemy you encountered one day. His speed despite being on the verge of death was astonishing to see " +
+                "and made you wonder what donning his fleece could do. The secret of his speed appears to be a set of juiced up rollerskates, " +
+                "but your inexperience with them prevents you from doing anything but running.\n";
 
             ItemBuilder.SetupItem(item, shortDesc, longDesc, Plugin.ITEM_PREFIX);
 
@@ -56,6 +61,18 @@ namespace GungeonCOTL.passive_items
 
         public override void Pickup(PlayerController player)
         {
+            if (!m_pickedUpThisRun)
+            {
+                if (activeVFXObject != null)
+                {
+                    Destroy(activeVFXObject);
+                }
+
+                AkSoundEngine.PostEvent("crown_upgrade_pickup", player.gameObject);
+                activeVFXObject = VFXPlayerCOTL.PlayCrownUpgradeEffectOnActor(player);
+                player.StartCoroutine(VFXPlayerCOTL.HardCodedCrownUpgradeEffectSFXPlayer(player));
+            }
+
             base.Pickup(player);
             Plugin.Log($"Player picked up {this.EncounterNameOrDisplayName}");
 
@@ -67,6 +84,10 @@ namespace GungeonCOTL.passive_items
         {
             base.DisableEffect(player);
             Plugin.Log($"Player dropped or got rid of {this.EncounterNameOrDisplayName}");
+            if (activeVFXObject != null)
+            {
+                Destroy(activeVFXObject);
+            }
 
             if (player != null)
             {

@@ -85,8 +85,8 @@ namespace GungeonCOTL.passive_items
 
         public void ShopItemPurchased(PlayerController player, ShopItemController itemController)
         {
-            Plugin.Log($"price: {itemController.CurrentPrice}, type: {itemController.CurrencyType}");
-            if (itemController.CurrentPrice <= 0 || itemController.CurrencyType != ShopItemController.ShopCurrencyType.COINS)
+            //Plugin.Log($"price: {itemController.ModifiedPrice}, type: {itemController.CurrencyType}");
+            if (itemController.ModifiedPrice <= 0 || itemController.CurrencyType != ShopItemController.ShopCurrencyType.COINS)
             {
                 Plugin.Log($"doesn't count lol");
                 return;

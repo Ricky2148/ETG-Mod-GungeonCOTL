@@ -22,6 +22,8 @@ namespace GungeonCOTL.passive_items
 
         public static bool isFleece = true;
 
+        private GameObject activeVFXObject;
+
         public static int ID;
 
         public static void Init()
@@ -35,10 +37,14 @@ namespace GungeonCOTL.passive_items
 
             ItemBuilder.AddSpriteToObject(itemName, resourceName, obj);
 
-            string shortDesc = "idk";
-            string longDesc = "idk";
+            string shortDesc = "Embrace Disease!";
+            string longDesc = "Picking up a Divine Inspiration buff gives you 1 Armor. Spills harmful goop when you are hit.\n\n" +
+                "The fleece of a peculiar follower who survived every disease known. You don this fleece believing it to make one impervious to diseases, " +
+                "however, it instead both infests you with disease and empowers your vitality. So now, you're more resilient in combat, but your every orifice oozes illness and disease.\n\n";
 
             ItemBuilder.SetupItem(item, shortDesc, longDesc, Plugin.ITEM_PREFIX);
+
+            item.ArmorToGainOnInitialPickup = 1;
 
             item.condition = Condition.OnDamaged;
             item.goopType = GoopUtility.MimicSpitDef;
@@ -52,6 +58,18 @@ namespace GungeonCOTL.passive_items
 
         public override void Pickup(PlayerController player)
         {
+            if (!m_pickedUpThisRun)
+            {
+                if (activeVFXObject != null)
+                {
+                    Destroy(activeVFXObject);
+                }
+
+                AkSoundEngine.PostEvent("crown_upgrade_pickup", player.gameObject);
+                activeVFXObject = VFXPlayerCOTL.PlayCrownUpgradeEffectOnActor(player);
+                player.StartCoroutine(VFXPlayerCOTL.HardCodedCrownUpgradeEffectSFXPlayer(player));
+            }
+
             base.Pickup(player);
             Plugin.Log($"Player picked up {this.EncounterNameOrDisplayName}");
 
@@ -62,6 +80,10 @@ namespace GungeonCOTL.passive_items
         {
             base.DisableEffect(player);
             Plugin.Log($"Player dropped or got rid of {this.EncounterNameOrDisplayName}");
+            if (activeVFXObject != null)
+            {
+                Destroy(activeVFXObject);
+            }
 
             if (player != null)
             {
