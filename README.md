@@ -70,6 +70,22 @@ Resurrection:
 Darkness Within:
 - Deals 15 damage to all enemies in the room when player takes damage
 
+## Fleeces:
+![](https://i.ibb.co/dsGvLDT3/golden-fleece.png)
+Golden Fleece:
+- +5% damage per kill, caps out at +200%, resets upon taking damage.
+- Whenever you take damage, you take an additional half heart of damage
+
+![](https://i.ibb.co/LDP8Bbwv/fleece-of-the-diseased-heart.png)
+Fleece of the Diseased Heart:
+- Picking up a new item gives you 1 armor NOT IMPLEMENTED YET
+- Taking damage spawns a harmful goop below you
+
+![](https://i.ibb.co/Xx1tk4Bq/fleece-of-the-hobbled-heels.png)
+Fleece of the Hobbled Heels:
+- +2.5 Movement Speed, 1.2x Fire Rate, Heals you for a half heart upon room clear
+- You CANNOT dodge roll
+
 ## Contributors:
 - Dallan - ALL item and vfx artwork (*don't check what they were before he helped out*)
 

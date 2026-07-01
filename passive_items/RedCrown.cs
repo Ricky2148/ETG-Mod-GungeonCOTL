@@ -92,6 +92,11 @@ namespace GungeonCOTL.passive_items
             //crown upgrades
             PickupObjectDatabase.GetById(CrownUpgradeDarknessWithin.ID),
             PickupObjectDatabase.GetById(CrownUpgradeResurrection.ID),
+
+            //fleeces
+            PickupObjectDatabase.GetById(GoldenFleece.ID),
+            PickupObjectDatabase.GetById(FleeceOfTheDiseasedHeart.ID),
+            PickupObjectDatabase.GetById(FleeceOfTheHobbledHeels.ID),
         };
 
         private static List<PickupObject> tierTwoHeartOfTheFaithfulList = new List<PickupObject>
@@ -182,7 +187,10 @@ namespace GungeonCOTL.passive_items
             );
 
             //item.ItemSpansBaseQualityTiers = true;
-            item.quality = PickupObject.ItemQuality.A;
+
+            CapNumDivineInspirations = possibleChoiceTable.Count + (tierTwoPossibleChoiceTable.Count - 2) + (tierTwoHeartOfTheFaithfulList.Count - 1) + (tierTwoMightOfTheDevoutList.Count - 1) - 1;
+            Plugin.Log($"CapNumDivineInspirations: {CapNumDivineInspirations}");
+            item.quality = PickupObject.ItemQuality.SPECIAL;
 
             item.CanBeDropped = false; ID = item.PickupObjectId;
             //Plugin.Log($"ID: {ID}, pickupID: {item.PickupObjectId}");
@@ -599,7 +607,41 @@ namespace GungeonCOTL.passive_items
                             }
                         }
 
-                        availableChoicesPool.Remove(choicePoolItem);
+                        Plugin.Log($"{playerOwnedItem.PickupObjectId == GoldenFleece.ID}, " +
+                            $"{playerOwnedItem.PickupObjectId == FleeceOfTheDiseasedHeart.ID}, " +
+                            $"{playerOwnedItem.PickupObjectId == FleeceOfTheHobbledHeels.ID}");
+                        if (playerOwnedItem.PickupObjectId == GoldenFleece.ID || 
+                            playerOwnedItem.PickupObjectId == FleeceOfTheDiseasedHeart.ID || 
+                            playerOwnedItem.PickupObjectId == FleeceOfTheHobbledHeels.ID)
+                        {
+                            availableChoicesPool.RemoveAll(po =>
+                                po.PickupObjectId == GoldenFleece.ID ||
+                                po.PickupObjectId == FleeceOfTheDiseasedHeart.ID ||
+                                po.PickupObjectId == FleeceOfTheHobbledHeels.ID);
+
+                            break;
+
+                            /*PickupObject smth = PickupObjectDatabase.GetById(GoldenFleece.ID);
+                            int GoldenFleeceIndex = availableChoicesPool.FindIndex(System.Predicate<PickupObject>(smth.PickupObjectId == GoldenFleece.ID));
+                            foreach (PickupObject fleeceItem in availableChoicesPool)
+                            {
+                                Plugin.Log($"{fleeceItem.PickupObjectId == GoldenFleece.ID}, " +
+                                    $"{fleeceItem.PickupObjectId == FleeceOfTheDiseasedHeart.ID}, " +
+                                    $"{fleeceItem.PickupObjectId == FleeceOfTheHobbledHeels.ID}");
+                                if (fleeceItem.PickupObjectId == GoldenFleece.ID ||
+                                    fleeceItem.PickupObjectId == FleeceOfTheDiseasedHeart.ID ||
+                                    fleeceItem.PickupObjectId == FleeceOfTheHobbledHeels.ID)
+                                {
+                                    availableChoicesPool.Remove(fleeceItem);
+                                }
+                            }
+                            break;*/
+                        }
+                        else
+                        {
+                            availableChoicesPool.Remove(choicePoolItem);
+                            break;
+                        }
                         break;
                     }
                 }

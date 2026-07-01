@@ -30,7 +30,7 @@ namespace GungeonCOTL
         public const string ITEM_PREFIX = "gungeoncotl";
         public const string GUID = "Ricky2148.etg.GungeonCOTL";
         public const string NAME = "Gungeon Cult of the Lamb";
-        public const string VERSION = "1.0.3";
+        public const string VERSION = "1.1.0";
         public const string TEXT_COLOR = "#690709";
 
         internal static Harmony _Harmony;
@@ -46,10 +46,16 @@ namespace GungeonCOTL
             SoundManager.LoadSoundbanksFromAssembly();
 
             _Harmony = new Harmony(GUID);
+            _Harmony.PatchAll(Assembly.GetExecutingAssembly());
 
             //Crown upgrades
             CrownUpgradeResurrection.Init();
             CrownUpgradeDarknessWithin.Init();
+
+            //Fleeces
+            GoldenFleece.Init();
+            FleeceOfTheDiseasedHeart.Init();
+            FleeceOfTheHobbledHeels.Init();
             
             //Rituals
             AscendGunRitual.Init();
@@ -62,7 +68,6 @@ namespace GungeonCOTL
             DoctrineOfMaterialism.Init();
             DoctrineOfSin.Init();
             DoctrineOfSustenance.Init();
-
             DoctrineOfLawAndOrder.Init();
 
             //Sermon Upgrades
@@ -89,6 +94,12 @@ namespace GungeonCOTL
             GungeonCOTLSynergies.Init();
 
             Log($"{NAME} v{VERSION} started successfully.", TEXT_COLOR);
+
+            var myOriginalMethods = _Harmony.GetPatchedMethods();
+            foreach (var method in myOriginalMethods) 
+            {
+                Log("Patched Method: " + method.DeclaringType.FullName + "." + method.Name, TEXT_COLOR);
+            }
         }
 
         public static void Log(string text, string color= "#FF007F")
