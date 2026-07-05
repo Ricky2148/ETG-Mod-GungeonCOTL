@@ -8,6 +8,8 @@ using System.Reflection;
 using System.Text;
 using UnityEngine;
 
+//finalize vfx and colors, also pick a better sfx
+
 namespace GungeonCOTL.passive_items
 {
     internal class GoldenFleece : PassiveItem
@@ -65,8 +67,21 @@ namespace GungeonCOTL.passive_items
 
             ItemBuilder.SetupItem(item, shortDesc, longDesc, Plugin.ITEM_PREFIX);
 
-            item.eighthNoteSprite = baseMetronome.eighthNoteSprite;
-            item.doubleEighthNoteSprite = baseMetronome.doubleEighthNoteSprite;
+            GameObject smallStarSprite = SpriteBuilder.SpriteFromResource("GungeonCOTL/Resources/vfxs/golden_fleece_icons/star_small_upside_down");
+            UnityEngine.Object.DontDestroyOnLoad(smallStarSprite);
+            FakePrefab.MarkAsFakePrefab(smallStarSprite);
+            smallStarSprite.SetActive(false);
+            item.eighthNoteSprite = smallStarSprite.GetComponent<tk2dSprite>();
+
+            //Plugin.Log($"gameobject is null? {smallStarSprite == null}, tk2dsprite is null? {smallStarSprite.GetComponent<tk2dSprite>() == null}, bravebehavior.sprite is null? {smallStarSprite.GetComponent<BraveBehaviour>().sprite == null}, " +
+            //$"tk2dsprite.Collection: {smallStarSprite.GetComponent<tk2dSprite>().collection}, tk2dsprite.spriteId: {smallStarSprite.GetComponent<tk2dSprite>().spriteId}");
+
+            GameObject largeStarSprite = SpriteBuilder.SpriteFromResource("GungeonCOTL/Resources/vfxs/golden_fleece_icons/star_large_sparkly");
+            UnityEngine.Object.DontDestroyOnLoad(largeStarSprite);
+            FakePrefab.MarkAsFakePrefab(largeStarSprite);
+            largeStarSprite.SetActive(false);
+            item.doubleEighthNoteSprite = largeStarSprite.GetComponent<tk2dSprite>();
+
             item.colorGradient = baseMetronome.colorGradient;
             item.synergyColorGradient = baseMetronome.synergyColorGradient;
 
@@ -163,7 +178,11 @@ namespace GungeonCOTL.passive_items
 
         private void DoMetronomeBroken(Gun current)
         {
-            m_player.healthHaver.ApplyDamage(0.5f, Vector2.zero, ItemName);
+            if (m_player.healthHaver.IsAlive)
+            {
+                //m_player.healthHaver.ApplyDamage(0.5f, Vector2.zero, ItemName);
+                m_player.healthHaver.ForceSetCurrentHealth(m_player.healthHaver.currentHealth - 0.5f);
+            }
 
             float currentMultiplier = GetCurrentMultiplier();
             if (currentMultiplier > 1f)

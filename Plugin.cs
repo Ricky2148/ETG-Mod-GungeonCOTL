@@ -95,11 +95,11 @@ namespace GungeonCOTL
 
             Log($"{NAME} v{VERSION} started successfully.", TEXT_COLOR);
 
-            var myOriginalMethods = _Harmony.GetPatchedMethods();
+            /*var myOriginalMethods = _Harmony.GetPatchedMethods();
             foreach (var method in myOriginalMethods) 
             {
                 Log("Patched Method: " + method.DeclaringType.FullName + "." + method.Name, TEXT_COLOR);
-            }
+            }*/
         }
 
         public static void Log(string text, string color= "#FF007F")

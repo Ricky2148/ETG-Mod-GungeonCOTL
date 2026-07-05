@@ -7,6 +7,8 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 
+//add custom sfx and vfx for when you get the free armor/when you spill the goop
+
 namespace GungeonCOTL.passive_items
 {
     internal class FleeceOfTheDiseasedHeart : PassiveGooperItem

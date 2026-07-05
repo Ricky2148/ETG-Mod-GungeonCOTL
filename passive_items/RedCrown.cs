@@ -191,7 +191,7 @@ namespace GungeonCOTL.passive_items
             //item.ItemSpansBaseQualityTiers = true;
 
             CapNumDivineInspirations = possibleChoiceTable.Count + (tierTwoPossibleChoiceTable.Count - 2) + (tierTwoHeartOfTheFaithfulList.Count - 1) + (tierTwoMightOfTheDevoutList.Count - 1) - 1;
-            Plugin.Log($"CapNumDivineInspirations: {CapNumDivineInspirations}");
+            //Plugin.Log($"CapNumDivineInspirations: {CapNumDivineInspirations}");
             item.quality = PickupObject.ItemQuality.SPECIAL;
 
             item.CanBeDropped = false; ID = item.PickupObjectId;

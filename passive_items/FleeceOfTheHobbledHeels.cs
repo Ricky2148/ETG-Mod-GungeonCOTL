@@ -9,6 +9,7 @@ using System.Text;
 using UnityEngine;
 
 //buffs the player greatly and heals them per room clear, removes the ability to dodge roll
+//add custom vfx and sfx for the heal
 
 namespace GungeonCOTL.passive_items
 {
