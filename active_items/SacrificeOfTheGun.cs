@@ -1,4 +1,4 @@
-﻿using Alexandria.ItemAPI;
+﻿using Alexandria.ItemAPI; using Alexandria.Integrations;
 using Alexandria.Misc;
 using GungeonCOTL.custom_class_data;
 using System;
@@ -40,6 +40,8 @@ namespace GungeonCOTL.active_items
                 "If you try to activate the ritual on a starter, excluded, or special rarity weapon, it will cancel the ritual without being consumed.\n";
 
             ItemBuilder.SetupItem(item, shortDesc, longDesc, Plugin.ITEM_PREFIX);
+
+            item.AddItemTip("Trade your current gun for a random gun of higher rarity. +1 Curse on use");
 
             ItemBuilder.SetCooldownType(item, ItemBuilder.CooldownType.None, 100);
 

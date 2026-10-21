@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Alexandria;
-using Alexandria.ItemAPI;
+using Alexandria.ItemAPI; using Alexandria.Integrations;
 using UnityEngine;
 
 namespace GungeonCOTL.custom_class_data

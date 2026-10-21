@@ -1,4 +1,4 @@
-﻿using Alexandria.ItemAPI;
+﻿using Alexandria.ItemAPI; using Alexandria.Integrations;
 using Alexandria.VisualAPI;
 using Alexandria.Misc;
 using Dungeonator;
@@ -172,6 +172,8 @@ namespace GungeonCOTL.passive_items
                 "             -The One Who Waits\n";
 
             ItemBuilder.SetupItem(item, shortDesc, longDesc, Plugin.ITEM_PREFIX);
+
+            item.AddItemTip("Gains EXP from killing enemies equal to their HP, spawns a selection of items upon level up");
 
             EffectVFX = VFXBuilder.CreateVFX
             (

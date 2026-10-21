@@ -1,4 +1,4 @@
-﻿using Alexandria.ItemAPI;
+﻿using Alexandria.ItemAPI; using Alexandria.Integrations;
 using Gungeon;
 using Alexandria;
 using MonoMod;

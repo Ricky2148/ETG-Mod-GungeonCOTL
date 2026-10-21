@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 using Alexandria.Misc;
-using Alexandria.ItemAPI;
+using Alexandria.ItemAPI; using Alexandria.Integrations;
 
 namespace GungeonCOTL.custom_class_data
 {

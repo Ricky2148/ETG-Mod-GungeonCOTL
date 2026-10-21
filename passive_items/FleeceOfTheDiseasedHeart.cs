@@ -49,7 +49,7 @@ namespace GungeonCOTL.passive_items
             item.ArmorToGainOnInitialPickup = 1;
 
             item.condition = Condition.OnDamaged;
-            item.goopType = GoopUtility.MimicSpitDef;
+            item.goopType = GoopUtility.PoisonDef;
             item.goopRadius = 5f;
             item.TranslatesGleepGlorp = true;
             item.modifiers = null;

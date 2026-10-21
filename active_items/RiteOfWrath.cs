@@ -1,4 +1,4 @@
-﻿using Alexandria.ItemAPI;
+﻿using Alexandria.ItemAPI; using Alexandria.Integrations;
 using Alexandria.Misc;
 using GungeonCOTL.custom_class_data;
 using System;
@@ -51,6 +51,8 @@ namespace GungeonCOTL.active_items
                 "Unleash your innate desires for havoc and violence. Allow yourself to be consumed by the thirst for WRATH! Pay no heed to the consequences of these actions.\n";
 
             ItemBuilder.SetupItem(item, shortDesc, longDesc, Plugin.ITEM_PREFIX);
+
+            item.AddItemTip("Grants a 20 minute buff that gives increased damage and fire rate. Gradually increases your curse until the buff expires");
 
             ItemBuilder.SetCooldownType(item, ItemBuilder.CooldownType.None, 100);
 

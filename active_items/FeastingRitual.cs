@@ -1,4 +1,4 @@
-﻿using Alexandria.ItemAPI;
+﻿using Alexandria.ItemAPI; using Alexandria.Integrations;
 using GungeonCOTL.custom_class_data;
 using System;
 using System.Collections.Generic;
@@ -35,7 +35,9 @@ namespace GungeonCOTL.active_items
 
             ItemBuilder.SetupItem(item, shortDesc, longDesc, Plugin.ITEM_PREFIX);
 
-            ItemBuilder.SetCooldownType(item, ItemBuilder.CooldownType.None, 100);
+			item.AddItemTip("Fully heals the player and +1 curse on use");
+
+			ItemBuilder.SetCooldownType(item, ItemBuilder.CooldownType.None, 100);
 
             ItemBuilder.AddPassiveStatModifier(item, PlayerStats.StatType.AdditionalItemCapacity, 1, StatModifier.ModifyMethod.ADDITIVE);
 

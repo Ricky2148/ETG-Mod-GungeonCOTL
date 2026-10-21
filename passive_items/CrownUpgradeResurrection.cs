@@ -1,4 +1,4 @@
-﻿using Alexandria.ItemAPI;
+﻿using Alexandria.ItemAPI; using Alexandria.Integrations;
 using GungeonCOTL.custom_class_data;
 using System;
 using System.Collections.Generic;
@@ -39,6 +39,8 @@ namespace GungeonCOTL.passive_items
                 "Harness the power to defy death once after lengthy and devoted worship.\n";
 
             ItemBuilder.SetupItem(item, shortDesc, longDesc, Plugin.ITEM_PREFIX);
+
+            item.AddItemTip("Revives the player with 1 heart");
 
             item.quality = PickupObject.ItemQuality.SPECIAL;
             item.SetName("Resurrection");

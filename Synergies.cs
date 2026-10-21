@@ -1,4 +1,4 @@
-﻿using Alexandria.ItemAPI;
+﻿using Alexandria.ItemAPI; using Alexandria.Integrations;
 using GungeonCOTL;
 using GungeonCOTL.passive_items;
 using System;

@@ -1,4 +1,4 @@
-﻿using Alexandria.ItemAPI;
+﻿using Alexandria.ItemAPI; using Alexandria.Integrations;
 using Alexandria.VisualAPI;
 using GungeonCOTL.custom_class_data;
 using System;
@@ -59,9 +59,11 @@ namespace GungeonCOTL.passive_items
 
             ItemBuilder.SetupItem(item, shortDesc, longDesc, Plugin.ITEM_PREFIX);
 
-            //ItemBuilder.AddPassiveStatModifier(item, PlayerStats.StatType.GlobalPriceMultiplier, DiscountValue, StatModifier.ModifyMethod.MULTIPLICATIVE);
+			item.AddItemTip("Healing has a chance to trigger an extra heal, free casings, or restore ammo");
 
-            item.OnImprovedHealingVFX = (PickupObjectDatabase.GetById((int)Items.Antibody) as HealingReceivedModificationItem).OnImprovedHealingVFX;
+			//ItemBuilder.AddPassiveStatModifier(item, PlayerStats.StatType.GlobalPriceMultiplier, DiscountValue, StatModifier.ModifyMethod.MULTIPLICATIVE);
+
+			item.OnImprovedHealingVFX = (PickupObjectDatabase.GetById((int)Items.Antibody) as HealingReceivedModificationItem).OnImprovedHealingVFX;
 
             item.quality = PickupObject.ItemQuality.SPECIAL;
             item.CanBeDropped = false; ID = item.PickupObjectId;

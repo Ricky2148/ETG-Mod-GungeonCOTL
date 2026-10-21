@@ -1,4 +1,4 @@
-﻿using Alexandria.ItemAPI;
+﻿using Alexandria.ItemAPI; using Alexandria.Integrations;
 using Alexandria.Misc;
 using GungeonCOTL.custom_class_data;
 using System;
@@ -44,6 +44,8 @@ namespace GungeonCOTL.active_items
                 "If you try to activate the ritual on a starter weapon, it will cancel the ritual without being consumed.\n";
 
             ItemBuilder.SetupItem(item, shortDesc, longDesc, Plugin.ITEM_PREFIX);
+
+            item.AddItemTip("Buffs your current gun with various buffs");
 
             ItemBuilder.SetCooldownType(item, ItemBuilder.CooldownType.None, 100);
 

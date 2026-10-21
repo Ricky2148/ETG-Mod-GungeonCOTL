@@ -1,4 +1,4 @@
-﻿using Alexandria.ItemAPI;
+﻿using Alexandria.ItemAPI; using Alexandria.Integrations;
 using GungeonCOTL.custom_class_data;
 using System;
 using System.Collections.Generic;
@@ -36,9 +36,11 @@ namespace GungeonCOTL.passive_items
 
             ItemBuilder.SetupItem(item, shortDesc, longDesc, Plugin.ITEM_PREFIX);
 
-            //ItemBuilder.AddPassiveStatModifier(item, PlayerStats.StatType.GlobalPriceMultiplier, DiscountValue, StatModifier.ModifyMethod.MULTIPLICATIVE);
+			item.AddItemTip("All enemies -10% HP");
 
-            item.SetName("Doctrine of Law & Order");
+			//ItemBuilder.AddPassiveStatModifier(item, PlayerStats.StatType.GlobalPriceMultiplier, DiscountValue, StatModifier.ModifyMethod.MULTIPLICATIVE);
+
+			item.SetName("Doctrine of Law & Order");
 
             item.quality = PickupObject.ItemQuality.SPECIAL;
             item.CanBeDropped = false; ID = item.PickupObjectId;

@@ -1,4 +1,6 @@
-﻿using Alexandria.ItemAPI;
+﻿using Alexandria.ItemAPI; 
+using Alexandria.Integrations; 
+using Alexandria.Integrations;
 using Alexandria.Misc;
 using GungeonCOTL.custom_class_data;
 using System;
@@ -7,6 +9,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using UnityEngine;
+using Newtonsoft.Json.Serialization;
 
 //finalize vfx and colors, also pick a better sfx
 
@@ -82,7 +85,24 @@ namespace GungeonCOTL.passive_items
             largeStarSprite.SetActive(false);
             item.doubleEighthNoteSprite = largeStarSprite.GetComponent<tk2dSprite>();
 
-            item.colorGradient = baseMetronome.colorGradient;
+            Gradient test = new Gradient();
+
+            var colors = new GradientColorKey[3];
+            colors[0] = new GradientColorKey(ExtendedColours.paleYellow, 0.0f);
+            colors[1] = new GradientColorKey(ExtendedColours.carrionRed, 0.5f);
+            colors[2] = new GradientColorKey(ExtendedColours.veryDarkRed, 1.0f);
+
+            // Blend alpha from opaque at 0% to transparent at 100%
+            var alphas = new GradientAlphaKey[3];
+            alphas[0] = new GradientAlphaKey(1.0f, 0.0f);
+            alphas[1] = new GradientAlphaKey(1.0f, 0.5f);
+            alphas[2] = new GradientAlphaKey(1.0f, 1.0f);
+
+            test.SetKeys(colors, alphas);
+
+            //item.colorGradient = baseMetronome.colorGradient;
+            item.colorGradient = test;
+
             item.synergyColorGradient = baseMetronome.synergyColorGradient;
 
             item.quality = PickupObject.ItemQuality.SPECIAL;
@@ -163,6 +183,7 @@ namespace GungeonCOTL.passive_items
 
             AkSoundEngine.SetRTPCValue("Pitch_Metronome", m_sequentialKills);
             AkSoundEngine.PostEvent("Play_OBJ_metronome_jingle_01", m_player.gameObject);
+            //AkSoundEngine.PostEvent("punchy_blessed_choir3", m_player.gameObject);
             float currentMultiplier = GetCurrentMultiplier();
             float time = Mathf.InverseLerp(1f, damageMultiplierCap, currentMultiplier);
             Color tintColor = colorGradient.Evaluate(time);

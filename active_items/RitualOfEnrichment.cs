@@ -1,4 +1,4 @@
-﻿using Alexandria.ItemAPI;
+﻿using Alexandria.ItemAPI; using Alexandria.Integrations;
 using Alexandria.VisualAPI;
 using Brave.BulletScript;
 using GungeonCOTL.custom_class_data;
@@ -68,6 +68,8 @@ namespace GungeonCOTL.active_items
                 "somehow it ends up in your pockets...\n";
 
             ItemBuilder.SetupItem(item, shortDesc, longDesc, Plugin.ITEM_PREFIX);
+
+            item.AddItemTip("Spawn in casings on use. Can roll bronze, silver, mix, or gold. Chance improves with coolness.");
 
             ItemBuilder.SetCooldownType(item, ItemBuilder.CooldownType.None, 100);
 

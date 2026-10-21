@@ -1,4 +1,4 @@
-﻿using Alexandria.ItemAPI;
+﻿using Alexandria.ItemAPI; using Alexandria.Integrations;
 using Alexandria.VisualAPI;
 using Dungeonator;
 using GungeonCOTL.custom_class_data;
@@ -76,6 +76,8 @@ namespace GungeonCOTL.passive_items
                 "Bearing the sins of your followers has caused your heart and soul to become blackened with darkness. It leaks out with ill will and lashes out against any who harm them.\n";
 
             ItemBuilder.SetupItem(item, shortDesc, longDesc, Plugin.ITEM_PREFIX);
+
+            item.AddItemTip("Damages all enemies when player takes damage");
 
             item.quality = PickupObject.ItemQuality.SPECIAL;
             item.SetName("Darkness Within");

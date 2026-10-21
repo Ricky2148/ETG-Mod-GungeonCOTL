@@ -22,6 +22,11 @@ namespace GungeonCOTL.passive_items
         private static float MovementSpeedStat = 2.5f;
 
         private static float HealAmount = 0.5f;
+        private static int roomClearCountReq = 5;
+        private static int roomClearCount = 0;
+
+        private static float rollDistMult = 1f;
+        private static float rollTimeMult = 2f;
 
         private static GameObject healVFX;
 
@@ -79,6 +84,10 @@ namespace GungeonCOTL.passive_items
 
             //player.OnPreDodgeRoll += PreventDodgeRoll;
             player.OnRoomClearEvent += HealPlayer;
+
+            player.rollStats.rollDistanceMultiplier *= rollDistMult;
+            player.rollStats.rollTimeMultiplier *= rollTimeMult;
+            //Plugin.Log($"distMult: {player.rollStats.rollDistanceMultiplier}, rollTime: {player.rollStats.rollTimeMultiplier}");
         }
 
         public override void DisableEffect(PlayerController player)
@@ -94,17 +103,26 @@ namespace GungeonCOTL.passive_items
             {
                 //player.OnPreDodgeRoll -= PreventDodgeRoll;
                 player.OnRoomClearEvent -= HealPlayer;
+
+                player.rollStats.rollDistanceMultiplier /= rollDistMult;
+                player.rollStats.rollTimeMultiplier /= rollTimeMult;
+                //Plugin.Log($"distMult: {player.rollStats.rollDistanceMultiplier}, rollTime: {player.rollStats.rollTimeMultiplier}");
             }
         }
 
         private void HealPlayer(PlayerController player)
         {
-            player.PlayEffectOnActor(healVFX, Vector3.zero);
-
-            player.healthHaver.ApplyHealing(HealAmount);
-            AkSoundEngine.PostEvent("Play_OBJ_med_kit_01", base.gameObject);
+            roomClearCount++;
+            if (roomClearCount % 5 == 0)
+            {
+                player.PlayEffectOnActor(healVFX, Vector3.zero);
+    
+                player.healthHaver.ApplyHealing(HealAmount);
+                AkSoundEngine.PostEvent("Play_OBJ_med_kit_01", base.gameObject);
+            }
         }
 
+        /*
         [HarmonyPatch]
         [HarmonyPatch(typeof(PlayerController), nameof(PlayerController.HandleStartDodgeRoll))]
         internal static class PlayerControllerHandleStartDodgeRollPatch
@@ -119,5 +137,6 @@ namespace GungeonCOTL.passive_items
                 return true;
             }
         }
+        */
     }
 }

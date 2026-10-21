@@ -1,5 +1,6 @@
 ﻿using Alexandria;
 using Alexandria.ItemAPI;
+using Alexandria.Integrations;
 using Alexandria.SoundAPI;
 using BepInEx;
 using GungeonCOTL.active_items;
@@ -16,6 +17,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading;
 using UnityEngine;
+using ModularMod;
 
 //bother balancing these items later
 // update bubbs with item list
@@ -90,6 +92,8 @@ namespace GungeonCOTL
             // always initialized last
             //debugItem.Init();
             RedCrown.Init();
+
+            CrateSpawnController.Init();
 
             GungeonCOTLSynergies.Init();
 

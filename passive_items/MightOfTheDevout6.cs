@@ -1,4 +1,4 @@
-﻿using Alexandria.ItemAPI;
+﻿using Alexandria.ItemAPI; using Alexandria.Integrations;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -32,6 +32,8 @@ namespace GungeonCOTL.passive_items
                 "Complete and absolute devotion from your followers bestows you power on par with the gods.\n";
 
             ItemBuilder.SetupItem(item, shortDesc, longDesc, Plugin.ITEM_PREFIX);
+
+            item.AddItemTip("1.75x Damage");
 
             ItemBuilder.AddPassiveStatModifier(item, PlayerStats.StatType.Damage, DamageStat, StatModifier.ModifyMethod.MULTIPLICATIVE);
 

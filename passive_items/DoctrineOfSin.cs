@@ -1,4 +1,4 @@
-﻿using Alexandria.ItemAPI;
+﻿using Alexandria.ItemAPI; using Alexandria.Integrations;
 using Alexandria.VisualAPI;
 using Dungeonator;
 using GungeonCOTL.custom_class_data;
@@ -41,7 +41,9 @@ namespace GungeonCOTL.passive_items
 
             ItemBuilder.SetupItem(item, shortDesc, longDesc, Plugin.ITEM_PREFIX);
 
-            ItemBuilder.AddPassiveStatModifier(item, PlayerStats.StatType.Curse, CurseToGive, StatModifier.ModifyMethod.ADDITIVE);
+			item.AddItemTip("Spawns a free chest, gives +2 curse");
+
+			ItemBuilder.AddPassiveStatModifier(item, PlayerStats.StatType.Curse, CurseToGive, StatModifier.ModifyMethod.ADDITIVE);
 
             item.quality = PickupObject.ItemQuality.SPECIAL;
             item.CanBeDropped = false; ID = item.PickupObjectId;

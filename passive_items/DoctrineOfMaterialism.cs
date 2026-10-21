@@ -1,4 +1,4 @@
-﻿using Alexandria.ItemAPI;
+﻿using Alexandria.ItemAPI; using Alexandria.Integrations;
 using Alexandria.Misc;
 using Alexandria.VisualAPI;
 using GungeonCOTL.custom_class_data;
@@ -38,6 +38,8 @@ namespace GungeonCOTL.passive_items
                 "With each purchase made, making your next purchase gets easier.\n";
 
             ItemBuilder.SetupItem(item, shortDesc, longDesc, Plugin.ITEM_PREFIX);
+
+            item.AddItemTip("Decreases shop prices by 5% with each purchase");
 
             //ItemBuilder.AddPassiveStatModifier(item, PlayerStats.StatType.GlobalPriceMultiplier, DiscountValue, StatModifier.ModifyMethod.MULTIPLICATIVE);
 
