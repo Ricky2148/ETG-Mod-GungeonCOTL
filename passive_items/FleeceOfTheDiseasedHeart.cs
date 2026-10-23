@@ -1,4 +1,5 @@
-﻿using Alexandria.ItemAPI;
+﻿using Alexandria.Integrations;
+using Alexandria.ItemAPI;
 using Alexandria.Misc;
 using GungeonCOTL.custom_class_data;
 using System;
@@ -46,6 +47,8 @@ namespace GungeonCOTL.passive_items
 
             ItemBuilder.SetupItem(item, shortDesc, longDesc, Plugin.ITEM_PREFIX);
 
+            item.AddItemTip("Picking up a Divine Inspiration buff gives you 1 Armor. Spills harmful goop when you are hit.");
+
             item.ArmorToGainOnInitialPickup = 1;
 
             item.condition = Condition.OnDamaged;
@@ -55,7 +58,7 @@ namespace GungeonCOTL.passive_items
             item.modifiers = null;
 
             item.quality = PickupObject.ItemQuality.SPECIAL;
-            item.CanBeDropped = false; ID = item.PickupObjectId;
+            item.CanBeDropped = false; ID = item.PickupObjectId; item.IgnoredByRat = true;
         }
 
         public override void Pickup(PlayerController player)

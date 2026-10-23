@@ -196,7 +196,7 @@ namespace GungeonCOTL.passive_items
             //Plugin.Log($"CapNumDivineInspirations: {CapNumDivineInspirations}");
             item.quality = PickupObject.ItemQuality.SPECIAL;
 
-            item.CanBeDropped = false; ID = item.PickupObjectId;
+            item.CanBeDropped = false; ID = item.PickupObjectId; item.IgnoredByRat = true;
             //Plugin.Log($"ID: {ID}, pickupID: {item.PickupObjectId}");
 
             availableChoicesPool.AddRange(possibleChoiceTable);

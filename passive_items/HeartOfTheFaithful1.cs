@@ -39,12 +39,12 @@ namespace GungeonCOTL.passive_items
 			//ItemBuilder.AddPassiveStatModifier(item, PlayerStats.StatType.Health, HealthStat, StatModifier.ModifyMethod.ADDITIVE);
 			ItemBuilder.AddPassiveStatModifier(item, PlayerStats.StatType.AdditionalBlanksPerFloor, BlankStat, StatModifier.ModifyMethod.ADDITIVE);
 
-            item.quality = PickupObject.ItemQuality.EXCLUDED;
+            item.quality = PickupObject.ItemQuality.SPECIAL;
 
             item.itemTier = 1;
             item.TierGroupIdentifier = "heart_of_the_faithful_tiered_item";
 
-            item.CanBeDropped = false; ID = item.PickupObjectId;
+            item.CanBeDropped = false; ID = item.PickupObjectId; item.IgnoredByRat = true;
         }
 
         public override void Pickup(PlayerController player)

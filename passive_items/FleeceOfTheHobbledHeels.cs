@@ -1,4 +1,5 @@
-﻿using Alexandria.ItemAPI;
+﻿using Alexandria.Integrations;
+using Alexandria.ItemAPI;
 using GungeonCOTL.custom_class_data;
 using HarmonyLib;
 using Steamworks;
@@ -48,12 +49,14 @@ namespace GungeonCOTL.passive_items
             ItemBuilder.AddSpriteToObject(itemName, resourceName, obj);
 
             string shortDesc = "Embrace Rollerskates?";
-            string longDesc = "Increases fire rate and movement speed. Heal for a half heart upon room clear. Can no longer dodge roll.\n\n" +
+            string longDesc = "Increased hearts, fire rate, and movement speed. Heal for a half heart upon room clear. Can no longer dodge roll.\n\n" +
                 "The fleece of a weirdly spiky enemy you encountered one day. His speed despite being on the verge of death was astonishing to see " +
                 "and made you wonder what donning his fleece could do. The secret of his speed appears to be a set of juiced up rollerskates, " +
                 "but your inexperience with them prevents you from doing anything but running.\n";
 
             ItemBuilder.SetupItem(item, shortDesc, longDesc, Plugin.ITEM_PREFIX);
+
+            item.AddItemTip("Increased hearts, fire rate, and movement speed. Heal for a half heart upon room clear. Can no longer dodge roll.");
 
             ItemBuilder.AddPassiveStatModifier(item, PlayerStats.StatType.Health, HealthStat, StatModifier.ModifyMethod.ADDITIVE);
             ItemBuilder.AddPassiveStatModifier(item, PlayerStats.StatType.RateOfFire, RateOfFireStat, StatModifier.ModifyMethod.MULTIPLICATIVE);
@@ -62,7 +65,7 @@ namespace GungeonCOTL.passive_items
             healVFX = (PickupObjectDatabase.GetById((int)Items.OldKnightsFlask) as EstusFlaskItem).healVFX;
 
             item.quality = PickupObject.ItemQuality.SPECIAL;
-            item.CanBeDropped = false; ID = item.PickupObjectId;
+            item.CanBeDropped = false; ID = item.PickupObjectId; item.IgnoredByRat = true;
         }
 
         public override void Pickup(PlayerController player)

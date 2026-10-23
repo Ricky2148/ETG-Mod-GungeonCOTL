@@ -44,7 +44,7 @@ namespace GungeonCOTL.passive_items
 
             item.quality = PickupObject.ItemQuality.SPECIAL;
             item.SetName("Resurrection");
-            item.CanBeDropped = false; ID = item.PickupObjectId;
+            item.CanBeDropped = false; ID = item.PickupObjectId; item.IgnoredByRat = true;
             //Plugin.Log($"ID: {ID}, pickupID: {item.PickupObjectId}");
         }
 

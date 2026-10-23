@@ -38,13 +38,13 @@ namespace GungeonCOTL.passive_items
 
             ItemBuilder.AddPassiveStatModifier(item, PlayerStats.StatType.Damage, DamageStat, StatModifier.ModifyMethod.MULTIPLICATIVE);
 
-            item.quality = PickupObject.ItemQuality.EXCLUDED;
+            item.quality = PickupObject.ItemQuality.SPECIAL;
             item.CanBeDropped = false;
 
             item.itemTier = 1;
             item.TierGroupIdentifier = "might_of_the_devout_tiered_item";
 
-            item.CanBeDropped = false; ID = item.PickupObjectId;
+            item.CanBeDropped = false; ID = item.PickupObjectId; item.IgnoredByRat = true;
         }
 
         public override void Pickup(PlayerController player)

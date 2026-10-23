@@ -1,6 +1,8 @@
 ﻿using Alexandria;
-using Alexandria.ItemAPI; using Alexandria.Integrations;
+using Alexandria.Integrations;
+using Alexandria.ItemAPI; 
 using Alexandria.Misc;
+using GungeonCOTL.passive_items;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -351,6 +353,11 @@ namespace GungeonCOTL.custom_class_data
                     }
                 }
             }
+        }
+
+        public static string GetItemNameConsoleName(string itemName)
+        {
+            return ($"{Plugin.ITEM_PREFIX}:{itemName.ToID().ToLowerInvariant()}");
         }
     }
 }

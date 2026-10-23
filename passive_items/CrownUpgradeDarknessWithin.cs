@@ -81,7 +81,7 @@ namespace GungeonCOTL.passive_items
 
             item.quality = PickupObject.ItemQuality.SPECIAL;
             item.SetName("Darkness Within");
-            item.CanBeDropped = false; ID = item.PickupObjectId;
+            item.CanBeDropped = false; ID = item.PickupObjectId; item.IgnoredByRat = true;
             //Plugin.Log($"ID: {ID}, pickupID: {item.PickupObjectId}");
 
             DiseasedHeartVFXEffect = VFXBuilder.CreateVFX

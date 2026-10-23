@@ -70,6 +70,8 @@ namespace GungeonCOTL.passive_items
 
             ItemBuilder.SetupItem(item, shortDesc, longDesc, Plugin.ITEM_PREFIX);
 
+            item.AddItemTip("Increased damage per kill, stacking until the cap. Taking damage hurts more and resets the buff.");
+
             GameObject smallStarSprite = SpriteBuilder.SpriteFromResource("GungeonCOTL/Resources/vfxs/golden_fleece_icons/star_small_upside_down");
             UnityEngine.Object.DontDestroyOnLoad(smallStarSprite);
             FakePrefab.MarkAsFakePrefab(smallStarSprite);
@@ -106,7 +108,7 @@ namespace GungeonCOTL.passive_items
             item.synergyColorGradient = baseMetronome.synergyColorGradient;
 
             item.quality = PickupObject.ItemQuality.SPECIAL;
-            item.CanBeDropped = false; ID = item.PickupObjectId;
+            item.CanBeDropped = false; ID = item.PickupObjectId; item.IgnoredByRat = true;
         }
 
         public override void MidGameSerialize(List<object> data)
@@ -211,6 +213,9 @@ namespace GungeonCOTL.passive_items
                 AkSoundEngine.PostEvent("Play_OBJ_metronome_fail_01", m_player.gameObject);
                 float time = Mathf.InverseLerp(1f, damageMultiplierCap, currentMultiplier);
                 Color color = colorGradient.Evaluate(time);
+
+                //FIX ANIMATION BY ACTUALLY MAKING AN ANIMATION
+
                 GameObject gameObject = m_player.PlayEffectOnActor((!(currentMultiplier >= 2f)) ? eighthNoteSprite.gameObject : doubleEighthNoteSprite.gameObject, Vector3.up * 1.5f);
                 gameObject.GetComponent<tk2dBaseSprite>().color = color;
             }

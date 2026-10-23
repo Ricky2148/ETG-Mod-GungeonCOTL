@@ -43,7 +43,7 @@ namespace GungeonCOTL.passive_items
 			item.SetName("Doctrine of Law & Order");
 
             item.quality = PickupObject.ItemQuality.SPECIAL;
-            item.CanBeDropped = false; ID = item.PickupObjectId;
+            item.CanBeDropped = false; ID = item.PickupObjectId; item.IgnoredByRat = true;
         }
 
         public override void Pickup(PlayerController player)

@@ -46,7 +46,7 @@ namespace GungeonCOTL.passive_items
 			ItemBuilder.AddPassiveStatModifier(item, PlayerStats.StatType.Curse, CurseToGive, StatModifier.ModifyMethod.ADDITIVE);
 
             item.quality = PickupObject.ItemQuality.SPECIAL;
-            item.CanBeDropped = false; ID = item.PickupObjectId;
+            item.CanBeDropped = false; ID = item.PickupObjectId; item.IgnoredByRat = true;
         }
 
         public override void Pickup(PlayerController player)

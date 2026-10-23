@@ -1,16 +1,17 @@
-# Adds *The Lamb* and a unique version of the *Red Crown* from ***The Cult of the Lamb*** into Enter the Gungeon!
+# <span style="color:white">Adds *The Lamb* and a unique version of the *Red Crown* from ***The Cult of the Lamb*** into Enter the Gungeon!
+## <span style="color:red">HIGHLY RECOMMENDED TO PLAY WITH ITEMTIPS!!!<span>
 ### [Google Form](https://forms.gle/1RpMjJm8ptFGdE2r5)
 If you have any questions, requests, or thoughts, you can let me know through here.
 
-## The Lamb:
+## <span style="color:yellow">The Lamb:
 - Just like the mobile port, it starts with the Crusader's Blade and the Red Crown
 
-## ![](https://i.ibb.co/YTD0Lf6d/red-crown-alt-pixelart-sprite.png) Red Crown:
+## ![](https://i.ibb.co/YTD0Lf6d/red-crown-alt-pixelart-sprite.png) <span style="color:maroon">Red Crown:
 - Gains EXP from killing enemies equal to their HP, spawns a selection of items at each exp checkpoint
 - Lv 1: 500 - Lv 11: 5000 - Lv 17: 10000 
 - At level 6, gain access to Crown Upgrades
 
-## Rituals:
+## <span style="color:skyblue">Rituals:
 ![](https://i.ibb.co/SXPKk3pm/ascend-gun-ritual-alt-pixelart-sprite.png)
 Ascend Gun Ritual:
 - Ascends your current gun with various buffs
@@ -33,7 +34,7 @@ Ritual of Enrichment:
 Rite of Wrath:
 - Grants a 20 minute buff that gives 2x damage and 1.25x fire rate. +0.75 Curse every 5 minutes. +3 Curse in Total
 
-## Doctrines:
+## <span style="color:orange">Doctrines:
 ![](https://i.ibb.co/d45BsCvW/doctrine-of-materialism-pixelart-sprite.png)
 Doctrine of Materialism:
 - Decreases shop prices by 5% (multiplicative NOT additive) with each purchase
@@ -54,14 +55,14 @@ Doctrine of Sustenance:
 Doctrine of Law & Order:
 - All enemies -10% HP
 
-## Sermon Upgrades:
+## <span style="color:green">Sermon Upgrades:
 Heart of the Faithful:
 - ![](https://i.ibb.co/hxRjxwhC/heart-of-the-faithful-1-pixelart-sprite.png) - ![](https://i.ibb.co/h1cK2p1C/heart-of-the-faithful-6-pixelart-sprite.png) I - VI: +1 Blank per floor - +2 Blanks per floor, +2 Armor per floor, +2 Hearts
 
 Might of the Devout:
 - ![](https://i.ibb.co/5X9Hfk3R/might-of-the-devout-1-pixelart-sprite.png) - ![](https://i.ibb.co/qMSkPQw3/might-of-the-devout-6-pixelart-sprite.png) I - VI: 1.1x - 1.75x damage buff
 
-## Crown Upgrades:
+## <span style="color:magenta">Crown Upgrades:
 ![](https://i.ibb.co/kV83yKkP/resurrection-pixelart-sprite.png)
 Resurrection:
 - Revives the player with 1 heart
@@ -70,7 +71,7 @@ Resurrection:
 Darkness Within:
 - Deals 15 damage to all enemies in the room when player takes damage
 
-## Fleeces:
+## <span style="color:gold">Fleeces:
 ![](https://i.ibb.co/dsGvLDT3/golden-fleece.png)
 Golden Fleece:
 - +5% damage per kill, caps out at +200%, resets upon taking damage.
@@ -83,7 +84,7 @@ Fleece of the Diseased Heart:
 
 ![](https://i.ibb.co/Xx1tk4Bq/fleece-of-the-hobbled-heels.png)
 Fleece of the Hobbled Heels:
-- +2.5 Movement Speed, 1.2x Fire Rate, Heals you for a half heart upon room clear
+- +2 Hearts, +2.5 Movement Speed, 1.2x Fire Rate, Heals you for a half heart upon room clear
 - You CANNOT dodge roll
 
 ## Contributors:

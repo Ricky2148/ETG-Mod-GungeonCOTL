@@ -66,7 +66,7 @@ namespace GungeonCOTL.passive_items
 			item.OnImprovedHealingVFX = (PickupObjectDatabase.GetById((int)Items.Antibody) as HealingReceivedModificationItem).OnImprovedHealingVFX;
 
             item.quality = PickupObject.ItemQuality.SPECIAL;
-            item.CanBeDropped = false; ID = item.PickupObjectId;
+            item.CanBeDropped = false; ID = item.PickupObjectId; item.IgnoredByRat = true;
         }
 
         public override void Pickup(PlayerController player)

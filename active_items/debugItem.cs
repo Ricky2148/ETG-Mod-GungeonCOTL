@@ -38,7 +38,7 @@ namespace GungeonCOTL.active_items
 
             item.usableDuringDodgeRoll = true;
             item.quality = PickupObject.ItemQuality.EXCLUDED;
-            item.CanBeDropped = false; ID = item.PickupObjectId;
+            item.CanBeDropped = false; ID = item.PickupObjectId; item.IgnoredByRat = true;
         }
 
         // subscribe to the player events

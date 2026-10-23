@@ -1,10 +1,14 @@
 ﻿using Alexandria;
+using Alexandria.BreakableAPI;
 using Alexandria.ItemAPI;
 using Alexandria.PrefabAPI;
 using Alexandria.VisualAPI;
+using DaikonForge.Tween;
 using Dungeonator;
-using HutongGames.PlayMaker.Actions;
 using GungeonCOTL;
+using GungeonCOTL.custom_class_data;
+using GungeonCOTL.passive_items;
+using HutongGames.PlayMaker.Actions;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -80,24 +84,6 @@ namespace ModularMod
             //tk2dAnim.renderer.material = mat;
             sprite.renderer.material = mat;
 
-            Plugin.Log($"checkpoint 4");
-
-            /*
-[Warning: Unity Log] DontDestroyOnLoad only work for root GameObjects or components on root GameObjects.
-[Warning: Unity Log] DontDestroyOnLoad only work for root GameObjects or components on root GameObjects.
-[Warning: Unity Log] Dungeonator.DungeonPlaceable must be instantiated using the ScriptableObject.CreateInstance method instead of new DungeonPlaceable.
-             
-[Error  : Unity Log] NullReferenceException: Object reference not set to an instance of an object
-Stack trace:
-tk2dBaseSprite.GetBounds ()
-tk2dBaseSprite.GetRelativePositionFromAnchor (Anchor anchor)
-tk2dBaseSprite.get_WorldCenter ()
-ModularMod.CrateSpawnController+CrateController+<DoFall>d__6.MoveNext ()
-UnityEngine.SetupCoroutine.InvokeMoveNext (IEnumerator enumerator, IntPtr returnValueAddress)
-UnityEngine.MonoBehaviour:StartCoroutine(IEnumerator)
-ModularMod.CrateController:Start()
-             */
-
             SpeculativeRigidbody specBody = Crate.GetOrAddComponent<tk2dSprite>().SetUpSpeculativeRigidbody(new IntVector2(1, -12), new IntVector2(32, 20));
             specBody.PixelColliders.Clear();
             specBody.CollideWithTileMap = false;
@@ -155,9 +141,8 @@ ModularMod.CrateController:Start()
                 ManualRightX = 0,
                 ManualRightY = 0,
             });
-            Crate.AddComponent<CrateController>();
-
-            Plugin.Log($"checkpoint 5");
+            var shrineComponent = Crate.AddComponent<CrateController>();
+            shrineComponent.talkPoint = BreakableAPIToolbox.GenerateTransformObject(shrineComponent.gameObject, new Vector2(1.25f, 0.5f), "shrineTalkPoint").transform;
 
             //SmokeObject = Module.ModularAssetBundle.LoadAsset<GameObject>("SmokeParticle");
 
@@ -250,6 +235,8 @@ ModularMod.CrateController:Start()
         {
             private RoomHandler parentRoom;
             private GameObject instanceMinimapIcon;
+            public Transform talkPoint;
+            public bool Used = false;
             //public PlayerController player;
 
             public void Start()
@@ -389,19 +376,54 @@ ModularMod.CrateController:Start()
             }
             public void Interact(PlayerController interactor)
             {
-                /*this.spriteAnimator.Play(UsesAltSkin() == true ? "cratealt_open" : "crate_open");
-                var ui = StarterGunSelectUIController.GenerateUI();
-                ui.ToggleUI(null, interactor);
-                ui.OnClosed += () =>
+                if (!TextBoxManager.HasTextBox(this.talkPoint))
                 {
-                    this.spriteAnimator.Play(UsesAltSkin() == true ? "cratealt_close" : "crate_close");
-                };
-                ui.OnUsed += () =>
-                {
-                    this.parentRoom.DeregisterInteractable(this);
-                    this.spriteAnimator.Play(UsesAltSkin() == true ? "cratealt_superclose" : "crate_superclose");
-                };*/
+                    base.StartCoroutine(this.HandleConversation(interactor));
+                }
             }
+
+            private IEnumerator HandleConversation(PlayerController interactor)
+            {
+                if (this.talkPoint == null) { ETGModConsole.Log("talkPoint is NULL"); }
+                if (this.talkPoint.position == null) { ETGModConsole.Log("talkPoint.position is NULL"); }
+
+                TextBoxManager.ShowStoneTablet(this.talkPoint.position, this.talkPoint, -1f, "You feel an ominous energy coming from this... thing.", true, false);
+                int selectedResponse = -1;
+                interactor.SetInputOverride("shrineConversation");
+                yield return null;
+
+                if (Used)
+                {
+                    GameUIRoot.Instance.DisplayPlayerConversationOptions(interactor, null, "Leave.", string.Empty);
+                }
+                else
+                {
+                    GameUIRoot.Instance.DisplayPlayerConversationOptions(interactor, null, "Break it open.", "Leave.");
+                }
+                while (!GameUIRoot.Instance.GetPlayerConversationResponse(out selectedResponse))
+                {
+                    yield return null;
+                }
+                interactor.ClearInputOverride("shrineConversation");
+                TextBoxManager.ClearTextBox(this.talkPoint);
+                if (Used == true)
+                {
+                    yield break;
+                }
+                if (selectedResponse == 0)
+                {
+                    //Accept(interactor, this.gameObject);
+                    Used = true;
+                    interactor.GiveItem(HelpfulMethods.GetItemNameConsoleName(RedCrown.ItemName));
+                    //this.GetComponent<tk2dSprite>().SetSprite();
+                }
+                else
+                {
+
+                }
+                yield break;
+            }
+
             public void OnEnteredRange(PlayerController interactor)
             {
                 SpriteOutlineManager.AddOutlineToSprite(base.sprite, Color.white);
