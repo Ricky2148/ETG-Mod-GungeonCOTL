@@ -1,15 +1,16 @@
-﻿using Alexandria.ItemAPI; 
-using Alexandria.Integrations; 
+﻿using Alexandria.Integrations; 
 using Alexandria.Integrations;
+using Alexandria.ItemAPI; 
 using Alexandria.Misc;
+using Alexandria.VisualAPI;
 using GungeonCOTL.custom_class_data;
+using Newtonsoft.Json.Serialization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
 using UnityEngine;
-using Newtonsoft.Json.Serialization;
 
 //finalize vfx and colors, also pick a better sfx
 
@@ -30,9 +31,19 @@ namespace GungeonCOTL.passive_items
 
         //public float synergyMultiplierCap = 5f;
 
-        public tk2dSprite eighthNoteSprite;
+        public tk2dSprite smallStarSprite;
 
-        public tk2dSprite doubleEighthNoteSprite;
+        public tk2dSprite largeStarSprite;
+
+        private static List<string> smallStarVFXSpritePath = "GungeonCOTL/Resources/vfxs/golden_fleece_icons/starbreak/small_star_break".GetResourceFrames(23);
+
+        private static GameObject smallStarVFX;
+
+        private static List<string> largeStarVFXSpritePath = "GungeonCOTL/Resources/vfxs/golden_fleece_icons/starbreak/large_star_break".GetResourceFrames(23);
+
+        private static GameObject largeStarVFX;
+
+        private static CoinBloop coinBlooper;
 
         public Gradient colorGradient;
 
@@ -76,7 +87,7 @@ namespace GungeonCOTL.passive_items
             UnityEngine.Object.DontDestroyOnLoad(smallStarSprite);
             FakePrefab.MarkAsFakePrefab(smallStarSprite);
             smallStarSprite.SetActive(false);
-            item.eighthNoteSprite = smallStarSprite.GetComponent<tk2dSprite>();
+            item.smallStarSprite = smallStarSprite.GetComponent<tk2dSprite>();
 
             //Plugin.Log($"gameobject is null? {smallStarSprite == null}, tk2dsprite is null? {smallStarSprite.GetComponent<tk2dSprite>() == null}, bravebehavior.sprite is null? {smallStarSprite.GetComponent<BraveBehaviour>().sprite == null}, " +
             //$"tk2dsprite.Collection: {smallStarSprite.GetComponent<tk2dSprite>().collection}, tk2dsprite.spriteId: {smallStarSprite.GetComponent<tk2dSprite>().spriteId}");
@@ -85,7 +96,7 @@ namespace GungeonCOTL.passive_items
             UnityEngine.Object.DontDestroyOnLoad(largeStarSprite);
             FakePrefab.MarkAsFakePrefab(largeStarSprite);
             largeStarSprite.SetActive(false);
-            item.doubleEighthNoteSprite = largeStarSprite.GetComponent<tk2dSprite>();
+            item.largeStarSprite = largeStarSprite.GetComponent<tk2dSprite>();
 
             Gradient test = new Gradient();
 
@@ -106,6 +117,40 @@ namespace GungeonCOTL.passive_items
             item.colorGradient = test;
 
             item.synergyColorGradient = baseMetronome.synergyColorGradient;
+
+            smallStarVFX = VFXBuilder.CreateVFX
+            (
+                "small_star_vfx",
+                smallStarVFXSpritePath,
+                15,
+                new IntVector2(0, 0),
+                tk2dBaseSprite.Anchor.MiddleCenter,
+                false,
+                0,
+                -1,
+                Color.cyan,
+                tk2dSpriteAnimationClip.WrapMode.Once,
+                false
+            );
+
+            VFXAnchorOnPlayerModule anchor1 = smallStarVFX.GetOrAddComponent<VFXAnchorOnPlayerModule>();
+
+            largeStarVFX = VFXBuilder.CreateVFX
+            (
+                "large_star_vfx",
+                largeStarVFXSpritePath,
+                15,
+                new IntVector2(0, 0),
+                tk2dBaseSprite.Anchor.MiddleCenter,
+                false,
+                0,
+                -1,
+                Color.cyan,
+                tk2dSpriteAnimationClip.WrapMode.Once,
+                false
+            );
+
+            VFXAnchorOnPlayerModule anchor2 = largeStarVFX.GetOrAddComponent<VFXAnchorOnPlayerModule>();
 
             item.quality = PickupObject.ItemQuality.SPECIAL;
             item.CanBeDropped = false; ID = item.PickupObjectId; item.IgnoredByRat = true;
@@ -147,6 +192,7 @@ namespace GungeonCOTL.passive_items
             Plugin.Log($"Player picked up {this.EncounterNameOrDisplayName}");
             
             m_player = player;
+            coinBlooper = player.m_blooper;
             player.OnKilledEnemy += OnKilledEnemy;
             player.healthHaver.OnDamaged += OnReceivedDamage;
         }
@@ -191,11 +237,11 @@ namespace GungeonCOTL.passive_items
             Color tintColor = colorGradient.Evaluate(time);
             if (currentMultiplier >= 2f)
             {
-                m_player.BloopItemAboveHead(doubleEighthNoteSprite, string.Empty, tintColor);
+                m_player.BloopItemAboveHead(largeStarSprite, string.Empty, tintColor);
             }
             else
             {
-                m_player.BloopItemAboveHead(eighthNoteSprite, string.Empty, tintColor);
+                m_player.BloopItemAboveHead(smallStarSprite, string.Empty, tintColor);
             }
         }
 
@@ -216,12 +262,83 @@ namespace GungeonCOTL.passive_items
 
                 //FIX ANIMATION BY ACTUALLY MAKING AN ANIMATION
 
-                GameObject gameObject = m_player.PlayEffectOnActor((!(currentMultiplier >= 2f)) ? eighthNoteSprite.gameObject : doubleEighthNoteSprite.gameObject, Vector3.up * 1.5f);
-                gameObject.GetComponent<tk2dBaseSprite>().color = color;
+                //GameObject gameObject = m_player.PlayEffectOnActor((!(currentMultiplier >= 2f)) ? smallStarSprite.gameObject : largeStarSprite.gameObject, Vector3.up * 1.5f);
+                //Plugin.Log($"facing direction: {Owner.FacingDirection}");
+
+                //GameObject gameObject = m_player.PlayEffectOnActor((!(currentMultiplier >= 2f)) ? smallStarVFX : largeStarVFX, (Vector3.up + new Vector3(0f, 0f, 0f) * 1.5f));
+                //gameObject.GetComponent<tk2dBaseSprite>().color = color;
+
+                //BloopIconAboveHead(color);
+                PlayStarBreakVFXOnActor(m_player, color, currentMultiplier);
             }
             AkSoundEngine.SetRTPCValue("Pitch_Metronome", 0f);
             m_sequentialKills = 0;
             m_player.stats.RecalculateStatsWithoutRebuildingGunVolleys(m_player);
+        }
+
+        public static GameObject PlayStarBreakVFXOnActor (PlayerController player, Color tintColor, float currentMultiplier)
+        {
+            Vector3 vfxOffset = new Vector3(0 / 16f, 24 / 16f, -2f);
+
+            GameObject vfxObject = UnityEngine.Object.Instantiate((!(currentMultiplier >= 2f)) ? smallStarVFX : largeStarVFX, new Vector3(0f, 999f, -2f), Quaternion.identity);
+
+            var sprite = vfxObject.GetComponent<tk2dSprite>();
+
+            if (sprite != null)
+            {
+                sprite.HeightOffGround = -2f;
+
+                //sprite.scale = new Vector3(2.5f, 2.5f, 0f);
+
+                sprite.UpdateZDepth();
+
+                /*sprite.usesOverrideMaterial = true;
+
+                sprite.renderer.material.shader = ShaderCache.Acquire("Brave/Internal/SimpleAlphaFadeUnlit");
+                sprite.renderer.material.SetFloat("_Fade", 1f);*/
+                sprite.color = tintColor;
+            }
+
+            VFXAnchorOnPlayerModule anchor = vfxObject.GetComponent<VFXAnchorOnPlayerModule>();
+
+            anchor.anchorPlayer = player.gameActor;
+            anchor.offset = vfxOffset + new Vector3(0, 0);
+
+            return vfxObject;
+        }
+
+        public void BloopIconAboveHead(Color tintColor)
+        {
+            BraveBehaviour blooper = coinBlooper.GetComponent<BraveBehaviour>();
+            //blooper.DoBloop(targetSprite, overrideSprite, tintColor, addOutline);
+
+            GameObject gameObject = UnityEngine.Object.Instantiate(smallStarVFX);
+            gameObject.transform.parent = blooper.transform.parent.parent;
+            gameObject.transform.position = blooper.transform.parent.position;
+            CoinBloop componentInParent = gameObject.transform.GetChild(0).GetComponentInParent<CoinBloop>();
+            componentInParent.m_player = m_player.GetComponentInParent<PlayerController>();
+            gameObject.GetComponent<tk2dBaseSprite>().color = tintColor;
+
+            Bounds bounds = base.sprite.GetBounds();
+            float num = bounds.min.x + bounds.extents.x;
+            //blooper.transform.parent.position = blooper.transform.parent.position.WithX(BraveMathCollege.QuantizeFloat(blooper.transform.parent.parent.GetComponent<PlayerController>().LockedApproximateSpriteCenter.x - num, 0.0625f));
+            blooper.transform.parent.localPosition = blooper.transform.parent.localPosition.WithZ(-5f);
+            blooper.transform.parent.localPosition += new Vector3(16f / 16f, 0f, 0f);
+            componentInParent.m_cachedParentLocalPosition = blooper.transform.localPosition;
+        }
+
+        public void DoBloop(tk2dBaseSprite targetSprite, string overrideSprite, Color tintColor, bool addOutline = false)
+        {
+            if (m_player == null)
+            {
+                m_player = GetComponentInParent<PlayerController>();
+            }
+            GameObject gameObject = UnityEngine.Object.Instantiate(base.transform.parent.gameObject);
+            gameObject.transform.parent = base.transform.parent.parent;
+            gameObject.transform.position = base.transform.parent.position;
+            CoinBloop componentInParent = gameObject.transform.GetChild(0).GetComponentInParent<CoinBloop>();
+            componentInParent.m_player = m_player;
+            componentInParent.DoBloopInternal(targetSprite, overrideSprite, tintColor, addOutline);
         }
 
         public float GetCurrentMultiplier()
