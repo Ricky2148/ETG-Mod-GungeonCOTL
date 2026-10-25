@@ -23,7 +23,12 @@ namespace ModularMod
     {
         private static List<string> ShrineSpritePath = new List<string>
         {
-            "GungeonCOTL/Resources/FishmongerShrine",
+            "GungeonCOTL/Resources/shrine_sprites/red_crown_shrine_full_sprite",
+        };
+
+        private static List<string> BrokenShrineSpritePath = new List<string>
+        {
+            "GungeonCOTL/Resources/shrine_sprites/red_crown_shrine_empty_sprite",
         };
 
         private static GameObject ShrineVFX;
@@ -84,7 +89,8 @@ namespace ModularMod
             //tk2dAnim.renderer.material = mat;
             sprite.renderer.material = mat;
 
-            SpeculativeRigidbody specBody = Crate.GetOrAddComponent<tk2dSprite>().SetUpSpeculativeRigidbody(new IntVector2(1, -12), new IntVector2(32, 20));
+            //SetUpSpeculativeRigidbody does NOTHING to change dimensions or placement
+            SpeculativeRigidbody specBody = Crate.GetOrAddComponent<tk2dSprite>().SetUpSpeculativeRigidbody(new IntVector2(0, 0), new IntVector2(32, 20));
             specBody.PixelColliders.Clear();
             specBody.CollideWithTileMap = false;
             specBody.PixelColliders.Add(new PixelCollider
@@ -415,7 +421,7 @@ namespace ModularMod
                     //Accept(interactor, this.gameObject);
                     Used = true;
                     interactor.GiveItem(HelpfulMethods.GetItemNameConsoleName(RedCrown.ItemName));
-                    //this.GetComponent<tk2dSprite>().SetSprite();
+                    this.GetComponent<tk2dSprite>().SetSprite("GungeonCOTL/Resources/shrine_sprites/red_crown_shrine_empty_sprite");
                 }
                 else
                 {

@@ -35,11 +35,11 @@ namespace GungeonCOTL.passive_items
 
         public tk2dSprite largeStarSprite;
 
-        private static List<string> smallStarVFXSpritePath = "GungeonCOTL/Resources/vfxs/golden_fleece_icons/starbreak/small_star_break".GetResourceFrames(23);
+        private static List<string> smallStarVFXSpritePath = "GungeonCOTL/Resources/vfxs/golden_fleece_icons/starbreak/small_star_break".GetResourceFrames(19);
 
         private static GameObject smallStarVFX;
 
-        private static List<string> largeStarVFXSpritePath = "GungeonCOTL/Resources/vfxs/golden_fleece_icons/starbreak/large_star_break".GetResourceFrames(23);
+        private static List<string> largeStarVFXSpritePath = "GungeonCOTL/Resources/vfxs/golden_fleece_icons/starbreak/large_star_break".GetResourceFrames(19);
 
         private static GameObject largeStarVFX;
 
@@ -256,7 +256,8 @@ namespace GungeonCOTL.passive_items
             float currentMultiplier = GetCurrentMultiplier();
             if (currentMultiplier > 1f)
             {
-                AkSoundEngine.PostEvent("Play_OBJ_metronome_fail_01", m_player.gameObject);
+                //AkSoundEngine.PostEvent("Play_OBJ_metronome_fail_01", m_player.gameObject);
+                AkSoundEngine.PostEvent("golden_fleece_break_sfx", m_player.gameObject);
                 float time = Mathf.InverseLerp(1f, damageMultiplierCap, currentMultiplier);
                 Color color = colorGradient.Evaluate(time);
 
@@ -278,7 +279,7 @@ namespace GungeonCOTL.passive_items
 
         public static GameObject PlayStarBreakVFXOnActor (PlayerController player, Color tintColor, float currentMultiplier)
         {
-            Vector3 vfxOffset = new Vector3(0 / 16f, 24 / 16f, -2f);
+            Vector3 vfxOffset = new Vector3(1 / 16f, 29 / 16f, -2f);
 
             GameObject vfxObject = UnityEngine.Object.Instantiate((!(currentMultiplier >= 2f)) ? smallStarVFX : largeStarVFX, new Vector3(0f, 999f, -2f), Quaternion.identity);
 
@@ -305,40 +306,6 @@ namespace GungeonCOTL.passive_items
             anchor.offset = vfxOffset + new Vector3(0, 0);
 
             return vfxObject;
-        }
-
-        public void BloopIconAboveHead(Color tintColor)
-        {
-            BraveBehaviour blooper = coinBlooper.GetComponent<BraveBehaviour>();
-            //blooper.DoBloop(targetSprite, overrideSprite, tintColor, addOutline);
-
-            GameObject gameObject = UnityEngine.Object.Instantiate(smallStarVFX);
-            gameObject.transform.parent = blooper.transform.parent.parent;
-            gameObject.transform.position = blooper.transform.parent.position;
-            CoinBloop componentInParent = gameObject.transform.GetChild(0).GetComponentInParent<CoinBloop>();
-            componentInParent.m_player = m_player.GetComponentInParent<PlayerController>();
-            gameObject.GetComponent<tk2dBaseSprite>().color = tintColor;
-
-            Bounds bounds = base.sprite.GetBounds();
-            float num = bounds.min.x + bounds.extents.x;
-            //blooper.transform.parent.position = blooper.transform.parent.position.WithX(BraveMathCollege.QuantizeFloat(blooper.transform.parent.parent.GetComponent<PlayerController>().LockedApproximateSpriteCenter.x - num, 0.0625f));
-            blooper.transform.parent.localPosition = blooper.transform.parent.localPosition.WithZ(-5f);
-            blooper.transform.parent.localPosition += new Vector3(16f / 16f, 0f, 0f);
-            componentInParent.m_cachedParentLocalPosition = blooper.transform.localPosition;
-        }
-
-        public void DoBloop(tk2dBaseSprite targetSprite, string overrideSprite, Color tintColor, bool addOutline = false)
-        {
-            if (m_player == null)
-            {
-                m_player = GetComponentInParent<PlayerController>();
-            }
-            GameObject gameObject = UnityEngine.Object.Instantiate(base.transform.parent.gameObject);
-            gameObject.transform.parent = base.transform.parent.parent;
-            gameObject.transform.position = base.transform.parent.position;
-            CoinBloop componentInParent = gameObject.transform.GetChild(0).GetComponentInParent<CoinBloop>();
-            componentInParent.m_player = m_player;
-            componentInParent.DoBloopInternal(targetSprite, overrideSprite, tintColor, addOutline);
         }
 
         public float GetCurrentMultiplier()
