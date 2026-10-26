@@ -103,7 +103,7 @@ namespace GungeonCOTL.passive_items
             m_cachedGoopType = goopList[randVal]; 
             goopType = goopList[randVal];
 
-            Plugin.Log($"chose {randVal}, goopType: {goopType}, cachedGoopType: {m_cachedGoopType}");
+            //Plugin.Log($"chose {randVal}, goopType: {goopType}, cachedGoopType: {m_cachedGoopType}");
         }
     }
 }

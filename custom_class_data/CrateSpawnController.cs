@@ -1,6 +1,7 @@
 ﻿using Alexandria;
 using Alexandria.BreakableAPI;
 using Alexandria.ItemAPI;
+using Alexandria.Misc;
 using Alexandria.PrefabAPI;
 using Alexandria.VisualAPI;
 using DaikonForge.Tween;
@@ -23,15 +24,17 @@ namespace ModularMod
     {
         private static List<string> ShrineSpritePath = new List<string>
         {
-            "GungeonCOTL/Resources/shrine_sprites/red_crown_shrine_full_sprite",
+            "GungeonCOTL/Resources/shrine_sprites/red_crown_shrine_platform_full_sprite",
         };
 
         private static List<string> BrokenShrineSpritePath = new List<string>
         {
-            "GungeonCOTL/Resources/shrine_sprites/red_crown_shrine_empty_sprite",
+            "GungeonCOTL/Resources/shrine_sprites/red_crown_shrine_platform_empty_sprite",
         };
 
         private static GameObject ShrineVFX;
+
+        public static int SpriteID;
 
         //private static GameObject activeVFXObject;
 
@@ -57,6 +60,7 @@ namespace ModularMod
             //ShrineVFX = UnityEngine.Object.Instantiate(ShrineVFX);
 
             var sprite = Crate.GetComponent<tk2dSprite>();
+            SpriteID = SpriteBuilder.AddSpriteToCollection("GungeonCOTL/Resources/shrine_sprites/red_crown_shrine_empty_sprite", sprite.collection);
 
             //var tk2d = Crate.AddComponent<tk2dSprite>();
             //tk2d.Collection = StaticCollections.Crate_Collection;
@@ -90,7 +94,7 @@ namespace ModularMod
             sprite.renderer.material = mat;
 
             //SetUpSpeculativeRigidbody does NOTHING to change dimensions or placement
-            SpeculativeRigidbody specBody = Crate.GetOrAddComponent<tk2dSprite>().SetUpSpeculativeRigidbody(new IntVector2(0, 0), new IntVector2(32, 20));
+            SpeculativeRigidbody specBody = Crate.GetOrAddComponent<tk2dSprite>().SetUpSpeculativeRigidbody(new IntVector2(0, 0), new IntVector2(26, 24));
             specBody.PixelColliders.Clear();
             specBody.CollideWithTileMap = false;
             specBody.PixelColliders.Add(new PixelCollider
@@ -101,10 +105,10 @@ namespace ModularMod
                 BagleUseFirstFrameOnly = false,
                 SpecifyBagelFrame = string.Empty,
                 BagelColliderNumber = 0,
-                ManualOffsetX = 0,
-                ManualOffsetY = -4,
-                ManualWidth = 32,
-                ManualHeight = 20,
+                ManualOffsetX = -13,
+                ManualOffsetY = -36,
+                ManualWidth = 26,
+                ManualHeight = 32,
                 ManualDiameter = 0,
                 ManualLeftX = 0,
                 ManualLeftY = 0,
@@ -119,10 +123,10 @@ namespace ModularMod
                 BagleUseFirstFrameOnly = false,
                 SpecifyBagelFrame = string.Empty,
                 BagelColliderNumber = 0,
-                ManualOffsetX = 0,
-                ManualOffsetY = -4,
-                ManualWidth = 32,
-                ManualHeight = 20,
+                ManualOffsetX = -13,
+                ManualOffsetY = -36,
+                ManualWidth = 26,
+                ManualHeight = 32,
                 ManualDiameter = 0,
                 ManualLeftX = 0,
                 ManualLeftY = 0,
@@ -137,10 +141,10 @@ namespace ModularMod
                 BagleUseFirstFrameOnly = false,
                 SpecifyBagelFrame = string.Empty,
                 BagelColliderNumber = 0,
-                ManualOffsetX = 0,
-                ManualOffsetY = -4,
-                ManualWidth = 32,
-                ManualHeight = 20,
+                ManualOffsetX = -13,
+                ManualOffsetY = -36,
+                ManualWidth = 26,
+                ManualHeight = 32,
                 ManualDiameter = 0,
                 ManualLeftX = 0,
                 ManualLeftY = 0,
@@ -148,7 +152,7 @@ namespace ModularMod
                 ManualRightY = 0,
             });
             var shrineComponent = Crate.AddComponent<CrateController>();
-            shrineComponent.talkPoint = BreakableAPIToolbox.GenerateTransformObject(shrineComponent.gameObject, new Vector2(1.25f, 0.5f), "shrineTalkPoint").transform;
+            shrineComponent.talkPoint = BreakableAPIToolbox.GenerateTransformObject(shrineComponent.gameObject, new Vector2(0f, 10f), "RedCrownShrineTalkPoint").transform;
 
             //SmokeObject = Module.ModularAssetBundle.LoadAsset<GameObject>("SmokeParticle");
 
@@ -202,7 +206,7 @@ namespace ModularMod
             }
             foreach (PlayerController p in GameManager.Instance.AllPlayers)
             {
-                var newCrate = UnityEngine.Object.Instantiate(Crate, p.transform.position + new Vector3(-5, -3), Quaternion.identity);
+                var newCrate = UnityEngine.Object.Instantiate(Crate, p.transform.position + new Vector3(100 / 16f, 100 / 16f, 5f), Quaternion.identity);
                 break;
             }
             yield return null;
@@ -243,6 +247,10 @@ namespace ModularMod
             private GameObject instanceMinimapIcon;
             public Transform talkPoint;
             public bool Used = false;
+
+            private static StatModifier ownerlessHealthModifier = StatModifier.Create(PlayerStats.StatType.Health, StatModifier.ModifyMethod.ADDITIVE, -1.0f);
+            private static StatModifier ownerlessCurseModifier = StatModifier.Create(PlayerStats.StatType.Curse, StatModifier.ModifyMethod.ADDITIVE, 2.5f);
+
             //public PlayerController player;
 
             public void Start()
@@ -393,9 +401,11 @@ namespace ModularMod
                 if (this.talkPoint == null) { ETGModConsole.Log("talkPoint is NULL"); }
                 if (this.talkPoint.position == null) { ETGModConsole.Log("talkPoint.position is NULL"); }
 
-                TextBoxManager.ShowStoneTablet(this.talkPoint.position, this.talkPoint, -1f, "You feel an ominous energy coming from this... thing.", true, false);
+                TextBoxManager.ShowStoneTablet(this.talkPoint.position, this.talkPoint, -1f, "SIN seep from their souls.\n" +
+                    "Harvest it, absolve them, bend them to your will!\n" +
+                    "Bear this crown and I shall gift you the power to rule them.", true, false);
                 int selectedResponse = -1;
-                interactor.SetInputOverride("shrineConversation");
+                interactor.SetInputOverride("redCrownShrineConversation");
                 yield return null;
 
                 if (Used)
@@ -404,13 +414,13 @@ namespace ModularMod
                 }
                 else
                 {
-                    GameUIRoot.Instance.DisplayPlayerConversationOptions(interactor, null, "Break it open.", "Leave.");
+                    GameUIRoot.Instance.DisplayPlayerConversationOptions(interactor, null, "Take it.", "Leave.");
                 }
                 while (!GameUIRoot.Instance.GetPlayerConversationResponse(out selectedResponse))
                 {
                     yield return null;
                 }
-                interactor.ClearInputOverride("shrineConversation");
+                interactor.ClearInputOverride("redCrownShrineConversation");
                 TextBoxManager.ClearTextBox(this.talkPoint);
                 if (Used == true)
                 {
@@ -421,7 +431,11 @@ namespace ModularMod
                     //Accept(interactor, this.gameObject);
                     Used = true;
                     interactor.GiveItem(HelpfulMethods.GetItemNameConsoleName(RedCrown.ItemName));
-                    this.GetComponent<tk2dSprite>().SetSprite("GungeonCOTL/Resources/shrine_sprites/red_crown_shrine_empty_sprite");
+                    interactor.ownerlessStatModifiers.Add(ownerlessCurseModifier);
+                    interactor.ownerlessStatModifiers.Add(ownerlessHealthModifier);
+                    interactor.stats.RecalculateStatsWithoutRebuildingGunVolleys(interactor);
+                    //this.GetComponent<tk2dSprite>().SetSprite("GungeonCOTL/Resources/shrine_sprites/red_crown_shrine_empty_sprite");
+                    //this.GetComponent<tk2dSprite>().SetSprite(SpriteID);
                 }
                 else
                 {
