@@ -44,8 +44,8 @@ namespace ModularMod
 
             Crate = VFXBuilder.CreateVFX
             (
-                "shrine_attempt_vfx",
-                ShrineSpritePath,
+                "red_crown_shrine_vfx",
+                BrokenShrineSpritePath,
                 8,
                 new IntVector2(0, 0),
                 tk2dBaseSprite.Anchor.MiddleCenter,
@@ -206,8 +206,19 @@ namespace ModularMod
             }
             foreach (PlayerController p in GameManager.Instance.AllPlayers)
             {
-                var newCrate = UnityEngine.Object.Instantiate(Crate, p.transform.position + new Vector3(100 / 16f, 100 / 16f, 5f), Quaternion.identity);
-                break;
+                //Plugin.Log($"Player Character Name: {p.name}, {p.characterIdentity}, {p.OverrideDisplayName}, {p.uiPortraitName}");
+                if (p.name == "PlayerThe_Lamb(Clone)")
+                {
+                    //REMOVE THIS LINE AFTER TESTING
+                    //var newCrate = UnityEngine.Object.Instantiate(Crate, p.transform.position + new Vector3(100 / 16f, 100 / 16f, 5f), Quaternion.identity);
+
+                    continue;
+                }
+                else
+                {
+                    var newCrate = UnityEngine.Object.Instantiate(Crate, p.transform.position + new Vector3(100 / 16f, 100 / 16f, 5f), Quaternion.identity);
+                    break;
+                }
             }
             yield return null;
         }
@@ -361,7 +372,7 @@ namespace ModularMod
                     room.AttemptProceduralLockChance = 0;
                 }
                 this.parentRoom.RegisterInteractable(this);
-                this.RegisterMinimapIcon();
+                //this.RegisterMinimapIcon();
             }
             public void RegisterMinimapIcon()
             {
@@ -412,6 +423,10 @@ namespace ModularMod
                 {
                     GameUIRoot.Instance.DisplayPlayerConversationOptions(interactor, null, "Leave.", string.Empty);
                 }
+                else if (interactor.name == "PlayerThe_Lamb(Clone)")
+                {
+                    GameUIRoot.Instance.DisplayPlayerConversationOptions(interactor, null, "Do not be greedy, Damned Lamb.", string.Empty);
+                }
                 else
                 {
                     GameUIRoot.Instance.DisplayPlayerConversationOptions(interactor, null, "Take it.", "Leave.");
@@ -429,13 +444,16 @@ namespace ModularMod
                 if (selectedResponse == 0)
                 {
                     //Accept(interactor, this.gameObject);
-                    Used = true;
-                    interactor.GiveItem(HelpfulMethods.GetItemNameConsoleName(RedCrown.ItemName));
-                    interactor.ownerlessStatModifiers.Add(ownerlessCurseModifier);
-                    interactor.ownerlessStatModifiers.Add(ownerlessHealthModifier);
-                    interactor.stats.RecalculateStatsWithoutRebuildingGunVolleys(interactor);
-                    //this.GetComponent<tk2dSprite>().SetSprite("GungeonCOTL/Resources/shrine_sprites/red_crown_shrine_empty_sprite");
-                    //this.GetComponent<tk2dSprite>().SetSprite(SpriteID);
+                    if (interactor.name != "PlayerThe_Lamb(Clone)")
+                    {
+                        Used = true;
+                        interactor.GiveItem(HelpfulMethods.GetItemNameConsoleName(RedCrown.ItemName));
+                        interactor.ownerlessStatModifiers.Add(ownerlessCurseModifier);
+                        interactor.ownerlessStatModifiers.Add(ownerlessHealthModifier);
+                        interactor.stats.RecalculateStatsWithoutRebuildingGunVolleys(interactor);
+                        //this.GetComponent<tk2dSprite>().SetSprite("GungeonCOTL/Resources/shrine_sprites/red_crown_shrine_empty_sprite");
+                        //this.GetComponent<tk2dSprite>().SetSprite(SpriteID);
+                    }
                 }
                 else
                 {
