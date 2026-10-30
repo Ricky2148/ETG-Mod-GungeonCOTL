@@ -231,6 +231,11 @@ namespace GungeonCOTL.passive_items
                 //GlobalSparksDoer.EmitFromRegion(GlobalSparksDoer.EmitRegionStyle.RANDOM, 5, 5, player.specRigidbody.UnitBottomLeft, player.specRigidbody.UnitBottomRight, Vector3.up, 1f, 1f, 0.2f, 3, ExtendedColours.carrionRed, GlobalSparksDoer.SparksType.BLACK_PHANTOM_SMOKE);
             }
 
+            if (player.name == "PlayerThe_Lamb(Clone)")
+            {
+                player.ReceivesTouchDamage = false;
+            }
+
             base.Pickup(player);
             Plugin.Log($"Player picked up {this.EncounterNameOrDisplayName}");
             
@@ -266,6 +271,11 @@ namespace GungeonCOTL.passive_items
         {
             base.DisableEffect(player);
             Plugin.Log($"Player dropped or got rid of {this.EncounterNameOrDisplayName}");
+
+            if (player.name == "PlayerThe_Lamb(Clone)")
+            {
+                player.ReceivesTouchDamage = true;
+            }
 
             if (activeVFXObject != null)
             {

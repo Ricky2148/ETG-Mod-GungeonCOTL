@@ -15,7 +15,6 @@ armor: 0
 #Adding 'infinite' to the end of a gun should give it infinite ammo.
 <loadout>
         blasphemy infinite
-	live_ammo
 	gungeoncotl:red_crown
 </loadout>
 
