@@ -17,10 +17,6 @@ using System.Reflection;
 using System.Text;
 using System.Threading;
 using UnityEngine;
-using ModularMod;
-
-//bother balancing these items later
-// update bubbs with item list
 
 namespace GungeonCOTL
 {

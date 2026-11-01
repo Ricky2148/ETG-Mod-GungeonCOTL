@@ -18,7 +18,7 @@ using System.Text;
 using UnityEngine;
 using static UnityEngine.ParticleSystem;
 
-namespace ModularMod
+namespace GungeonCOTL
 {
     public class CrateSpawnController
     {

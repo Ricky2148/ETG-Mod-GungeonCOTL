@@ -13,3 +13,7 @@ new lvl 1 - 11: 28250
 
 old lvl 1 - 17: 37250
 new 1v1 1 - 17: 74750
+
+#1.1.0
+added fleece items
+added a shrine to allow non Lamb gungeoneers to start with the red crown
