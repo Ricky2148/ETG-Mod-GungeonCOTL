@@ -104,8 +104,17 @@ namespace GungeonCOTL.passive_items
                 // makes player character invulnerable, reset health, take no inputs from player, and remove revive effect
                 player.healthHaver.TriggerInvulnerabilityPeriod(ReviveDuration + 0.1f);
                 //player.TriggerInvulnerableFrames(4.1f);
-                //player.healthHaver.ForceSetCurrentHealth(Mathf.Max((player.healthHaver.GetMaxHealth() / 4f), 0.5f));
-                player.healthHaver.ForceSetCurrentHealth(1f);
+                //player.healthHaver.ForceSetCurrentHealth(1f);
+
+                if(!player.ForceZeroHealthState)
+                {
+                    player.healthHaver.ForceSetCurrentHealth(1f);
+                }
+                else
+                {
+                    player.healthHaver.Armor += 1;
+                }
+
                 player.CurrentInputState = PlayerInputState.NoInput;
                 player.healthHaver.OnPreDeath -= Resurrection;
 

@@ -20,7 +20,7 @@ using static UnityEngine.ParticleSystem;
 
 namespace GungeonCOTL
 {
-    public class CrateSpawnController
+    public class RedCrownShrineSpawnController
     {
         private static List<string> ShrineSpritePath = new List<string>
         {
